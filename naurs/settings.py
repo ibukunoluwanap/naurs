@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # added application
-    'account', # to handle authentication and user logics
+    'account.apps.AccountConfig', # to handle authentication and user logics
+    'home.apps.HomeConfig', # to handle home page contents and functionality
 ]
 
 AUTH_USER_MODEL = 'account.User'
@@ -59,7 +60,7 @@ ROOT_URLCONF = 'naurs.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [Path.joinpath(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
