@@ -1,7 +1,7 @@
 {% extends 'app/app.html' %}
 {% load static %}
-
-
+{% block title %}<title>Naurs - Contact</title>{% endblock title %}
+    
 {% block app %}
     <main id="main"> 
         <!-- ======= breadcrumbs ======= -->             
@@ -13,7 +13,7 @@
                         <li>
                             <a href="{% url 'home_page' %}">Home</a>
                         </li>                             
-                        <li>Contact</li>                             
+                        <li class="text-white">Contact</li>                             
                     </ol>                         
                 </div>                     
             </div>                 
@@ -21,7 +21,7 @@
 
         <!-- ======= contact section ======= -->             
         <div class="map-section">
-            <iframe style="border:0; width: 100%; height: 350px;" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3610.3794798790227!2d55.26603698730469!3d25.19042205810547!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f682d9449da99%3A0x37b87033bc90deca!2sBay%20avenue%20park!5e0!3m2!1sde!2sng!4v1643916588869!5m2!1sde!2sng" frameborder="0" allowfullscreen="" loading="lazy"></iframe>
+            <iframe style="border:0; width: 100%; height: 400px;" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3610.3794798790227!2d55.26603698730469!3d25.19042205810547!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f682d9449da99%3A0x37b87033bc90deca!2sBay%20avenue%20park!5e0!3m2!1sde!2sng!4v1643916588869!5m2!1sde!2sng" frameborder="0" allowfullscreen="" loading="lazy"></iframe>
         </div>             
         <section id="contact" class="contact"> 
             <div class="container"> 
@@ -49,6 +49,5 @@
                 </div>                                       
             </div>                 
         </section>
-        <!-- End Contact Section -->             
     </main>
 {% endblock app %}
