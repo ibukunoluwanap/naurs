@@ -41,6 +41,11 @@ INSTALLED_APPS = [
     # added application
     'account.apps.AccountConfig', # to handle authentication and user logics
     'home.apps.HomeConfig', # to handle home page contents and functionality
+    'music.apps.MusicConfig', # to handle music page contents and functionality
+    'art.apps.ArtConfig', # to handle art page contents and functionality
+    'fitness.apps.FitnessConfig', # to handle fitness page contents and functionality
+    'about.apps.AboutConfig', # to handle about page contents and functionality
+    'contact.apps.ContactConfig', # to handle contact page contents and functionality
 ]
 
 AUTH_USER_MODEL = 'account.User'

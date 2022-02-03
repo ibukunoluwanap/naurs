@@ -4,29 +4,29 @@
 <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center">
         <h1 class="logo me-auto">
-            <a href="index.html">
+            <a href="{% url 'home_page' %}">
                 <img src="assets/images/logo_trans.png" alt="Naurs" class="img-fluid"> Naurs
             </a>
         </h1>
         <nav id="navbar" class="navbar order-last order-lg-0">
             <ul>
                 <li>
-                    <a href="index.html" class="active">Home</a>
+                    <a href="{% url 'home_page' %}" class="{% if request.path === '/' %}active{% endif %}">Home</a>
                 </li>
                 <li>
-                    <a href="#">Music</a>
+                    <a href="#" class="{% if request.path === '/music' %}active{% endif %}">Music</a>
                 </li>
                 <li>
-                    <a href="#">Art</a>
+                    <a href="#" class="{% if request.path === '/art' %}active{% endif %}">Art</a>
                 </li>
                 <li>
-                    <a href="#">Fitness</a>
+                    <a href="#" class="{% if request.path === '/fitness' %}active{% endif %}">Fitness</a>
                 </li>
                 <li>
-                    <a href="#">About</a>
+                    <a href="#" class="{% if request.path === '/about' %}active{% endif %}">About</a>
                 </li>
                 <li>
-                    <a href="#">Contact</a>
+                    <a href="{% url 'contact_page' %}" class="{% if request.path === '/contact' %}active{% endif %}">Contact</a>
                 </li>
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>

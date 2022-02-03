@@ -4,7 +4,7 @@
 {% block app %}
     <!-- ======= hero section ======= -->
     <section id="hero">
-        <div id="heroImage" style="background-image: url(assets/images/hero.png);">
+        <div id="heroImage" style="background-image: url({% static 'images/hero.png' %});">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-12 text-center">
@@ -38,7 +38,7 @@
                     <div class="col-lg-6 animate__animated animate__fadeInLeft" data-aos="fade-right">
                         <div class="row">
                             <div class="col-12">
-                                <img src="assets/images/music.svg" class="w-100" />
+                                <img src="{% static 'images/music.svg' %}" class="w-100" />
                             </div>
                         </div>
                     </div>
@@ -78,7 +78,7 @@
                     <div class="col-lg-6 animate__animated animate__fadeInLeft" data-aos="fade-right">
                         <div class="row">
                             <div class="col-12">
-                                <img src="assets/images/art.svg" class="w-100" />
+                                <img src="{% static 'images/art.svg' %}" class="w-100" />
                             </div>
                         </div>
                     </div>
@@ -117,7 +117,7 @@
                     <div class="col-lg-6 animate__animated animate__fadeInLeft" data-aos="fade-right">
                         <div class="row">
                             <div class="col-12">
-                                <img src="assets/images/fitness.svg" class="w-100" />
+                                <img src="{% static 'images/fitness.svg' %}" class="w-100" />
                             </div>
                         </div>
                     </div>
