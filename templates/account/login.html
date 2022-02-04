@@ -1,6 +1,6 @@
 {% extends 'app/app.html' %}
 {% load static %}
-{% block title %}<title>Naurs - Register</title>{% endblock title %}
+{% block title %}<title>Naurs - Login</title>{% endblock title %}
 
 {% block app %}
     <main id="main form-signin"> 
@@ -8,33 +8,23 @@
         <section id="breadcrumbs" class="breadcrumbs"> 
             <div class="container"> 
                 <div class="d-flex justify-content-between align-items-center text-white"> 
-                    <h2>Register</h2> 
+                    <h2>Login</h2> 
                     <ol> 
                         <li>
                             <a href="{% url 'home_page' %}">Home</a>
                         </li>                             
-                        <li class="text-white">Register</li>                             
+                        <li class="text-white">Login</li>                             
                     </ol>                         
                 </div>                     
             </div>                 
         </section>
 
-        <!-- ======= register section ======= -->
+        <!-- ======= login section ======= -->
         <section class="section">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-sm-5">
                         <form>
-                            <div class="form-floating shadow mb-4">
-                                <input type="text" class="form-control" placeholder="first name">
-                                <label>First Name</label>
-                            </div>
-
-                            <div class="form-floating shadow mb-4">
-                                <input type="text" class="form-control" placeholder="last name">
-                                <label>Last Name</label>
-                            </div>
-
                             <div class="form-floating shadow mb-4">
                                 <input type="email" class="form-control" placeholder="email@example.com">
                                 <label>Email Address</label>
@@ -45,8 +35,12 @@
                                 <label>Password</label>
                             </div>
 
-                            <p>Have an account? sign in <a class="text-cus-orange" href="{% url 'login_page' %}">here</a></p>
-                            <button class="w-50 btn-lg" type="submit">Register</button>
+                            <p>
+                                Don't have an account? sign up <a class="text-cus-orange" href="{% url 'register_page' %}">here</a>
+                                <br>
+                                <a class="text-cus-orange" href="{% url 'forget_password_page' %}">forgot password?</a>
+                            </p>
+                            <button class="w-50 btn-lg" type="submit">Login</button>
                         </form>
                     </div>
                 </div>
