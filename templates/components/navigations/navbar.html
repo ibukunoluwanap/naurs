@@ -14,13 +14,7 @@
                     <a href="{% url 'home_page' %}" class="{% if request.path == '/' %}active{% endif %}">Home</a>
                 </li>
                 <li>
-                    <a href="#" class="{% if request.path == '/music/' %}active{% endif %}">Music</a>
-                </li>
-                <li>
-                    <a href="#" class="{% if request.path == '/art/' %}active{% endif %}">Art</a>
-                </li>
-                <li>
-                    <a href="#" class="{% if request.path == '/fitness/' %}active{% endif %}">Fitness</a>
+                    <a href="{% url 'register_page' %}" class="{% if request.path == '/register/' %}active{% endif %}">Get Started</a>
                 </li>
                 <li>
                     <a href="{% url 'about_page' %}" class="{% if request.path == '/about/' %}active{% endif %}">About</a>

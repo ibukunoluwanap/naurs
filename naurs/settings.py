@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'fitness.apps.FitnessConfig', # to handle fitness page contents and functionality
     'about.apps.AboutConfig', # to handle about page contents and functionality
     'contact.apps.ContactConfig', # to handle contact page contents and functionality
+    'dashboard.apps.DashboardConfig', # to handle dashboard page contents and functionality
 ]
 
 AUTH_USER_MODEL = 'account.User'
