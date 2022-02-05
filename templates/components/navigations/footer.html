@@ -39,6 +39,11 @@
                         <li>
                             <a href="#">Privacy Policy</a>
                         </li>
+                        {% if request.user.is_authenticated %}
+                            <li>
+                                <a href="{% url 'logout_page' %}">Logout</a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
