@@ -17,19 +17,19 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_tutoruser(self, email, password):
+    def create_staffuser(self, email, password):
         """
-        Creates and saves a tutor user with the given email and password.
+        Creates and saves a staff user with the given email and password.
         """
         user = self.create_user(
             email,
             password=password,
         )
-        user.tutor = True
+        user.staff = True
         user.save(using=self._db)
         return user
 
-    def create_adminuser(self, email, password):
+    def create_superuser(self, email, password):
         """
         Creates and saves a adminuser with the given email and password.
         """
@@ -37,7 +37,7 @@ class UserManager(BaseUserManager):
             email,
             password=password,
         )
-        user.tutor = True
+        user.staff = True
         user.admin = True
         user.save(using=self._db)
         return user
@@ -50,7 +50,7 @@ class User(AbstractBaseUser):
         unique=True,
     )
     is_active = models.BooleanField(default=True)
-    tutor = models.BooleanField(default=False) # a tutor user; non super-user
+    staff = models.BooleanField(default=False) # a staff user; non super-user
     admin = models.BooleanField(default=False) # a superuser
 
     # notice the absence of a "Password field", that is built in.
@@ -80,9 +80,9 @@ class User(AbstractBaseUser):
         return True
 
     @property
-    def is_tutor(self):
-        "Is the user a member of tutors?"
-        return self.tutor
+    def is_staff(self):
+        "Is the user a member of staffs?"
+        return self.staff
 
     @property
     def is_admin(self):
