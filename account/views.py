@@ -78,7 +78,7 @@ class Login(View):
             # login the user
             if user is not None:
                 login(request, user)
-                messages.success(request, f"Welcome { request.user.username }!")
+                messages.success(request, f"Welcome { request.user.email }!")
                 return redirect('home_page')
             messages.error(request, "Check user's credentials!") 
             return redirect('login_page')
