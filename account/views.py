@@ -4,6 +4,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
 from account.forms import RegisterForm, LoginForm
 from django.http.response import HttpResponseRedirect
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, logout, authenticate
 
@@ -87,7 +89,21 @@ class Login(View):
 # forgot view
 class ForgetPassword(View):
     template_name = "account/forget_password.html"
+
     def get(self, request):
+        context = {}
+        form = PasswordChangeForm(request.user)
+        context["form"] = form
+
+        return render(request, self.template_name, context)
+
+    def post(self, request):
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('change_password')
         return render(request, self.template_name)
 
 # logout class
