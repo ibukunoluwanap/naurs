@@ -86,8 +86,8 @@ class Login(View):
             return redirect('login_page')
         return render(request, self.template_name, context)
 
-# forgot view
-class ForgetPassword(View):
+# change view
+class ChangePassword(View):
     template_name = "account/forget_password.html"
 
     def get(self, request):
@@ -105,6 +105,24 @@ class ForgetPassword(View):
             messages.success(request, 'Your password was successfully updated!')
             return redirect('change_password')
         return render(request, self.template_name)
+
+# password reset done
+class PasswordResetDone(View):
+    def get(self, request):
+        messages.success(
+            request,
+            """
+                <p>
+                    We've emailed you instructions for setting your password, only if an account exists with the email you entered.
+                    You should receive them shortly.
+                </p>
+                <p>
+                    If you don't receive an email, please make sure you've entered the address you registered with,
+                    and check your spam folder.
+                </p>
+            """
+            ) 
+        return redirect("password_reset")
 
 # logout class
 class Logout(LoginRequiredMixin, View):

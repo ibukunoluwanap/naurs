@@ -117,6 +117,7 @@ STATICFILES_DIRS = [Path.joinpath(BASE_DIR, 'static/')]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # defining email host
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'naursfitnessandart@gmail.com'
