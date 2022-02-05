@@ -124,6 +124,19 @@ class PasswordResetDone(View):
             ) 
         return redirect("password_reset")
 
+# password reset complete
+class PasswordResetComplete(View):
+    def get(self, request):
+        messages.success(
+            request,
+            """
+                <p>
+                    Your password has been set. You may go ahead and <a href="{% url 'login_page' %}">sign in</a> now!
+                </p>
+            """
+            ) 
+        return redirect("home_page")
+
 # logout class
 class Logout(LoginRequiredMixin, View):
     login_url = 'login'

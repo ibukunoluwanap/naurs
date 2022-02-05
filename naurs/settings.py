@@ -123,3 +123,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'naursfitnessandart@gmail.com'
 EMAIL_HOST_PASSWORD = 'frgddpydlmvvruvw' # private app password to use for gmail emailing
 EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL='(Naurs) Naurs Support <no-reply@naurs.me>' 
