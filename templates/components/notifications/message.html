@@ -6,7 +6,7 @@
         <div class="row">
             <ul class="fixed-bottom list-unstyled">
                 {% for message in messages %}
-                    <li class="col-10 col-md-3 alert alert-warning alert-dismissible fade show shadow" role="alert">
+                    <li class="col-10 col-md-3 alert {% if message.tags == 'error' %}alert-danger{% else %}alert-{{ message.tags }}{% endif %} alert-dismissible fade show shadow" role="alert">
                         <strong>{{ message.tags|capfirst }}</strong>
                         <br>
                         {{ message|safe }}
