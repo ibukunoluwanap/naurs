@@ -1,5 +1,7 @@
 {% extends 'app/app.html' %}
 {% load static %}
+{% load widget_tweaks %}
+
 {% block title %}<title>Naurs - Login</title>{% endblock title %}
 
 {% block app %}
@@ -24,16 +26,18 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-sm-5">
-                        <form>
-                            <div class="form-floating shadow mb-4">
-                                <input type="email" class="form-control" placeholder="email@example.com">
-                                <label>Email Address</label>
-                            </div>
+                        <form action="{% url 'login_page' %}" method="post">
+                            {% csrf_token %}
 
-                            <div class="form-floating shadow mb-4">
-                                <input type="password" class="form-control" placeholder="password">
-                                <label>Password</label>
-                            </div>
+                            {% for field in form %}
+                                <div class="form-floating shadow mb-4">
+                                    {{ field|add_class:"form-control" }}
+                                    <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                                    {% for error in field.errors %}
+                                        <p class="text-danger">{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endfor %}
 
                             <p>
                                 Don't have an account? sign up <a class="text-cus-orange" href="{% url 'register_page' %}">here</a>

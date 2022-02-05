@@ -1,8 +1,8 @@
 from django.contrib import messages
 from django.views.generic import View
-from account.forms import RegisterForm
 from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
+from account.forms import RegisterForm, LoginForm
 from django.http.response import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, logout, authenticate
@@ -24,7 +24,7 @@ class Register(View):
         context["form"] = self.form
         return render(request, self.template_name, context)
 
-    def post(self,request):
+    def post(self, request):
         context = {}
         form = RegisterForm(request.POST)
         context["form"] = form
@@ -49,8 +49,40 @@ class Register(View):
 # login view
 class Login(View):
     template_name = "account/login.html"
+    form = LoginForm()
+
     def get(self, request):
-        return render(request, self.template_name)
+        context = {}
+        # checking if user is logged in
+        if request.user.is_authenticated:
+            messages.info(request, 'You are logged in already! Please download the mobile app on your device to access our programs')
+            return redirect('home_page')
+        context["form"] = self.form
+        return render(request, self.template_name, context)
+
+    def post(self, request):
+        context = {}
+        form = LoginForm(request.POST)
+        context["form"] = form
+
+        if form.is_valid():
+            # getting email data from form
+            email = request.POST['email']
+            password = request.POST['password']
+
+            # authenticating user
+            user = authenticate(email=email, password=password)
+
+            print(email, password, user)
+
+            # login the user
+            if user is not None:
+                login(request, user)
+                messages.success(request, f"Welcome { request.user.username }!")
+                return redirect('home_page')
+            messages.error(request, "Check user's credentials!") 
+            return redirect('login_page')
+        return render(request, self.template_name, context)
 
 # forgot view
 class ForgetPassword(View):

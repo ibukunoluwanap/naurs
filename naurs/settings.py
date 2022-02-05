@@ -50,7 +50,11 @@ INSTALLED_APPS = [
     'dashboard.apps.DashboardConfig', # to handle dashboard page contents and functionality
 ]
 
+# custom authentication user model
 AUTH_USER_MODEL = 'account.User'
+
+#authentication backends
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend',]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
