@@ -1,9 +1,11 @@
 {% extends 'app/app.html' %}
 {% load static %}
+{% load widget_tweaks %}
+
 {% block title %}<title>Naurs - Register</title>{% endblock title %}
 
 {% block app %}
-    <main id="main form-signin"> 
+    <main id="main"> 
         <!-- ======= breadcrumbs ======= -->             
         <section id="breadcrumbs" class="breadcrumbs"> 
             <div class="container"> 
@@ -26,26 +28,17 @@
                     <div class="col-sm-5">
                         <form action="{% url 'register_page' %}" method="post">
                             {% csrf_token %}
-                            <div class="form-floating shadow mb-4">
-                                <input type="text" class="form-control" placeholder="first name">
-                                <label>First Name</label>
-                            </div>
-
-                            <div class="form-floating shadow mb-4">
-                                <input type="text" class="form-control" placeholder="last name">
-                                <label>Last Name</label>
-                            </div>
-
-                            <div class="form-floating shadow mb-4">
-                                <input type="email" class="form-control" placeholder="email@example.com">
-                                <label>Email Address</label>
-                            </div>
-
-                            <div class="form-floating shadow mb-4">
-                                <input type="password" class="form-control" placeholder="password">
-                                <label>Password</label>
-                            </div>
-
+                            
+                            {% for field in form %}
+                                <div class="form-floating shadow mb-4">
+                                    {{ field|add_class:"form-control" }}
+                                    <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                                    {% for error in field.errors %}
+                                        <p class="text-danger">{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endfor %}
+                                
                             <p>Have an account? sign in <a class="text-cus-orange" href="{% url 'login_page' %}">here</a></p>
                             <button class="w-50 btn-lg" type="submit">Register</button>
                         </form>

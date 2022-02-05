@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # added application
+    'widget_tweaks',
     'account.apps.AccountConfig', # to handle authentication and user logics
     'home.apps.HomeConfig', # to handle home page contents and functionality
     'music.apps.MusicConfig', # to handle music page contents and functionality

@@ -13,18 +13,4 @@ class RegisterForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email']
-
-    def clean_email(self):
-        email = self.cleaned_data.get('email')
-        qs = User.objects.filter(email=email)
-        if qs.exists():
-            raise forms.ValidationError("email is taken")
-        return email
-
-    def clean(self):
-        cleaned_data = super().clean()
-        password = cleaned_data.get("password")
-        if password is not None:
-            self.add_error("password", "Password cannot be empty")
-        return cleaned_data
+        fields = ['first_name', 'last_name', 'email', 'password']

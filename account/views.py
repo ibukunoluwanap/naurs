@@ -7,22 +7,29 @@ from django.contrib.auth import login, authenticate
 # register view
 class Register(View):
     template_name = "account/register.html"
-    
+    form = RegisterForm()
+
     def get(self, request):
-        return render(request, self.template_name)
+        context = {}
+        if request.user.is_authenticated:
+            messages.info(request, 'You are logged in already!')
+            return redirect('register_page')
+        else:
+            context["form"] = self.form
+            return render(request, self.template_name, context)
 
     def post(self,request):
         form = RegisterForm(request.POST)
+        
         if form.is_valid():
             form.save()
             email = form.cleaned_data.get('email')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(email=email, password=raw_password)
-            login(request, user)
+            password = form.cleaned_data.get('password')
+            print(password, email)
+            # user = authenticate(email=email, password=password)
+            # login(request, user)
             messages.success(request, "Successfully registered")
             return redirect('home_page')
-        for error in form.errors:
-            messages.error(request, error)
         return redirect('register_page')
 
 # login view
