@@ -8,12 +8,6 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-12 text-center">
-                        <!-- <h1 class="hero-title mt-5">Naurs</h1>
-                        <div class="row justify-content-center">
-                            <div class="col-6">
-                                <h3 class="hero-subtitle mt-0">Music • Art • Fitness</h3>
-                            </div>
-                        </div> -->
                         <img id="heroTitleImage" class="mt-5" src="{% static 'images/logo_trans_sm.png' %}" alt="Naurs">
                         <div class="mt-5 animate__animated animate__fadeInUp">
                             <a href="{% url 'register_page' %}" class="btn-get-started">Get Started</a>
@@ -65,7 +59,6 @@
                                     <li>Keyboard Electronic</li>
                                     <li>Guitar</li>
                                     <li>Piano</li>
-                                    <li>Piano</li>
                                     <li>Saxophone</li>
                                     <li>
                                         <a href="{% url 'register_page' %}" class="btn-m mt-1">Jump In</a>
@@ -78,47 +71,8 @@
             </div>
         </section>
 
-        <!-- ======= fine arts section ======= -->
-        <section id="section" class="section section-bg">
-            <div class="container" data-aos="fade-up">
-                <div class="section-title" data-aos="fade-up">
-                    <h2><strong>Fine Arts</strong></h2>
-                    <p class="section-subtitle">
-                        Art allow us to express our inner self. Get started with our art program made for you.
-                    </p>
-                </div>
-                <div class="row content">
-                    <div class="col-lg-6 animate__animated animate__fadeInLeft" data-aos="fade-right">
-                        <div class="row">
-                            <div class="col-12">
-                                <img src="{% static 'images/art.png' %}" class="w-100" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 pt-4 pt-lg-0 animate__animated animate__fadeInRight" data-aos="fade-left">
-                        <ul>
-                            <li>
-                                <i class="fas fa-angle-double-right"></i>
-                                <span class="fw-bold">Art Program</span>
-                                <ul>
-                                    <li>Kids Speech & Personality Development</li>
-                                    <li>Theater & Drama</li>
-                                    <li>Painting</li>
-                                    <li>Indian Classical Dance form</li>
-                                    <li>Bollywood Dance</li>
-                                    <li>
-                                        <a href="{% url 'register_page' %}" class="btn-m mt-1">Jump In</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <!-- ======= fitness section ======= -->
-        <section id="section" class="section">
+        <section id="section" class="section section-bg">
             <div class="container" data-aos="fade-up">
                 <div class="section-title" data-aos="fade-up">
                     <h2><strong>Fitness</strong></h2>
@@ -160,6 +114,51 @@
                                     <li>Ashtanga Yoga</li>
                                     <li>Vinyasa Yoga</li>
                                     <li>Therapy Yoga</li>
+                                    <li>
+                                        <a href="{% url 'register_page' %}" class="btn-m mt-1">Jump In</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======= fine arts section ======= -->
+        <section id="section" class="section">
+            <div class="container" data-aos="fade-up">
+                <div class="section-title" data-aos="fade-up">
+                    <h2><strong>Fine Arts</strong></h2>
+                    <p class="section-subtitle">
+                        Art allow us to express our inner self. Get started with our art program made for you.
+                    </p>
+                </div>
+                <div class="row content">
+                    <div class="col-lg-6 animate__animated animate__fadeInLeft" data-aos="fade-right">
+                        <div class="row">
+                            <div class="col-12">
+                                <img src="{% static 'images/art.png' %}" class="w-100" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 pt-4 pt-lg-0 animate__animated animate__fadeInRight" data-aos="fade-left">
+                        <ul>
+                            <li>
+                                <i class="fas fa-angle-double-right"></i>
+                                <span class="fw-bold">Art Program</span>
+                                <ul>
+                                    <li>
+                                        Kids Speech & Personality Development
+                                        <span class="tag bg-success">coming soon</span>
+                                    </li>
+                                    <li>
+                                        Theater & Drama
+                                        <span class="tag bg-success">coming soon</span>
+                                    </li>
+                                    <li>Painting</li>
+                                    <li>Indian Classical Dance form</li>
+                                    <li>Bollywood Dance</li>
                                     <li>
                                         <a href="{% url 'register_page' %}" class="btn-m mt-1">Jump In</a>
                                     </li>

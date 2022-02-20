@@ -139,7 +139,7 @@ class PasswordResetComplete(View):
 
 # logout class
 class Logout(LoginRequiredMixin, View):
-    login_url = 'login'
+    login_url = 'login_page'
 
     def get(self, request):
         logout(request)
