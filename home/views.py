@@ -1,5 +1,5 @@
-from django.views.generic import View
 from django.shortcuts import render
+from django.views.generic import View
 
 # home list view
 class Home(View):

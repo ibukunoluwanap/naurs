@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'about.apps.AboutConfig', # to handle about page contents and functionality
     'contact.apps.ContactConfig', # to handle contact page contents and functionality
     'dashboard.apps.DashboardConfig', # to handle dashboard page contents and functionality
+    'offer.apps.OfferConfig', # to handle offer page contents and functionality
 ]
 
 # custom authentication user model
@@ -62,6 +63,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'home.context_processors.global_context',
             ],
         },
     },
