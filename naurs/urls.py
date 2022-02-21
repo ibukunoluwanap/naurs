@@ -5,6 +5,7 @@ from django.urls import path, include
 from django.conf.urls.static import static
 
 urlpatterns = [
+    path('tinymce/', include('tinymce.urls')),
     path('dev_admin/', admin.site.urls),
     path('account/', include('account.urls')),
     path('', include('home.urls')),
