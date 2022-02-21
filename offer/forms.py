@@ -1,10 +1,11 @@
 from django import forms
+from tinymce.widgets import TinyMCE
 from .models import OfferModel, FreeTrialOfferModel
 
 # offer form
 class OfferForm(forms.ModelForm):
     title = forms.CharField(max_length=250, required=True, widget=forms.TextInput)
-    description = forms.CharField(max_length=5000, required=True, widget=forms.Textarea)
+    content = forms.CharField(widget=TinyMCE(attrs={'required': True, 'cols': 30, 'rows': 10}))
     class Meta:
         model = OfferModel
         exclude = ['created_on',]

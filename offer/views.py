@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.contrib import messages
 from .forms import OfferForm, FreeTrialOfferForm
 from .models import OfferModel, FreeTrialOfferModel
-from django.views.generic import FormView, View
 from django.shortcuts import render, redirect
+from django.views.generic import FormView, View, DetailView, CreateView
 
 # offer view
 class Offer(View):
@@ -22,6 +22,11 @@ class Offer(View):
             messages.success(request, "Successfully added an offer!")
             return redirect('home_page')
         return render(request, self.template_name, context)
+
+class OfferDetail(DetailView):
+    model = OfferModel
+    template_name = "offer/detail.html"
+
 
 # freeTrial view
 class FreeTrial(FormView):
