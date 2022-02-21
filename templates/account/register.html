@@ -29,7 +29,7 @@
                         <form action="{% url 'register_page' %}" method="post">
                             {% csrf_token %}
                             
-                            {% for field in form %}
+                            {% for field in register_form %}
                                 <div class="form-floating shadow mb-4">
                                     {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
                                     <label for="{{ field.auto_id }}">{{ field.label }}</label>

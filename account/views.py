@@ -15,25 +15,21 @@ User = get_user_model()
 # register view
 class Register(View):
     template_name = "account/register.html"
-    form = RegisterForm()
 
     def get(self, request):
-        context = {}
         # checking if user is logged in
         if request.user.is_authenticated:
             messages.info(request, 'You are logged in already! Please download the mobile app on your device to access our programs')
             return redirect('home_page')
-        context["form"] = self.form
-        return render(request, self.template_name, context)
+        return render(request, self.template_name)
 
     def post(self, request):
         context = {}
-        form = RegisterForm(request.POST)
-        context["form"] = form
+        context["register_form"] = register_form = RegisterForm(request.POST)
 
-        if form.is_valid():
-            # getting email data from form
-            email = form.cleaned_data.get('email')
+        if register_form.is_valid():
+            # getting email data from register form
+            email = register_form.cleaned_data.get('email')
 
             # validating email address in database
             if User.objects.filter(email=email).exists():
@@ -41,7 +37,7 @@ class Register(View):
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
             # saving user to database
-            user = form.save()
+            user = register_form.save()
             # login the user
             login(request, user)
             messages.success(request, "Successfully registered and logged in!")
@@ -51,24 +47,20 @@ class Register(View):
 # login view
 class Login(View):
     template_name = "account/login.html"
-    form = LoginForm()
 
     def get(self, request):
-        context = {}
         # checking if user is logged in
         if request.user.is_authenticated:
             messages.info(request, 'You are logged in already! Please download the mobile app on your device to access our programs')
             return redirect('home_page')
-        context["form"] = self.form
-        return render(request, self.template_name, context)
+        return render(request, self.template_name)
 
     def post(self, request):
         context = {}
-        form = LoginForm(request.POST)
-        context["form"] = form
+        context["login_form"] = login_form = LoginForm(request.POST)
 
-        if form.is_valid():
-            # getting email data from form
+        if login_form.is_valid():
+            # getting email data from login form
             email = request.POST['email']
             password = request.POST['password']
 
