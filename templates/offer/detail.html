@@ -22,39 +22,54 @@
                 </div>
             </div>
         </section>
-
         <div class="container-fluid px-0">
             <div class="row g-0">
                 <div class="col-12 text-white text-center">
-                    <div class="head-img" style="background-image: url('{{ offer.image.url }}');">
+                    <div class="head-img"
+                         style="background-image: url('{{ offer.image.url }}');">
+                        <div class="dark-layer"></div>
                         <h3 class="fw-bold position-absolute top-50 start-50 translate-middle">{{ offer.title }}</h3>
                     </div>
                 </div>
             </div>
         </div>
-
         <!-- ======= offers section ======= -->
         <section class="section">
             <div class="container" data-aos="fade-up">
                 <div class="row content">
-                    <div class="col-sm-4 mb-3 animate__animated animate__fadeInUp"
-                        data-aos="fade-right">
-                        <div class="card shadow offer-card">
-                            <img src="{{ offer.image.url }}"
-                                class="card-img-top"
-                                alt="offer">
-                            <div class="card-body">
-                                <a href="{% url 'offer_detail_page' pk=offer.id %}">
-                                    <h4>{{ offer.title|truncatechars:30 }}</h4>
-                                    <div class="card-content">
-                                        {{ offer.content|truncatechars:200|safe }}
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
+                    <div class="col-sm-8 mb-3 animate__animated animate__fadeInLeft"
+                         data-aos="fade-right">
+                        <h1 class="h2 fw-bold text-cus-primary">{{ offer.title }}</h1>
+                        {{ offer.content|safe }}
+                    </div>
+                    <div class="col-sm-4 mb-3 animate__animated animate__fadeInRight"
+                         data-aos="fade-right">
+                        
                     </div>
                 </div>
             </div>
         </section>
+        <!-- ======= other offers section ======= -->
+        <div class="container-fluid px-0" data-aos="fade-up">
+            <div class="row g-0 content">
+                <div class="col-12 animate__animated animate__fadeInDown"
+                     data-aos="fade-right">
+                    <h3 class="fw-bold text-cus-primary">Other Offers</h3>
+                    <div class="offer-carousel owl-carousel">
+                        {% for offer in last_10_offers %}
+                            <div class="card shadow-sm offer-card">
+                                <img src="{{ offer.image.url }}" class="card-img-top" alt="offer">
+                                <div class="card-body">
+                                    <a href="{% url 'offer_detail_page' pk=offer.id %}">
+                                        <h4>{{ offer.title|truncatechars:20 }}</h4>
+                                        <div class="card-content">{{ offer.content|truncatechars_html:100|safe }}</div>
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 {% endblock app %}

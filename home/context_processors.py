@@ -9,6 +9,7 @@ def global_context(request):
     # context['parks_list'] =  json.dumps(list(Park.objects.order_by("-id").values()), cls=DjangoJSONEncoder)
 
     context['offers'] = OfferModel.objects.order_by("-id")
+    context['last_10_offers'] = OfferModel.objects.order_by("-id")[:10]
 
     context['free_offer_form'] = FreeTrialOfferForm()
     context['offer_form'] = OfferForm()
