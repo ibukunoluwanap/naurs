@@ -23,7 +23,7 @@
         <section class="section">
             <div class="container" data-aos="fade-up">
                 <div class="row content">
-                    {% for offer in offers %}                        
+                    {% for offer in offers %}                   
                         <div class="col-sm-4 mb-3 animate__animated animate__fadeInUp"
                             data-aos="fade-right">
                             <div class="card shadow offer-card">
@@ -31,11 +31,11 @@
                                     class="card-img-top"
                                     alt="offer">
                                 <div class="card-body">
-                                    <a href="#">
-                                        <h4>{{ offer.title }}</h4>
-                                        <span>
-                                            {{ offer.content|safe }}
-                                        </span>
+                                    <a href="{% url 'offer_detail_page' pk=offer.id %}">
+                                        <h4>{{ offer.title|truncatechars:30 }}</h4>
+                                        <div class="card-content">
+                                            {{ offer.content|truncatechars:200|safe }}
+                                        </div>
                                     </a>
                                 </div>
                             </div>
