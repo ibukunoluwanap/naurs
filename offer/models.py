@@ -15,11 +15,26 @@ class OfferModel(models.Model):
     def __str__(self):
         return f"{self.title} offer"
 
+# book offer modal
+class BookOfferModel(models.Model):
+    offer = models.ForeignKey(OfferModel, verbose_name="offer", on_delete=models.CASCADE)
+    name = models.CharField("name", max_length=100, blank=None, null=None)
+    email = models.EmailField("email address", max_length=254, blank=None, null=None)
+    phone_number = models.CharField("phone number", max_length=100, blank=None, null=None)
+    created_on = models.TimeField("created on", auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'BookOfferModel'
+        verbose_name_plural = 'BookOfferModels'
+
+    def __str__(self):
+        return f"{self.name} booked {self.offer.title} offer"
+        
 # free trial modal
 class FreeTrialOfferModel(models.Model):
     name = models.CharField("name", max_length=100, blank=None, null=None)
-    phone_number = models.CharField("phone number", max_length=100, blank=None, null=None)
     email = models.EmailField("email address", max_length=254, blank=None, null=None)
+    phone_number = models.CharField("phone number", max_length=100, blank=None, null=None)
     created_on = models.TimeField("created on", auto_now_add=True)
 
     class Meta:

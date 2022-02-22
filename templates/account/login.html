@@ -1,26 +1,25 @@
 {% extends 'app/app.html' %}
 {% load static %}
 {% load widget_tweaks %}
-
-{% block title %}<title>Naurs - Login</title>{% endblock title %}
-
+{% block title %}
+    <title>Naurs - Login</title>
+{% endblock title %}
 {% block app %}
-    <main id="main form-signin"> 
-        <!-- ======= breadcrumbs ======= -->             
-        <section id="breadcrumbs" class="breadcrumbs"> 
-            <div class="container"> 
-                <div class="d-flex justify-content-between align-items-center text-white"> 
-                    <h2>Login</h2> 
-                    <ol> 
+    <main id="main form-signin">
+        <!-- ======= breadcrumbs ======= -->
+        <section id="breadcrumbs" class="breadcrumbs">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center text-white">
+                    <h2>Login</h2>
+                    <ol>
                         <li>
                             <a href="{% url 'home_page' %}">Home</a>
-                        </li>                             
-                        <li class="text-white">Login</li>                             
-                    </ol>                         
-                </div>                     
-            </div>                 
+                        </li>
+                        <li class="text-white">Login</li>
+                    </ol>
+                </div>
+            </div>
         </section>
-
         <!-- ======= login section ======= -->
         <section class="section">
             <div class="container">
@@ -28,17 +27,17 @@
                     <div class="col-sm-5">
                         <form action="{% url 'login_page' %}" method="post">
                             {% csrf_token %}
-
                             {% for field in login_form %}
                                 <div class="form-floating shadow mb-4">
                                     {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
                                     <label for="{{ field.auto_id }}">{{ field.label }}</label>
                                     {% for error in field.errors %}
-                                        <p class="text-danger">{{ error }}</p>
+                                        <p class="text-danger">
+                                            {{ error }}
+                                        </p>
                                     {% endfor %}
                                 </div>
                             {% endfor %}
-
                             <p>
                                 Don't have an account? sign up <a class="text-cus-orange" href="{% url 'register_page' %}">here</a>
                                 <br>

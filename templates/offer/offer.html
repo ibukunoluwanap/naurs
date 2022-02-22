@@ -34,7 +34,7 @@
                                     <a href="{% url 'offer_detail_page' pk=offer.id %}">
                                         <h4>{{ offer.title|truncatechars:30 }}</h4>
                                         <div class="card-content">
-                                            {{ offer.content|truncatechars:200|safe }}
+                                            {{ offer.content|truncatechars_html:200|safe }}
                                         </div>
                                     </a>
                                 </div>

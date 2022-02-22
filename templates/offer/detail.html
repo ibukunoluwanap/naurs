@@ -1,5 +1,6 @@
 {% extends 'app/app.html' %}
 {% load static %}
+{% load widget_tweaks %}
 {% block title %}
     <title>Naurs - {{ offer.title }}</title>
 {% endblock title %}
@@ -22,6 +23,7 @@
                 </div>
             </div>
         </section>
+        <!-- ======= head image section ======= -->
         <div class="container-fluid px-0">
             <div class="row g-0">
                 <div class="col-12 text-white text-center">
@@ -44,7 +46,21 @@
                     </div>
                     <div class="col-sm-4 mb-3 animate__animated animate__fadeInRight"
                          data-aos="fade-right">
-                        
+                        <form action="{% url 'book_offer_page' offer_id=offer.id %}" method="post">
+                            {% csrf_token %}
+                            {% for field in book_offer_form %}
+                                <div class="form-floating shadow mb-4">
+                                    {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
+                                    <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                                    {% for error in field.errors %}
+                                        <p class="text-danger">
+                                            {{ error }}
+                                        </p>
+                                    {% endfor %}
+                                </div>
+                            {% endfor %}
+                            <button class="w-50 btn-lg" type="submit">Book Now</button>
+                        </form>
                     </div>
                 </div>
             </div>
