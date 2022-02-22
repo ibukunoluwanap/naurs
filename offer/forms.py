@@ -5,7 +5,7 @@ from .models import OfferModel, FreeTrialOfferModel
 # offer form
 class OfferForm(forms.ModelForm):
     title = forms.CharField(max_length=250, required=True, widget=forms.TextInput)
-    content = forms.CharField(widget=TinyMCE(attrs={'required': True, 'cols': 30, 'rows': 10}))
+    content = forms.CharField(widget=TinyMCE(attrs={'cols': 10, 'rows': 20}))
     class Meta:
         model = OfferModel
         exclude = ['created_on',]

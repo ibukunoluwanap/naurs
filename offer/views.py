@@ -1,32 +1,17 @@
-from django.shortcuts import render
 from django.contrib import messages
 from .forms import OfferForm, FreeTrialOfferForm
 from .models import OfferModel, FreeTrialOfferModel
 from django.shortcuts import render, redirect
-from django.views.generic import FormView, View, DetailView, CreateView
+from django.views.generic import FormView, ListView, DetailView
 
 # offer view
-class Offer(View):
+class Offer(ListView):
+    model = OfferModel
     template_name = "offer/offer.html"
-
-    def get(self, request):
-        return render(request, self.template_name)
-
-    def post(self, request):
-        context = {}
-        context["offer_form"] = offer_form = OfferForm(request.POST)
-
-        if offer_form.is_valid():
-            # saving to database
-            user = offer_form.save()
-            messages.success(request, "Successfully added an offer!")
-            return redirect('home_page')
-        return render(request, self.template_name, context)
 
 class OfferDetail(DetailView):
     model = OfferModel
     template_name = "offer/detail.html"
-
 
 # freeTrial view
 class FreeTrial(FormView):

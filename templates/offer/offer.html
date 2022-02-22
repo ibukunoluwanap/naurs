@@ -23,20 +23,24 @@
         <section class="section">
             <div class="container" data-aos="fade-up">
                 <div class="row content">
-                    <div class="col-sm-4 mb-3 animate__animated animate__fadeInUp"
-                         data-aos="fade-right">
-                        <div class="card shadow offer-card">
-                            <img src="{% static 'images/music.png' %}"
-                                 class="card-img-top"
-                                 alt="offer">
-                            <div class="card-body">
-                                <a href="#">
-                                    <h4>Some quick example text to build on...</h4>
-                                    <span>Some quick example text to build on the card title and make up the bulk of the card's content.</span>
-                                </a>
+                    {% for offer in offers %}                        
+                        <div class="col-sm-4 mb-3 animate__animated animate__fadeInUp"
+                            data-aos="fade-right">
+                            <div class="card shadow offer-card">
+                                <img src="{{ offer.image.url }}"
+                                    class="card-img-top"
+                                    alt="offer">
+                                <div class="card-body">
+                                    <a href="#">
+                                        <h4>{{ offer.title }}</h4>
+                                        <span>
+                                            {{ offer.content|safe }}
+                                        </span>
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </section>

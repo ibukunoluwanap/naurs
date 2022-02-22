@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from offer.forms import OfferForm
+from django.contrib import messages
 from offer.models import OfferModel
 from django.views.generic import View, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -17,3 +18,9 @@ class OfferCreate(LoginRequiredMixin, CreateView):
     form_class = OfferForm
     template_name = "dashboard/offer/create.html"
     login_url = 'login_page'
+    success_url = '/'
+
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, f"Successfully created an offer!")
+        return super(OfferCreate, self).form_valid(form)

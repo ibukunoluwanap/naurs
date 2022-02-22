@@ -6,6 +6,19 @@
 
 {% block app %}
     <main id="main form-signin"> 
+        <section id="breadcrumbs" class="breadcrumbs">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center text-white">
+                    <h2>Offers</h2>
+                    <ol>
+                        <li>
+                            <a href="{% url 'home_page' %}">Home</a>
+                        </li>
+                        <li>Offers</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
         <!-- ======= offer creation section ======= -->
         <section class="section">
             <div class="container">
@@ -14,14 +27,11 @@
                         <form action="{% url 'offer_create_page' %}" method="post">
                             {% csrf_token %}
 
-                            <div class="shadow mb-4" style="margin-top:500px;">
-                                {{ offer_form.media }}
-                            </div>
-
                             {% for field in offer_form %}
-                                {% comment %} {% if field.field.widget.TinyMCEWidget %}
-                                    <div class="shadow mb-4">
-                                        {{ field.media }}
+                                {% if field.name == "content" %}
+                                    <div class="form-floating shadow mb-4">
+                                        {{ offer_form.media }}
+                                        {{ field }}
                                     </div>
                                 {% else %}
                                     <div class="form-floating shadow mb-4">
@@ -31,8 +41,7 @@
                                             <p class="text-danger">{{ error }}</p>
                                         {% endfor %}
                                     </div>
-                                {% endif %} {% endcomment %}
-                                
+                                {% endif %}                                
                             {% endfor %}
 
                             <button class="w-50 btn-lg" type="submit">Create Offer</button>
