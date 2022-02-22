@@ -13,6 +13,8 @@ class Offer(ListView):
 class OfferDetail(DetailView):
     model = OfferModel
     template_name = "offer/detail.html"
+    context_object_name = "offer"
+
 
 # freeTrial view
 class FreeTrial(FormView):

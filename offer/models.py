@@ -4,7 +4,7 @@ from tinymce.models import HTMLField
 # offer modal
 class OfferModel(models.Model):
     image = models.FileField("image", upload_to="offers/", max_length=100, blank=None, null=None)
-    title = models.CharField("title", max_length=250, blank=None, null=None)
+    title = models.CharField("title", max_length=100, blank=None, null=None)
     content = HTMLField()
     created_on = models.TimeField("created on", auto_now_add=True)
 

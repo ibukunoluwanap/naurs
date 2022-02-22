@@ -1,1 +1,60 @@
-detail
+{% extends 'app/app.html' %}
+{% load static %}
+{% block title %}
+    <title>Naurs - {{ offer.title }}</title>
+{% endblock title %}
+{% block app %}
+    <main id="main">
+        <!-- ======= breadcrumbs ======= -->
+        <section id="breadcrumbs" class="breadcrumbs">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center text-white">
+                    <h2>Offers</h2>
+                    <ol>
+                        <li>
+                            <a href="{% url 'home_page' %}">Home</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'offer_page' %}">Offers</a>
+                        </li>
+                        <li>{{ offer.title|truncatechars:10 }}</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <div class="container-fluid px-0">
+            <div class="row g-0">
+                <div class="col-12 text-white text-center">
+                    <div class="head-img" style="background-image: url('{{ offer.image.url }}');">
+                        <h3 class="fw-bold position-absolute top-50 start-50 translate-middle">{{ offer.title }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======= offers section ======= -->
+        <section class="section">
+            <div class="container" data-aos="fade-up">
+                <div class="row content">
+                    <div class="col-sm-4 mb-3 animate__animated animate__fadeInUp"
+                        data-aos="fade-right">
+                        <div class="card shadow offer-card">
+                            <img src="{{ offer.image.url }}"
+                                class="card-img-top"
+                                alt="offer">
+                            <div class="card-body">
+                                <a href="{% url 'offer_detail_page' pk=offer.id %}">
+                                    <h4>{{ offer.title|truncatechars:30 }}</h4>
+                                    <div class="card-content">
+                                        {{ offer.content|truncatechars:200|safe }}
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock app %}
