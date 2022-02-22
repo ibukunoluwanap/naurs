@@ -20,14 +20,14 @@ class BookOffer(FormView):
     template_name = "offer/detail.html"
     model = BookOfferModel
     form_class = BookOfferForm
-    success_url = 'offer_page'
 
     def form_valid(self, form):
         offer = OfferModel.objects.get(id=self.kwargs['offer_id'])
-        user = form.save()
-        user.offer = offer
-        messages.success(self.request, f"{user.name} successfully booked {user.offer.title}!")
-        return super(BookOffer, self).form_valid(form)
+        booker = form.save(False)
+        booker.offer = offer
+        booker.save()
+        messages.success(self.request, f"{booker.name} successfully booked {booker.offer.title}!")
+        return redirect("offer_detail_page", pk=self.kwargs['offer_id'])
 
 # freeTrial view
 class FreeTrial(FormView):

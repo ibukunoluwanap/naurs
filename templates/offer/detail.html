@@ -44,23 +44,41 @@
                         <h1 class="h2 fw-bold text-cus-primary">{{ offer.title }}</h1>
                         {{ offer.content|safe }}
                     </div>
-                    <div class="col-sm-4 mb-3 animate__animated animate__fadeInRight"
+                    
+                    <div class="col-sm-4 mt-3 mb-3 pt-3 pb-3 rounded section-bg animate__animated animate__fadeInRight"
                          data-aos="fade-right">
-                        <form action="{% url 'book_offer_page' offer_id=offer.id %}" method="post">
-                            {% csrf_token %}
-                            {% for field in book_offer_form %}
-                                <div class="form-floating shadow mb-4">
-                                    {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
-                                    <label for="{{ field.auto_id }}">{{ field.label }}</label>
-                                    {% for error in field.errors %}
-                                        <p class="text-danger">
-                                            {{ error }}
-                                        </p>
+                        <div class="row">
+                            <div class="col-12 mb-5">
+                                <h4 class="h4 fw-bold text-cus-primary">
+                                    <i class="bi bi-book align-middle"></i>
+                                    Book Offer Now!
+                                </h4>
+                                <form action="{% url 'book_offer_page' offer_id=offer.id %}" method="post">
+                                    {% csrf_token %}
+                                    {% for field in book_offer_form %}
+                                        <div class="form-floating shadow mb-4">
+                                            {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
+                                            <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                                            {% for error in field.errors %}
+                                                <p class="text-danger">
+                                                    {{ error }}
+                                                </p>
+                                            {% endfor %}
+                                        </div>
                                     {% endfor %}
+                                    <button class="w-50 btn-lg" type="submit">Book Now</button>
+                                </form>
+                            </div>
+                            <div class="col-12">
+                                <h4 class="h4 fw-bold text-cus-primary">
+                                    <i class="bi bi-person-lines-fill align-middle"></i>
+                                    Contact Us
+                                </h4>
+                                <div class="contact-card">
+                                    
                                 </div>
-                            {% endfor %}
-                            <button class="w-50 btn-lg" type="submit">Book Now</button>
-                        </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
