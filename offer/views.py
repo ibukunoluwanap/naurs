@@ -9,6 +9,7 @@ class Offer(ListView):
     model = OfferModel
     template_name = "offer/offer.html"
 
+# offer detail view
 class OfferDetail(DetailView):
     model = OfferModel
     template_name = "offer/detail.html"

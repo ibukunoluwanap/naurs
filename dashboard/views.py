@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from offer.forms import OfferForm
 from django.contrib import messages
 from offer.models import OfferModel
@@ -20,7 +20,12 @@ class OfferCreate(LoginRequiredMixin, CreateView):
     login_url = 'login_page'
     success_url = '/'
 
-    def form_valid(self, form):
-        form.save()
-        messages.success(self.request, f"Successfully created an offer!")
-        return super(OfferCreate, self).form_valid(form)
+    def post(self, request, *args, **kwargs):
+        context = {}
+        context["offer_form"] = offer_form = OfferForm(request.POST, request.FILES)
+
+        if offer_form.is_valid():
+            offer_form.save()
+            messages.success(self.request, f"Successfully created an offer!")
+            return redirect("offer_create_page")
+        return render(request, self.template_name, context)

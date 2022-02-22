@@ -24,7 +24,7 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-sm-5">
-                        <form action="{% url 'offer_create_page' %}" method="post">
+                        <form action="{% url 'offer_create_page' %}" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
 
                             {% for field in offer_form %}
@@ -32,6 +32,9 @@
                                     <div class="form-floating shadow mb-4">
                                         {{ offer_form.media }}
                                         {{ field }}
+                                        {% for error in field.errors %}
+                                            <p class="text-danger">{{ error }}</p>
+                                        {% endfor %}
                                     </div>
                                 {% else %}
                                     <div class="form-floating shadow mb-4">
