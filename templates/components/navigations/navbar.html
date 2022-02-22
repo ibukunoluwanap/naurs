@@ -14,15 +14,18 @@
                     <a href="{% url 'home_page' %}" class="{% if request.path == '/' %}active{% endif %}">Home</a>
                 </li>
                 <li>
-                    <a href="{% url 'register_page' %}" class="{% if request.path == '/register/' %}active{% endif %}">Get Started</a>
+                    <a href="{% url 'register_page' %}" class="{% if 'register' in request.path %}active{% endif %}">Get Started</a>
                 </li>
                 <li>
-                    <a href="{% url 'about_page' %}" class="{% if request.path == '/about/' %}active{% endif %}">About</a>
+                    <a href="{% url 'offer_page' %}" class="{% if 'offer' in request.path %}active{% endif %}">Offers</a>
                 </li>
                 <li>
-                    <a href="{% url 'contact_page' %}" class="{% if request.path == '/contact/' %}active{% endif %}">Contact</a>
+                    <a href="{% url 'about_page' %}" class="{% if 'about' in request.path %}active{% endif %}">About</a>
                 </li>
-                {% if request.user.is_authenticated %}
+                <li>
+                    <a href="{% url 'contact_page' %}" class="{% if 'contact' in request.path %}active{% endif %}">Contact</a>
+                </li>
+                {% if '' in request.user.is_authenticated %}
                     <li>
                         <a href="{% url 'logout_page' %}" class="{% if request.path == '/account/logout/' %}active{% endif %}">Logout</a>
                     </li>

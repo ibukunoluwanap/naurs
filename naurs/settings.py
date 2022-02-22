@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'contact.apps.ContactConfig', # to handle contact page contents and functionality
     'dashboard.apps.DashboardConfig', # to handle dashboard page contents and functionality
     'offer.apps.OfferConfig', # to handle offer page contents and functionality
+    'instructor.apps.InstructorConfig', # to handle instructor page contents and functionality
 ]
 
 # custom authentication user model
