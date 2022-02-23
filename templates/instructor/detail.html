@@ -44,6 +44,40 @@
                         <h1 class="h2 fw-bold text-cus-primary">{{ instructor.user.get_full_name }}</h1>
                         {{ instructor.about|safe }}
                     </div>
+                    <div class="col-sm-4 mt-3 mb-3 pt-3 pb-3 rounded section-bg animate__animated animate__fadeInRight"
+                         data-aos="fade-right">
+                        <div class="row">
+                            <div class="col-12">
+                                <h4 class="h4 fw-bold text-cus-primary">
+                                    <i class="bi bi-person-lines-fill align-middle"></i>
+                                    Contact Us
+                                </h4>
+                                <a href="tel:+971552759400">
+                                    <div class="contact-card p-3 bg-cus-primary text-cus-secondary">
+                                        <i class="bi bi-telephone align-middle"></i>
+                                        <br>
+                                        Call Us On
+                                        <br>
+                                        +9715 5275 9400
+                                        <br>
+                                        To Book Offer.
+                                    </div>
+                                </a>
+                                <br>
+                                <a href="mailto:naursfitnessandart@gmail.com">
+                                    <div class="contact-card p-3 bg-cus-secondary text-cus-primary">
+                                        <i class="bi bi-envelope align-middle"></i>
+                                        <br>
+                                        Email Us At
+                                        <br>
+                                        naursfitnessandart@gmail.com
+                                        <br>
+                                        To Book Offer.
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -51,7 +85,7 @@
         <section id="team" class="team">
             <div class="container" data-aos="fade-up">
                 <div class="row">
-                    {% for instructor in instructors %}
+                    {% for instructor in last_4_instructors %}
                         <a href="{% url 'instructor_detail_page' pk=instructor.id %}">
                             <div class="col-lg-3 col-md-6 align-items-stretch">
                                 <div class="member">
