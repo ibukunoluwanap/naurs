@@ -8,7 +8,8 @@ User = get_user_model()
 # instructor modal
 class InstructorModel(models.Model):
     user = models.ForeignKey(User, verbose_name="user", on_delete=models.CASCADE)
-    avatar = models.FileField("avatar", upload_to="avatar/", max_length=100, blank=None, null=None)
+    avatar = models.FileField("avatar", upload_to="avatar/", max_length=100, blank=False, null=False)
+    role = models.CharField("role", max_length=100, blank=False, null=False)
     about = HTMLField()
     created_on = models.TimeField("created on", auto_now_add=True)
 

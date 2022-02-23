@@ -20,12 +20,15 @@
                     <a href="{% url 'offer_page' %}" class="{% if 'offer' in request.path %}active{% endif %}">Offers</a>
                 </li>
                 <li>
+                    <a href="{% url 'instructor_page' %}" class="{% if 'instructor' in request.path %}active{% endif %}">Instructors</a>
+                </li>
+                <li>
                     <a href="{% url 'about_page' %}" class="{% if 'about' in request.path %}active{% endif %}">About</a>
                 </li>
                 <li>
                     <a href="{% url 'contact_page' %}" class="{% if 'contact' in request.path %}active{% endif %}">Contact</a>
                 </li>
-                {% if '' in request.user.is_authenticated %}
+                {% if request.user.is_authenticated %}
                     <li>
                         <a href="{% url 'logout_page' %}" class="{% if request.path == '/account/logout/' %}active{% endif %}">Logout</a>
                     </li>
@@ -35,9 +38,11 @@
         </nav>
         <!-- .navbar -->
         <div class="header-social-links d-flex">
-            <a href="https://twitter.com/naursdubai" target="_blank" class="twitter"><i class="bu bi-twitter"></i></a>
-            <a href="https://www.instagram.com/naursdubai/" target="_blank" class="instagram"><i class="bu bi-instagram"></i></a>
-            <a href="https://www.linkedin.com/in/naurs-dubai-a5ba88230/" target="_blank" class="linkedin"><i class="bu bi-linkedin"></i> </a>
+            <a href="https://twitter.com/naursdubai" target="_blank"><i class="bu bi-twitter"></i></a>
+            <a href="https://www.instagram.com/naursdubai/" target="_blank"><i class="bu bi-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/naurs-dubai-a5ba88230/" target="_blank"><i class="bu bi-linkedin"></i></a>
+            <a href="mailto:naursfitnessandart@gmail.com"><i class="bu bi-envelope-fill"></i></a>
+            <a href="tel:+971552759400"><i class="bu bi-telephone-fill"></i></a>
         </div>
     </div>
 </header>

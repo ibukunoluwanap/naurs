@@ -1,0 +1,76 @@
+{% extends 'app/app.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}
+    <title>Naurs - {{ instructor.user.get_full_name }}</title>
+{% endblock title %}
+{% block app %}
+    <main id="main">
+        <!-- ======= breadcrumbs ======= -->
+        <section id="breadcrumbs" class="breadcrumbs">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center text-white">
+                    <h2>Instructor</h2>
+                    <ol>
+                        <li>
+                            <a href="{% url 'home_page' %}">Home</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'instructor_page' %}">Instructor</a>
+                        </li>
+                        <li>{{ instructor.user.get_full_name|truncatechars:10 }}</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+        <!-- ======= head image section ======= -->
+        <div class="container-fluid px-0">
+            <div class="row g-0">
+                <div class="col-12 text-white text-center">
+                    <div class="head-img"
+                         style="background-image: url('{{ instructor.avatar.url }}');">
+                        <div class="dark-layer"></div>
+                        <h3 class="fw-bold position-absolute top-50 start-50 translate-middle">{{ instructor.user.get_full_name }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ======= instructor section ======= -->
+        <section class="section">
+            <div class="container" data-aos="fade-up">
+                <div class="row content justify-content-center">
+                    <div class="col-sm-8 mb-3 animate__animated animate__fadeInLeft"
+                         data-aos="fade-right">
+                        <h1 class="h2 fw-bold text-cus-primary">{{ instructor.user.get_full_name }}</h1>
+                        {{ instructor.about|safe }}
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ======= other instructors section ======= -->
+        <section id="team" class="team">
+            <div class="container" data-aos="fade-up">
+                <div class="row">
+                    {% for instructor in instructors %}
+                        <a href="{% url 'instructor_detail_page' pk=instructor.id %}">
+                            <div class="col-lg-3 col-md-6 align-items-stretch">
+                                <div class="member">
+                                    <img class="member-img"src="{{ instructor.avatar.url }}"
+                                         class="img-fluid"
+                                         alt="staff">
+                                    <div class="member-info">
+                                        <h4>{{ instructor.user.get_full_name }}</h4>
+                                        <span>{{ instructor.role }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                    <div class="col-12 text-center mt-5">
+                        <a class="btn-lg" href="{% url 'instructor_page' %}">Meet More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock app %}

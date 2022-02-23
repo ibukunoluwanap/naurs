@@ -3,8 +3,8 @@ from tinymce.models import HTMLField
 
 # offer modal
 class OfferModel(models.Model):
-    image = models.FileField("image", upload_to="offers/", max_length=100, blank=None, null=None)
-    title = models.CharField("title", max_length=100, blank=None, null=None)
+    image = models.FileField("image", upload_to="offers/", max_length=100, blank=False, null=False)
+    title = models.CharField("title", max_length=100, blank=False, null=False)
     content = HTMLField()
     created_on = models.TimeField("created on", auto_now_add=True)
 
@@ -18,9 +18,9 @@ class OfferModel(models.Model):
 # book offer modal
 class BookOfferModel(models.Model):
     offer = models.ForeignKey(OfferModel, verbose_name="offer", on_delete=models.CASCADE)
-    name = models.CharField("name", max_length=100, blank=None, null=None)
-    email = models.EmailField("email address", max_length=254, blank=None, null=None)
-    phone_number = models.CharField("phone number", max_length=100, blank=None, null=None)
+    name = models.CharField("name", max_length=100, blank=False, null=False)
+    email = models.EmailField("email address", max_length=254, blank=False, null=False)
+    phone_number = models.CharField("phone number", max_length=100, blank=False, null=False)
     created_on = models.TimeField("created on", auto_now_add=True)
 
     class Meta:
@@ -32,9 +32,9 @@ class BookOfferModel(models.Model):
         
 # free trial modal
 class FreeTrialOfferModel(models.Model):
-    name = models.CharField("name", max_length=100, blank=None, null=None)
-    email = models.EmailField("email address", max_length=254, blank=None, null=None)
-    phone_number = models.CharField("phone number", max_length=100, blank=None, null=None)
+    name = models.CharField("name", max_length=100, blank=False, null=False)
+    email = models.EmailField("email address", max_length=254, blank=False, null=False)
+    phone_number = models.CharField("phone number", max_length=100, blank=False, null=False)
     created_on = models.TimeField("created on", auto_now_add=True)
 
     class Meta:
