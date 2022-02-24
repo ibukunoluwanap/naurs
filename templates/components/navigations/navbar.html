@@ -1,50 +1,70 @@
 {% load static %}
-
 <!-- ======= navbar header ======= -->
 <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center">
         <h1 class="logo me-auto">
             <a href="{% url 'home_page' %}">
-                <img src="{% static 'images/logo_trans_sm.png' %}" alt="Naurs" class="img-fluid">
+                <img src="{% static 'images/logo_trans_sm.png' %}"
+                     alt="Naurs"
+                     class="img-fluid">
             </a>
         </h1>
         <nav id="navbar" class="navbar order-last order-lg-0">
             <ul>
                 <li>
-                    <a href="{% url 'home_page' %}" class="{% if request.path == '/' %}active{% endif %}">Home</a>
+                    <a href="{% url 'home_page' %}"
+                       class="{% if request.path == '/' %}active{% endif %}">Home</a>
                 </li>
                 <li>
-                    <a href="{% url 'about_page' %}" class="{% if 'about' in request.path %}active{% endif %}">About</a>
+                    <a href="{% url 'about_page' %}"
+                       class="{% if 'about' in request.path %}active{% endif %}">About</a>
                 </li>
                 <li>
-                    <a href="{% url 'program_page' %}#music" class="{% if 'music' in request.path %}active{% endif %}">Music</a>
+                    <a href="{% url 'program_page' %}#music"
+                       class="{% if 'music' in request.path %}active{% endif %}">Music</a>
                 </li>
                 <li>
-                    <a href="{% url 'program_page' %}#dance" class="{% if 'dance' in request.path %}active{% endif %}">Dance</a>
+                    <a href="{% url 'program_page' %}#dance"
+                       class="{% if 'dance' in request.path %}active{% endif %}">Dance</a>
                 </li>
                 <li>
-                    <a href="{% url 'program_page' %}#fine_arts" class="{% if 'fine_arts' in request.path %}active{% endif %}">Fine Arts</a>
+                    <a href="{% url 'program_page' %}#fine_arts"
+                       class="{% if 'fine_arts' in request.path %}active{% endif %}">Fine Arts</a>
                 </li>
                 <li>
-                    <a href="{% url 'program_page' %}#fitness" class="{% if 'fitness' in request.path %}active{% endif %}">Fitness</a>
+                    <a href="{% url 'program_page' %}#fitness"
+                       class="{% if 'fitness' in request.path %}active{% endif %}">Fitness</a>
                 </li>
                 <li>
-                    <a href="{% url 'instructor_page' %}" class="{% if 'instructor' in request.path %}active{% endif %}">Instructors</a>
+                    <a href="{% url 'instructor_page' %}"
+                       class="{% if 'instructor' in request.path %}active{% endif %}">Instructors</a>
                 </li>
                 <li>
-                    <a href="{% url 'offer_page' %}" class="{% if 'offer' in request.path %}active{% endif %}">Offers</a>
+                    <a href="{% url 'offer_page' %}"
+                       class="{% if 'offer' in request.path %}active{% endif %}">Offers</a>
                 </li>
                 <li>
-                    <a href="{% url 'contact_page' %}" class="{% if 'contact' in request.path %}active{% endif %}">Contact</a>
-                </li>
-                <li>
-                    <button type="button" class="navbar-btn" data-bs-toggle="modal" data-bs-target="#freeTrialPopup">
-                        Free Trial
-                    </button>
+                    <a href="{% url 'contact_page' %}"
+                       class="{% if 'contact' in request.path %}active{% endif %}">Contact</a>
                 </li>
                 {% if request.user.is_authenticated %}
                     <li>
-                        <a href="{% url 'logout_page' %}" class="{% if request.path == '/account/logout/' %}active{% endif %}">Logout</a>
+                        <button type="button"
+                                onclick="location.href={% url 'dashboard_page' %}"
+                                class="navbar-btn {% if 'dashboard' in request.path %}active{% endif %}">
+                            Dashboard
+                        </button>
+                    </li>
+                    <li>
+                        <a href="{% url 'logout_page' %}"
+                           class="{% if request.path == '/account/logout/' %}active{% endif %}">Logout</a>
+                    </li>
+                {% else %}
+                    <li>
+                        <button type="button"
+                                class="navbar-btn"
+                                data-bs-toggle="modal"
+                                data-bs-target="#freeTrialPopup">Free Trial</button>
                     </li>
                 {% endif %}
             </ul>
@@ -54,7 +74,8 @@
         <div class="header-social-links d-flex">
             <a href="https://twitter.com/naursdubai" target="_blank"><i class="bu bi-twitter"></i></a>
             <a href="https://www.instagram.com/naursdubai/" target="_blank"><i class="bu bi-instagram"></i></a>
-            <a href="https://www.linkedin.com/in/naurs-dubai-a5ba88230/" target="_blank"><i class="bu bi-linkedin"></i></a>
+            <a href="https://www.linkedin.com/in/naurs-dubai-a5ba88230/"
+               target="_blank"><i class="bu bi-linkedin"></i></a>
             <a href="mailto:naursfitnessandart@gmail.com"><i class="bu bi-envelope-fill"></i></a>
             <a href="tel:+971552759400"><i class="bu bi-telephone-fill"></i></a>
         </div>

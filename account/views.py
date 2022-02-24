@@ -40,8 +40,8 @@ class Register(View):
             user = register_form.save()
             # login the user
             login(request, user)
-            messages.success(request, "Successfully registered and logged in!")
-            return redirect('home_page')
+            messages.success(request, "Successfully registered and logged in! Select program & class to start with")
+            return redirect('program_page')
         return render(request, self.template_name, context)
 
 # login view
@@ -73,7 +73,7 @@ class Login(View):
             if user is not None:
                 login(request, user)
                 messages.success(request, f"Welcome { request.user.email }!")
-                return redirect('home_page')
+                return redirect('dashboard_page')
             messages.error(request, "Check user's credentials!") 
             return redirect('login_page')
         return render(request, self.template_name, context)
