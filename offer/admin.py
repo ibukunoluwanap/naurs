@@ -1,4 +1,5 @@
 from django.contrib import admin
-from instructor.models import OfferModel, BookOfferModel
+from .models import OfferModel, BookOfferModel
 
-admin.site.register(OfferModel, BookOfferModel)
+admin.site.register(OfferModel)
+admin.site.register(BookOfferModel)

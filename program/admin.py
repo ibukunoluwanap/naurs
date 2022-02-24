@@ -1,4 +1,5 @@
 from django.contrib import admin
-from instructor.models import ProgramModel, ProgramBenefitModel
+from .models import ProgramModel, ProgramBenefitModel
 
-admin.site.register(ProgramModel, ProgramBenefitModel)
+admin.site.register(ProgramModel)
+admin.site.register(ProgramBenefitModel)
