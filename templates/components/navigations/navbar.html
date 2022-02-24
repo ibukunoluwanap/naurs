@@ -17,13 +17,16 @@
                     <a href="{% url 'about_page' %}" class="{% if 'about' in request.path %}active{% endif %}">About</a>
                 </li>
                 <li>
-                    <a href="" class="{% if 'music' in request.path %}active{% endif %}">Music</a>
+                    <a href="{% url 'program_page' %}#music" class="{% if 'music' in request.path %}active{% endif %}">Music</a>
                 </li>
                 <li>
-                    <a href="" class="{% if 'fine_arts' in request.path %}active{% endif %}">Fine Arts</a>
+                    <a href="{% url 'program_page' %}#dance" class="{% if 'dance' in request.path %}active{% endif %}">Dance</a>
                 </li>
                 <li>
-                    <a href="" class="{% if 'fitness' in request.path %}active{% endif %}">Fitness</a>
+                    <a href="{% url 'program_page' %}#fine_arts" class="{% if 'fine_arts' in request.path %}active{% endif %}">Fine Arts</a>
+                </li>
+                <li>
+                    <a href="{% url 'program_page' %}#fitness" class="{% if 'fitness' in request.path %}active{% endif %}">Fitness</a>
                 </li>
                 <li>
                     <a href="{% url 'instructor_page' %}" class="{% if 'instructor' in request.path %}active{% endif %}">Instructors</a>
