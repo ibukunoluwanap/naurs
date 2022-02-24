@@ -14,19 +14,30 @@
                     <a href="{% url 'home_page' %}" class="{% if request.path == '/' %}active{% endif %}">Home</a>
                 </li>
                 <li>
-                    <a href="{% url 'register_page' %}" class="{% if 'register' in request.path %}active{% endif %}">Get Started</a>
+                    <a href="{% url 'about_page' %}" class="{% if 'about' in request.path %}active{% endif %}">About</a>
                 </li>
                 <li>
-                    <a href="{% url 'offer_page' %}" class="{% if 'offer' in request.path %}active{% endif %}">Offers</a>
+                    <a href="" class="{% if 'music' in request.path %}active{% endif %}">Music</a>
+                </li>
+                <li>
+                    <a href="" class="{% if 'fine_arts' in request.path %}active{% endif %}">Fine Arts</a>
+                </li>
+                <li>
+                    <a href="" class="{% if 'fitness' in request.path %}active{% endif %}">Fitness</a>
                 </li>
                 <li>
                     <a href="{% url 'instructor_page' %}" class="{% if 'instructor' in request.path %}active{% endif %}">Instructors</a>
                 </li>
                 <li>
-                    <a href="{% url 'about_page' %}" class="{% if 'about' in request.path %}active{% endif %}">About</a>
+                    <a href="{% url 'offer_page' %}" class="{% if 'offer' in request.path %}active{% endif %}">Offers</a>
                 </li>
                 <li>
                     <a href="{% url 'contact_page' %}" class="{% if 'contact' in request.path %}active{% endif %}">Contact</a>
+                </li>
+                <li>
+                    <button type="button" class="navbar-btn" data-bs-toggle="modal" data-bs-target="#freeTrialPopup">
+                        Free Trial
+                    </button>
                 </li>
                 {% if request.user.is_authenticated %}
                     <li>
