@@ -63,23 +63,33 @@
                         Selection made easy. Choose the best fit offer for you.
                     </p>
                 </div>
-                <div class="row g-0 g-md-1 content">
-                    <div class="col-12 animate__animated animate__fadeInLeft"
-                         data-aos="fade-right">
-                        <div class="naurs-carousel owl-carousel">
-                            {% for offer in last_10_offers %}
-                                <div class="card shadow-sm offer-card">
-                                    <img src="{{ offer.image.url }}" class="card-img-top" alt="offer">
-                                    <div class="card-body">
-                                        <a href="{% url 'offer_detail_page' pk=offer.id %}">
-                                            <h4>{{ offer.title|truncatechars:20 }}</h4>
-                                            <div class="card-content">{{ offer.content|truncatechars_html:100|safe }}</div>
-                                        </a>
+                <div class="row g-0 g-md-1 content justify-content-center">
+                    {% if last_10_offers %}
+                        <div class="col-12 animate__animated animate__fadeInLeft"
+                             data-aos="fade-right">
+                            <div class="naurs-carousel owl-carousel">
+                                {% for offer in last_10_offers %}
+                                    <div class="card shadow-sm offer-card">
+                                        <img src="{{ offer.image.url }}" class="card-img-top" alt="offer">
+                                        <div class="card-body">
+                                            <a href="{% url 'offer_detail_page' pk=offer.id %}">
+                                                <h4>{{ offer.title|truncatechars:20 }}</h4>
+                                                <div class="card-content">{{ offer.content|truncatechars_html:100|safe }}</div>
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                            {% endfor %}
+                                {% endfor %}
+                            </div>
                         </div>
-                    </div>
+                    {% else %}
+                        <div class="col-12 text-center animate__animated animate__fadeInDown"
+                             data-aos="fade-down">
+                            <i class="display-1 bi bi-trash align-middle"></i>
+                            <p>
+                                No offer currently available!
+                            </p>
+                        </div>
+                    {% endif %}
                     <div class="col-12 text-center mt-5">
                         <a class="btn-lg" href="{% url 'offer_page' %}">View More</a>
                     </div>

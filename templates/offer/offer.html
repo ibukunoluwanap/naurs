@@ -23,24 +23,30 @@
         <section class="section">
             <div class="container" data-aos="fade-up">
                 <div class="row content">
-                    {% for offer in offers %}                   
-                        <div class="col-sm-4 mb-3 animate__animated animate__fadeInUp"
-                            data-aos="fade-right">
-                            <div class="card shadow offer-card">
-                                <img src="{{ offer.image.url }}"
-                                    class="card-img-top"
-                                    alt="offer">
-                                <div class="card-body">
-                                    <a href="{% url 'offer_detail_page' pk=offer.id %}">
-                                        <h4>{{ offer.title|truncatechars:30 }}</h4>
-                                        <div class="card-content">
-                                            {{ offer.content|truncatechars_html:200|safe }}
-                                        </div>
-                                    </a>
+                    {% if offers %}
+                        {% for offer in offers %}
+                            <div class="col-sm-4 mb-3 animate__animated animate__fadeInUp"
+                                 data-aos="fade-right">
+                                <div class="card shadow offer-card">
+                                    <img src="{{ offer.image.url }}" class="card-img-top" alt="offer">
+                                    <div class="card-body">
+                                        <a href="{% url 'offer_detail_page' pk=offer.id %}">
+                                            <h4>{{ offer.title|truncatechars:30 }}</h4>
+                                            <div class="card-content">{{ offer.content|truncatechars_html:200|safe }}</div>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="col-12 text-center animate__animated animate__fadeInDown"
+                             data-aos="fade-down">
+                            <i class="display-1 bi bi-trash align-middle"></i>
+                            <p>
+                                No offer currently available!
+                            </p>
                         </div>
-                    {% endfor %}
+                    {% endif %}
                 </div>
             </div>
         </section>

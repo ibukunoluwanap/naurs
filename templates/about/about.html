@@ -102,21 +102,31 @@
                 </p>
             </div>
             <div class="row">
-                {% for instructor in last_4_instructors %}
-                    <a href="{% url 'instructor_detail_page' pk=instructor.id %}">
-                        <div class="col-lg-3 col-md-6 align-items-stretch">
-                            <div class="member">
-                                <img class="member-img"src="{{ instructor.avatar.url }}"
-                                     class="img-fluid"
-                                     alt="staff">
-                                <div class="member-info">
-                                    <h4>{{ instructor.user.get_full_name }}</h4>
-                                    <span>{{ instructor.role }}</span>
+                {% if last_4_instructors %}
+                    {% for instructor in last_4_instructors %}
+                        <a href="{% url 'instructor_detail_page' pk=instructor.id %}">
+                            <div class="col-lg-3 col-md-6 align-items-stretch">
+                                <div class="member">
+                                    <img class="member-img"src="{{ instructor.avatar.url }}"
+                                         class="img-fluid"
+                                         alt="staff">
+                                    <div class="member-info">
+                                        <h4>{{ instructor.user.get_full_name }}</h4>
+                                        <span>{{ instructor.role }}</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </a>
-                {% endfor %}
+                        </a>
+                    {% endfor %}
+                {% else %}
+                    <div class="col-12 text-center animate__animated animate__fadeInDown"
+                         data-aos="fade-down">
+                        <i class="display-1 bi bi-trash align-middle"></i>
+                        <p>
+                            No instructor currently available!
+                        </p>
+                    </div>
+                {% endif %}
                 <div class="col-12 text-center mt-5">
                     <a class="btn-lg" href="{% url 'instructor_page' %}">Meet More</a>
                 </div>
