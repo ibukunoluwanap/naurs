@@ -1,0 +1,151 @@
+{% extends 'app/app.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}
+    <title>Naurs - {{ program.title }}</title>
+{% endblock title %}
+{% block app %}
+    <main id="main">
+        <!-- ======= breadcrumbs ======= -->
+        <section id="breadcrumbs" class="breadcrumbs">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center text-white">
+                    <h2>Program & Class</h2>
+                    <ol>
+                        <li>
+                            <a href="{% url 'home_page' %}">Home</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'program_page' %}">Programs</a>
+                        </li>
+                        <li>{{ program.title|truncatechars:10 }}</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+        <!-- ======= head image section ======= -->
+        <div class="container-fluid px-0">
+            <div class="row g-0">
+                <div class="col-12 text-white text-center">
+                    <div class="head-img"
+                         style="background-image: url('{{ program.image.url }}');">
+                        <div class="dark-layer"></div>
+                        <h3 class="fw-bold position-absolute top-50 start-50 translate-middle">{{ program.title }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ======= program section ======= -->
+        <section class="section">
+            <div class="container" data-aos="fade-up">
+                <div class="row content">
+                    <div class="col-sm-8 mb-3 animate__animated animate__fadeInLeft"
+                         data-aos="fade-right">
+                        <h1 class="h2 fw-bold text-cus-primary">{{ program.title }}</h1>
+                        {{ program.info|safe }}
+                        <h4 class="mt-4 fw-bold text-cus-primary">Benefits</h4>
+                        <ul>
+                            {% for benefit in program.programbenefitmodel_set.all %}
+                            <li>
+                                <i class="bi bi-arrow-return-right align-middle text-cus-primary"></i> {{ benefit.benefit }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <h4 class="mt-4 fw-bold text-cus-primary">Instructors</h4>
+                        <ul>
+                            {% for instructor in program.instructormodel_set.all %}
+                            <li>
+                                <i class="bi bi-mortarboard-fill align-middle text-cus-primary"></i> {{ instructor.user.get_full_name }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <h4 class="mt-4 fw-bold text-cus-primary">Price</h4>
+                    </div>
+                    <div class="col-sm-4 mt-3 mb-3 pt-3 pb-3 rounded section-bg animate__animated animate__fadeInRight"
+                         data-aos="fade-right">
+                        <div class="row">
+                            <div class="col-12 mb-5">
+                                <h4 class="h4 fw-bold text-cus-primary">
+                                    <i class="bi bi-info-square align-middle"></i>
+                                    Enquire Now!
+                                </h4>
+                                {% comment %} <form action="{% url 'program_enqiry_page' program_id=program.id %}" method="post">
+                                    {% csrf_token %}
+                                    {% for field in program_enqiry_form %}
+                                        <div class="form-floating shadow mb-4">
+                                            {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
+                                            <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                                            {% for error in field.errors %}
+                                                <p class="text-danger">
+                                                    {{ error }}
+                                                </p>
+                                            {% endfor %}
+                                        </div>
+                                    {% endfor %}
+                                    <button class="w-50 btn-lg" type="submit">Enquire Now</button>
+                                </form> {% endcomment %}
+                            </div>
+                            <div class="col-12">
+                                <h4 class="h4 fw-bold text-cus-primary">
+                                    <i class="bi bi-person-lines-fill align-middle"></i>
+                                    Contact Us
+                                </h4>
+                                <a href="tel:+971552759400">
+                                    <div class="contact-card p-3 bg-cus-primary text-cus-secondary">
+                                        <i class="bi bi-telephone align-middle"></i>
+                                        <br>
+                                        Call Us On
+                                        <br>
+                                        +9715 5275 9400
+                                        <br>
+                                        For More Info.
+                                    </div>
+                                </a>
+                                <br>
+                                <a href="mailto:naursfitnessandart@gmail.com">
+                                    <div class="contact-card p-3 bg-cus-secondary text-cus-primary">
+                                        <i class="bi bi-envelope align-middle"></i>
+                                        <br>
+                                        Email Us At
+                                        <br>
+                                        naursfitnessandart@gmail.com
+                                        <br>
+                                        For More Info.
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ======= other programs & classes section ======= -->
+        <section class="section">
+            <div class="container" data-aos="fade-up">
+                <!-- music -->
+                <div class="row content">
+                    <h4 class="fw-bold text-cus-primary">Other Programs & Classes</h4>
+                    {% for program in last_4_programs %}
+                        <div class="col-sm-4 mb-3 mt-5 animate__animated animate__fadeInUp"
+                             data-aos="fade-right">
+                            <div class="card shadow program-card">
+                                <img src="{{ program.image.url }}"
+                                     class="card-img-top shadow"
+                                     alt="program">
+                                <div class="card-body">
+                                    <a href="{% url 'program_detail_page' pk=program.id %}">
+                                        <h4>{{ program.title|truncatechars:30 }}</h4>
+                                        <div class="card-content">{{ program.info|truncatechars_html:200|safe }}</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div class="col-12 text-center mt-5">
+                        <a class="btn-lg" href="{% url 'program_page' %}">View More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock app %}

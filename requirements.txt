@@ -3,6 +3,7 @@ astroid==2.9.3
 colorama==0.4.4
 distlib==0.3.4
 Django==4.0.1
+django-tinymce==3.4.0
 django-widget-tweaks==1.4.12
 filelock==3.4.2
 isort==5.10.1
