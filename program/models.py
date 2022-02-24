@@ -53,4 +53,4 @@ class ProgramEnquiryModel(models.Model):
         verbose_name_plural = 'ProgramEnquiryModels'
 
     def __str__(self):
-        return f"{self.program} enquiry from {self.name}"
+        return f"{self.program.title} enquiry from {self.name}"

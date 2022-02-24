@@ -1,5 +1,6 @@
 from account.forms import RegisterForm, LoginForm
 from instructor.models import InstructorModel
+from program.forms import ProgramEnquiryForm
 from program.models import ProgramModel
 from offer.models import OfferModel, BookOfferModel
 from offer.forms import OfferForm, BookOfferForm, FreeTrialOfferForm
@@ -29,4 +30,6 @@ def global_context(request):
     # authentication
     context['register_form'] = RegisterForm()
     context['login_form'] = LoginForm()
+    # programs
+    context['program_enquiry_form'] = ProgramEnquiryForm()
     return context
