@@ -23,8 +23,24 @@ class ProgramBenefitModel(models.Model):
     created_on = models.TimeField("created on", auto_now_add=True)
 
     class Meta:
-        verbose_name = 'ProgramBenefitsModel'
-        verbose_name_plural = 'ProgramBenefitsModels'
+        verbose_name = 'ProgramBenefitModel'
+        verbose_name_plural = 'ProgramBenefitModels'
 
     def __str__(self):
         return f"{self.program} benefit"
+
+# program enquiry modal
+class ProgramEnquiryModel(models.Model):
+    program = models.ForeignKey(ProgramModel, verbose_name="program", on_delete=models.CASCADE)
+    name = models.CharField("name", max_length=100, blank=False, null=False)
+    email = models.EmailField("email address", max_length=254, blank=False, null=False)
+    phone_number = models.CharField("phone number", max_length=100, blank=False, null=False)
+    enquiry = models.TextField("enquiry", max_length=250, blank=False, null=False)
+    created_on = models.TimeField("created on", auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'ProgramEnquiryModel'
+        verbose_name_plural = 'ProgramEnquiryModels'
+
+    def __str__(self):
+        return f"{self.program} enquiry from {self.name}"
