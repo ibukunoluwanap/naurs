@@ -1,3 +1,4 @@
 from django.contrib import admin
+from instructor.models import ProgramModel, ProgramBenefitModel
 
-# Register your models here.
+admin.site.register(ProgramModel, ProgramBenefitModel)

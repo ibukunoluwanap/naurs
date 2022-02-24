@@ -1,3 +1,4 @@
 from django.contrib import admin
+from instructor.models import OfferModel, BookOfferModel
 
-# Register your models here.
+admin.site.register(OfferModel, BookOfferModel)
