@@ -1,0 +1,38 @@
+<nav class="navbar navbar-expand-md navbar-light d-navbar">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'dashboard_page' %}">Naurs</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="me-auto mb-2 mb-lg-0">
+
+            </div>
+            <div class="d-flex dropdown-align-toggle dropdown">
+                <a class="avatar shadow" href="#" role="button"
+                    id="accountDropdown" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+
+                    {% if request.user.avatar %}
+                    {{request.user.avatar.url}}
+                    {% else %}
+                    <i class="bi bi-person-circle align-middle"></i>
+                    {% endif %}
+
+                </a>
+                <p class="align-middle avatar-email">
+                    {{ request.user.email }}
+                </p>
+
+                <ul class="dropdown-menu" aria-labelledby="accountDropdown">
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
