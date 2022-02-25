@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <!-- seo -->
-    {% block title %}<title>Naurs - Music • Art • Fitness</title>{% endblock title %}
+    {% block title %}<title>Naurs - Dashboard</title>{% endblock title %}
 	<meta property="og:title" content="Naurs - Music • Art • Fitness" />
     <meta name="description" content="Naurs focus on delivery the best quality and unique fitness and art classes within your 1km radius.">
     <meta property="og:description" content="Naurs focus on delivery the best quality and unique fitness and art classes within your 1km radius." />
@@ -39,23 +39,19 @@
 
 <body>
     <!-- navbar -->
-    {% include 'components/navigations/site/navbar.html' %}
+    {% include 'components/navigations/dashboard/navbar.html' %}
 
-    <!-- message -->
-    {% include 'components/notifications/message.html' %}
-    {% include 'components/notifications/free_trial_popup.html' %}
+    <!-- sidenav -->
+    {% include 'components/navigations/dashboard/sidenav.html' %}
 
-    <!-- parent app -->
-    {% block app %}
+    <!-- parent dashboard -->
+    {% block dashboard %}
         
-    {% endblock app %}
+    {% endblock dashboard %}
 
     <!-- footer -->
-    {% include 'components/navigations/site/footer.html' %}
+    {% include 'components/navigations/dashboard/footer.html' %}
         
-    <!-- arrow back up -->
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
     <!-- Vendor JS Files -->
     <script src="{% static 'vendor/aos/aos.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
