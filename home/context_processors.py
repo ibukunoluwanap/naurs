@@ -1,5 +1,6 @@
 from account.forms import RegisterForm, LoginForm
 from instructor.models import InstructorModel
+from about.models import AboutModel
 from program.forms import ProgramEnquiryForm
 from program.models import ProgramModel
 from offer.models import OfferModel, BookOfferModel
@@ -22,6 +23,7 @@ def global_context(request):
     context['last_10_book_offers'] = BookOfferModel.objects.order_by("-id")[:10]
     context['last_4_instructors'] = InstructorModel.objects.order_by("-id")[:4]
     context['last_4_programs'] = ProgramModel.objects.order_by("-id")[:4]
+    context['last_about'] = AboutModel.objects.order_by("-id")[:1]
 
     # offers
     context['free_offer_form'] = FreeTrialOfferForm()

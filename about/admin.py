@@ -1,3 +1,4 @@
 from django.contrib import admin
+from about.models import AboutModel
 
-# Register your models here.
+admin.site.register(AboutModel)
