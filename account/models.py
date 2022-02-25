@@ -44,6 +44,7 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser):
     objects = UserManager()
+    avatar = models.FileField("avatar", upload_to="avatar/", max_length=100, blank=True, null=True)
     first_name = models.CharField("first name", max_length=100, blank=False, null=False)
     last_name = models.CharField("last name", max_length=100, blank=False, null=False)
     email = models.EmailField(
