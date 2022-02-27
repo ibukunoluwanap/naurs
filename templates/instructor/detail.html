@@ -87,19 +87,19 @@
                 <div class="row">
                     <h4 class="fw-bold text-cus-primary">Other Instructors</h4>
                     {% for instructor in last_4_instructors %}
-                        <a href="{% url 'instructor_detail_page' pk=instructor.id %}">
-                            <div class="col-lg-3 col-md-6 align-items-stretch">
+                        <div class="col-lg-3 col-md-6 align-items-stretch">
+                            <a href="{% url 'instructor_detail_page' pk=instructor.id %}">
                                 <div class="member">
-                                    <img class="member-img"src="{{ instructor.avatar.url }}"
-                                         class="img-fluid"
-                                         alt="staff">
+                                    <img class="member-img"src="{{ instructor.user.avatar.url }}"
+                                        class="img-fluid"
+                                        alt="staff">
                                     <div class="member-info">
                                         <h4>{{ instructor.user.get_full_name }}</h4>
                                         <span>{{ instructor.role }}</span>
                                     </div>
                                 </div>
-                            </div>
-                        </a>
+                            </a>
+                        </div>
                     {% endfor %}
                     <div class="col-12 text-center mt-5">
                         <a class="btn-lg" href="{% url 'instructor_page' %}">Meet More</a>
