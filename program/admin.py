@@ -1,6 +1,13 @@
 from django.contrib import admin
 from .models import ProgramModel, ProgramBenefitModel, ProgramEnquiryModel
 
-admin.site.register(ProgramModel)
-admin.site.register(ProgramBenefitModel)
-admin.site.register(ProgramEnquiryModel)
+class ProgramBenefitInline(admin.TabularInline):
+    model = ProgramBenefitModel
+
+class ProgramEnquiryInline(admin.StackedInline):
+    model = ProgramEnquiryModel
+
+class ProgramAdmin(admin.ModelAdmin):
+   inlines = [ProgramBenefitInline, ProgramEnquiryInline]
+
+admin.site.register(ProgramModel, ProgramAdmin)
