@@ -6,7 +6,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('tinymce/', include('tinymce.urls')),
-    path('dev_admin/', admin.site.urls),
+    path('administrator/', admin.site.urls),
     path('account/', include('account.urls')),
     path('', include('home.urls')),
     path('program/', include('program.urls')),
@@ -16,5 +16,9 @@ urlpatterns = [
     path('offer/', include('offer.urls')),
     path('instructor/', include('instructor.urls')),
 ]
+
+admin.site.site_header  =  "Test Admin Dashboard"  
+admin.site.site_title  =  "Test Admin Dashboard"
+admin.site.index_title  =  "Test Admin Dashboard"
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

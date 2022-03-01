@@ -20,8 +20,8 @@ class ProgramModel(models.Model):
     created_on = models.TimeField("created on", auto_now_add=True)
 
     class Meta:
-        verbose_name = 'ProgramModel'
-        verbose_name_plural = 'ProgramModels'
+        verbose_name = 'Program'
+        verbose_name_plural = 'Programs'
 
     def __str__(self):
         return f"{self.title} program program"
@@ -33,8 +33,8 @@ class ProgramBenefitModel(models.Model):
     created_on = models.TimeField("created on", auto_now_add=True)
 
     class Meta:
-        verbose_name = 'ProgramBenefitModel'
-        verbose_name_plural = 'ProgramBenefitModels'
+        verbose_name = 'Program Benefit'
+        verbose_name_plural = 'Program Benefits'
 
     def __str__(self):
         return f"{self.program} benefit"
@@ -49,8 +49,8 @@ class ProgramEnquiryModel(models.Model):
     created_on = models.TimeField("created on", auto_now_add=True)
 
     class Meta:
-        verbose_name = 'ProgramEnquiryModel'
-        verbose_name_plural = 'ProgramEnquiryModels'
+        verbose_name = 'Program Enquiry'
+        verbose_name_plural = 'Program Enquiries'
 
     def __str__(self):
         return f"{self.program.title} enquiry from {self.name}"

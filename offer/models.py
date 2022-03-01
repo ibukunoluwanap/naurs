@@ -9,8 +9,8 @@ class OfferModel(models.Model):
     created_on = models.TimeField("created on", auto_now_add=True)
 
     class Meta:
-        verbose_name = 'OfferModel'
-        verbose_name_plural = 'OfferModels'
+        verbose_name = 'Offer'
+        verbose_name_plural = 'Offers'
 
     def __str__(self):
         return f"{self.title} offer"
@@ -24,8 +24,8 @@ class BookOfferModel(models.Model):
     created_on = models.TimeField("created on", auto_now_add=True)
 
     class Meta:
-        verbose_name = 'BookOfferModel'
-        verbose_name_plural = 'BookOfferModels'
+        verbose_name = 'Booked Offer'
+        verbose_name_plural = 'Booked Offers'
 
     def __str__(self):
         return f"{self.name} booked {self.offer.title} offer"
@@ -38,8 +38,8 @@ class FreeTrialOfferModel(models.Model):
     created_on = models.TimeField("created on", auto_now_add=True)
 
     class Meta:
-        verbose_name = 'FreeTrialOfferModel'
-        verbose_name_plural = 'FreeTrialOfferModels'
+        verbose_name = 'Free Trial Offer'
+        verbose_name_plural = 'Free Trial Offers'
 
     def __str__(self):
         return f"free trial from {self.name}"

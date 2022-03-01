@@ -15,8 +15,8 @@ class InstructorModel(models.Model):
     created_on = models.TimeField("created on", auto_now_add=True)
 
     class Meta:
-        verbose_name = 'InstructorModel'
-        verbose_name_plural = 'InstructorModels'
+        verbose_name = 'Instructor'
+        verbose_name_plural = 'Instructors'
 
     def __str__(self):
         return f"{self.user.email}"

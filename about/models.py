@@ -10,8 +10,8 @@ class AboutModel(models.Model):
     created_on = models.TimeField("created on", auto_now_add=True)
 
     class Meta:
-        verbose_name = 'AboutModel'
-        verbose_name_plural = 'AboutModels'
+        verbose_name = 'About'
+        verbose_name_plural = 'About'
 
     def __str__(self):
         return "About naurs"
