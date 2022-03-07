@@ -8,14 +8,14 @@ from offer.forms import OfferForm, BookOfferForm, FreeTrialOfferForm
 
 def global_context(request):
     context = {}
-    # count
-    context['users'] = User.objects.all()
 
     # all get
     context['offers'] = OfferModel.objects.order_by("-id")
     context['book_offers'] = BookOfferModel.objects.order_by("-id")
     context['instructors'] = InstructorModel.objects.order_by("-id")
     context['programs'] = ProgramModel.objects.order_by("-id")
+    context['users'] = User.objects.all()
+    context['students'] = User.objects.filter(student=True)
 
     # last get
     context['last_10_offers'] = OfferModel.objects.order_by("-id")[:10]
