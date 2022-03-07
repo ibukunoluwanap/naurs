@@ -84,9 +84,6 @@
         <!-- sidenav -->
         {% include 'components/navigations/dashboard/sidenav.html' %}
 
-        <!-- navbar -->
-        {% include 'components/navigations/dashboard/navbar.html' %}
-
         <!-- parent dashboard -->
         {% block dashboard %} {% endblock dashboard %}
 
@@ -111,6 +108,10 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"
     />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+
     <!-- Template Main JS File -->
     <script src="{% static 'js/tinymce-config.js' %}"></script>
     <script src="{% static 'js/dashboard/main.js' %}"></script>
