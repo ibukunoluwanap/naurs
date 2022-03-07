@@ -1,3 +1,4 @@
+import numbers
 from unicodedata import category
 from django.db import models
 from tinymce.models import HTMLField
@@ -15,7 +16,7 @@ class ProgramModel(models.Model):
     image = models.FileField("image", upload_to="program/", max_length=100, blank=False, null=False)
     category = models.CharField("category", choices=PROGRAM_CATEGORY, default=PROGRAM_CATEGORY[0], max_length=100, blank=False, null=False)
     title = models.CharField("title", max_length=100, blank=False, null=False)
-    price = models.CharField("price", max_length=100, blank=False, null=False)
+    price = models.PositiveIntegerField()
     info = HTMLField()
     created_on = models.TimeField("created on", auto_now_add=True)
 
