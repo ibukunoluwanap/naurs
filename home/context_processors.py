@@ -1,4 +1,4 @@
-from account.forms import RegisterForm, LoginForm
+from account.forms import RegisterForm, LoginForm, User
 from instructor.models import InstructorModel
 from about.models import AboutModel
 from program.forms import ProgramEnquiryForm
@@ -8,9 +8,8 @@ from offer.forms import OfferForm, BookOfferForm, FreeTrialOfferForm
 
 def global_context(request):
     context = {}
-    # context['num_of_parks'] = Park.objects.all().count()
-    # context['last_10_parks'] = Park.objects.order_by("-id")[:10]
-    # context['parks_list'] =  json.dumps(list(Park.objects.order_by("-id").values()), cls=DjangoJSONEncoder)
+    # count
+    context['users'] = User.objects.all()
 
     # all get
     context['offers'] = OfferModel.objects.order_by("-id")
