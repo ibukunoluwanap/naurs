@@ -7,7 +7,7 @@ class AboutModel(models.Model):
     mission = HTMLField()
     vision = HTMLField()
     value = HTMLField()
-    created_on = models.TimeField("created on", auto_now_add=True)
+    created_on = models.DateTimeField("created on", auto_now_add=True)
 
     class Meta:
         verbose_name = 'About'

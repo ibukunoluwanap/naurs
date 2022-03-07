@@ -12,7 +12,7 @@ class InstructorModel(models.Model):
     program = models.ManyToManyField(ProgramModel, verbose_name="program")
     role = models.CharField("role", max_length=100, blank=False, null=False)
     about = HTMLField()
-    created_on = models.TimeField("created on", auto_now_add=True)
+    created_on = models.DateTimeField("created on", auto_now_add=True)
 
     class Meta:
         verbose_name = 'Instructor'

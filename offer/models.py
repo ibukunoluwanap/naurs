@@ -6,7 +6,7 @@ class OfferModel(models.Model):
     image = models.FileField("image", upload_to="offers/", max_length=100, blank=False, null=False)
     title = models.CharField("title", max_length=100, blank=False, null=False)
     content = HTMLField()
-    created_on = models.TimeField("created on", auto_now_add=True)
+    created_on = models.DateTimeField("created on", auto_now_add=True)
 
     class Meta:
         verbose_name = 'Offer'
@@ -21,7 +21,7 @@ class BookOfferModel(models.Model):
     name = models.CharField("name", max_length=100, blank=False, null=False)
     email = models.EmailField("email address", max_length=254, blank=False, null=False)
     phone_number = models.CharField("phone number", max_length=100, blank=False, null=False)
-    created_on = models.TimeField("created on", auto_now_add=True)
+    created_on = models.DateTimeField("created on", auto_now_add=True)
 
     class Meta:
         verbose_name = 'Booked Offer'
@@ -35,7 +35,7 @@ class FreeTrialOfferModel(models.Model):
     name = models.CharField("name", max_length=100, blank=False, null=False)
     email = models.EmailField("email address", max_length=254, blank=False, null=False)
     phone_number = models.CharField("phone number", max_length=100, blank=False, null=False)
-    created_on = models.TimeField("created on", auto_now_add=True)
+    created_on = models.DateTimeField("created on", auto_now_add=True)
 
     class Meta:
         verbose_name = 'Free Trial Offer'

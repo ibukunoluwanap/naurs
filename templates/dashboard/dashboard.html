@@ -1,7 +1,4 @@
-{% extends 'app/dashboard.html' %} 
-{% load static %}
-{% load humanize %}
-{% block dashboard %}
+{% extends 'app/dashboard.html' %} {% load static %} {% load humanize %} {%block dashboard %}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="row justify-content-center mt-5 mb-3">
     <div class="col-sm-4 d-flex justify-content-center text-center">
@@ -64,15 +61,15 @@
         </tr>
       </thead>
       <tbody>
+        {% for offer in last_10_offers %}
         <tr>
-          {% for offer in last_10_offers %}
           <td>{{offer.id}}</td>
           <td>{{offer.title}}</td>
           <td>{{offer.content|safe|truncatechars:100}}</td>
           <td>{{offer.created_on|naturaltime}}</td>
           <td>Delete</td>
-          {% endfor %}
         </tr>
+        {% endfor %}
       </tbody>
     </table>
   </div>
@@ -84,14 +81,16 @@
         <tr>
           <th scope="col">ID</th>
           <th scope="col">Title</th>
-          <th scope="col">Content</th>
+          <th scope="col">Category</th>
+          <th scope="col">Price</th>
+          <th scope="col">Info</th>
           <th scope="col">Date</th>
           <th scope="col">Delete</th>
         </tr>
       </thead>
       <tbody>
+        {% for program in last_10_programs %}
         <tr>
-          {% for program in last_10_programs %}
           <td>{{program.id}}</td>
           <td>{{program.title}}</td>
           <td>{{program.category}}</td>
@@ -99,8 +98,8 @@
           <td>{{program.info|safe|truncatechars:100}}</td>
           <td>{{program.created_on|naturaltime}}</td>
           <td>Delete</td>
-          {% endfor %}
         </tr>
+        {% endfor %}
       </tbody>
     </table>
   </div>
