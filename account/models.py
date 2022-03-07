@@ -17,27 +17,44 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_staffuser(self, email, password):
+    def create_student(self, email, password):
         """
-        Creates and saves a staff user with the given email and password.
+        Creates and saves a student user with the given email and password.
         """
         user = self.create_user(
             email,
             password=password,
         )
-        user.staff = True
+        user.instructor = False
+        user.student = True
+        user.admin = False
+        user.save(using=self._db)
+        return user
+
+    def create_instructor(self, email, password):
+        """
+        Creates and saves a instructor user with the given email and password.
+        """
+        user = self.create_user(
+            email,
+            password=password,
+        )
+        user.instructor = True
+        user.student = False
+        user.admin = False
         user.save(using=self._db)
         return user
 
     def create_superuser(self, email, password):
         """
-        Creates and saves a adminuser with the given email and password.
+        Creates and saves a admin with the given email and password.
         """
         user = self.create_user(
             email,
             password=password,
         )
-        user.staff = True
+        user.instructor = False
+        user.student = False
         user.admin = True
         user.save(using=self._db)
         return user
@@ -53,7 +70,8 @@ class User(AbstractBaseUser):
         unique=True,
     )
     is_active = models.BooleanField(default=True)
-    staff = models.BooleanField(default=False) # a staff user; non super-user
+    student = models.BooleanField(default=True) # a student user; non super-user
+    instructor = models.BooleanField(default=False) # a instructor user; non super-user
     admin = models.BooleanField(default=False) # a superuser
 
     # notice the absence of a "Password field", that is built in.
@@ -83,9 +101,14 @@ class User(AbstractBaseUser):
         return True
 
     @property
-    def is_staff(self):
-        "Is the user a member of staffs?"
-        return self.staff
+    def is_student(self):
+        "Is the user a member of students?"
+        return self.student
+
+    @property
+    def is_instructor(self):
+        "Is the user a member of instructors?"
+        return self.instructor
 
     @property
     def is_admin(self):
