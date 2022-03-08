@@ -66,8 +66,8 @@ class ProgramPayment(models.Model):
     created_on = models.DateTimeField("created on", auto_now_add=True)
 
     class Meta:
-        verbose_name = 'ProgramPayment'
-        verbose_name_plural = 'ProgramPayments'
+        verbose_name = 'Program Payment'
+        verbose_name_plural = 'Program Payments'
 
     def get_full_name(self):
         return f"{self.first_name} {self.last_name}"
