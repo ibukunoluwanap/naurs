@@ -57,7 +57,8 @@ class ProgramEnquiryModel(models.Model):
     def __str__(self):
         return f"{self.program.title} enquiry from {self.name}"
 
-class ProgramPayment(models.Model):
+# program payment modal
+class ProgramPaymentModel(models.Model):
     program = models.ForeignKey(ProgramModel, verbose_name="program", on_delete=models.CASCADE)
     first_name = models.CharField("first name", max_length=100, blank=False, null=False)
     last_name = models.CharField("last name", max_length=100, blank=False, null=False)

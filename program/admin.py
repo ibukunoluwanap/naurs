@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ProgramModel, ProgramBenefitModel, ProgramEnquiryModel, ProgramPayment
+from .models import ProgramModel, ProgramBenefitModel, ProgramEnquiryModel, ProgramPaymentModel
 
 class ProgramBenefitInline(admin.TabularInline):
     model = ProgramBenefitModel
@@ -11,4 +11,4 @@ class ProgramAdmin(admin.ModelAdmin):
    inlines = [ProgramBenefitInline, ProgramEnquiryInline]
 
 admin.site.register(ProgramModel, ProgramAdmin)
-admin.site.register(ProgramPayment)
+admin.site.register(ProgramPaymentModel)

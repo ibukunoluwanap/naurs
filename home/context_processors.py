@@ -1,8 +1,8 @@
 from account.forms import RegisterForm, LoginForm, User
 from instructor.models import InstructorModel
 from about.models import AboutModel
-from program.forms import ProgramEnquiryForm
-from program.models import ProgramModel
+from program.forms import ProgramEnquiryForm, ProgramPaymentForm
+from program.models import ProgramEnquiryModel, ProgramModel, ProgramPaymentModel
 from offer.models import OfferModel, BookOfferModel
 from offer.forms import OfferForm, BookOfferForm, FreeTrialOfferForm
 
@@ -14,6 +14,8 @@ def global_context(request):
     context['book_offers'] = BookOfferModel.objects.order_by("-id")
     context['instructors'] = InstructorModel.objects.order_by("-id")
     context['programs'] = ProgramModel.objects.order_by("-id")
+    context['program_enquiries'] = ProgramEnquiryModel.objects.order_by("-id")
+    context['program_payments'] = ProgramPaymentModel.objects.order_by("-id")
     context['users'] = User.objects.all()
     context['students'] = User.objects.filter(student=True)
 
@@ -34,4 +36,5 @@ def global_context(request):
     context['login_form'] = LoginForm()
     # programs
     context['program_enquiry_form'] = ProgramEnquiryForm()
+    context['program_payment_form'] = ProgramPaymentForm()
     return context
