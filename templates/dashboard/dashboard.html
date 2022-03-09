@@ -26,78 +26,77 @@
   <div
     class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
   >
-    <h1 class="h2">Dashboard</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
-      <div class="btn-group me-2">
-        <button type="button" class="btn btn-sm btn-outline-secondary">
+      <!-- <div class="btn-group me-2">
+        <button type="button" class="btn btn-sm btn-outline-dark">
           Share
         </button>
-        <button type="button" class="btn btn-sm btn-outline-secondary">
+        <button type="button" class="btn btn-sm btn-outline-dark">
           Export
         </button>
-      </div>
+      </div> -->
       <button
         type="button"
-        class="btn btn-sm btn-outline-secondary dropdown-toggle"
+        class="btn btn-sm btn-outline-dark"
       >
         <span data-feather="calendar"></span>
-        This week
+        This week data report
       </button>
     </div>
   </div>
 
   <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
 
-  <h4>Offers</h4>
+  <h4>Recent Offers</h4>
   <div class="table-responsive">
-    <table class="table table-striped table-sm">
-      <thead>
+    <table class="table table-bordered table-hover table-sm">
+      <thead class="table-dark lh-lg">
         <tr>
           <th scope="col">ID</th>
           <th scope="col">Title</th>
           <th scope="col">Content</th>
-          <th scope="col">Date</th>
+          <th scope="col">Created On</th>
           <th scope="col">Delete</th>
         </tr>
       </thead>
       <tbody>
         {% for offer in last_10_offers %}
         <tr>
-          <td>{{offer.id}}</td>
-          <td>{{offer.title}}</td>
+          <th scope="row">{{offer.id}}</th>
+          <td><a href="#" class="text-decoration-none text-cus-primary">{{offer.title|safe|truncatechars:50}}</a></td>
           <td>{{offer.content|safe|truncatechars:100}}</td>
           <td>{{offer.created_on|naturaltime}}</td>
-          <td>Delete</td>
+          <td><a href="#" class="btn btn-sm btn-danger d-flex justify-self-center justify-content-center text-center">Delete</a></td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
 
-  <h4>Programs</h4>
+  <h4>Recent Programs</h4>
   <div class="table-responsive">
-    <table class="table table-striped table-sm">
-      <thead>
+    <table class="table table-bordered table-hover table-sm">
+      <thead class="table-dark lh-lg">
         <tr>
           <th scope="col">ID</th>
           <th scope="col">Title</th>
           <th scope="col">Category</th>
           <th scope="col">Price</th>
           <th scope="col">Info</th>
-          <th scope="col">Date</th>
+          <th scope="col">Created On</th>
           <th scope="col">Delete</th>
         </tr>
       </thead>
       <tbody>
         {% for program in last_10_programs %}
         <tr>
-          <td>{{program.id}}</td>
-          <td>{{program.title}}</td>
+          <th scope="row">{{program.id}}</th>
+          <td><a href="#" class="text-decoration-none text-cus-primary">{{program.title|safe|truncatechars:50}}</a></td>
           <td>{{program.category}}</td>
-          <td>{{program.price}}</td>
-          <td>{{program.info|safe|truncatechars:100}}</td>
+          <td>{{program.price}} AED</td>
+          <td>{{program.info|safe|truncatechars:50}}</td>
           <td>{{program.created_on|naturaltime}}</td>
-          <td>Delete</td>
+          <td><a href="#" class="btn btn-sm btn-danger d-flex justify-self-center justify-content-center text-center">Delete</a></td>
         </tr>
         {% endfor %}
       </tbody>

@@ -1,4 +1,5 @@
 from email.policy import default
+from tkinter.tix import Tree
 from django.db import models
 from django.forms import BooleanField
 from tinymce.models import HTMLField
@@ -19,6 +20,7 @@ class ProgramModel(models.Model):
     price = models.PositiveIntegerField()
     total_space = models.PositiveIntegerField()
     info = HTMLField()
+    is_active = models.BooleanField(default=True)
     created_on = models.DateTimeField("created on", auto_now_add=True)
 
     class Meta:

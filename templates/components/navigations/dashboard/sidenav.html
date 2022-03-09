@@ -7,14 +7,17 @@
       <li class="nav-item">
         <a
           class="nav-link pt-3 pb-3 {% if request.path == '/dashboard/' %} active {% endif %}"
-          href="#"
+          href="{% url 'dashboard_page' %}"
         >
           <span data-feather="bar-chart-2"></span>
           Dashboard
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link pt-3 pb-3" href="#">
+        <a
+          class="nav-link pt-3 pb-3 {% if '/dashboard/program/' in request.path %} active {% endif %}"
+          href="{% url 'dashboard_program_page' %}"
+        >
           <i class="feather bi bi-building"></i>
           Programs
         </a>

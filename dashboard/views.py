@@ -2,8 +2,9 @@ from django.shortcuts import redirect, render
 from offer.forms import OfferForm
 from django.contrib import messages
 from offer.models import OfferModel
-from django.views.generic import View, CreateView
+from django.views.generic import View, ListView, CreateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from program.models import ProgramModel
 
 # dashboard list view
 class Dashboard(LoginRequiredMixin, View):
@@ -12,6 +13,19 @@ class Dashboard(LoginRequiredMixin, View):
 
     def get(self, request):
         return render(request, self.template_name)
+
+# dashboard program view
+class Program(LoginRequiredMixin, ListView):
+    model = ProgramModel
+    login_url = 'login_page'
+    template_name = "dashboard/program/program.html"
+
+# dashboard program detail view
+class ProgramDetail(LoginRequiredMixin, DetailView):
+    model = ProgramModel
+    login_url = 'login_page'
+    template_name = "dashboard/program/detail.html"
+    context_object_name = "program"
 
 class OfferCreate(LoginRequiredMixin, CreateView):
     model = OfferModel
