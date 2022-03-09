@@ -3,7 +3,7 @@
   <h4>All Programs</h4>
   <div class="table-responsive">
     <table class="table table-bordered table-hover table-sm">
-      <thead class="table-dark lh-lg">
+      <thead class="table-cus-dark lh-lg">
         <tr>
           <th scope="col">ID</th>
           <th scope="col">Title</th>
@@ -16,7 +16,7 @@
         </tr>
       </thead>
       <tbody>
-        {% for program in programs %}
+        {% for program in without_filter_programs %}
         <tr>
           <th scope="row">{{program.id}}</th>
           <td>
