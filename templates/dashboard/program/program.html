@@ -1,4 +1,12 @@
-{% extends 'app/dashboard.html' %} {% load static %} {% load humanize %} {%block dashboard %}
+{% extends 'dashboard/dashboard.html' %}
+{% load static %}
+{% load humanize %}
+{% load widget_tweaks %}
+{% block title %}
+    <title>Naurs - Dashboard Programs</title>
+{% endblock title %}
+{% block dashboard %}
+
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-3">
   <h4>All Programs</h4>
   <div class="table-responsive">
@@ -20,7 +28,7 @@
         <tr>
           <th scope="row">{{program.id}}</th>
           <td>
-            <a href="#" class="text-decoration-none text-cus-primary"
+            <a href="{% url 'dashboard_program_detail_page' pk=program.id %}" class="text-decoration-none text-cus-primary"
               >{{program.title|safe|truncatechars:50}}</a
             >
           </td>

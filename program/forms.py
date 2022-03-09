@@ -1,6 +1,14 @@
 from django import forms
 from tinymce.widgets import TinyMCE
-from .models import ProgramEnquiryModel, ProgramPaymentModel
+from .models import ProgramEnquiryModel, ProgramModel, ProgramPaymentModel
+
+# program enquiry form
+class ProgramForm(forms.ModelForm):
+    info = forms.CharField(required=True, widget=TinyMCE(attrs={'cols': 10, 'rows': 22}))
+
+    class Meta:
+        model = ProgramModel
+        exclude = ['created_on']
 
 # program enquiry form
 class ProgramEnquiryForm(forms.ModelForm):

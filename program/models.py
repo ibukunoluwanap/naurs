@@ -19,8 +19,8 @@ class ProgramModel(models.Model):
     title = models.CharField("title", max_length=100, blank=False, null=False)
     price = models.PositiveIntegerField()
     total_space = models.PositiveIntegerField()
+    is_active = models.BooleanField(verbose_name="activate", default=True)
     info = HTMLField()
-    is_active = models.BooleanField(default=True)
     created_on = models.DateTimeField("created on", auto_now_add=True)
 
     class Meta:

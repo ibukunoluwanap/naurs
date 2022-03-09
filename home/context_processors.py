@@ -1,7 +1,7 @@
 from account.forms import RegisterForm, LoginForm, User
 from instructor.models import InstructorModel
 from about.models import AboutModel
-from program.forms import ProgramEnquiryForm, ProgramPaymentForm
+from program.forms import ProgramEnquiryForm, ProgramForm, ProgramPaymentForm
 from program.models import ProgramEnquiryModel, ProgramModel, ProgramPaymentModel
 from offer.models import OfferModel, BookOfferModel
 from offer.forms import OfferForm, BookOfferForm, FreeTrialOfferForm
@@ -16,6 +16,8 @@ def global_context(request):
     context['without_filter_programs'] = ProgramModel.objects.order_by("-id")
     context['without_filter_last_10_programs'] = ProgramModel.objects.order_by("-id")[:10]
     context['without_filter_last_4_programs'] = ProgramModel.objects.order_by("-id")[:4]
+    # form
+    context['program_form'] = ProgramForm()
 
     # all get
     context['offers'] = OfferModel.objects.order_by("-id")

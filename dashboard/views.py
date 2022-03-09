@@ -4,6 +4,7 @@ from django.contrib import messages
 from offer.models import OfferModel
 from django.views.generic import View, ListView, CreateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from program.forms import ProgramForm
 from program.models import ProgramModel
 
 # dashboard list view
@@ -26,6 +27,13 @@ class ProgramDetail(LoginRequiredMixin, DetailView):
     login_url = 'login_page'
     template_name = "dashboard/program/detail.html"
     context_object_name = "program"
+
+    def get_context_data(self, **kwargs):
+        context = super(ProgramDetail, self).get_context_data(**kwargs)
+        print(self.kwargs['pk'])
+        context['program_form_with_instance'] = list(ProgramForm(instance=ProgramModel.objects.get(id=self.kwargs['pk'])))
+        return context
+
 
 class OfferCreate(LoginRequiredMixin, CreateView):
     model = OfferModel
