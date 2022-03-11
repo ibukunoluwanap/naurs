@@ -33,7 +33,7 @@ class ProgramModel(models.Model):
 # program modal
 class ProgramBenefitModel(models.Model):
     program = models.ForeignKey(ProgramModel, verbose_name="program", on_delete=models.CASCADE)
-    benefit = models.CharField("name", max_length=100, blank=False, null=False)
+    benefit = models.CharField("benefit", max_length=100, blank=False, null=False)
     created_on = models.DateTimeField("created on", auto_now_add=True)
 
     class Meta:

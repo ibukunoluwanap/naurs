@@ -15,8 +15,11 @@
     Back
     </a
   >
+
+  <!-- title -->
   <h4 class="my-3">{{program.title}}</h4>
 
+  <!-- about -->
   <div class="row">
     <div class="col-sm-4">
       <img src="{{program.image.url}}" alt="{{program.title}}" class="object-fit rounded" width="100%" height="300px">
@@ -47,7 +50,7 @@
         </li>
         <li class="nav-item">
           <span class="nav-link p-3 text-cus-secondary text-center">
-            <span data-feather="toggle-right"></span>
+            {% if program.is_active %}<span data-feather="toggle-right"></span>{% else %}<span data-feather="toggle-left"></span>{% endif %}
             <span style="font-size: 12px;">Active </span>
             <br>
             <span style="font-size: 12px;">{% if program.is_active %}Yes{% else %}No{% endif %}</span>
@@ -71,6 +74,13 @@
                 {% endfor %}
               </div>
             </div>
+            {% elif forloop.counter == 1 %}
+              <div class="card p-3 shadow mb-4">
+                {{ field|add_class:"cus-file-input" }}
+                {% for error in field.errors %}
+                    <p class="text-danger">{{ error }}</p>
+                {% endfor %}
+              </div>
             {% else %}
               <div class="form-floating shadow mb-4">
                 {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
@@ -98,6 +108,34 @@
       </div>
       <button class="btn-lg" type="submit">Update</button>
     </form>
+  </div>
+
+  <!-- benefits -->
+  <div class="row mt-3">
+    <div class="col-sm-12">
+      <h4>Benefits</h4>
+    </div>
+    <!-- {% for pbi in program_benefit_instance  %} -->
+      <!-- {{pbi.program.id}} -->
+      <div class="col-sm-3 my-3">       
+        <div class="card shadow p-3 border-0">
+          <form action="#" method="post" class="d-flex flex-row justify-content-between">
+            {% csrf_token %}
+              {% for field in program_benefit_form %}
+                {{ field|add_class:"form-control w-65"|attr:"placeholder:field.label" }}
+                {% for error in field.errors %}
+                    <p class="text-danger">
+                        {{ error }}
+                    </p>
+                {% endfor %}
+              {% endfor %}
+            <button class="w-25 btn-s" type="submit">
+              <span data-feather="check-square"></span>
+            </button>
+          </form>
+        </div>
+      </div>
+    <!-- {% endfor %} -->
   </div>
 </main>
 {% endblock dashboard %}

@@ -4,8 +4,8 @@ from django.contrib import messages
 from offer.models import OfferModel
 from django.views.generic import View, ListView, CreateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from program.forms import ProgramForm
-from program.models import ProgramModel
+from program.forms import ProgramBenefitForm, ProgramForm
+from program.models import ProgramBenefitModel, ProgramModel
 
 # dashboard list view
 class Dashboard(LoginRequiredMixin, View):
@@ -30,8 +30,10 @@ class ProgramDetail(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(ProgramDetail, self).get_context_data(**kwargs)
-        print(self.kwargs['pk'])
-        context['program_form_with_instance'] = list(ProgramForm(instance=ProgramModel.objects.get(id=self.kwargs['pk'])))
+        instance = ProgramModel.objects.get(id=self.kwargs['pk'])
+        context['program_form_with_instance'] = list(ProgramForm(instance=instance))
+        context['program_benefit_instance'] = ProgramBenefitModel.objects.filter(program=instance)
+        # context['program_benefit_form_with_instance'] = ProgramBenefitForm(instance=ProgramBenefitModel.objects.filter(program=instance))
         return context
 
 
