@@ -118,43 +118,43 @@
     <div class="col-sm-4">
       <ul class="list-unstyled">
         {% for benefit in program.programbenefitmodel_set.all %}
-            <li>
+            <li class="my-4">
                 <i class="bi bi-arrow-return-right align-middle text-cus-primary"></i> {{ benefit.benefit }}
             </li>
         {% endfor %}
       </ul>
     </div>
-        <form action="#" method="post" class="col card shadow border-0 py-3">
-          {% csrf_token %}
-          <div class="row">
-            <div class="col-sm-6">
-              {% for field in program_benefit_inline_formset_with_instance|slice:":3" %}
-                <div class="form-floating shadow mb-4">
-                  {{ field.benefit|add_class:"form-control"|attr:"placeholder:field.benefit.label" }}
-                  <label for="{{ field.benefit.auto_id }}">{{ field.benefit.label }}</label>
-                  {% for error in field.benefit.errors %}
-                      <p class="text-danger">{{ error }}</p>
-                  {% endfor %}
-                </div>
+    <form action="#" method="post" class="col card shadow border-0 py-3">
+      {% csrf_token %}
+      <div class="row">
+        <div class="col-sm-6">
+          {% for field in program_benefit_inline_formset_with_instance|slice:":3" %}
+            <div class="form-floating shadow mb-4">
+              {{ field.benefit|add_class:"form-control"|attr:"placeholder:field.benefit.label" }}
+              <label for="{{ field.benefit.auto_id }}">{{ field.benefit.label }}</label>
+              {% for error in field.benefit.errors %}
+                  <p class="text-danger">{{ error }}</p>
               {% endfor %}
             </div>
-            <div class="col-sm-6">
-              {% for field in program_benefit_inline_formset_with_instance|slice:"3:" %}
-                <div class="form-floating shadow mb-4">
-                  {{ field.benefit|add_class:"form-control"|attr:"placeholder:field.benefit.label" }}
-                  <label for="{{ field.benefit.auto_id }}">{{ field.benefit.label }}</label>
-                  {% for error in field.benefit.errors %}
-                      <p class="text-danger">{{ error }}</p>
-                  {% endfor %}
-                </div>
+          {% endfor %}
+        </div>
+        <div class="col-sm-6">
+          {% for field in program_benefit_inline_formset_with_instance|slice:"3:" %}
+            <div class="form-floating shadow mb-4">
+              {{ field.benefit|add_class:"form-control"|attr:"placeholder:field.benefit.label" }}
+              <label for="{{ field.benefit.auto_id }}">{{ field.benefit.label }}</label>
+              {% for error in field.benefit.errors %}
+                  <p class="text-danger">{{ error }}</p>
               {% endfor %}
             </div>
-          </div>
-          <button class="w-25 btn-m" type="submit">
-            Save
-            <span data-feather="check-square"></span>
-          </button>
-        </form>
+          {% endfor %}
+        </div>
+      </div>
+      <button class="btn-lg" type="submit">
+        Save
+        <span data-feather="check-square"></span>
+      </button>
+    </form>
   </div>
 </main>
 {% endblock dashboard %}

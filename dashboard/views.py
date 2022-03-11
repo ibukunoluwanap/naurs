@@ -33,7 +33,7 @@ class ProgramDetail(LoginRequiredMixin, DetailView):
         context = super(ProgramDetail, self).get_context_data(**kwargs)
         program = ProgramModel.objects.get(id=self.kwargs['pk'])
         context['program_form_with_instance'] = list(ProgramForm(instance=program))
-        context['program_benefit_inline_formset_with_instance'] = list(ProgramBenefitInlineFormset())
+        context['program_benefit_inline_formset_with_instance'] = list(ProgramBenefitInlineFormset(instance=program))
         return context
 
 class ProgramCreate(LoginRequiredMixin, CreateView):
