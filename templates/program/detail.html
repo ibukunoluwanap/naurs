@@ -93,16 +93,11 @@
                                     <i class="bi bi-info-square align-middle"></i>
                                     Enquire Now!
                                 </h4>
-                                <form action="{% url 'program_enquiry_page' program_id=program.id %}" class="text-center"
-                                      method="post">
+                                <form action="{% url 'program_enquiry_page' program_id=program.id %}" class="text-center" method="post">
                                     {% csrf_token %}
                                     {% for field in program_enquiry_form %}
                                         <div class="form-floating shadow mb-4">
-                                            {% if field.name == "enquiry" %}
-                                                {{ field|add_class:"form-control"|attr:"placeholder:field.label"|attr:"style:height:150px;" }}
-                                            {% else %}
-                                                {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
-                                            {% endif %}
+                                            {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
                                             <label for="{{ field.auto_id }}">{{ field.label }}</label>
                                             {% for error in field.errors %}
                                                 <p class="text-danger">
@@ -111,7 +106,7 @@
                                             {% endfor %}
                                         </div>
                                     {% endfor %}
-                                    <button class="w-75 btn-lg" type="submit">Enquire Now</button>
+                                    <button class="w-75 btn-lg" type="submit">Submit</button>
                                 </form>
                             </div>
                             <div class="col-12">

@@ -38,7 +38,7 @@ class ProgramEnquiryForm(forms.ModelForm):
     name = forms.CharField(max_length=30, required=True, widget=forms.TextInput)
     phone_number = forms.CharField(max_length=30, required=True, widget=forms.TextInput)
     email = forms.EmailField(max_length=254, required=True, widget=forms.EmailInput, help_text='Required. Inform a valid email address.')
-    enquiry = forms.CharField(max_length=500, required=True, widget=forms.Textarea)
+    enquiry = forms.CharField(max_length=500, required=True, widget=forms.Textarea(attrs={"style":"height:150px;"}))
 
     class Meta:
         model = ProgramEnquiryModel

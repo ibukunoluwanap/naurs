@@ -6,7 +6,7 @@
     <title>Naurs - {{ program.title }} Edit</title>
 {% endblock title %}
 {% block dashboard %}
-<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-3">
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
   <a
     href="{{request.META.HTTP_REFERER|escape}}"
     class="btn btn-md btn-dark bg-cus-primary"
@@ -157,26 +157,27 @@
     </form>
   </div>
 
-    <!-- enquiries -->
-    <div class="row mt-5">
-      <div class="col-sm-12">
-        <h4>Enquiries</h4>
-      </div>
-      <div class="col-sm-12">
-        <div class="table-responsive shadow rounded">
-          <table class="table table-hover table-sm align-middle border-bottom m-0">
-            <thead class="table-cus-dark">
-              <tr>
-                <th scope="col" class="p-3">ID</th>
-                <th scope="col" class="p-3">Name</th>
-                <th scope="col" class="p-3">Email</th>
-                <th scope="col" class="p-3">Call</th>
-                <th scope="col" class="p-3">Enquiry</th>
-                <th scope="col" class="p-3">Created On</th>
-                <th scope="col" class="p-3">Delete</th>
-              </tr>
-            </thead>
-            <tbody>
+  <!-- enquiries -->
+  <div class="row mt-5">
+    <div class="col-sm-12">
+      <h4>Enquiries</h4>
+    </div>
+    <div class="col-sm-12">
+      <div class="table-responsive shadow rounded">
+        <table class="table table-hover table-sm align-middle border-bottom m-0">
+          <thead class="table-cus-dark">
+            <tr>
+              <th scope="col" class="p-3">ID</th>
+              <th scope="col" class="p-3">Name</th>
+              <th scope="col" class="p-3">Email</th>
+              <th scope="col" class="p-3">Call</th>
+              <th scope="col" class="p-3">Enquiry</th>
+              <th scope="col" class="p-3">Created On</th>
+              <th scope="col" class="p-3">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if program.programenquirymodel_set.all %}              
               {% for enquiry in program.programenquirymodel_set.all %}
                 <tr>
                   <th scope="row" class="p-2">{{enquiry.id}}</th>
@@ -222,10 +223,22 @@
                   </td>
                 </tr>
               {% endfor %}
-            </tbody>
-          </table>
-        </div>
+            {% else %}
+              <tr>
+                  <td class="p-2">
+                    <i class="display-1 bi bi-trash align-middle"></i>
+                  </td>
+                  <td class="p-2">
+                    <p>
+                        No enquiries currently available!
+                    </p>
+                  </td>
+              </tr>
+            {% endif %}
+          </tbody>
+        </table>
       </div>
     </div>
+  </div>
 </main>
 {% endblock dashboard %}
