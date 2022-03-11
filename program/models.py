@@ -49,7 +49,7 @@ class ProgramEnquiryModel(models.Model):
     name = models.CharField("name", max_length=100, blank=False, null=False)
     email = models.EmailField("email address", max_length=254, blank=False, null=False)
     phone_number = models.CharField("phone number", max_length=100, blank=False, null=False)
-    enquiry = models.TextField("enquiry", max_length=250, blank=False, null=False)
+    enquiry = models.TextField("enquiry", max_length=500, blank=False, null=False)
     created_on = models.DateTimeField("created on", auto_now_add=True)
 
     class Meta:
