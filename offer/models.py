@@ -5,6 +5,7 @@ from tinymce.models import HTMLField
 class OfferModel(models.Model):
     image = models.FileField("image", upload_to="offers/", max_length=100, blank=False, null=False)
     title = models.CharField("title", max_length=100, blank=False, null=False)
+    is_active = models.BooleanField(verbose_name="activate", default=True)
     content = HTMLField()
     created_on = models.DateTimeField("created on", auto_now_add=True)
 

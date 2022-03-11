@@ -7,17 +7,17 @@
 {% endblock title %}
 {% block dashboard %}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
-  <a
-    href="{{request.META.HTTP_REFERER|escape}}"
-    class="btn btn-md btn-dark bg-cus-primary"
-    >
-    <span data-feather="corner-up-left"></span>
-    Back
-    </a
-  >
-
-  <!-- title -->
-  <h4 class="my-3">{{program.title}}</h4>
+  <!-- title and back-->
+  <div class="row">
+    <div class="col-sm-12">
+      <a href="{{request.META.HTTP_REFERER|escape}}" class="btn btn-s">
+        <span data-feather="corner-up-left"></span> Back
+      </a>
+    </div>
+    <div class="col-sm-12">
+      <h4 class="my-3">{{program.title}}</h4>
+    </div>
+  </div>
 
   <!-- about -->
   <div class="row">

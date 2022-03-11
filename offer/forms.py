@@ -1,6 +1,7 @@
 from django import forms
 from tinymce.widgets import TinyMCE
 from .models import BookOfferModel, OfferModel, FreeTrialOfferModel
+from django.forms import inlineformset_factory
 
 # offer form
 class OfferForm(forms.ModelForm):

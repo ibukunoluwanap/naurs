@@ -2,7 +2,7 @@
 {% load static %} 
 {% load humanize %}
 {% load widget_tweaks %} 
-{% block title %}<title>Naurs - Dashboard Programs</title>{% endblock title %} 
+{% block title %}<title>Naurs - Dashboard Offers</title>{% endblock title %} 
 
 {% block dashboard %}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
@@ -10,7 +10,7 @@
     <div class="col-sm-12">
       <a href="#" class="btn btn-lg float-end">
         <span data-feather="plus"></span>
-        Create Program
+        Create Offer
       </a>
     </div>
   </div>
@@ -18,11 +18,11 @@
   <!-- title -->
   <div class="row">
     <div class="col-12">
-      <h4>All Programs</h4>
+      <h4>All Offers</h4>
     </div>
   </div>
 
-  <!-- programs -->
+  <!-- offers -->
   <div class="row">
     <div class="col-sm-12">
       <div class="table-responsive shadow rounded">
@@ -40,7 +40,7 @@
             </tr>
           </thead>
           <tbody>
-            {% if without_filter_programs %} {% for program in without_filter_programs %}
+            {% if without_filter_programs %} {% for program in without_filter_offers %}
             <tr>
               <th scope="row" class="p-2">{{program.id}}</th>
               <td class="p-2">

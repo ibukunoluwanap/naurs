@@ -36,6 +36,7 @@ class ProgramDetail(LoginRequiredMixin, DetailView):
         context['program_benefit_inline_formset_with_instance'] = list(ProgramBenefitInlineFormset(instance=program))
         return context
 
+# dashboard program create view
 class ProgramCreate(LoginRequiredMixin, CreateView):
     form_class = ProgramForm
     login_url = 'login_page'
@@ -69,6 +70,26 @@ class ProgramCreate(LoginRequiredMixin, CreateView):
     def form_invalid(self, form, program_benefit_inline_formset):
         return self.render_to_response(self.get_context_data(form, program_benefit_inline_formset))
 
+# dashboard offer view
+class Offer(LoginRequiredMixin, ListView):
+    model = OfferModel
+    login_url = 'login_page'
+    template_name = "dashboard/offer/offer.html"
+
+# dashboard offer detail view
+class OfferDetail(LoginRequiredMixin, DetailView):
+    model = OfferModel
+    login_url = 'login_page'
+    template_name = "dashboard/offer/detail.html"
+    context_object_name = "offer"
+
+    def get_context_data(self, **kwargs):
+        context = super(OfferDetail, self).get_context_data(**kwargs)
+        offer = OfferModel.objects.get(id=self.kwargs['pk'])
+        context['offer_form_with_instance'] = list(OfferForm(instance=offer))
+        return context
+
+# dashboard offer create view
 class OfferCreate(LoginRequiredMixin, CreateView):
     model = OfferModel
     form_class = OfferForm
@@ -83,5 +104,5 @@ class OfferCreate(LoginRequiredMixin, CreateView):
         if offer_form.is_valid():
             offer_form.save()
             messages.success(self.request, f"Successfully created an offer!")
-            return redirect("offer_create_page")
+            return redirect("dashboard_offer_create_page")
         return render(request, self.template_name, context)
