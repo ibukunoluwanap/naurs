@@ -52,7 +52,7 @@
               </td>
               <td class="p-2">{{program.category}}</td>
               <td class="p-2">{{program.price}} AED</td>
-              <td class="p-2">{{program.info|safe|truncatechars:20}}</td>
+              <td class="p-2">{{program.content|safe|truncatechars:20}}</td>
               <td class="p-2">{{program.created_on|naturaltime}}</td>
               <td class="p-2">
                 {% if program.is_active %}

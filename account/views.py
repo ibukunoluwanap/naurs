@@ -19,7 +19,7 @@ class Register(View):
     def get(self, request):
         # checking if user is logged in
         if request.user.is_authenticated:
-            messages.info(request, 'You are logged in already! Please download the mobile app on your device to access our programs')
+            messages.content(request, 'You are logged in already! Please download the mobile app on your device to access our programs')
             return redirect('home_page')
         return render(request, self.template_name)
 
@@ -51,7 +51,7 @@ class Login(View):
     def get(self, request):
         # checking if user is logged in
         if request.user.is_authenticated:
-            messages.info(request, 'You are logged in already! Please download the mobile app on your device to access our programs')
+            messages.content(request, 'You are logged in already! Please download the mobile app on your device to access our programs')
             return redirect('home_page')
         return render(request, self.template_name)
 

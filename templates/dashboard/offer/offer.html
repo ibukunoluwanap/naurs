@@ -31,9 +31,7 @@
             <tr>
               <th scope="col" class="p-3">ID</th>
               <th scope="col" class="p-3">Title</th>
-              <th scope="col" class="p-3">Category</th>
-              <th scope="col" class="p-3">Price</th>
-              <th scope="col" class="p-3">Info</th>
+              <th scope="col" class="p-3">Content</th>
               <th scope="col" class="p-3">Created On</th>
               <th scope="col" class="p-3">Visibility</th>
               <th scope="col" class="p-3">Delete</th>
@@ -50,9 +48,7 @@
                   >{{program.title|safe|truncatechars:50}}</a
                 >
               </td>
-              <td class="p-2">{{program.category}}</td>
-              <td class="p-2">{{program.price}} AED</td>
-              <td class="p-2">{{program.info|safe|truncatechars:20}}</td>
+              <td class="p-2">{{program.content|safe|truncatechars:20}}</td>
               <td class="p-2">{{program.created_on|naturaltime}}</td>
               <td class="p-2">
                 {% if program.is_active %}

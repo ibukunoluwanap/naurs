@@ -57,7 +57,7 @@
           </span>
         </li>
       </ul>
-      {{program.info|safe|truncatechars:500}}
+      {{program.content|safe|truncatechars:500}}
     </div>
     <form action="#" method="post" class="col card shadow border-0 py-3" enctype="multipart/form-data">
       {% csrf_token %}

@@ -42,7 +42,7 @@
                     <div class="col-md-8 mb-3 animate__animated animate__fadeInLeft"
                          data-aos="fade-right">
                         <h1 class="h2 fw-bold text-cus-primary">{{ program.title }}</h1>
-                        {{ program.info|safe }}
+                        {{ program.content|safe }}
                         <h4 class="mt-4 fw-bold text-cus-primary">Benefits</h4>
                         <ul>
                             {% for benefit in program.programbenefitmodel_set.all %}
@@ -159,7 +159,7 @@
                                 <div class="card-body">
                                     <a href="{% url 'program_detail_page' pk=program.id %}">
                                         <h4>{{ program.title|truncatechars:30 }}</h4>
-                                        <div class="card-content">{{ program.info|truncatechars_html:200|safe }}</div>
+                                        <div class="card-content">{{ program.content|truncatechars_html:200|safe }}</div>
                                     </a>
                                 </div>
                             </div>

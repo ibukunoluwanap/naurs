@@ -36,7 +36,7 @@
                                     <div class="card-body">
                                         <a href="{% url 'program_detail_page' pk=program.id %}">
                                             <h4>{{ program.title|truncatechars:30 }}</h4>
-                                            <div class="card-content">{{ program.info|truncatechars_html:200|safe }}</div>
+                                            <div class="card-content">{{ program.content|truncatechars_html:200|safe }}</div>
                                         </a>
                                     </div>
                                 </div>
@@ -58,7 +58,7 @@
                                     <div class="card-body">
                                         <a href="{% url 'program_detail_page' pk=program.id %}">
                                             <h4>{{ program.title|truncatechars:30 }}</h4>
-                                            <div class="card-content">{{ program.info|truncatechars_html:200|safe }}</div>
+                                            <div class="card-content">{{ program.content|truncatechars_html:200|safe }}</div>
                                         </a>
                                     </div>
                                 </div>
@@ -80,7 +80,7 @@
                                     <div class="card-body">
                                         <a href="{% url 'program_detail_page' pk=program.id %}">
                                             <h4>{{ program.title|truncatechars:30 }}</h4>
-                                            <div class="card-content">{{ program.info|truncatechars_html:200|safe }}</div>
+                                            <div class="card-content">{{ program.content|truncatechars_html:200|safe }}</div>
                                         </a>
                                     </div>
                                 </div>
@@ -102,7 +102,7 @@
                                     <div class="card-body">
                                         <a href="{% url 'program_detail_page' pk=program.id %}">
                                             <h4>{{ program.title|truncatechars:30 }}</h4>
-                                            <div class="card-content">{{ program.info|truncatechars_html:200|safe }}</div>
+                                            <div class="card-content">{{ program.content|truncatechars_html:200|safe }}</div>
                                         </a>
                                     </div>
                                 </div>
