@@ -163,24 +163,24 @@
         <h4>Enquiries</h4>
       </div>
       <div class="col-sm-12">
-        <div class="table-responsive">
-          <table class="table table-bordered table-hover table-sm">
-            <thead class="table-cus-dark lh-lg">
+        <div class="table-responsive shadow rounded">
+          <table class="table table-hover table-sm align-middle border-bottom m-0">
+            <thead class="table-cus-dark">
               <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Phone Number</th>
-                <th scope="col">Enquiry</th>
-                <th scope="col">Created On</th>
-                <th scope="col">Delete</th>
+                <th scope="col" class="p-3">ID</th>
+                <th scope="col" class="p-3">Name</th>
+                <th scope="col" class="p-3">Email</th>
+                <th scope="col" class="p-3">Call</th>
+                <th scope="col" class="p-3">Enquiry</th>
+                <th scope="col" class="p-3">Created On</th>
+                <th scope="col" class="p-3">Delete</th>
               </tr>
             </thead>
             <tbody>
               {% for enquiry in program.programenquirymodel_set.all %}
                 <tr>
-                  <th scope="row">{{enquiry.id}}</th>
-                  <td>
+                  <th scope="row" class="p-2">{{enquiry.id}}</th>
+                  <td class="p-2">
                     <a href="#" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="text-decoration-none text-cus-primary">
                       {{enquiry.name|safe|truncatechars:50}}
                     </a>
@@ -188,7 +188,10 @@
                       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                         <div class="modal-content">
                           <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                            <h4 class="modal-title" id="staticBackdropLabel">
+                              Enquiry 
+                              <span class="text-muted fw-lighter" style="font-size: 14px;">By {{enquiry.name|safe}}</span>
+                            </h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                           <div class="modal-body">
@@ -198,22 +201,22 @@
                       </div>
                     </div>      
                   </td>
-                  <td>
-                    <a href="mailto:{{enquiry.email}}" class="btn btn-sm text-cus-secondary bg-cus-pink d-flex justify-self-center justify-content-center text-center">
-                      Email {{enquiry.name|safe|truncatechars:10}}
+                  <td class="p-2">
+                    <a href='mailto:{{enquiry.email}}?subject=Enquiry Reply&body=Replying to your inquiry "{{enquiry.enquiry|safe|truncatechars:20}}"' class="btn btn-sm text-cus-secondary bg-cus-pink d-flex justify-content-center text-center">
+                      <i class="bi bi-envelope align-middle" style="margin-right: .5rem;"></i> Email
                     </a>
                   </td>
-                  <td>
-                    <a href="tel:{{enquiry.phone_number}}" class="btn btn-sm text-cus-secondary bg-cus-orange d-flex justify-self-center justify-content-center text-center">
-                      Call {{enquiry.name|safe|truncatechars:10}}
+                  <td class="p-2">
+                    <a href="tel:{{enquiry.phone_number}}" class="btn btn-sm text-cus-secondary bg-cus-orange d-flex justify-content-center text-center">
+                      <i class="bi bi-telephone align-middle" style="margin-right: .5rem;"></i> Call
                     </a>
                   </td>
-                  <td>{{enquiry.enquiry|safe|truncatechars:20}}</td>
-                  <td>{{enquiry.created_on|naturaltime}}</td>
-                  <td>
+                  <td class="p-2">{{enquiry.enquiry|safe|truncatechars:20}}</td>
+                  <td class="p-2">{{enquiry.created_on|naturaltime}}</td>
+                  <td class="p-2">
                     <a
                       href="#"
-                      class="btn btn-sm btn-danger d-flex justify-self-center justify-content-center text-center"
+                      class="btn btn-sm btn-danger d-flex justify-content-center text-center"
                       >Delete</a
                     >
                   </td>

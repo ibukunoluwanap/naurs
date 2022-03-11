@@ -9,34 +9,34 @@
 
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-3">
   <h4>All Programs</h4>
-  <div class="table-responsive">
-    <table class="table table-bordered table-hover table-sm">
-      <thead class="table-cus-dark lh-lg">
+  <div class="table-responsive shadow rounded">
+    <table class="table table-hover table-sm align-middle border-bottom m-0">
+      <thead class="table-cus-dark">
         <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Title</th>
-          <th scope="col">Category</th>
-          <th scope="col">Price</th>
-          <th scope="col">Info</th>
-          <th scope="col">Created On</th>
-          <th scope="col">Visibility</th>
-          <th scope="col">Delete</th>
+          <th scope="col" class="p-3">ID</th>
+          <th scope="col" class="p-3">Title</th>
+          <th scope="col" class="p-3">Category</th>
+          <th scope="col" class="p-3">Price</th>
+          <th scope="col" class="p-3">Info</th>
+          <th scope="col" class="p-3">Created On</th>
+          <th scope="col" class="p-3">Visibility</th>
+          <th scope="col" class="p-3">Delete</th>
         </tr>
       </thead>
       <tbody>
         {% for program in without_filter_programs %}
         <tr>
-          <th scope="row">{{program.id}}</th>
-          <td>
+          <th scope="row"  class="p-2">{{program.id}}</th>
+          <td class="p-2">
             <a href="{% url 'dashboard_program_detail_page' pk=program.id %}" class="text-decoration-none text-cus-primary"
               >{{program.title|safe|truncatechars:50}}</a
             >
           </td>
-          <td>{{program.category}}</td>
-          <td>{{program.price}} AED</td>
-          <td>{{program.info|safe|truncatechars:20}}</td>
-          <td>{{program.created_on|naturaltime}}</td>
-          <td>
+          <td class="p-2">{{program.category}}</td>
+          <td class="p-2">{{program.price}} AED</td>
+          <td class="p-2">{{program.info|safe|truncatechars:20}}</td>
+          <td class="p-2">{{program.created_on|naturaltime}}</td>
+          <td class="p-2">
             {% if program.is_active %}
             <a
               href="#"
@@ -51,7 +51,7 @@
             >
             {% endif %}
           </td>
-          <td>
+          <td class="p-2">
             <a
               href="#"
               class="btn btn-sm btn-danger d-flex justify-self-center justify-content-center text-center"
