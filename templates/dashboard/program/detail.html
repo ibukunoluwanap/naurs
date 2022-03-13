@@ -94,7 +94,7 @@
         </div>
         <div class="col-sm-6">
           {% for field in program_form_with_instance|slice:":7" %}
-            {% if forloop.counter > 6 and forloop.counter < 8 %}
+            {% if forloop.counter == 7 %}
               <div class="form-floating shadow mb-4">
                 {{ offer_form.media }}
                 {{ field }}

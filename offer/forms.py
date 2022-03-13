@@ -5,8 +5,8 @@ from django.forms import inlineformset_factory
 
 # offer form
 class OfferForm(forms.ModelForm):
-    title = forms.CharField(max_length=100, required=True, widget=forms.TextInput)
-    content = forms.CharField(widget=TinyMCE(attrs={'cols': 10, 'rows': 20}))
+    image = forms.ImageField(widget=forms.FileInput)
+    content = forms.CharField(required=True, widget=TinyMCE(attrs={'cols': 10, 'rows': 20}))
     class Meta:
         model = OfferModel
         exclude = ['created_on',]
