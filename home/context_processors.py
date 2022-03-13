@@ -1,4 +1,5 @@
 from account.forms import RegisterForm, LoginForm, User
+from instructor.forms import InstructorForm
 from instructor.models import InstructorModel
 from about.models import AboutModel
 from program.forms import ProgramBenefitForm, ProgramBenefitInlineFormset, ProgramEnquiryForm, ProgramForm, ProgramPaymentForm
@@ -39,6 +40,9 @@ def global_context(request):
     # instructor
     context['instructors'] = InstructorModel.objects.order_by("-id")
     context['last_4_instructors'] = InstructorModel.objects.order_by("-id")[:4]
+
+    # instructor form
+    context['instructor_form'] = InstructorForm()
 
     # all get
     context['program_enquiries'] = ProgramEnquiryModel.objects.order_by("-id")

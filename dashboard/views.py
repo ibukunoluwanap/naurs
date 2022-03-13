@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render
+from instructor.forms import InstructorForm
 from instructor.models import InstructorModel
 from offer.forms import OfferForm
 from django.contrib import messages
@@ -135,7 +136,7 @@ class InstructorDetail(LoginRequiredMixin, DetailView):
     context_object_name = "instructor"
 
     def get_context_data(self, **kwargs):
-        context = super(ProgramDetail, self).get_context_data(**kwargs)
-        # instructor = InstructorModel.objects.get(id=self.kwargs['pk'])
-        # context['instructor_form_with_instance'] = list(InstructorForm(instance=instructor))
+        context = super(InstructorDetail, self).get_context_data(**kwargs)
+        instructor = InstructorModel.objects.get(id=self.kwargs['pk'])
+        context['instructor_form_with_instance'] = list(InstructorForm(instance=instructor))
         return context
