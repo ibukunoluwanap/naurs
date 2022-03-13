@@ -37,7 +37,7 @@
     </div>
   </div>
 
-  <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+  <canvas class="my-4 w-100" id="DashboardChart" width="900" height="380"></canvas>
 
   <div class="row mt-5">
     <div class="col-sm-12">
@@ -184,3 +184,44 @@
   </div>
 </main>
 {% endblock dashboard %}
+
+{% block script %}
+  <script>
+    (function () {
+        'use strict'
+
+        feather.replace({ 'aria-hidden': 'true' })
+
+        // Graphs
+        var ctx = document.getElementById('DashboardChart')
+        // eslint-disable-next-line no-unused-vars
+        var DashboardChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ labels|safe }},
+                datasets: [{
+                    data: {{ data|safe }},
+                    lineTension: 0,
+                    backgroundColor: '#011b2b',
+                    borderColor: '#011b2b',
+                    borderWidth: 4,
+                    pointBackgroundColor: '#011b2b'
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: false
+                        }
+                    }]
+                },
+                legend: {
+                    display: false
+                }
+            }
+        })
+    })()
+  </script>
+{% endblock script %}
+  

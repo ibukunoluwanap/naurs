@@ -14,7 +14,20 @@ class Dashboard(LoginRequiredMixin, View):
     login_url = 'login_page'
 
     def get(self, request):
-        return render(request, self.template_name)
+        context = {}
+        labels = []
+        data = []
+
+        programs = ProgramModel.objects.order_by("-id")
+        for program in programs:
+            labels.append(program.title)
+            data.append(program.total_space)
+
+            print(labels, data)
+        
+        context["labels"] = labels
+        context["data"] = data
+        return render(request, self.template_name, context)
 
 # dashboard program view
 class Program(LoginRequiredMixin, ListView):

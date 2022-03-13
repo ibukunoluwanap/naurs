@@ -115,5 +115,8 @@
     <!-- Template Main JS File -->
     <script src="{% static 'js/tinymce-config.js' %}"></script>
     <script src="{% static 'js/dashboard/main.js' %}"></script>
+
+    <!-- extra scripts -->
+    {% block script %}{% endblock script %}
   </body>
 </html>
