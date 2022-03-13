@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render
+from instructor.models import InstructorModel
 from offer.forms import OfferForm
 from django.contrib import messages
 from offer.models import OfferModel
@@ -119,3 +120,22 @@ class OfferCreate(LoginRequiredMixin, CreateView):
             messages.success(self.request, f"Successfully created an offer!")
             return redirect("dashboard_offer_create_page")
         return render(request, self.template_name, context)
+
+# dashboard instructor view
+class Instructor(LoginRequiredMixin, ListView):
+    model = InstructorModel
+    login_url = 'login_page'
+    template_name = "dashboard/instructor/instructor.html"
+
+# dashboard instructor detail view
+class InstructorDetail(LoginRequiredMixin, DetailView):
+    model = InstructorModel
+    login_url = 'login_page'
+    template_name = "dashboard/instructor/detail.html"
+    context_object_name = "instructor"
+
+    def get_context_data(self, **kwargs):
+        context = super(ProgramDetail, self).get_context_data(**kwargs)
+        # instructor = InstructorModel.objects.get(id=self.kwargs['pk'])
+        # context['instructor_form_with_instance'] = list(InstructorForm(instance=instructor))
+        return context

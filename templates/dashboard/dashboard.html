@@ -47,7 +47,7 @@
         <table class="table table-hover table-sm align-middle border-bottom m-0">
           <thead class="table-cus-dark">
             <tr>
-              <th scope="col" class="p-3">ID</th>
+              <th scope="col" class="p-3"></th>
               <th scope="col" class="p-3">Title</th>
               <th scope="col" class="p-3">Content</th>
               <th scope="col" class="p-3">Created On</th>
@@ -58,7 +58,21 @@
           <tbody>
             {% if without_filter_last_10_offers %} {% for offer in without_filter_last_10_offers %}
             <tr>
-              <th scope="row" class="p-2">{{offer.id}}</th>
+              <th scope="row" class="p-2">
+                {% if offer.image %}
+                  <img
+                      class="avatar "
+                      src="{{offer.image.url}}"
+                      width="100%"
+                      height="100%"
+                      alt="avatar"
+                  />
+                {% else %}
+                  <div class="avatar">
+                    <i class="bi bi-gift align-middle"></i>
+                  </div>
+                {% endif %}
+              </th>
               <td class="p-2">
                 <a
                   href="{% url 'dashboard_offer_detail_page' pk=offer.id %}"
@@ -116,7 +130,7 @@
         <table class="table table-hover table-sm align-middle border-bottom m-0">
           <thead class="table-cus-dark">
             <tr>
-              <th scope="col" class="p-3">ID</th>
+              <th scope="col" class="p-3"></th>
               <th scope="col" class="p-3">Title</th>
               <th scope="col" class="p-3">Category</th>
               <th scope="col" class="p-3">Price</th>
@@ -130,7 +144,21 @@
             {% if without_filter_last_10_programs %}              
               {% for program in without_filter_last_10_programs %}
                 <tr>
-                  <th scope="row" class="p-2">{{program.id}}</th>
+                  <th scope="row" class="p-2">
+                    {% if program.image %}
+                      <img
+                          class="avatar "
+                          src="{{program.image.url}}"
+                          width="100%"
+                          height="100%"
+                          alt="avatar"
+                      />
+                    {% else %}
+                      <div class="avatar">
+                        <i class="bi bi-building align-middle"></i>
+                      </div>
+                    {% endif %}
+                  </th>
                   <td class="p-2">
                     <a href="{% url 'dashboard_program_detail_page' pk=program.id %}" class="text-decoration-none text-cus-primary"
                       >{{program.title|safe|truncatechars:50}}</a

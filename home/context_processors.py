@@ -36,15 +36,17 @@ def global_context(request):
     context['book_offer_form'] = BookOfferForm()
     context['free_offer_form'] = FreeTrialOfferForm()
 
-    # all get
+    # instructor
     context['instructors'] = InstructorModel.objects.order_by("-id")
+    context['last_4_instructors'] = InstructorModel.objects.order_by("-id")[:4]
+
+    # all get
     context['program_enquiries'] = ProgramEnquiryModel.objects.order_by("-id")
     context['program_payments'] = ProgramPaymentModel.objects.order_by("-id")
     context['users'] = User.objects.all()
     context['students'] = User.objects.filter(student=True)
 
     # last get
-    context['last_4_instructors'] = InstructorModel.objects.order_by("-id")[:4]
     context['last_about'] = AboutModel.objects.order_by("-id")[:1]
 
     # authentication

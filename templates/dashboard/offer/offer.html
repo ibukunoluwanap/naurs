@@ -29,7 +29,7 @@
         <table class="table table-hover table-sm align-middle border-bottom m-0">
           <thead class="table-cus-dark">
             <tr>
-              <th scope="col" class="p-3">ID</th>
+              <th scope="col" class="p-3"></th>
               <th scope="col" class="p-3">Title</th>
               <th scope="col" class="p-3">Content</th>
               <th scope="col" class="p-3">Created On</th>
@@ -40,7 +40,21 @@
           <tbody>
             {% if without_filter_offers %} {% for offer in without_filter_offers %}
             <tr>
-              <th scope="row" class="p-2">{{offer.id}}</th>
+              <th scope="row" class="p-2">
+                {% if offer.image %}
+                  <img
+                      class="avatar "
+                      src="{{offer.image.url}}"
+                      width="100%"
+                      height="100%"
+                      alt="avatar"
+                  />
+                {% else %}
+                  <div class="avatar">
+                    <i class="bi bi-gift align-middle"></i>
+                  </div>
+                {% endif %}
+              </th>
               <td class="p-2">
                 <a
                   href="{% url 'dashboard_offer_detail_page' pk=offer.id %}"
