@@ -157,5 +157,36 @@
       </div>
     </div>
   </div>
+
+  <!-- deletion -->
+  <div class="row justify-content-between mt-5 pt-3 section-bg">
+    <div class="col-sm-12">
+      <h4>Deletion</h4>
+    </div>
+    <div class="col-sm-6 mb-3">
+      <div class="alert alert-warning" role="alert">
+        This will keep the offer in the database, however the offer will not be display on
+        the website or application.
+      </div>
+      <div class="d-flex flex-row justify-content-center">
+        <a href="#" class="btn btn-lg bg-warning border border-warning text-cus-primary">
+          <span data-feather="x-circle"></span>
+          Deactivate
+        </a>
+      </div>
+    </div>
+    <div class="col-sm-6 mb-3">
+      <div class="alert alert-danger" role="alert">
+        This will <b>forever</b> remove the offer from the database, and therefore not available for display on
+        the website or application.
+      </div>
+      <div class="d-flex flex-row justify-content-center">
+        <a href="#" class="btn btn-lg bg-danger border border-danger text-cus-secondary">
+          <span data-feather="trash"></span>
+          Delete
+        </a>
+      </div>
+    </div>
+  </div>
 </main>
 {% endblock dashboard %}

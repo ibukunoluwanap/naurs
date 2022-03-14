@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render
+from account.forms import UpdateUserForm
 from instructor.forms import InstructorForm
 from instructor.models import InstructorModel
 from offer.forms import OfferForm
@@ -139,4 +140,5 @@ class InstructorDetail(LoginRequiredMixin, DetailView):
         context = super(InstructorDetail, self).get_context_data(**kwargs)
         instructor = InstructorModel.objects.get(id=self.kwargs['pk'])
         context['instructor_form_with_instance'] = list(InstructorForm(instance=instructor))
+        context['update_user_from_with_instance'] = UpdateUserForm(instance=instructor.user)
         return context

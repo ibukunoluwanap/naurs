@@ -23,14 +23,24 @@
   <div class="row justify-content-center">
     <div class="col-sm-4 text-center">
       <img src="{{instructor.user.avatar.url}}" alt="{{instructor.title}}" class="avatar-lg shadow mb-3" width="100%" height="300px">
-      {{instructor.about|safe|truncatechars:500}}
+      {{instructor.about|safe|truncatechars:700}}
     </div>
     <form action="#" method="post" class="col card shadow border-0 py-3" enctype="multipart/form-data">
       {% csrf_token %}
       <div class="row">
         <div class="col-sm-6">
+          <!-- user form -->
+          {% for field in update_user_from_with_instance %}
+            <div class="form-floating shadow mb-4">
+              {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
+              <label for="{{ field.auto_id }}">{{ field.label }}</label>
+              {% for error in field.errors %}
+                  <p class="text-danger">{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endfor %}
+          <!-- instructor form -->
           {% for field in instructor_form_with_instance|slice:":2" %}
-                        
             {% if forloop.counter == 1 %}
                 <div class="card p-3 shadow mb-4 form-check form-switch overflow-height">
                     {{ field }}
@@ -65,5 +75,56 @@
     </form>
   </div>
 
+  <!-- deletion -->
+  <div class="row justify-content-between mt-5 pt-3 section-bg">
+    
+    <div class="col-sm-12">
+      <h4>Deletion</h4>
+      {% if instructor.user.is_admin %}
+        <div class="alert alert-info text-center" role="alert">
+          <i class="bi bi-info-circle-fill"></i>
+          This instructor has admin role and therefore can not be altered
+        </div>
+      {% endif %}
+    </div>
+    <div class="col-sm-6 mb-3">
+      <div class="alert alert-warning" role="alert">
+        It's advisable to deactivate instructor account instead of deleting, as deactivating
+        will keep the all programs (class), tasks and roles performed by the instructor perviously.
+      </div>
+      <div class="d-flex flex-row justify-content-center">
+        {% if instructor.user.is_admin %}
+          <a class="btn btn-lg bg-warning border border-warning text-cus-primary disabled">
+            <span data-feather="user-x"></span>
+            Deactivate
+          </a>
+        {% else %}
+          <a href="#" class="btn btn-lg bg-warning border border-warning text-cus-primary">
+            <span data-feather="user-x"></span>
+            Deactivate
+          </a>
+        {% endif %}
+      </div>
+    </div>
+    <div class="col-sm-6 mb-3">
+      <div class="alert alert-danger" role="alert">
+        It's not advisable to delete instructor account instead deactivate it, as deleting
+        will remove the all programs (class), tasks and roles performed by the instructor perviously.
+      </div>
+      <div class="d-flex flex-row justify-content-center">
+        {% if instructor.user.is_admin %}
+          <a class="btn btn-lg bg-danger border border-danger text-cus-secondary disabled">
+            <span data-feather="trash"></span>
+            Delete
+          </a>
+        {% else %}
+          <a href="#" class="btn btn-lg bg-danger border border-danger text-cus-secondary">
+            <span data-feather="trash"></span>
+            Delete
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
 </main>
 {% endblock dashboard %}

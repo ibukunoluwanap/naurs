@@ -1,4 +1,4 @@
-from account.forms import RegisterForm, LoginForm, User
+from account.forms import RegisterForm, LoginForm, UpdateUserForm, User
 from instructor.forms import InstructorForm
 from instructor.models import InstructorModel
 from about.models import AboutModel
@@ -9,6 +9,9 @@ from offer.forms import OfferForm, BookOfferForm, FreeTrialOfferForm
 
 def global_context(request):
     context = {}
+    # user form
+    context['update_user_from'] = UpdateUserForm()
+    
     # program with activate filter
     context['programs'] = ProgramModel.objects.filter(is_active=True).order_by("-id")
     context['last_10_programs'] = ProgramModel.objects.filter(is_active=True).order_by("-id")[:10]
