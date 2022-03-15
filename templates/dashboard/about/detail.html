@@ -20,46 +20,78 @@
   </div>
 
   <!-- about -->
-  <div class="row justify-content-center">
-    <div class="col-sm-4 text-center">
-      <img src="{% static 'images/logo.png' %}" alt="logo" class="avatar-lg shadow mb-3" width="100%" height="300px">
-      <hr>
-      <b>Mission</b>{{about.mission|safe|truncatechars:250}}
-      <hr>
-      <b>Vision</b>{{about.vision|safe|truncatechars:250}}
-    </div>
-    <form action="#" method="post" class="col card shadow border-0 py-3" enctype="multipart/form-data">
-      {% csrf_token %}
-      <div class="row">
-        <div class="col-sm-6">
-          <!-- about form -->
-          {% for field in about_form_with_instance|slice:":2" %}
-            <div class="form-floating shadow mb-4">
-                {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
-            <label for="{{ field.auto_id }}">{{ field.label }}</label>
-                {% for error in field.errors %}
-                    <p class="text-danger">{{ error }}</p>
-                {% endfor %}
+    <div class="row justify-content-center">
+        <div class="col-sm-4 text-center">
+            <img src="{% static 'images/logo.png' %}" alt="logo" class="avatar-lg shadow mb-3" width="100%" height="300px">
+        </div>
+        <div class="col-sm-8">
+            <div class="row">
+                <div class="col-sm-4">
+                    <b>Mission</b>{{about.mission|safe|truncatechars:250}}
+                </div>
+                <div class="col-sm-4">
+                    <b>Vision</b>{{about.vision|safe|truncatechars:250}}
+                </div>
+                <div class="col-sm-4">
+                    <b>Value</b>{{about.value|safe|truncatechars:250}}
+                </div>
             </div>
-          {% endfor %}
         </div>
-        <div class="col-sm-6">
-          {% for field in about_form_with_instance|slice:":3" %}
-            {% if forloop.counter == 3 %}
-              <div class="form-floating shadow mb-4">
-                {{ about_form.media }}
-                {{ field }}
-                {% for error in field.errors %}
-                    <p class="text-danger">{{ error }}</p>
-                {% endfor %}
-              </div>
-            {% endif %}
-          {% endfor %}
-        </div>
-      </div>
-      <button class="btn-lg" type="submit">Update</button>
-    </form>
-  </div>
+    </div>
+
+    <div class="row">
+        <form action="#" method="post" class="col-sm-12 card shadow border-0 py-3" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row justify-content-center">
+                <div class="col-sm-6">
+                    <!-- about mission form -->
+                    <h5>Mission</h5>
+                    {% for field in about_form_with_instance|slice:":1" %}
+                        {% if forloop.counter == 1 %}
+                            <div class="form-floating shadow mb-4">
+                                {{ about_form.media }}
+                                {{ field }}
+                                {% for error in field.errors %}
+                                    <p class="text-danger">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="col-sm-6">
+                    <!-- about vision form -->
+                    <h5>Vision</h5>
+                    {% for field in about_form_with_instance|slice:":2" %}
+                        {% if forloop.counter == 2 %}
+                            <div class="form-floating shadow mb-4">
+                                {{ about_form.media }}
+                                {{ field }}
+                                {% for error in field.errors %}
+                                    <p class="text-danger">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="col-sm-6">
+                <!-- about vision form -->
+                <h5>Value</h5>
+                    {% for field in about_form_with_instance|slice:":3" %}
+                        {% if forloop.counter == 3 %}
+                            <div class="form-floating shadow mb-4">
+                                {{ about_form.media }}
+                                {{ field }}
+                                {% for error in field.errors %}
+                                    <p class="text-danger">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <button class="btn-lg" type="submit">Update</button>
+        </form>
+    </div>
 
   <!-- deletion -->
     <div class="row justify-content-between mt-5 pt-3 section-bg">
