@@ -65,15 +65,15 @@
         <div class="col-sm-6">
           {% for field in program_form_with_instance|slice:":6" %}
             {% if forloop.counter == 6 %}
-            <div class="card p-3 shadow mb-4">
-              <div class="form-check form-switch">
-                {{ field|add_class:"form-check-input"|attr:"placeholder:field.label" }}
-                <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
-                {% for error in field.errors %}
-                    <p class="text-danger">{{ error }}</p>
-                {% endfor %}
+              <div class="card p-3 shadow mb-4">
+                <div class="form-check form-switch">
+                  {{ field|add_class:"form-check-input"|attr:"placeholder:field.label" }}
+                  <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
+                  {% for error in field.errors %}
+                      <p class="text-danger">{{ error }}</p>
+                  {% endfor %}
+                </div>
               </div>
-            </div>
             {% elif forloop.counter == 1 %}
               <div class="card p-3 shadow mb-4">
                 {{ field|add_class:"cus-file-input" }}

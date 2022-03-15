@@ -123,11 +123,19 @@
                                 <i class="fas fa-angle-double-right"></i>
                                 <span class="fw-bold">Music Program</span>
                                 <ul>
-                                    <li>Vocal</li>
-                                    <li>Keyboard Electronic</li>
-                                    <li>Guitar</li>
-                                    <li>Piano</li>
-                                    <li>Saxophone</li>
+                                    {% if listings %}
+                                        {% for listing in listings %}
+                                            {% if listing.category == "Music" %}
+                                                <li>{{listing.listing}}</li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        <li>Vocal</li>
+                                        <li>Keyboard Electronic</li>
+                                        <li>Guitar</li>
+                                        <li>Piano</li>
+                                        <li>Saxophone</li>                                  
+                                    {% endif %}
                                     <li>
                                         <a href="{% url 'program_page' %}#music" class="btn-m mt-1">Jump In</a>
                                     </li>
@@ -165,8 +173,16 @@
                                 <i class="fas fa-angle-double-right"></i>
                                 <span class="fw-bold">Gymnastic Program</span>
                                 <ul>
-                                    <li>Kids Gymnastic</li>
-                                    <li>Kangoo Jump</li>
+                                    {% if listings %}
+                                        {% for listing in listings %}
+                                            {% if listing.category == "Gymnastic" %}
+                                                <li>{{listing.listing}}</li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        <li>Kids Gymnastic</li>
+                                        <li>Kangoo Jump</li>                                  
+                                    {% endif %}
                                     <li>
                                         <a href="{% url 'program_page' %}#fitness" class="btn-m mt-1">Jump In</a>
                                     </li>
@@ -178,19 +194,27 @@
                                 <i class="fas fa-angle-double-right"></i>
                                 <span class="fw-bold">Yoga Program</span>
                                 <ul>
-                                    <li>Pre & Post Natal (pregnancy) Yoga</li>
-                                    <li>Aerial (anti-gravity) Yoga</li>
-                                    <li>Wheel Yoga</li>
-                                    <li>Power Yoga “Yang & Yin”</li>
-                                    <li>
-                                        Ashtanga Yoga
-                                    </li>
-                                    <li>
-                                        Vinyasa Yoga
-                                    </li>
-                                    <li>
-                                        Therapy Yoga
-                                    </li>
+                                    {% if listings %}
+                                        {% for listing in listings %}
+                                            {% if listing.category == "Yoga" %}
+                                                <li>{{listing.listing}}</li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        <li>Pre & Post Natal (pregnancy) Yoga</li>
+                                        <li>Aerial (anti-gravity) Yoga</li>
+                                        <li>Wheel Yoga</li>
+                                        <li>Power Yoga “Yang & Yin”</li>
+                                        <li>
+                                            Ashtanga Yoga
+                                        </li>
+                                        <li>
+                                            Vinyasa Yoga
+                                        </li>
+                                        <li>
+                                            Therapy Yoga
+                                        </li>
+                                    {% endif %}
                                     <li>
                                         <a href="{% url 'program_page' %}#fitness" class="btn-m mt-1">Jump In</a>
                                     </li>
@@ -228,23 +252,36 @@
                                 <i class="fas fa-angle-double-right"></i>
                                 <span class="fw-bold">Art Program</span>
                                 <ul>
-                                    <li>
-                                        Kids Speech & Personality Development
-                                        <span class="tag bg-success shadow">coming soon</span>
-                                    </li>
-                                    <li>
-                                        Theater & Drama
-                                        <span class="tag bg-success shadow">coming soon</span>
-                                    </li>
-                                    <li>
-                                        Painting
-                                    </li>
-                                    <li>
-                                        Indian Classical Dance form
-                                    </li>
-                                    <li>
-                                        Bollywood Dance
-                                    </li>
+                                    {% if listings %}
+                                        {% for listing in listings %}
+                                            {% if listing.category == "Art" %}
+                                                <li>
+                                                    {{listing.listing}}
+                                                    {% if listing.coming_soon %}
+                                                        <span class="tag bg-success shadow">coming soon</span>
+                                                    {% endif %}
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        <li>
+                                            Kids Speech & Personality Development
+                                            <span class="tag bg-success shadow">coming soon</span>
+                                        </li>
+                                        <li>
+                                            Theater & Drama
+                                            <span class="tag bg-success shadow">coming soon</span>
+                                        </li>
+                                        <li>
+                                            Painting
+                                        </li>
+                                        <li>
+                                            Indian Classical Dance form
+                                        </li>
+                                        <li>
+                                            Bollywood Dance
+                                        </li>                                 
+                                    {% endif %}
                                     <li>
                                         <a href="{% url 'program_page' %}#fine_arts" class="btn-m mt-1">Jump In</a>
                                     </li>

@@ -1,0 +1,89 @@
+{% extends 'dashboard/dashboard.html' %}
+{% load static %}
+{% load humanize %}
+{% load widget_tweaks %}
+{% block title %}
+    <title>Naurs - {{ listing.listing }} Edit</title>
+{% endblock title %}
+{% block head %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+{% endblock head %}
+
+{% block dashboard %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
+    <!-- title and back-->
+    <div class="row">
+        <div class="col-sm-12">
+        <a href="{{request.META.HTTP_REFERER|escape}}" class="btn btn-s">
+            <span data-feather="corner-up-left"></span> Back
+        </a>
+        </div>
+        <div class="col-sm-12">
+        <h4 class="my-3">{{listing.listing}}</h4>
+        </div>
+    </div>
+
+    <!-- about -->
+    <div class="row justify-content-center">
+        <div class="col-sm-6 text-center">
+            {% if listing.category == "Music" %}
+                <i class="fa-solid fa-music avatar-lg shadow mb-3 bg-cus-pink text-cus-primary p-1" style="width: 300px; height: 300px;"></i>
+            {% elif listing.category == "Gymnastic" %}
+                <i class="fa-solid fa-dumbbell avatar-lg shadow mb-3 bg-cus-pink text-cus-primary p-1" style="width: 300px; height: 300px;"></i>
+            {% elif listing.category == "Yoga" %}
+                <i class="fa-solid fa-fire-flame-curved avatar-lg shadow mb-3 bg-cus-pink text-cus-primary p-1" style="width: 300px; height: 300px;"></i>
+            {% elif listing.category == "Art" %}
+                <i class="fa-solid fa-palette avatar-lg shadow mb-3 bg-cus-pink text-cus-primary p-1" style="width: 300px; height: 300px;"></i>
+            {% endif %}
+        </div>
+        <form action="#" method="post" class="col-sm-6 card shadow border-0 py-3" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- listing form -->
+            {% for field in listing_form_with_instance %}
+                {% if forloop.counter == 3 %}
+                    <div class="card p-3 shadow mb-4">
+                        <div class="form-check form-switch">
+                        {{ field|add_class:"form-check-input"|attr:"placeholder:field.label" }}
+                        <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
+                        {% for error in field.errors %}
+                            <p class="text-danger">{{ error }}</p>
+                        {% endfor %}
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="form-floating shadow mb-4">
+                        {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
+                        <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                        {% for error in field.errors %}
+                            <p class="text-danger">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <button class="btn-lg" type="submit">Update</button>
+        </form>
+    </div>
+
+    <!-- deletion -->
+    <div class="row justify-content-between mt-5 pt-3 section-bg">
+        <div class="col-sm-12">
+            <h4>Deletion</h4>
+        </div>
+        <div class="col-sm-12 mb-3 text-center">
+            <div class="alert alert-danger" role="alert">
+                This will <b>remove</b> the listing total from naurs's database and cannot be restored.
+            </div>
+            <div class="d-flex flex-row justify-content-center">
+                <a href="#" class="btn btn-lg bg-danger border border-danger text-cus-secondary">
+                <span data-feather="trash"></span>
+                Delete
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock dashboard %}
+
+{% block script %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+{% endblock script %}

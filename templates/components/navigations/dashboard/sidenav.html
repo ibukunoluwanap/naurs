@@ -70,7 +70,10 @@
     </h6>
     <ul class="nav flex-column mb-2">
       <li class="nav-item">
-        <a class="nav-link pt-3 pb-3" href="#">
+        <a
+          class="nav-link pt-3 pb-3 {% if '/dashboard/home/' in request.path %} active {% endif %}"
+          href="{% url 'dashboard_home_page' %}"
+        >
           <span data-feather="file-text"></span>
           Home
         </a>

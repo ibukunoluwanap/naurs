@@ -1,8 +1,8 @@
-from django.shortcuts import render
-from django.views.generic import View
+from django.views.generic import ListView
+from home.models import ListingModel
 
 # home list view
-class Home(View):
+class Home(ListView):
+    model = ListingModel
+    login_url = 'login_page'
     template_name = "home/home.html"
-    def get(self, request):
-        return render(request, self.template_name)

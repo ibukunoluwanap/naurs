@@ -2,6 +2,8 @@ from django.shortcuts import redirect, render
 from about.forms import AboutForm
 from about.models import AboutModel
 from account.forms import UpdateUserForm
+from home.forms import ListingForm
+from home.models import ListingModel
 from instructor.forms import InstructorForm
 from instructor.models import InstructorModel
 from offer.forms import OfferForm
@@ -162,4 +164,23 @@ class AboutDetail(LoginRequiredMixin, DetailView):
         context = super(AboutDetail, self).get_context_data(**kwargs)
         about = AboutModel.objects.get(id=self.kwargs['pk'])
         context['about_form_with_instance'] = list(AboutForm(instance=about))
+        return context
+
+# dashboard home view
+class Home(LoginRequiredMixin, ListView):
+    model = ListingModel
+    login_url = 'login_page'
+    template_name = "dashboard/home/home.html"
+
+# dashboard home detail view
+class HomeDetail(LoginRequiredMixin, DetailView):
+    model = ListingModel
+    login_url = 'login_page'
+    template_name = "dashboard/home/detail.html"
+    context_object_name = "listing"
+
+    def get_context_data(self, **kwargs):
+        context = super(HomeDetail, self).get_context_data(**kwargs)
+        listing = ListingModel.objects.get(id=self.kwargs['pk'])
+        context['listing_form_with_instance'] = list(ListingForm(instance=listing))
         return context

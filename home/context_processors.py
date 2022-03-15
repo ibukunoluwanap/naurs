@@ -1,6 +1,7 @@
 from about.forms import AboutForm
 from account.forms import RegisterForm, LoginForm, UpdateUserForm, User
 from home.forms import ListingForm
+from home.models import ListingModel
 from instructor.forms import InstructorForm
 from instructor.models import InstructorModel
 from about.models import AboutModel
@@ -65,6 +66,7 @@ def global_context(request):
 
     
     # home form
+    context['listings'] = ListingModel.objects.order_by("-id")
     context['listing_form'] = ListingForm()
 
     
