@@ -3,7 +3,6 @@ from tinymce.models import HTMLField
 
 # about modal
 class AboutModel(models.Model):
-    about = HTMLField()
     mission = HTMLField()
     vision = HTMLField()
     value = HTMLField()

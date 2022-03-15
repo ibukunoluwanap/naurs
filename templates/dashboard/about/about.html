@@ -1,0 +1,93 @@
+{% extends 'dashboard/dashboard.html' %} 
+{% load static %} 
+{% load humanize %}
+{% load widget_tweaks %} 
+{% block title %}<title>Naurs - Dashboard About</title>{% endblock title %} 
+
+{% block dashboard %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
+  <div class="row mb-3">
+    <div class="col-sm-12">
+      <a href="#" class="btn btn-lg float-end">
+        <span data-feather="plus"></span>
+        Added About
+      </a>
+    </div>
+  </div>
+
+  <!-- title -->
+  <div class="row">
+    <div class="col-12">
+      <h4>All About</h4>
+    </div>
+  </div>
+
+  <!-- about -->
+  <div class="row">
+    <div class="col-sm-12">
+        <div class="alert alert-info" role="alert">
+            <b>NOTE</b> 
+            only the last <b>(the top one)</b> about added to this list will be the only displayed on the about page
+            on both website and application.
+        </div>
+    </div>
+    <div class="col-sm-12">
+      <div class="table-responsive shadow rounded">
+        <table class="table table-hover table-sm align-middle border-bottom m-0">
+          <thead class="table-cus-dark">
+            <tr>
+              <th scope="col" class="p-3"></th>
+              <th scope="col" class="p-3">Mission</th>
+              <th scope="col" class="p-3">Vision</th>
+              <th scope="col" class="p-3">Value</th>
+              <th scope="col" class="p-3">Created On</th>
+              <th scope="col" class="p-3">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if about %} {% for ab in about %}
+            <tr>
+              <th scope="row" class="p-2">
+                <img
+                    class="avatar"
+                    src="{% static 'images/logo.png' %}"
+                    width="100%"
+                    height="100%"
+                    alt="logo"
+                />
+            </th>
+              <td class="p-2">
+                <a
+                  href="{% url 'dashboard_about_detail_page' pk=ab.id %}"
+                  class="text-decoration-none text-cus-primary"
+                  >{{ab.mission|safe|truncatechars:50}}</a
+                >
+              </td>
+              <td class="p-2">{{ab.vision|safe|truncatechars:50}}</td>
+              <td class="p-2">{{ab.value|safe|truncatechars:50}}</td>
+              <td class="p-2">{{ab.created_on|naturaltime}}</td>
+              <td class="p-2">
+                <a
+                  href="#"
+                  class="btn btn-sm btn-danger d-flex justify-self-center justify-content-center text-center"
+                  >Delete</a
+                >
+              </td>
+            </tr>
+            {% endfor %} {% else %}
+            <tr>
+              <td class="p-2">
+                <i class="display-1 bi bi-trash align-middle"></i>
+              </td>
+              <td class="p-2">
+                <p>No about currently available!</p>
+              </td>
+            </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock dashboard %}

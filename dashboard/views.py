@@ -1,4 +1,6 @@
 from django.shortcuts import redirect, render
+from about.forms import AboutForm
+from about.models import AboutModel
 from account.forms import UpdateUserForm
 from instructor.forms import InstructorForm
 from instructor.models import InstructorModel
@@ -141,4 +143,23 @@ class InstructorDetail(LoginRequiredMixin, DetailView):
         instructor = InstructorModel.objects.get(id=self.kwargs['pk'])
         context['instructor_form_with_instance'] = list(InstructorForm(instance=instructor))
         context['update_user_from_with_instance'] = UpdateUserForm(instance=instructor.user)
+        return context
+
+# dashboard about view
+class About(LoginRequiredMixin, ListView):
+    model = AboutModel
+    login_url = 'login_page'
+    template_name = "dashboard/about/about.html"
+
+# dashboard about detail view
+class AboutDetail(LoginRequiredMixin, DetailView):
+    model = AboutModel
+    login_url = 'login_page'
+    template_name = "dashboard/about/detail.html"
+    context_object_name = "about"
+
+    def get_context_data(self, **kwargs):
+        context = super(AboutDetail, self).get_context_data(**kwargs)
+        about = AboutModel.objects.get(id=self.kwargs['pk'])
+        context['about_form_with_instance'] = list(AboutForm(instance=about))
         return context

@@ -1,3 +1,4 @@
+from about.forms import AboutForm
 from account.forms import RegisterForm, LoginForm, UpdateUserForm, User
 from instructor.forms import InstructorForm
 from instructor.models import InstructorModel
@@ -9,6 +10,8 @@ from offer.forms import OfferForm, BookOfferForm, FreeTrialOfferForm
 
 def global_context(request):
     context = {}
+    # user
+    context['users'] = User.objects.all()
     # user form
     context['update_user_from'] = UpdateUserForm()
     
@@ -21,10 +24,15 @@ def global_context(request):
     context['without_filter_last_10_programs'] = ProgramModel.objects.order_by("-id")[:10]
     context['without_filter_last_4_programs'] = ProgramModel.objects.order_by("-id")[:4]
     context['program_benefit'] = ProgramBenefitModel()
+    context['program_enquiries'] = ProgramEnquiryModel.objects.order_by("-id")
+    context['program_payments'] = ProgramPaymentModel.objects.order_by("-id")
     # program form
     context['program_form'] = ProgramForm()
     context['program_benefit_form'] = ProgramBenefitForm()
     context['program_benefit_inline_formset'] = ProgramBenefitInlineFormset()
+    context['program_enquiry_form'] = ProgramEnquiryForm()
+    context['program_payment_form'] = ProgramPaymentForm()
+
 
     # offer with activate filter
     context['offers'] = OfferModel.objects.filter(is_active=True).order_by("-id")
@@ -40,26 +48,27 @@ def global_context(request):
     context['book_offer_form'] = BookOfferForm()
     context['free_offer_form'] = FreeTrialOfferForm()
 
+
     # instructor
     context['instructors'] = InstructorModel.objects.order_by("-id")
     context['last_4_instructors'] = InstructorModel.objects.order_by("-id")[:4]
-
     # instructor form
     context['instructor_form'] = InstructorForm()
 
-    # all get
-    context['program_enquiries'] = ProgramEnquiryModel.objects.order_by("-id")
-    context['program_payments'] = ProgramPaymentModel.objects.order_by("-id")
-    context['users'] = User.objects.all()
+
+    # about
+    context['about'] = AboutModel.objects.order_by("-id")
+    context['last_about'] = AboutModel.objects.order_by("-id")[:1]
+    # about form
+    context['about_form'] = AboutForm()
+
+    
+    # student
     context['students'] = User.objects.filter(student=True)
 
-    # last get
-    context['last_about'] = AboutModel.objects.order_by("-id")[:1]
 
     # authentication
     context['register_form'] = RegisterForm()
     context['login_form'] = LoginForm()
-    # programs
-    context['program_enquiry_form'] = ProgramEnquiryForm()
-    context['program_payment_form'] = ProgramPaymentForm()
+
     return context

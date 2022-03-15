@@ -61,7 +61,7 @@
           {% for field in instructor_form_with_instance|slice:":3" %}
             {% if forloop.counter == 3 %}
               <div class="form-floating shadow mb-4">
-                {{ offer_form.media }}
+                {{ instructor_form.media }}
                 {{ field }}
                 {% for error in field.errors %}
                     <p class="text-danger">{{ error }}</p>
