@@ -1,9 +1,16 @@
 from django.db import models
-from program.models import PROGRAM_CATEGORY
+
+LISTING_CATEGORY = (
+    ("Music", "Music"),
+    ("Gymnastic", "Gymnastic"),
+    ("Yoga", "Yoga"),
+    ("Art", "Art"),
+)
+
 
 # Listing modal
 class ListingModel(models.Model):
-    category = models.CharField("category", choices=PROGRAM_CATEGORY, default=PROGRAM_CATEGORY[0], max_length=100, blank=False, null=False)
+    category = models.CharField("category", choices=LISTING_CATEGORY, default=LISTING_CATEGORY[0], max_length=100, blank=False, null=False)
     listing = models.CharField("listing", max_length=100, blank=False, null=False)
     created_on = models.DateTimeField("created on", auto_now_add=True)
 
