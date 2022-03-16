@@ -9,6 +9,8 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, logout, authenticate
 
+from instructor.models import InstructorModel
+
 # setting User model
 User = get_user_model()
 
@@ -19,7 +21,7 @@ class Register(View):
     def get(self, request):
         # checking if user is logged in
         if request.user.is_authenticated:
-            messages.content(request, 'You are logged in already! Please download the mobile app on your device to access our programs')
+            messages.info(request, 'You are logged in already! Please download the mobile app on your device to access our programs')
             return redirect('home_page')
         return render(request, self.template_name)
 
@@ -51,8 +53,8 @@ class Login(View):
     def get(self, request):
         # checking if user is logged in
         if request.user.is_authenticated:
-            messages.content(request, 'You are logged in already! Please download the mobile app on your device to access our programs')
-            return redirect('home_page')
+            messages.info(request, 'You are logged in already! Please download the mobile app on your device to access our programs')
+            return redirect('login_page')
         return render(request, self.template_name)
 
     def post(self, request):
@@ -70,10 +72,8 @@ class Login(View):
             # login the user
             if user is not None:
                 login(request, user)
-                if user.is_admin:
-                    messages.success(request, f"Welcome { request.user.email }!")
-                    return redirect('dashboard_page')
-                elif user.is_intru
+                messages.success(request, f"Welcome { request.user.email }!")
+                return redirect('dashboard_page')
             messages.error(request, "Check user's credentials!")
             return redirect('login_page')
         return render(request, self.template_name, context)
