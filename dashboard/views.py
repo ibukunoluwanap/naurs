@@ -151,6 +151,26 @@ class InstructorDetail(LoginRequiredMixin, DetailView):
         context['update_user_form_with_instance'] = UpdateUserForm(instance=instructor.user)
         return context
 
+# dashboard admin view
+class Admin(LoginRequiredMixin, ListView):
+    model = User
+    login_url = 'login_page'
+    template_name = "dashboard/admin/admin.html"
+
+# dashboard admin detail view
+class AdminDetail(LoginRequiredMixin, DetailView):
+    model = User
+    login_url = 'login_page'
+    template_name = "dashboard/admin/detail.html"
+    context_object_name = "admin"
+
+    def get_context_data(self, **kwargs):
+        context = super(AdminDetail, self).get_context_data(**kwargs)
+        admin = User.objects.get(id=self.kwargs['pk'], admin=True)
+        context['admin_form_with_instance'] = list(UpdateAdminForm(instance=admin))
+        return context
+
+
 # dashboard about view
 class About(LoginRequiredMixin, ListView):
     model = AboutModel

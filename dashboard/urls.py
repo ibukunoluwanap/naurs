@@ -15,6 +15,9 @@ urlpatterns = [
     # instructor
     path('instructor/', views.Instructor.as_view(), name='dashboard_instructor_page'),
     path('instructor/<int:pk>/', views.InstructorDetail.as_view(), name='dashboard_instructor_detail_page'),
+    # admin
+    path('admin/', views.Admin.as_view(), name='dashboard_admin_page'),
+    path('admin/<int:pk>/', views.AdminDetail.as_view(), name='dashboard_admin_detail_page'),
     # about
     path('about/', views.About.as_view(), name='dashboard_about_page'),
     path('about/<int:pk>/', views.AboutDetail.as_view(), name='dashboard_about_detail_page'),

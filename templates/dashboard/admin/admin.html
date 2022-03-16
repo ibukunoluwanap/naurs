@@ -32,7 +32,7 @@
               <th scope="col" class="p-3"></th>
               <th scope="col" class="p-3">Name</th>
               <th scope="col" class="p-3">Email</th>
-              <th scope="col" class="p-3">Created On</th>
+              <th scope="col" class="p-3">Joined On</th>
               <th scope="col" class="p-3">Visibility</th>
               <th scope="col" class="p-3">Delete</th>
             </tr>
@@ -63,7 +63,7 @@
                 >
               </td>
               <td class="p-2">{{admin.email}}</td>
-              <td class="p-2">{{admin.created_on|naturaltime}}</td>
+              <td class="p-2">{{admin.date_joined|naturaltime}}</td>
               <td class="p-2">
                 {% if admin.is_active %}
                 <a

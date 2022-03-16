@@ -1,0 +1,128 @@
+{% extends 'dashboard/dashboard.html' %}
+{% load static %}
+{% load humanize %}
+{% load widget_tweaks %}
+{% block title %}
+    <title>Naurs - {{ admin.first_name }} Edit</title>
+{% endblock title %}
+{% block dashboard %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
+  <!-- title and back-->
+  <div class="row">
+    <div class="col-sm-12">
+      <a href="{{request.META.HTTP_REFERER|escape}}" class="btn btn-s">
+        <span data-feather="corner-up-left"></span> Back
+      </a>
+    </div>
+    <div class="col-sm-12">
+      <h4 class="my-3">{{admin.email}}</h4>
+    </div>
+  </div>
+
+  <!-- about -->
+  <div class="row justify-content-center">
+    <div class="col-sm-4 text-center">
+      <img src="{{admin.avatar.url}}" alt="{{admin.first_name}}" class="avatar-lg shadow mb-3">
+    </div>
+    <form action="#" method="post" class="col card shadow border-0 py-3" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="row">
+        <div class="col-sm-6">
+          <!-- user form -->
+          {% for field in update_user_form_with_instance %}
+            {% if forloop.counter == 1 %}
+              <div class="card p-3 shadow mb-4">
+                {{ field|add_class:"cus-file-input" }}
+                {% for error in field.errors %}
+                    <p class="text-danger">{{ error }}</p>
+                {% endfor %}
+              </div>
+            {% else %}
+              <div class="form-floating shadow mb-4">
+                {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
+                <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                {% for error in field.errors %}
+                    <p class="text-danger">{{ error }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
+          {% endfor %}
+          <!-- admin form -->
+          {% for field in admin_form_with_instance|slice:":2" %}
+            {% if forloop.counter == 1 %}
+                <div class="card p-3 shadow mb-4 form-check form-switch overflow-height">
+                    {{ field }}
+                    <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
+                </div>
+            {% else %}
+              <div class="form-floating shadow mb-4">
+                {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
+                <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                {% for error in field.errors %}
+                    <p class="text-danger">{{ error }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+        <div class="col-sm-6">
+          {% for field in admin_form_with_instance|slice:":3" %}
+            {% if forloop.counter == 3 %}
+              <div class="form-floating shadow mb-4">
+                {{ admin_form.media }}
+                {{ field }}
+                {% for error in field.errors %}
+                    <p class="text-danger">{{ error }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      <button class="btn-lg" type="submit">Update</button>
+    </form>
+  </div>
+
+  <!-- deletion -->
+  <div class="row justify-content-between mt-5 pt-3">
+    <div class="col-sm-12">
+      <h4>Deletion</h4>
+      {% if admin.user.is_admin %}
+        <div class="alert alert-info text-center" role="alert">
+          <i class="bi bi-info-circle-fill"></i>
+          This admin has admin role and therefore can not be altered
+        </div>
+      {% endif %}
+    </div>
+    <div class="col-sm-6 mb-3">
+      <div class="alert alert-warning" role="alert">
+        It's advisable to deactivate admin account instead of deleting.
+      </div>
+      <div class="d-flex flex-row justify-content-center">
+          <a href="#" class="btn btn-lg bg-warning border border-warning text-cus-primary">
+            <span data-feather="user-x"></span>
+            Deactivate
+          </a>
+      </div>
+    </div>
+    <div class="col-sm-6 mb-3">
+        <div class="alert alert-danger" role="alert">
+            This will <b>forever</b> remove this account from the Naurs. This cannot be undone. 
+        </div>
+      <div class="d-flex flex-row justify-content-center">
+        {% if admin.is_admin %}
+          <a class="btn btn-lg bg-danger border border-danger text-cus-secondary disabled">
+            <span data-feather="trash"></span>
+            Delete
+          </a>
+        {% else %}
+          <a href="#" class="btn btn-lg bg-danger border border-danger text-cus-secondary">
+            <span data-feather="trash"></span>
+            Delete
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock dashboard %}
