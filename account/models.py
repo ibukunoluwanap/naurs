@@ -18,20 +18,6 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_student(self, email, password):
-        """
-        Creates and saves a student user with the given email and password.
-        """
-        user = self.create_user(
-            email,
-            password=password,
-        )
-        user.staff = False
-        user.student = True
-        user.admin = False
-        user.save(using=self._db)
-        return user
-
     def create_staff(self, email, password):
         """
         Creates and saves a staff user with the given email and password.
@@ -41,7 +27,6 @@ class UserManager(BaseUserManager):
             password=password,
         )
         user.staff = True
-        user.student = False
         user.admin = False
         user.save(using=self._db)
         return user
@@ -71,7 +56,6 @@ class User(AbstractBaseUser):
         unique=True,
     )
     is_active = models.BooleanField(default=True) # is account activate
-    student = models.BooleanField(default=True) # a student user; non super-user
     staff = models.BooleanField(default=False) # a staff user; non super-user
     admin = models.BooleanField(default=False) # a superuser
     date_joined = models.DateTimeField(default=timezone.now)
@@ -101,11 +85,6 @@ class User(AbstractBaseUser):
         "Does the user have permissions to view the app `app_label`?"
         # Simplest possible answer: Yes, always
         return True
-
-    @property
-    def is_student(self):
-        "Is the user a member of students?"
-        return self.student
 
     @property
     def is_staff(self):
