@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'dashboard.apps.DashboardConfig', # to handle dashboard page contents and functionality
     'offer.apps.OfferConfig', # to handle offer page contents and functionality
     'instructor.apps.InstructorConfig', # to handle instructor page contents and functionality
+    'student.apps.StudentConfig', # to handle student page contents and functionality
 ]
 
 # custom authentication user model

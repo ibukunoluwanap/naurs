@@ -15,6 +15,7 @@ urlpatterns = [
     path('dashboard/', include('dashboard.urls')),
     path('offer/', include('offer.urls')),
     path('instructor/', include('instructor.urls')),
+    path('student/', include('student.urls')),
 ]
 
 admin.site.site_header  =  "Test Admin Dashboard"  
