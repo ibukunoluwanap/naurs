@@ -107,8 +107,8 @@ class User(AbstractBaseUser):
 
     @property
     def is_staff(self):
-        "Is the user a admin member?"
-        return self.admin
+        "Is the user a staff member?"
+        return self.staff
 
     @property
     def is_admin(self):

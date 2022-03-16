@@ -67,14 +67,14 @@ class Login(View):
             # authenticating user
             user = authenticate(email=email, password=password)
 
-            print(email, password, user)
-
             # login the user
             if user is not None:
                 login(request, user)
-                messages.success(request, f"Welcome { request.user.email }!")
-                return redirect('dashboard_page')
-            messages.error(request, "Check user's credentials!") 
+                if user.is_admin:
+                    messages.success(request, f"Welcome { request.user.email }!")
+                    return redirect('dashboard_page')
+                elif user.is_intru
+            messages.error(request, "Check user's credentials!")
             return redirect('login_page')
         return render(request, self.template_name, context)
 
@@ -136,4 +136,4 @@ class Logout(LoginRequiredMixin, View):
     def get(self, request):
         logout(request)
         messages.success(request, 'Successfully logged out!')
-        return redirect('home_page')
+        return redirect('login_page')
