@@ -88,8 +88,28 @@
     </form>
   </div>
 
+  <div class="row  mt-5">
+    <div class="col-sm-12">
+      <h4>Students</h4>
+    </div>
+    <div class="col-sm-12">
+      <ul class="row list-unstyled">
+        {% for student in instructor.studentmodel_set.all %}
+          <li class="my-2 col-sm-3">
+            <i class="bi bi-arrow-return-right align-middle text-cus-primary"></i>
+            <a
+              href="{% url 'dashboard_student_detail_page' pk=student.id %}"
+              class="text-decoration-none text-cus-primary"
+              >{{ student.user }}</a
+            >
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
   <!-- deletion -->
-  <div class="row justify-content-between mt-5 pt-3">
+  <div class="row justify-content-between mt-5">
     <div class="col-sm-12">
       <h4>Deletion</h4>
       {% if instructor.user.is_admin %}
