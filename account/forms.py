@@ -34,6 +34,7 @@ class LoginForm(forms.Form):
         model = User
         fields = ['email', 'password']
 
+# create user admin
 class UserAdminCreationForm(forms.ModelForm):
     """
     A form for creating new users. Includes all the required
@@ -65,6 +66,7 @@ class UserAdminCreationForm(forms.ModelForm):
             user.save()
         return user
 
+# update user admin
 class UserAdminChangeForm(forms.ModelForm):
     """A form for updating users. Includes all the fields on
     the user, but replaces the password field with admin's
@@ -93,3 +95,22 @@ class UpdateUserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['avatar', 'first_name', 'last_name', 'email', 'password']
+
+# update admin form
+class UpdateAdminForm(forms.ModelForm):
+    avatar = forms.ImageField(widget=forms.FileInput)
+    first_name = forms.CharField(max_length=30, required=True, widget=forms.TextInput)
+    last_name = forms.CharField(max_length=30, required=True, widget=forms.TextInput)
+    email = forms.EmailField(max_length=254, required=True, widget=forms.EmailInput, help_text='Required. Inform a valid email address.')
+
+    class Meta:
+        model = User
+        exclude = ['last_login', 'date_joined', 'password']
+
+# update password
+class UpdatePasswordForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput)
+
+    class Meta:
+        model = User
+        fields = ['password',]

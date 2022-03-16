@@ -99,7 +99,10 @@
     </h6>
     <ul class="nav flex-column mb-2">
       <li class="nav-item">
-        <a class="nav-link pt-3 pb-3" href="#">
+        <a
+          class="nav-link pt-3 pb-3 {% if '/dashboard/account/' in request.path %} active {% endif %}"
+          href="{% url 'dashboard_account_detail_page' %}"
+        >
           <span data-feather="user"></span>
           Account
         </a>

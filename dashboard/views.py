@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from about.forms import AboutForm
 from about.models import AboutModel
-from account.forms import UpdateUserForm
+from account.forms import UpdateAdminForm, UpdateUserForm
 from home.forms import ListingForm
 from home.models import ListingModel
 from instructor.forms import InstructorForm
@@ -11,9 +11,13 @@ from django.contrib import messages
 from offer.models import OfferModel
 from django.views.generic import View, ListView, CreateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from program.forms import ProgramBenefitForm, ProgramBenefitInlineFormset, ProgramForm
-from program.models import ProgramBenefitModel, ProgramModel
+from program.forms import ProgramBenefitInlineFormset, ProgramForm
+from program.models import ProgramModel
 from django.urls import reverse
+from django.contrib.auth import get_user_model
+
+# setting User model
+User = get_user_model()
 
 # dashboard list view
 class Dashboard(LoginRequiredMixin, View):
@@ -144,7 +148,7 @@ class InstructorDetail(LoginRequiredMixin, DetailView):
         context = super(InstructorDetail, self).get_context_data(**kwargs)
         instructor = InstructorModel.objects.get(id=self.kwargs['pk'])
         context['instructor_form_with_instance'] = list(InstructorForm(instance=instructor))
-        context['update_user_from_with_instance'] = UpdateUserForm(instance=instructor.user)
+        context['update_user_form_with_instance'] = UpdateUserForm(instance=instructor.user)
         return context
 
 # dashboard about view
@@ -184,3 +188,14 @@ class HomeDetail(LoginRequiredMixin, DetailView):
         listing = ListingModel.objects.get(id=self.kwargs['pk'])
         context['listing_form_with_instance'] = list(ListingForm(instance=listing))
         return context
+
+# dashboard account detail view
+class AccountDetail(LoginRequiredMixin, View):
+    login_url = 'login_page'
+    template_name = "dashboard/account/account.html"
+
+    def get(self, request):
+        context = {}
+        user = User.objects.get(id=self.request.user.id)
+        context['user_form_with_instance'] = list(UpdateAdminForm(instance=user))
+        return render(request, self.template_name, context)

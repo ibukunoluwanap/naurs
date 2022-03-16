@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser)
 
@@ -69,10 +70,11 @@ class User(AbstractBaseUser):
         max_length=255,
         unique=True,
     )
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True) # is account activate
     student = models.BooleanField(default=True) # a student user; non super-user
     staff = models.BooleanField(default=False) # a staff user; non super-user
     admin = models.BooleanField(default=False) # a superuser
+    date_joined = models.DateTimeField(default=timezone.now)
 
     # notice the absence of a "Password field", that is built in.
 

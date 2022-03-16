@@ -21,4 +21,6 @@ urlpatterns = [
     # home
     path('home/', views.Home.as_view(), name='dashboard_home_page'),
     path('home/<int:pk>/', views.HomeDetail.as_view(), name='dashboard_home_detail_page'),
+    # account
+    path('account/', views.AccountDetail.as_view(), name='dashboard_account_detail_page'),
 ]

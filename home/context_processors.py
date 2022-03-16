@@ -1,5 +1,5 @@
 from about.forms import AboutForm
-from account.forms import RegisterForm, LoginForm, UpdateUserForm, User
+from account.forms import RegisterForm, LoginForm, UpdateAdminForm, UpdatePasswordForm, UpdateUserForm, User
 from home.forms import ListingForm
 from home.models import ListingModel
 from instructor.forms import InstructorForm
@@ -15,7 +15,9 @@ def global_context(request):
     # user
     context['users'] = User.objects.all()
     # user form
-    context['update_user_from'] = UpdateUserForm()
+    context['update_user_form'] = UpdateUserForm()
+    context['update_admin_form'] = UpdateAdminForm()
+    context['update_password_form'] = UpdatePasswordForm()
     
     # program with activate filter
     context['programs'] = ProgramModel.objects.filter(is_active=True).order_by("-id")

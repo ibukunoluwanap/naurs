@@ -9,8 +9,6 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, logout, authenticate
 
-from instructor.models import InstructorModel
-
 # setting User model
 User = get_user_model()
 

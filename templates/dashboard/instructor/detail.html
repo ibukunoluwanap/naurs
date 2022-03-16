@@ -22,7 +22,7 @@
   <!-- about -->
   <div class="row justify-content-center">
     <div class="col-sm-4 text-center">
-      <img src="{{instructor.user.avatar.url}}" alt="{{instructor.title}}" class="avatar-lg shadow mb-3" width="100%" height="300px">
+      <img src="{{instructor.user.avatar.url}}" alt="{{instructor.title}}" class="avatar-lg shadow mb-3">
       {{instructor.about|safe|truncatechars:700}}
     </div>
     <form action="#" method="post" class="col card shadow border-0 py-3" enctype="multipart/form-data">
@@ -30,7 +30,7 @@
       <div class="row">
         <div class="col-sm-6">
           <!-- user form -->
-          {% for field in update_user_from_with_instance %}
+          {% for field in update_user_form_with_instance %}
             {% if forloop.counter == 1 %}
               <div class="card p-3 shadow mb-4">
                 {{ field|add_class:"cus-file-input" }}
@@ -85,7 +85,7 @@
   </div>
 
   <!-- deletion -->
-  <div class="row justify-content-between mt-5 pt-3 section-bg">
+  <div class="row justify-content-between mt-5 pt-3">
     <div class="col-sm-12">
       <h4>Deletion</h4>
       {% if instructor.user.is_admin %}
