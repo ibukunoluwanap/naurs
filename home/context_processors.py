@@ -12,13 +12,20 @@ from offer.forms import OfferForm, BookOfferForm, FreeTrialOfferForm
 
 def global_context(request):
     context = {}
+
+
     # user
     context['users'] = User.objects.all()
     # user form
     context['update_user_form'] = UpdateUserForm()
+
+
+    # admin
+    context['admins'] = User.objects.filter(admin=True)
+    # admin form
     context['update_admin_form'] = UpdateAdminForm()
-    context['update_password_form'] = UpdatePasswordForm()
-    
+
+
     # program with activate filter
     context['programs'] = ProgramModel.objects.filter(is_active=True).order_by("-id")
     context['last_10_programs'] = ProgramModel.objects.filter(is_active=True).order_by("-id")[:10]
@@ -79,5 +86,6 @@ def global_context(request):
     # authentication
     context['register_form'] = RegisterForm()
     context['login_form'] = LoginForm()
+    context['update_password_form'] = UpdatePasswordForm()
 
     return context
