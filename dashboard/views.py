@@ -15,6 +15,9 @@ from program.forms import ProgramBenefitInlineFormset, ProgramForm
 from program.models import ProgramModel
 from django.urls import reverse
 from django.contrib.auth import get_user_model
+from student.forms import StudentForm
+
+from student.models import StudentModel
 
 # setting User model
 User = get_user_model()
@@ -153,21 +156,21 @@ class InstructorDetail(LoginRequiredMixin, DetailView):
 
 # dashboard student view
 class Student(LoginRequiredMixin, ListView):
-    model = User
+    model = StudentModel
     login_url = 'login_page'
     template_name = "dashboard/student/student.html"
 
 # dashboard student detail view
 class StudentDetail(LoginRequiredMixin, DetailView):
-    model = User
+    model = StudentModel
     login_url = 'login_page'
     template_name = "dashboard/student/detail.html"
     context_object_name = "student"
 
     def get_context_data(self, **kwargs):
         context = super(StudentDetail, self).get_context_data(**kwargs)
-        student = User.objects.get(id=self.kwargs['pk'], student=True)
-        context['student_form_with_instance'] = list(UpdateUserForm(instance=student))
+        student = StudentModel.objects.get(id=self.kwargs['pk'])
+        context['student_form_with_instance'] = list(StudentForm(instance=student))
         return context
 
 

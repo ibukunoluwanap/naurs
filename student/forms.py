@@ -1,15 +1,14 @@
 from django import forms
 from tinymce.widgets import TinyMCE
-
+from instructor.models import InstructorModel
 from program.models import ProgramModel
-from .models import InstructorModel
-from django.forms import inlineformset_factory
+from student.models import StudentModel
 
-# instructor form
-class InstructorForm(forms.ModelForm):
+# student form
+class StudentForm(forms.ModelForm):
+    instructor = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple, queryset=InstructorModel.objects.all())
     program = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple, queryset=ProgramModel.objects.all())
-    about = forms.CharField(required=True, widget=TinyMCE(attrs={'cols': 10, 'rows': 27}))
 
     class Meta:
-        model = InstructorModel
+        model = StudentModel
         exclude = ['user', 'created_on']

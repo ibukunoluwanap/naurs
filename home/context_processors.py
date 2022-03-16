@@ -9,6 +9,8 @@ from program.forms import ProgramBenefitForm, ProgramBenefitInlineFormset, Progr
 from program.models import ProgramBenefitModel, ProgramEnquiryModel, ProgramModel, ProgramPaymentModel
 from offer.models import OfferModel, BookOfferModel
 from offer.forms import OfferForm, BookOfferForm, FreeTrialOfferForm
+from student.forms import StudentForm
+from student.models import StudentModel
 
 def global_context(request):
     context = {}
@@ -80,8 +82,9 @@ def global_context(request):
 
     
     # student
-    context['students'] = User.objects.filter(student=True)
-
+    context['students'] = StudentModel.objects.all()
+    # student form
+    context['student_form'] = StudentForm()
 
     # authentication
     context['register_form'] = RegisterForm()
