@@ -31,13 +31,22 @@
         <div class="col-sm-6">
           <!-- user form -->
           {% for field in update_user_from_with_instance %}
-            <div class="form-floating shadow mb-4">
-              {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
-              <label for="{{ field.auto_id }}">{{ field.label }}</label>
-              {% for error in field.errors %}
-                  <p class="text-danger">{{ error }}</p>
-              {% endfor %}
-            </div>
+            {% if forloop.counter == 1 %}
+              <div class="card p-3 shadow mb-4">
+                {{ field|add_class:"cus-file-input" }}
+                {% for error in field.errors %}
+                    <p class="text-danger">{{ error }}</p>
+                {% endfor %}
+              </div>
+            {% else %}
+              <div class="form-floating shadow mb-4">
+                {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
+                <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                {% for error in field.errors %}
+                    <p class="text-danger">{{ error }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
           {% endfor %}
           <!-- instructor form -->
           {% for field in instructor_form_with_instance|slice:":2" %}
@@ -77,7 +86,6 @@
 
   <!-- deletion -->
   <div class="row justify-content-between mt-5 pt-3 section-bg">
-    
     <div class="col-sm-12">
       <h4>Deletion</h4>
       {% if instructor.user.is_admin %}
