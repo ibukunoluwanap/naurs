@@ -1,0 +1,106 @@
+{% extends 'dashboard/dashboard.html' %} 
+{% load static %} 
+{% load humanize %}
+{% load widget_tweaks %} 
+{% block title %}<title>Naurs - Dashboard Students</title>{% endblock title %} 
+
+{% block dashboard %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
+  <div class="row mb-3">
+    <div class="col-sm-12">
+      <a href="#" class="btn btn-lg float-end">
+        <span data-feather="plus"></span>
+        Add student
+      </a>
+    </div>
+  </div>
+
+  <!-- title -->
+  <div class="row">
+    <div class="col-12">
+      <h4>All Students</h4>
+    </div>
+  </div>
+
+  <!-- student -->
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="table-responsive shadow rounded">
+        <table class="table table-hover table-sm align-middle border-bottom m-0">
+          <thead class="table-cus-dark">
+            <tr>
+                <th scope="col" class="p-3"></th>
+                <th scope="col" class="p-3">Name</th>
+                <th scope="col" class="p-3">Email</th>
+                <th scope="col" class="p-3">Joined On</th>
+                <th scope="col" class="p-3">Visibility</th>
+                <th scope="col" class="p-3">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if students %} {% for student in students %}
+            <tr>
+                <th scope="row" class="p-2">
+                  {% if student.avatar %}
+                      <img
+                          class="avatar"
+                          src="{{student.avatar.url}}"
+                          width="100%"
+                          height="100%"
+                          alt="avatar"
+                      />
+                  {% else %}
+                      <div class="avatar">
+                        <i class="bi bi-person-circle align-middle"></i>
+                      </div>
+                  {% endif %}
+              </th>
+                <td class="p-2">
+                  <a
+                    href="{% url 'dashboard_student_detail_page' pk=student.id %}"
+                    class="text-decoration-none text-cus-primary"
+                    >{{student.get_full_name|safe|truncatechars:50}}</a
+                  >
+                </td>
+                <td class="p-2">{{student.email}}</td>
+                <td class="p-2">{{student.date_joined|naturaltime}}</td>
+                <td class="p-2">
+                  {% if student.is_active %}
+                  <a
+                    href="#"
+                    class="btn btn-sm btn-secondary d-flex justify-self-center justify-content-center text-center"
+                    >Deactivate</a
+                  >
+                  {% else %}
+                  <a
+                    href="#"
+                    class="btn btn-sm btn-success d-flex justify-self-center justify-content-center text-center"
+                    >Activate</a
+                  >
+                  {% endif %}
+                </td>
+                <td class="p-2">
+                  <a
+                    href="#"
+                    class="btn btn-sm btn-danger d-flex justify-self-center justify-content-center text-center"
+                    >Delete</a
+                  >
+                </td>
+            </tr>
+            {% endfor %} {% else %}
+            <tr>
+              <td class="p-2">
+                <i class="display-1 bi bi-trash align-middle"></i>
+              </td>
+              <td class="p-2">
+                <p>No student currently available!</p>
+              </td>
+            </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock dashboard %}

@@ -41,14 +41,17 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link pt-3 pb-3" href="#">
+        <a
+          class="nav-link pt-3 pb-3 {% if '/dashboard/student/' in request.path %} active {% endif %}"
+          href="{% url 'dashboard_student_page' %}"
+        >
           <i class="feather bi bi-mortarboard"></i>
           Students
         </a>
       </li>
       <li class="nav-item">
         <a
-          class="nav-link pt-3 pb-3 {% if '/dashboard/instructor/' in request.path %} active {% endif %}"
+          class="nav-link pt-3 pb-3 {% if '/dashboard/admin/' in request.path %} active {% endif %}"
           href="{% url 'dashboard_admin_page' %}"
         >
           <span data-feather="layers"></span>

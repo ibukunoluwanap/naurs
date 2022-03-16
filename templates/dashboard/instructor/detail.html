@@ -22,7 +22,11 @@
   <!-- about -->
   <div class="row justify-content-center">
     <div class="col-sm-4 text-center">
-      <img src="{{instructor.user.avatar.url}}" alt="{{instructor.title}}" class="avatar-lg shadow mb-3">
+      {% if user.avatar %}
+        <img src="{{instructor.user.avatar.url}}" alt="{{instructor.title}}" class="avatar-lg shadow mb-3">
+      {% else %}
+        <i class="bi bi-person-circle align-middle" class="avatar-lg shadow mb-3" style="font-size: 250px;"></i>
+      {% endif %}
       {{instructor.about|safe|truncatechars:700}}
     </div>
     <form action="#" method="post" class="col card shadow border-0 py-3" enctype="multipart/form-data">

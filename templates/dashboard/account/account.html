@@ -21,8 +21,12 @@
 
   <!-- about -->
   <div class="row">
-    <div class="col-sm-4 text-center">
-      <img src="{{user.avatar.url}}" alt="{{user.email}}" class="avatar-lg shadow mb-3">
+    <div class="col-sm-4 text-center">   
+      {% if user.avatar %}
+        <img src="{{user.avatar.url}}" alt="{{user.email}}" class="avatar-lg shadow mb-3">
+      {% else %}
+        <i class="bi bi-person-circle align-middle" class="avatar-lg shadow mb-3" style="font-size: 250px;"></i>
+      {% endif %}
     </div>
     <form action="#" method="post" class="col card shadow border-0 py-3" enctype="multipart/form-data">
       {% csrf_token %}
@@ -67,6 +71,14 @@
 
   <!-- deletion and password -->
   <div class="row justify-content-between mt-5 pt-3">
+    <div class="col-sm-12">
+      {% if user.is_admin %}
+        <div class="alert alert-info text-center" role="alert">
+          <i class="bi bi-info-circle-fill"></i>
+          This account has admin role and therefore can not be deleted
+        </div>
+      {% endif %}
+    </div>
     <div class="col-sm-6 mb-3">
       <h4>Change Password</h4>
       <form action="#" method="post">

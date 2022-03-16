@@ -3,7 +3,7 @@
 {% load humanize %}
 {% load widget_tweaks %}
 {% block title %}
-    <title>Naurs - {{ admin.first_name }} Edit</title>
+    <title>Naurs - {{ student.first_name }} Edit</title>
 {% endblock title %}
 {% block dashboard %}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
@@ -15,24 +15,24 @@
       </a>
     </div>
     <div class="col-sm-12">
-      <h4 class="my-3">{{admin.email}}</h4>
+      <h4 class="my-3">{{student.email}}</h4>
     </div>
   </div>
 
   <!-- about -->
   <div class="row justify-content-center">
     <div class="col-sm-4 text-center">
-      {% if user.avatar %}
-        <img src="{{admin.avatar.url}}" alt="{{admin.first_name}}" class="avatar-lg shadow mb-3">
-      {% else %}
-        <i class="bi bi-person-circle align-middle" class="avatar-lg shadow mb-3" style="font-size: 250px;"></i>
-      {% endif %}
+        {% if student.avatar %}
+            <img src="{{student.avatar.url}}" alt="{{student.first_name}}" class="avatar-lg shadow mb-3">
+        {% else %}
+            <i class="bi bi-person-circle align-middle" class="avatar-lg shadow mb-3" style="font-size: 250px;"></i>
+        {% endif %}
     </div>
     <form action="#" method="post" class="col card shadow border-0 py-3" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="row">
           <div class="col-sm-6">
-            {% for field in admin_form_with_instance|slice:":4" %}
+            {% for field in student_form_with_instance|slice:":4" %}
               {% if forloop.counter == 1 %}
                 <div class="card p-3 shadow mb-4">
                   {{ field|add_class:"cus-file-input" }}
@@ -52,7 +52,7 @@
             {% endfor %}
           </div>
           <div class="col-sm-6">
-              {% for field in admin_form_with_instance|slice:"4:" %}
+              {% for field in student_form_with_instance|slice:"4:" %}
                   <div class="card p-3 shadow mb-4">
                       <div class="form-check form-switch">
                           {{ field|add_class:"form-check-input"|attr:"placeholder:field.label" }}
@@ -73,16 +73,16 @@
   <div class="row justify-content-between mt-5 pt-3">
     <div class="col-sm-12">
       <h4>Deletion</h4>
-      {% if admin.is_admin %}
+      {% if student.is_admin %}
         <div class="alert alert-info text-center" role="alert">
           <i class="bi bi-info-circle-fill"></i>
-          This user has admin role and therefore can not be deleted
+          This user has student role and therefore can not be deleted
         </div>
       {% endif %}
     </div>
     <div class="col-sm-6 mb-3">
       <div class="alert alert-warning" role="alert">
-        It's advisable to deactivate admin account instead of deleting.
+        It's advisable to deactivate student account instead of deleting.
       </div>
       <div class="d-flex flex-row justify-content-center">
           <a href="#" class="btn btn-lg bg-warning border border-warning text-cus-primary">
@@ -96,7 +96,7 @@
             This will <b>forever</b> remove this account from the Naurs. This cannot be undone. 
         </div>
       <div class="d-flex flex-row justify-content-center">
-        {% if admin.is_admin %}
+        {% if student.is_admin %}
           <a class="btn btn-lg bg-danger border border-danger text-cus-secondary disabled">
             <span data-feather="trash"></span>
             Delete
