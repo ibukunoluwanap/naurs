@@ -65,6 +65,20 @@
     </form>
   </div>
 
+  <!-- instructors -->
+  <div class="row mt-5">
+    <div class="col-sm-12">
+      <h4>Instructors</h4>
+    </div>
+    <div class="col-sm-12">
+        <ul class="row list-unstyled">
+          <li class="col-sm-4">
+              <i class="bi bi-mortarboard-fill align-middle text-cus-primary"></i> {{ student.instructor.user.get_full_name }}
+          </li>
+      </ul>
+    </div>
+  </div>
+
   <!-- deletion -->
   <div class="row justify-content-between mt-5">
     <div class="col-sm-12">
