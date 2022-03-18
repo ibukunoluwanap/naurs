@@ -48,13 +48,15 @@
                        class="{% if 'contact' in request.path %}active{% endif %}">Contact</a>
                 </li>
                 {% if request.user.is_authenticated %}
-                    <li>
-                        <button type="button"
-                                onclick="location.href={% url 'dashboard_page' %}"
-                                class="navbar-btn {% if 'dashboard' in request.path %}active{% endif %}">
-                            Dashboard
-                        </button>
-                    </li>
+                    {% if request.user.is_admin or request.user.instructormodel %}
+                        <li>
+                            <button type="button"
+                                    onclick="location.href={% url 'dashboard_page' %}"
+                                    class="navbar-btn {% if 'dashboard' in request.path %}active{% endif %}">
+                                Dashboard
+                            </button>
+                        </li>
+                    {% endif %}
                     <li>
                         <a href="{% url 'logout_page' %}"
                            class="{% if request.path == '/account/logout/' %}active{% endif %}">Logout</a>

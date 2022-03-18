@@ -69,9 +69,15 @@ class Login(View):
 
             # login the user
             if user is not None:
-                login(request, user)
-                messages.success(request, f"Welcome { request.user.email }!")
-                return redirect('dashboard_page')
+                try:
+                    if user.instructormodel:
+                        login(request, user)
+                        messages.success(request, f"Welcome { user.instructormodel }!")
+                        return redirect('dashboard_page')
+                except:
+                    login(request, user)
+                    messages.info(request, 'You are logged in! Please download the mobile app on your device to access our programs')
+                    return redirect('home_page')
             messages.error(request, "Check user's credentials!")
             return redirect('login_page')
         return render(request, self.template_name, context)

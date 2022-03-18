@@ -8,7 +8,7 @@ User = get_user_model()
 
 # instructor modal
 class InstructorModel(models.Model):
-    user = models.ForeignKey(User, verbose_name="user", on_delete=models.CASCADE)
+    user = models.OneToOneField(User, verbose_name="user", on_delete=models.CASCADE)
     program = models.ManyToManyField(ProgramModel, verbose_name="program")
     role = models.CharField("role", max_length=100, blank=False, null=False)
     about = HTMLField()

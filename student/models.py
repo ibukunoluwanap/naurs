@@ -8,7 +8,7 @@ User = get_user_model()
 
 # student modal
 class StudentModel(models.Model):
-    user = models.ForeignKey(User, verbose_name="user", on_delete=models.CASCADE)
+    user = models.OneToOneField(User, verbose_name="user", on_delete=models.CASCADE)
     instructor = models.ForeignKey(InstructorModel, verbose_name="instructor", on_delete=models.CASCADE)
     program = models.ManyToManyField(ProgramModel, verbose_name="program")
     created_on = models.DateTimeField("created on", auto_now_add=True)
