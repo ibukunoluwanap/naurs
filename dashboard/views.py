@@ -171,6 +171,7 @@ class StudentDetail(LoginRequiredMixin, DetailView):
         context = super(StudentDetail, self).get_context_data(**kwargs)
         student = StudentModel.objects.get(id=self.kwargs['pk'])
         context['student_form_with_instance'] = list(StudentForm(instance=student))
+        context['update_user_form_with_instance'] = UpdateUserForm(instance=student.user)
         return context
 
 
