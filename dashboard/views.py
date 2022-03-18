@@ -37,8 +37,6 @@ class Dashboard(LoginRequiredMixin, View):
             labels.append(program.title)
             data.append(program.total_space)
 
-            print(labels, data)
-        
         context["labels"] = labels
         context["data"] = data
         return render(request, self.template_name, context)

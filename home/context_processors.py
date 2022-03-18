@@ -63,6 +63,12 @@ def global_context(request):
 
 
     # instructor
+    try:
+        context["instructor"] = instructor = InstructorModel.objects.get(user=request.user)
+        context["instructor_students"] = StudentModel.objects.filter(instructor=instructor)
+    except:
+        pass
+
     context['instructors'] = InstructorModel.objects.order_by("-id")
     context['last_4_instructors'] = InstructorModel.objects.order_by("-id")[:4]
     # instructor form
