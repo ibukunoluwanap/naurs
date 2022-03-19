@@ -24,9 +24,11 @@ urlpatterns = [
     # about
     path('about/', views.About.as_view(), name='dashboard_about_page'),
     path('about/<int:pk>/', views.AboutDetail.as_view(), name='dashboard_about_detail_page'),
+    path('about/create/', views.AboutCreate.as_view(), name='dashboard_about_create_page'),
     # home
     path('home/', views.Home.as_view(), name='dashboard_home_page'),
     path('home/<int:pk>/', views.HomeDetail.as_view(), name='dashboard_home_detail_page'),
+    path('home/create/', views.HomeCreate.as_view(), name='dashboard_home_create_page'),
     # account
     path('account/', views.AccountDetail.as_view(), name='dashboard_account_detail_page'),
 ]

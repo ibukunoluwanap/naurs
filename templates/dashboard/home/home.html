@@ -8,94 +8,132 @@
 {% endblock head %}
     
 {% block dashboard %}
-<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
-  <div class="row mb-3">
-    <div class="col-sm-12">
-      <a href="#" class="btn btn-lg float-end">
-        <span data-feather="plus"></span>
-        Add Listing
-      </a>
-    </div>
-  </div>
-
-  <!-- title -->
-  <div class="row">
-    <div class="col-12">
-      <h4>All Listing</h4>
-    </div>
-  </div>
-
-  <!-- listing -->
-  <div class="row">
-    <div class="col-sm-12">
-      <div class="table-responsive shadow rounded">
-        <table class="table table-hover table-sm align-middle border-bottom m-0">
-          <thead class="table-cus-dark">
-            <tr>
-              <th scope="col" class="p-3"></th>
-              <th scope="col" class="p-3">Listing</th>
-              <th scope="col" class="p-3">Category</th>
-              <th scope="col" class="p-3">Coming Soon</th>
-              <th scope="col" class="p-3">Created On</th>
-              <th scope="col" class="p-3">Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% if listings %} {% for listing in listings %}
-            <tr>
-              <th scope="row" class="p-2">
-                <div class="avatar">
-                    {% if listing.category == "Music" %}
-                        <i class="fa-solid fa-music"></i>
-                    {% elif listing.category == "Gymnastic" %}
-                        <i class="fa-solid fa-dumbbell"></i>
-                    {% elif listing.category == "Yoga" %}
-                        <i class="fa-solid fa-fire-flame-curved"></i>
-                    {% elif listing.category == "Art" %}
-                        <i class="fa-solid fa-palette"></i>
-                    {% endif %}
-                </div>
-            </th>
-              <td class="p-2">
-                <a
-                  href="{% url 'dashboard_home_detail_page' pk=listing.id %}"
-                  class="text-decoration-none text-cus-primary"
-                  >{{listing.listing|safe|truncatechars:50}}</a
-                >
-              </td>
-              <td class="p-2">{{listing.category}}</td>
-              <td class="p-2">
-                  {% if listing.coming_soon %}
-                    <a class="btn btn-sm btn-warning d-flex justify-self-center justify-content-center text-center">
-                        Coming Soon
-                    </a>
-                  {% endif %}
-                </td>
-              <td class="p-2">{{listing.created_on|naturaltime}}</td>
-              <td class="p-2">
-                <a
-                  href="#"
-                  class="btn btn-sm btn-danger d-flex justify-self-center justify-content-center text-center"
-                  >Delete</a
-                >
-              </td>
-            </tr>
-            {% endfor %} {% else %}
-            <tr>
-              <td class="p-2">
-                <i class="display-1 bi bi-trash align-middle"></i>
-              </td>
-              <td class="p-2">
-                <p>No listing currently available!</p>
-              </td>
-            </tr>
-            {% endif %}
-          </tbody>
-        </table>
+  <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
+    <div class="row mb-3">
+      <div class="col-sm-12">
+        <a href="#" class="btn btn-lg float-end" data-bs-toggle="modal" data-bs-target="#addListing">
+          <span data-feather="plus"></span>
+          Add Listing
+        </a>
+        <div class="modal fade" id="addListing" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addListingLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="addListingLabel">Add Listing</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form action="{% url 'dashboard_home_create_page' %}" method="post" class="col border-0 py-3" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <!-- listing form -->
+                  {% for field in listing_form_list %}
+                      {% if forloop.counter == 3 %}
+                          <div class="card p-3 shadow mb-4">
+                              <div class="form-check form-switch">
+                              {{ field|add_class:"form-check-input"|attr:"placeholder:field.label" }}
+                              <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
+                              {% for error in field.errors %}
+                                  <p class="text-danger">{{ error }}</p>
+                              {% endfor %}
+                              </div>
+                          </div>
+                      {% else %}
+                          <div class="form-floating shadow mb-4">
+                              {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
+                              <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                              {% for error in field.errors %}
+                                  <p class="text-danger">{{ error }}</p>
+                              {% endfor %}
+                          </div>
+                      {% endif %}
+                  {% endfor %}
+                  <button class="btn-lg" type="submit">Add Listing</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</main>
+
+    <!-- title -->
+    <div class="row">
+      <div class="col-12">
+        <h4>All Listing</h4>
+      </div>
+    </div>
+
+    <!-- listing -->
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="table-responsive shadow rounded">
+          <table class="table table-hover table-sm align-middle border-bottom m-0">
+            <thead class="table-cus-dark">
+              <tr>
+                <th scope="col" class="p-3"></th>
+                <th scope="col" class="p-3">Listing</th>
+                <th scope="col" class="p-3">Category</th>
+                <th scope="col" class="p-3">Coming Soon</th>
+                <th scope="col" class="p-3">Created On</th>
+                <th scope="col" class="p-3">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if listings %} {% for listing in listings %}
+              <tr>
+                <th scope="row" class="p-2">
+                  <div class="avatar">
+                      {% if listing.category == "Music" %}
+                          <i class="fa-solid fa-music"></i>
+                      {% elif listing.category == "Gymnastic" %}
+                          <i class="fa-solid fa-dumbbell"></i>
+                      {% elif listing.category == "Yoga" %}
+                          <i class="fa-solid fa-fire-flame-curved"></i>
+                      {% elif listing.category == "Art" %}
+                          <i class="fa-solid fa-palette"></i>
+                      {% endif %}
+                  </div>
+              </th>
+                <td class="p-2">
+                  <a
+                    href="{% url 'dashboard_home_detail_page' pk=listing.id %}"
+                    class="text-decoration-none text-cus-primary"
+                    >{{listing.listing|safe|truncatechars:50}}</a
+                  >
+                </td>
+                <td class="p-2">{{listing.category}}</td>
+                <td class="p-2">
+                    {% if listing.coming_soon %}
+                      <a class="btn btn-sm btn-warning d-flex justify-self-center justify-content-center text-center">
+                          Coming Soon
+                      </a>
+                    {% endif %}
+                  </td>
+                <td class="p-2">{{listing.created_on|naturaltime}}</td>
+                <td class="p-2">
+                  <a
+                    href="#"
+                    class="btn btn-sm btn-danger d-flex justify-self-center justify-content-center text-center"
+                    >Delete</a
+                  >
+                </td>
+              </tr>
+              {% endfor %} {% else %}
+              <tr>
+                <td class="p-2">
+                  <i class="display-1 bi bi-trash align-middle"></i>
+                </td>
+                <td class="p-2">
+                  <p>No listing currently available!</p>
+                </td>
+              </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
 {% endblock dashboard %}
 
 {% block script %}

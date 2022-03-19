@@ -82,11 +82,13 @@ def global_context(request):
     context['last_about'] = AboutModel.objects.order_by("-id")[:1]
     # about form
     context['about_form'] = AboutForm()
+    context['about_form_list'] = list(AboutForm())
 
     
     # home form
     context['listings'] = ListingModel.objects.order_by("-id")
     context['listing_form'] = ListingForm()
+    context['listing_form_list'] = list(ListingForm())
 
     
     # student

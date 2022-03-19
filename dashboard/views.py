@@ -104,7 +104,7 @@ class OfferDetail(LoginRequiredMixin, DetailView):
 class OfferCreate(LoginRequiredMixin, CreateView):
     form_class = OfferForm
     login_url = 'login_page'
-    template_name = "dashboard/offer/create.html"
+    template_name = "dashboard/offer/offer.html"
 
     def post(self, request, *args, **kwargs):
         context = {}
@@ -156,7 +156,6 @@ class StudentDetail(LoginRequiredMixin, DetailView):
         context['update_user_form_with_instance'] = UpdateUserForm(instance=student.user)
         return context
 
-
 # dashboard admin view
 class Admin(LoginRequiredMixin, ListView):
     model = User
@@ -175,7 +174,6 @@ class AdminDetail(LoginRequiredMixin, DetailView):
         admin = User.objects.get(id=self.kwargs['pk'], admin=True)
         context['admin_form_with_instance'] = list(UpdateAdminForm(instance=admin))
         return context
-
 
 # dashboard about view
 class About(LoginRequiredMixin, ListView):
@@ -196,6 +194,22 @@ class AboutDetail(LoginRequiredMixin, DetailView):
         context['about_form_with_instance'] = list(AboutForm(instance=about))
         return context
 
+# dashboard about create view
+class AboutCreate(LoginRequiredMixin, CreateView):
+    form_class = AboutForm
+    login_url = 'login_page'
+    template_name = "dashboard/about/about.html"
+
+    def post(self, request, *args, **kwargs):
+        context = {}
+        context["about_form"] = about_form = AboutForm(request.POST, request.FILES)
+
+        if about_form.is_valid():
+            about_form.save()
+            messages.success(self.request, f"Successfully added an about!")
+            return redirect("dashboard_about_page")
+        return render(request, self.template_name, context)
+
 # dashboard home view
 class Home(LoginRequiredMixin, ListView):
     model = ListingModel
@@ -214,6 +228,22 @@ class HomeDetail(LoginRequiredMixin, DetailView):
         listing = ListingModel.objects.get(id=self.kwargs['pk'])
         context['listing_form_with_instance'] = list(ListingForm(instance=listing))
         return context
+
+# dashboard home create view
+class HomeCreate(LoginRequiredMixin, CreateView):
+    form_class = ListingForm
+    login_url = 'login_page'
+    template_name = "dashboard/home/home.html"
+
+    def post(self, request, *args, **kwargs):
+        context = {}
+        context["listing_form"] = listing_form = ListingForm(request.POST, request.FILES)
+
+        if listing_form.is_valid():
+            listing_form.save()
+            messages.success(self.request, f"Successfully added a listing!")
+            return redirect("dashboard_home_page")
+        return render(request, self.template_name, context)
 
 # dashboard account detail view
 class AccountDetail(LoginRequiredMixin, View):

@@ -8,10 +8,73 @@
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
   <div class="row mb-3">
     <div class="col-sm-12">
-      <a href="#" class="btn btn-lg float-end">
+      <a href="#" class="btn btn-lg float-end" data-bs-toggle="modal" data-bs-target="#addAbout">
         <span data-feather="plus"></span>
         Add About
       </a>
+      <div class="modal fade" id="addAbout" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addAboutLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="addAboutLabel">Add About</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'dashboard_about_create_page' %}" method="post" class="col border-0 py-3" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="row justify-content-center">
+                      <div class="col-sm-6">
+                          <!-- about mission form -->
+                          <h5>Mission</h5>
+                          {% for field in about_form_list|slice:":1" %}
+                              {% if forloop.counter == 1 %}
+                                  <div class="form-floating shadow mb-4">
+                                      {{ about_form.media }}
+                                      {{ field }}
+                                      {% for error in field.errors %}
+                                          <p class="text-danger">{{ error }}</p>
+                                      {% endfor %}
+                                  </div>
+                              {% endif %}
+                          {% endfor %}
+                      </div>
+                      <div class="col-sm-6">
+                          <!-- about vision form -->
+                          <h5>Vision</h5>
+                          {% for field in about_form_list|slice:":2" %}
+                              {% if forloop.counter == 2 %}
+                                  <div class="form-floating shadow mb-4">
+                                      {{ about_form.media }}
+                                      {{ field }}
+                                      {% for error in field.errors %}
+                                          <p class="text-danger">{{ error }}</p>
+                                      {% endfor %}
+                                  </div>
+                              {% endif %}
+                          {% endfor %}
+                      </div>
+                      <div class="col-sm-6">
+                      <!-- about vision form -->
+                      <h5>Value</h5>
+                          {% for field in about_form_list|slice:":3" %}
+                              {% if forloop.counter == 3 %}
+                                  <div class="form-floating shadow mb-4">
+                                      {{ about_form.media }}
+                                      {{ field }}
+                                      {% for error in field.errors %}
+                                          <p class="text-danger">{{ error }}</p>
+                                      {% endfor %}
+                                  </div>
+                              {% endif %}
+                          {% endfor %}
+                      </div>
+                  </div>
+                  <button class="btn-lg" type="submit">Add About</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
