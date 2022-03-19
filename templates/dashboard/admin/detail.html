@@ -52,17 +52,17 @@
             {% endfor %}
           </div>
           <div class="col-sm-6">
-              {% for field in admin_form_with_instance|slice:"4:" %}
-                  <div class="card p-3 shadow mb-4">
-                      <div class="form-check form-switch">
-                          {{ field|add_class:"form-check-input"|attr:"placeholder:field.label" }}
-                          <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
-                          {% for error in field.errors %}
-                              <p class="text-danger">{{ error }}</p>
-                          {% endfor %}
-                      </div>
-                  </div>
-              {% endfor %}
+            {% for field in admin_form_with_instance|slice:"4:" %}
+                <div class="card p-3 shadow mb-4">
+                    <div class="form-check form-switch">
+                        {{ field|add_class:"form-check-input"|attr:"placeholder:field.label" }}
+                        <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
+                        {% for error in field.errors %}
+                            <p class="text-danger">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
           </div>
         </div>
         <button class="btn-lg" type="submit">Update</button>

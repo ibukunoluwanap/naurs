@@ -31,16 +31,17 @@ def global_context(request):
     # program with activate filter
     context['programs'] = ProgramModel.objects.filter(is_active=True).order_by("-id")
     context['last_10_programs'] = ProgramModel.objects.filter(is_active=True).order_by("-id")[:10]
-    context['last_4_programs'] = ProgramModel.objects.filter(is_active=True).order_by("-id")[:4]
+    context['last_3_programs'] = ProgramModel.objects.filter(is_active=True).order_by("-id")[:3]
     # program without activate filter
     context['without_filter_programs'] = ProgramModel.objects.order_by("-id")
     context['without_filter_last_10_programs'] = ProgramModel.objects.order_by("-id")[:10]
-    context['without_filter_last_4_programs'] = ProgramModel.objects.order_by("-id")[:4]
+    context['without_filter_last_3_programs'] = ProgramModel.objects.order_by("-id")[:4]
     context['program_benefit'] = ProgramBenefitModel()
     context['program_enquiries'] = ProgramEnquiryModel.objects.order_by("-id")
     context['program_payments'] = ProgramPaymentModel.objects.order_by("-id")
     # program form
     context['program_form'] = ProgramForm()
+    context['program_form_list'] = list(ProgramForm())
     context['program_benefit_form'] = ProgramBenefitForm()
     context['program_benefit_inline_formset'] = ProgramBenefitInlineFormset()
     context['program_enquiry_form'] = ProgramEnquiryForm()
@@ -58,6 +59,7 @@ def global_context(request):
     context['without_filter_book_offers'] = BookOfferModel.objects.order_by("-id")
     # offer form
     context['offer_form'] = OfferForm()
+    context['offer_form_list'] = list(OfferForm())
     context['book_offer_form'] = BookOfferForm()
     context['free_offer_form'] = FreeTrialOfferForm()
 

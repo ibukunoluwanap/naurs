@@ -13,7 +13,6 @@ from django.views.generic import View, ListView, CreateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from program.forms import ProgramBenefitInlineFormset, ProgramForm
 from program.models import ProgramModel
-from django.urls import reverse
 from django.contrib.auth import get_user_model
 from student.forms import StudentForm
 
@@ -65,7 +64,7 @@ class ProgramDetail(LoginRequiredMixin, DetailView):
 class ProgramCreate(LoginRequiredMixin, CreateView):
     form_class = ProgramForm
     login_url = 'login_page'
-    template_name = "dashboard/program/detail.html"
+    template_name = "dashboard/program/program.html"
 
     def get_context_data(self, **kwargs):
         context = super(ProgramCreate, self).get_context_data(**kwargs)
@@ -73,27 +72,14 @@ class ProgramCreate(LoginRequiredMixin, CreateView):
         return context
 
     def post(self, request, *args, **kwargs):
-        self.object = None
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        program_benefit_inline_formset = ProgramBenefitInlineFormset(self.request.POST)
-        if form.is_valid() and program_benefit_inline_formset.is_valid():
-            return self.form_valid(form, program_benefit_inline_formset)
-        else:
-            return self.form_invalid(form, program_benefit_inline_formset)
+        context = {}
+        context["program_form"] = program_form = ProgramForm(request.POST, request.FILES)
 
-    def form_valid(self, form, program_benefit_inline_formset):
-        self.object = form.save(commit=False)
-        self.object.save()
-        # saving program benefit instances
-        program_benefit = program_benefit_inline_formset.save(commit=False)
-        for benefit in program_benefit:
-            benefit.program = self.object
-            benefit.save()
-        return redirect(reverse("program:dashboard_program_page"))
-
-    def form_invalid(self, form, program_benefit_inline_formset):
-        return self.render_to_response(self.get_context_data(form, program_benefit_inline_formset))
+        if program_form.is_valid():
+            program_form.save()
+            messages.success(self.request, f"Successfully created a program!")
+            return redirect("dashboard_program_page")
+        return render(request, self.template_name, context)
 
 # dashboard offer view
 class Offer(LoginRequiredMixin, ListView):
@@ -116,11 +102,9 @@ class OfferDetail(LoginRequiredMixin, DetailView):
 
 # dashboard offer create view
 class OfferCreate(LoginRequiredMixin, CreateView):
-    model = OfferModel
     form_class = OfferForm
-    template_name = "dashboard/offer/create.html"
     login_url = 'login_page'
-    success_url = '/'
+    template_name = "dashboard/offer/create.html"
 
     def post(self, request, *args, **kwargs):
         context = {}
@@ -129,7 +113,7 @@ class OfferCreate(LoginRequiredMixin, CreateView):
         if offer_form.is_valid():
             offer_form.save()
             messages.success(self.request, f"Successfully created an offer!")
-            return redirect("dashboard_offer_create_page")
+            return redirect("dashboard_offer_page")
         return render(request, self.template_name, context)
 
 # dashboard instructor view

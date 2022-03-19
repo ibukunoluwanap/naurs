@@ -8,10 +8,71 @@
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
   <div class="row mb-3">
     <div class="col-sm-12">
-      <a href="#" class="btn btn-lg float-end">
+      <a href="#" class="btn btn-lg float-end" data-bs-toggle="modal" data-bs-target="#createProgram">
         <span data-feather="plus"></span>
         Create Program
       </a>
+      <div class="modal fade" id="createProgram" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createProgramLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="createProgramLabel">Create Program</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="{% url 'dashboard_program_create_page' %}" method="post" class="col border-0 py-3" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-sm-6">
+                    {% for field in program_form_list|slice:":6" %}
+                      {% if forloop.counter == 6 %}
+                        <div class="card p-3 shadow mb-4">
+                          <div class="form-check form-switch">
+                            {{ field|add_class:"form-check-input"|attr:"placeholder:field.label" }}
+                            <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
+                            {% for error in field.errors %}
+                                <p class="text-danger">{{ error }}</p>
+                            {% endfor %}
+                          </div>
+                        </div>
+                      {% elif forloop.counter == 1 %}
+                        <div class="card p-3 shadow mb-4">
+                          {{ field|add_class:"cus-file-input" }}
+                          {% for error in field.errors %}
+                              <p class="text-danger">{{ error }}</p>
+                          {% endfor %}
+                        </div>
+                      {% else %}
+                        <div class="form-floating shadow mb-4">
+                          {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
+                          <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                          {% for error in field.errors %}
+                              <p class="text-danger">{{ error }}</p>
+                          {% endfor %}
+                        </div>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                  <div class="col-sm-6">
+                    {% for field in program_form_list|slice:":7" %}
+                      {% if forloop.counter == 7 %}
+                        <div class="form-floating shadow mb-4">
+                          {{ program_form.media }}
+                          {{ field }}
+                          {% for error in field.errors %}
+                              <p class="text-danger">{{ error }}</p>
+                          {% endfor %}
+                        </div>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                </div>
+                <button class="btn-lg" type="submit">Create Program</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 

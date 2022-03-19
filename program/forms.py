@@ -6,7 +6,7 @@ from django.forms import inlineformset_factory
 # program form
 class ProgramForm(forms.ModelForm):
     image = forms.ImageField(widget=forms.FileInput)
-    content = forms.CharField(required=True, widget=TinyMCE(attrs={'cols': 10, 'rows': 22}))
+    content = forms.CharField(required=True, widget=TinyMCE(attrs={'cols': 10, 'rows': 20}))
 
     class Meta:
         model = ProgramModel
