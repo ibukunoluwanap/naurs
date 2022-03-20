@@ -35,7 +35,7 @@
         <div class="col-sm-6">
           <!-- instructor form -->
           {% for field in instructor_form_with_instance|slice:":3" %}
-            {% if forloop.counter > 0 and forloop.counter < 3 %}
+            {% if forloop.counter == 2 %}
                 <div class="card p-3 shadow mb-4 form-check form-switch overflow-height">
                     {{ field }}
                     <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>

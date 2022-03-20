@@ -10,8 +10,7 @@ User = get_user_model()
 
 # instructor form
 class InstructorForm(forms.ModelForm):
-    user = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple, queryset=User.objects.all())
-    program = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple, queryset=ProgramModel.objects.all())
+    program = forms.ModelMultipleChoiceField(required=True, widget=forms.CheckboxSelectMultiple, queryset=ProgramModel.objects.all())
     about = forms.CharField(required=True, widget=TinyMCE(attrs={'cols': 10, 'rows': 27}))
 
     class Meta:

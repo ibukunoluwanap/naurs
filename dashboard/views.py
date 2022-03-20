@@ -184,6 +184,27 @@ class InstructorDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         context['update_user_form_with_instance'] = UpdateUserForm(instance=instructor.user)
         return context
 
+# dashboard instructor create view
+class InstructorCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    form_class = InstructorForm
+    login_url = 'login_page'
+    template_name = "dashboard/instructor/instructor.html"
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
+
+    def post(self, request, *args, **kwargs):
+        context = {}
+        context["instructor_form"] = instructor_form = InstructorForm(request.POST)
+
+        if instructor_form.is_valid():
+            instructor_form.save()
+            messages.success(self.request, f"Successfully added an instructor!")
+            return redirect("dashboard_instructor_page")
+        print(instructor_form.errors)
+        return render(request, self.template_name, context)
+
 # dashboard student view
 class Student(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = StudentModel

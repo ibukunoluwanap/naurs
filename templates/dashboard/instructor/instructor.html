@@ -20,13 +20,13 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form action="#" method="post" class="col border-0 py-3" enctype="multipart/form-data">
+              <form action="{% url 'dashboard_instructor_create_page' %}" method="post" class="col border-0 py-3">
                 {% csrf_token %}
                 <div class="row">
                   <div class="col-sm-6">
                     <!-- instructor form -->
                     {% for field in instructor_form_list|slice:":3" %}
-                      {% if forloop.counter > 0 and forloop.counter < 3 %}
+                      {% if forloop.counter == 2 %}
                           <div class="card p-3 shadow mb-4 form-check form-switch overflow-height">
                               {{ field }}
                               <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
