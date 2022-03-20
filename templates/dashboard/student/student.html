@@ -8,10 +8,23 @@
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
   <div class="row mb-3">
     <div class="col-sm-12">
-      <a href="#" class="btn btn-lg float-end">
+      <a href="#" class="btn btn-lg float-end" data-bs-toggle="modal" data-bs-target="#addStudent">
         <span data-feather="plus"></span>
-        Add student
+        Add Student
       </a>
+      <div class="modal fade" id="addStudent" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addStudentLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="addStudentLabel">Add Student</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -102,7 +115,7 @@
             </tbody>
           {% else %}
             <tbody>
-              {% if instructor_students %} {% for student in instructor_students %}
+              {% if Student_students %} {% for student in Student_students %}
               <tr>
                   <th scope="row" class="p-2">
                     {% if student.user.avatar %}

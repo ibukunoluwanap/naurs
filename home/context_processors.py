@@ -27,6 +27,7 @@ def global_context(request):
     context['admins'] = User.objects.filter(admin=True)
     # admin form
     context['update_admin_form'] = UpdateAdminForm()
+    context['update_admin_form_list'] = list(UpdateAdminForm())
 
 
     # program with activate filter
