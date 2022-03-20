@@ -70,7 +70,7 @@ class Login(View):
             # login the user
             if user is not None:
                 try:
-                    if user.instructormodel:
+                    if user.is_admin or user.instructormodel:
                         login(request, user)
                         messages.success(request, f"Welcome { user.instructormodel }!")
                         return redirect('dashboard_page')

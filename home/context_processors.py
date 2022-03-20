@@ -20,6 +20,7 @@ def global_context(request):
     context['users'] = User.objects.all()
     # user form
     context['update_user_form'] = UpdateUserForm()
+    context['update_user_form_list'] = list(UpdateUserForm())
 
 
     # admin
@@ -75,6 +76,7 @@ def global_context(request):
     context['last_4_instructors'] = InstructorModel.objects.order_by("-id")[:4]
     # instructor form
     context['instructor_form'] = InstructorForm()
+    context['instructor_form_list'] = list(InstructorForm())
 
 
     # about

@@ -15,16 +15,23 @@ from program.forms import ProgramBenefitInlineFormset, ProgramForm
 from program.models import ProgramModel
 from django.contrib.auth import get_user_model
 from student.forms import StudentForm
-
+from django.contrib.auth.mixins import UserPassesTestMixin
 from student.models import StudentModel
 
 # setting User model
 User = get_user_model()
 
 # dashboard list view
-class Dashboard(LoginRequiredMixin, View):
+class Dashboard(LoginRequiredMixin, UserPassesTestMixin, View):
     template_name = "dashboard/dashboard.html"
     login_url = 'login_page'
+    raise_exception = True
+
+    def test_func(self):
+        try:
+            return (self.request.user.instructormodel)
+        except:
+            return (self.request.user.is_admin)
 
     def get(self, request):
         context = {}
@@ -41,17 +48,31 @@ class Dashboard(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
 
 # dashboard program view
-class Program(LoginRequiredMixin, ListView):
+class Program(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = ProgramModel
     login_url = 'login_page'
     template_name = "dashboard/program/program.html"
+    raise_exception = True
+
+    def test_func(self):
+        try:
+            return (self.request.user.instructormodel)
+        except:
+            return (self.request.user.is_admin)
 
 # dashboard program detail view
-class ProgramDetail(LoginRequiredMixin, DetailView):
+class ProgramDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = ProgramModel
     login_url = 'login_page'
     template_name = "dashboard/program/detail.html"
     context_object_name = "program"
+    raise_exception = True
+
+    def test_func(self):
+        try:
+            return (self.request.user.instructormodel)
+        except:
+            return (self.request.user.is_admin)
 
     def get_context_data(self, **kwargs):
         context = super(ProgramDetail, self).get_context_data(**kwargs)
@@ -61,10 +82,17 @@ class ProgramDetail(LoginRequiredMixin, DetailView):
         return context
 
 # dashboard program create view
-class ProgramCreate(LoginRequiredMixin, CreateView):
+class ProgramCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     form_class = ProgramForm
     login_url = 'login_page'
     template_name = "dashboard/program/program.html"
+    raise_exception = True
+
+    def test_func(self):
+        try:
+            return (self.request.user.instructormodel)
+        except:
+            return (self.request.user.is_admin)
 
     def get_context_data(self, **kwargs):
         context = super(ProgramCreate, self).get_context_data(**kwargs)
@@ -82,17 +110,25 @@ class ProgramCreate(LoginRequiredMixin, CreateView):
         return render(request, self.template_name, context)
 
 # dashboard offer view
-class Offer(LoginRequiredMixin, ListView):
+class Offer(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = OfferModel
     login_url = 'login_page'
     template_name = "dashboard/offer/offer.html"
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
 
 # dashboard offer detail view
-class OfferDetail(LoginRequiredMixin, DetailView):
+class OfferDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = OfferModel
     login_url = 'login_page'
     template_name = "dashboard/offer/detail.html"
     context_object_name = "offer"
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
 
     def get_context_data(self, **kwargs):
         context = super(OfferDetail, self).get_context_data(**kwargs)
@@ -101,10 +137,14 @@ class OfferDetail(LoginRequiredMixin, DetailView):
         return context
 
 # dashboard offer create view
-class OfferCreate(LoginRequiredMixin, CreateView):
+class OfferCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     form_class = OfferForm
     login_url = 'login_page'
     template_name = "dashboard/offer/offer.html"
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
 
     def post(self, request, *args, **kwargs):
         context = {}
@@ -117,17 +157,25 @@ class OfferCreate(LoginRequiredMixin, CreateView):
         return render(request, self.template_name, context)
 
 # dashboard instructor view
-class Instructor(LoginRequiredMixin, ListView):
+class Instructor(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = InstructorModel
     login_url = 'login_page'
     template_name = "dashboard/instructor/instructor.html"
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
 
 # dashboard instructor detail view
-class InstructorDetail(LoginRequiredMixin, DetailView):
+class InstructorDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = InstructorModel
     login_url = 'login_page'
     template_name = "dashboard/instructor/detail.html"
     context_object_name = "instructor"
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
 
     def get_context_data(self, **kwargs):
         context = super(InstructorDetail, self).get_context_data(**kwargs)
@@ -137,17 +185,31 @@ class InstructorDetail(LoginRequiredMixin, DetailView):
         return context
 
 # dashboard student view
-class Student(LoginRequiredMixin, ListView):
+class Student(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = StudentModel
     login_url = 'login_page'
     template_name = "dashboard/student/student.html"
+    raise_exception = True
+
+    def test_func(self):
+        try:
+            return (self.request.user.instructormodel)
+        except:
+            return (self.request.user.is_admin)
 
 # dashboard student detail view
-class StudentDetail(LoginRequiredMixin, DetailView):
+class StudentDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = StudentModel
     login_url = 'login_page'
     template_name = "dashboard/student/detail.html"
     context_object_name = "student"
+    raise_exception = True
+
+    def test_func(self):
+        try:
+            return (self.request.user.instructormodel)
+        except:
+            return (self.request.user.is_admin)
 
     def get_context_data(self, **kwargs):
         context = super(StudentDetail, self).get_context_data(**kwargs)
@@ -157,17 +219,25 @@ class StudentDetail(LoginRequiredMixin, DetailView):
         return context
 
 # dashboard admin view
-class Admin(LoginRequiredMixin, ListView):
+class Admin(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = User
     login_url = 'login_page'
     template_name = "dashboard/admin/admin.html"
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
 
 # dashboard admin detail view
-class AdminDetail(LoginRequiredMixin, DetailView):
+class AdminDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = User
     login_url = 'login_page'
     template_name = "dashboard/admin/detail.html"
     context_object_name = "admin"
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
 
     def get_context_data(self, **kwargs):
         context = super(AdminDetail, self).get_context_data(**kwargs)
@@ -176,17 +246,25 @@ class AdminDetail(LoginRequiredMixin, DetailView):
         return context
 
 # dashboard about view
-class About(LoginRequiredMixin, ListView):
+class About(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = AboutModel
     login_url = 'login_page'
     template_name = "dashboard/about/about.html"
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
 
 # dashboard about detail view
-class AboutDetail(LoginRequiredMixin, DetailView):
+class AboutDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = AboutModel
     login_url = 'login_page'
     template_name = "dashboard/about/detail.html"
     context_object_name = "about"
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
 
     def get_context_data(self, **kwargs):
         context = super(AboutDetail, self).get_context_data(**kwargs)
@@ -195,10 +273,14 @@ class AboutDetail(LoginRequiredMixin, DetailView):
         return context
 
 # dashboard about create view
-class AboutCreate(LoginRequiredMixin, CreateView):
+class AboutCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     form_class = AboutForm
     login_url = 'login_page'
     template_name = "dashboard/about/about.html"
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
 
     def post(self, request, *args, **kwargs):
         context = {}
@@ -211,17 +293,25 @@ class AboutCreate(LoginRequiredMixin, CreateView):
         return render(request, self.template_name, context)
 
 # dashboard home view
-class Home(LoginRequiredMixin, ListView):
+class Home(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = ListingModel
     login_url = 'login_page'
     template_name = "dashboard/home/home.html"
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
 
 # dashboard home detail view
-class HomeDetail(LoginRequiredMixin, DetailView):
+class HomeDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = ListingModel
     login_url = 'login_page'
     template_name = "dashboard/home/detail.html"
     context_object_name = "listing"
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
 
     def get_context_data(self, **kwargs):
         context = super(HomeDetail, self).get_context_data(**kwargs)
@@ -230,10 +320,14 @@ class HomeDetail(LoginRequiredMixin, DetailView):
         return context
 
 # dashboard home create view
-class HomeCreate(LoginRequiredMixin, CreateView):
+class HomeCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     form_class = ListingForm
     login_url = 'login_page'
     template_name = "dashboard/home/home.html"
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
 
     def post(self, request, *args, **kwargs):
         context = {}
@@ -246,9 +340,16 @@ class HomeCreate(LoginRequiredMixin, CreateView):
         return render(request, self.template_name, context)
 
 # dashboard account detail view
-class AccountDetail(LoginRequiredMixin, View):
+class AccountDetail(LoginRequiredMixin, UserPassesTestMixin, View):
     login_url = 'login_page'
     template_name = "dashboard/account/account.html"
+    raise_exception = True
+
+    def test_func(self):
+        try:
+            return (self.request.user.instructormodel)
+        except:
+            return (self.request.user.is_admin)
 
     def get(self, request):
         context = {}
