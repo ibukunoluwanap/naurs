@@ -24,28 +24,9 @@
                 {% csrf_token %}
                 <div class="row">
                   <div class="col-sm-6">
-                    <!-- user form -->
-                    {% for field in update_user_form %}
-                      {% if forloop.counter == 1 %}
-                        <div class="card p-3 shadow mb-4">
-                          {{ field|add_class:"cus-file-input" }}
-                          {% for error in field.errors %}
-                              <p class="text-danger">{{ error }}</p>
-                          {% endfor %}
-                        </div>
-                      {% else %}
-                        <div class="form-floating shadow mb-4">
-                          {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
-                          <label for="{{ field.auto_id }}">{{ field.label }}</label>
-                          {% for error in field.errors %}
-                              <p class="text-danger">{{ error }}</p>
-                          {% endfor %}
-                        </div>
-                      {% endif %}
-                    {% endfor %}
                     <!-- instructor form -->
-                    {% for field in instructor_form_list|slice:":2" %}
-                      {% if forloop.counter == 1 %}
+                    {% for field in instructor_form_list|slice:":3" %}
+                      {% if forloop.counter > 0 and forloop.counter < 3 %}
                           <div class="card p-3 shadow mb-4 form-check form-switch overflow-height">
                               {{ field }}
                               <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
@@ -62,8 +43,8 @@
                     {% endfor %}
                   </div>
                   <div class="col-sm-6">
-                    {% for field in instructor_form_list|slice:":3" %}
-                      {% if forloop.counter == 3 %}
+                    {% for field in instructor_form_list|slice:":4" %}
+                      {% if forloop.counter == 4 %}
                         <div class="form-floating shadow mb-4">
                           {{ instructor_form.media }}
                           {{ field }}
