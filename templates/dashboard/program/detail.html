@@ -198,14 +198,14 @@
                 <tr>
                   <th scope="row" class="p-2">{{enquiry.id}}</th>
                   <td class="p-2">
-                    <a href="#" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="text-decoration-none text-cus-primary">
+                    <a href="#" type="button" data-bs-toggle="modal" data-bs-target="#enquiryModal" class="text-decoration-none text-cus-primary">
                       {{enquiry.name|safe|truncatechars:50}}
                     </a>
-                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal fade" id="enquiryModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="enquiryModalLabel" aria-hidden="true">
                       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                         <div class="modal-content">
                           <div class="modal-header">
-                            <h4 class="modal-title" id="staticBackdropLabel">
+                            <h4 class="modal-title" id="enquiryModalLabel">
                               Enquiry 
                               <span class="text-muted fw-lighter" style="font-size: 14px;">By {{enquiry.name|safe}}</span>
                             </h4>
@@ -231,7 +231,7 @@
                   <td class="p-2">{{enquiry.enquiry|safe|truncatechars:20}}</td>
                   <td class="p-2">{{enquiry.created_on|naturaltime}}</td>
                   <td class="p-2">
-                    <form action="#" method="post">
+                    <form action="{% url 'dashboard_program_enquiry_page' program_id=program.id pk=enquiry.id %}" method="post">
                       {% csrf_token %}
                       <button class="w-100 btn btn-sm btn-danger d-flex justify-content-center text-center" type="submit">
                         Delete
@@ -291,10 +291,36 @@
         the website or application.
       </div>
       <div class="d-flex flex-row justify-content-center">
-        <a href="#" class="btn btn-lg bg-danger border border-danger text-cus-secondary">
+        <button type="button" class="btn btn-lg bg-danger border border-danger text-cus-secondary" data-bs-toggle="modal" data-bs-target="#deleteProgramModel">
           <span data-feather="trash"></span>
           Delete
-        </a>
+        </button>
+        <div class="modal fade" id="deleteProgramModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteProgramModelLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title text-danger" id="deleteProgramModelLabel">Delete Program!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="row justify-content-center">
+                  <div class="col-12 text-center">
+                    <div class="alert alert-danger" role="alert">
+                      This will <b>forever</b> remove the program from the database. Click <b>"Continue"</b> to delete.
+                    </div>
+                    <form action="{% url 'dashboard_program_visibility_page' program_id=program.id visibility='delete' %}" method="post">
+                      {% csrf_token %}
+                      <button class="btn btn-lg bg-danger border border-danger text-cus-secondary" type="submit">
+                        <span data-feather="trash"></span>
+                        Continue
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

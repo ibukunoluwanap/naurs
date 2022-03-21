@@ -13,7 +13,7 @@ from offer.models import OfferModel
 from django.views.generic import View, ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from program.forms import ProgramBenefitForm, ProgramForm
-from program.models import ProgramBenefitModel, ProgramModel
+from program.models import ProgramBenefitModel, ProgramEnquiryModel, ProgramModel
 from django.contrib.auth import get_user_model
 from student.forms import StudentForm
 from django.contrib.auth.mixins import UserPassesTestMixin
@@ -195,6 +195,26 @@ class ProgramVisibility(LoginRequiredMixin, UserPassesTestMixin, View):
             program.delete()
             messages.success(self.request, "Successfully deleted program!")
             return redirect('dashboard_program_page')
+
+# dashboard program enquiry delete view
+class ProgramEnquiryDelete(LoginRequiredMixin, UserPassesTestMixin, View):
+    template_name = "dashboard/dashboard.html"
+    login_url = 'login_page'
+    raise_exception = True
+
+    def test_func(self):
+        try:
+            return (self.request.user.instructormodel)
+        except:
+            return (self.request.user.is_admin)
+
+    def post(self, request, *args, **kwargs):
+        pk = self.kwargs['pk']
+        program_id = self.kwargs['program_id']
+        program_enquiry =ProgramEnquiryModel.objects.get(id=pk)
+        program_enquiry.delete()
+        messages.success(self.request, "Successfully deleted program enquiry!")
+        return redirect('dashboard_program_detail_page', pk=program_id)
 
 # dashboard offer view
 class Offer(LoginRequiredMixin, UserPassesTestMixin, ListView):
