@@ -28,11 +28,11 @@
         <h4 class="my-3">{{user.email}}</h4>
       </div>
     </div>
-    <form action="#" method="post" class="col card shadow border-0 py-3" enctype="multipart/form-data">
+    <form action="{% url 'dashboard_account_detail_page' %}" method="post" class="col card shadow border-0 py-3" enctype="multipart/form-data">
       {% csrf_token %}
       <div class="row">
         <div class="col-sm-12">
-          {% for field in update_admin_form_list|slice:":1" %}
+          {% for field in update_admin_form_with_instance|slice:":1" %}
             {% if forloop.counter == 1 %}
               <div class="card p-3 shadow mb-4">
                 {{ field|add_class:"cus-file-input" }}
@@ -44,7 +44,7 @@
           {% endfor %}
         </div>
         <div class="col-sm-6">
-          {% for field in update_admin_form_list|slice:":4" %}
+          {% for field in update_admin_form_with_instance|slice:":4" %}
             {% if forloop.counter > 1 %}
               <div class="form-floating shadow mb-4">
                 {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
@@ -57,7 +57,7 @@
           {% endfor %}
         </div>
         <div class="col-sm-6">
-          {% for field in update_admin_form_list|slice:"4:" %}
+          {% for field in update_admin_form_with_instance|slice:"4:" %}
               <div class="card p-3 shadow mb-4">
                   <div class="form-check form-switch">
                       {{ field|add_class:"form-check-input"|attr:"placeholder:field.label" }}

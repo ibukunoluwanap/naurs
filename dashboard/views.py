@@ -562,5 +562,21 @@ class AccountDetail(LoginRequiredMixin, UserPassesTestMixin, View):
     def get(self, request):
         context = {}
         user = User.objects.get(id=self.request.user.id)
-        context['user_form_with_instance'] = list(UpdateAdminForm(instance=user))
+        context['update_admin_form_with_instance'] = list(UpdateAdminForm(instance=user))
         return render(request, self.template_name, context)
+
+    def post(self, request):
+        user = User.objects.get(id=self.request.user.id)
+        update_admin_form = UpdateAdminForm(request.POST, request.FILE, instance=user)
+        if update_admin_form.is_valid():
+            new_update_admin_form = update_admin_form.save(commit=False)
+            new_update_admin_form.avatar = update_admin_form.get('avatar')
+            new_update_admin_form.first_name = update_admin_form.get('first_name')
+            new_update_admin_form.last_name = update_admin_form.get('last_name')
+            new_update_admin_form.email = update_admin_form.get('email')
+            new_update_admin_form.is_active = update_admin_form.get('active')
+            new_update_admin_form.staff = False
+            new_update_admin_form.admin = False
+            new_update_admin_form.save()
+            messages.success(self.request, "Successfully updated account!")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
