@@ -182,11 +182,18 @@ class ProgramVisibility(LoginRequiredMixin, UserPassesTestMixin, View):
         visibility = self.kwargs['visibility']
         program =ProgramModel.objects.get(id=program_id)
         if visibility == 'deactivate':
-            program.is_active = False
+            if program.is_active:
+                program.is_active = False
+                program.save()
+                messages.success(self.request, "Successfully deactivated program!")
+                return redirect('dashboard_program_detail_page', pk=program_id)
+            program.is_active = True
             program.save()
-            return reverse_lazy('dashboard_program_detail_page', kwargs={'pk': program_id})
+            messages.success(self.request, "Successfully reactivated program!")
+            return redirect('dashboard_program_detail_page', pk=program_id)
         elif visibility == 'delete':
             program.delete()
+            messages.success(self.request, "Successfully deleted program!")
             return redirect('dashboard_program_page')
 
 # dashboard offer view

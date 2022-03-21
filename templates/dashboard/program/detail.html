@@ -231,11 +231,12 @@
                   <td class="p-2">{{enquiry.enquiry|safe|truncatechars:20}}</td>
                   <td class="p-2">{{enquiry.created_on|naturaltime}}</td>
                   <td class="p-2">
-                    <a
-                      href="#"
-                      class="btn btn-sm btn-danger d-flex justify-content-center text-center"
-                      >Delete</a
-                    >
+                    <form action="#" method="post">
+                      {% csrf_token %}
+                      <button class="w-100 btn btn-sm btn-danger d-flex justify-content-center text-center" type="submit">
+                        Delete
+                      </button>
+                    </form>
                   </td>
                 </tr>
               {% endfor %}
@@ -263,17 +264,24 @@
       <h4>Deletion</h4>
     </div>
     <div class="col-sm-6 mb-3">
-      <div class="alert alert-warning" role="alert">
+      <div class="alert {% if program.is_active %}alert-warning{% else %}alert-info{% endif %}" role="alert">
         This will keep the program in the database, however the program will not be display on
         the website or application.
       </div>
       <div class="d-flex flex-row justify-content-center">
         <form action="{% url 'dashboard_program_visibility_page' program_id=program.id visibility='deactivate' %}" method="post">
           {% csrf_token %}
-          <button class="btn btn-sm bg-warning border border-warning text-cus-secondary" type="submit">
-            <span data-feather="x-circle"></span>
-            Deactivate
-          </button>
+            {% if program.is_active %}
+              <button class="btn btn-lg bg-warning border border-warning text-cus-secondary" type="submit">
+                <span data-feather="x-circle"></span>
+                Deactivate
+              </button>
+            {% else %}
+              <button class="btn btn-lg bg-info border border-info text-cus-secondary" type="submit">
+                <span data-feather="check-circle"></span>
+                Reactivate
+              </button>
+            {% endif %}
         </form>
       </div>
     </div>
