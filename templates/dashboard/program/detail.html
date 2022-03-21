@@ -57,9 +57,9 @@
           </span>
         </li>
       </ul>
-      {{program.content|safe|truncatechars:500}}
+      {{program.content|safe|truncatechars:350}}
     </div>
-    <form action="#" method="post" class="col card shadow border-0 py-3" enctype="multipart/form-data">
+    <form action="{% url 'dashboard_program_update_page' pk=program.id %}" method="post" class="col card shadow border-0 py-3" enctype="multipart/form-data">
       {% csrf_token %}
       <div class="row">
         <div class="col-sm-6">
@@ -124,8 +124,10 @@
         {% endfor %}
       </ul>
     </div>
-    <form action="#" method="post" class="col card shadow border-0 py-3">
+    <form action="{% url 'dashboard_program_benefit_create_page' program_id=program.id %}" method="post" class="col card shadow border-0 py-3">
       {% csrf_token %}
+      {{ program_benefit_inline_formset_with_instance.non_form_errors }}
+      {{ program_benefit_inline_formset_with_instance.management_form }}
       <div class="row">
         <div class="col-sm-6">
           {% for field in program_benefit_inline_formset_with_instance|slice:":3" %}
@@ -157,25 +159,25 @@
     </form>
   </div>
 
-    <!-- instructors -->
-    <div class="row mt-5">
-      <div class="col-sm-12">
-        <h4>Instructors</h4>
-      </div>
-      <div class="col-sm-12">
-        {% if program.instructormodel_set.all %}
-          <ul class="row list-unstyled">
-            {% for instructor in program.instructormodel_set.all %}
-              <li class="col-sm-4">
-                  <i class="bi bi-mortarboard-fill align-middle text-cus-primary"></i> {{ instructor.user.get_full_name }}
-              </li>
-            {% endfor %}
-          </ul>
-        {% else %}
-          <a href="{% url 'dashboard_instructor_page' %}" class="btn-m">Add instructors</a>
-        {% endif %}
-      </div>
+  <!-- instructors -->
+  <div class="row mt-5">
+    <div class="col-sm-12">
+      <h4>Instructors</h4>
     </div>
+    <div class="col-sm-12">
+      {% if program.instructormodel_set.all %}
+        <ul class="row list-unstyled">
+          {% for instructor in program.instructormodel_set.all %}
+            <li class="col-sm-4">
+                <i class="bi bi-mortarboard-fill align-middle text-cus-primary"></i> {{ instructor.user.get_full_name }}
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <a href="{% url 'dashboard_instructor_page' %}" class="btn-m">Add instructors</a>
+      {% endif %}
+    </div>
+  </div>
 
   <!-- enquiries -->
   <div class="row mt-5">
