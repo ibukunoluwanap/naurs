@@ -10,9 +10,9 @@ urlpatterns = [
     path('program/create/', views.ProgramCreate.as_view(), name='dashboard_program_create_page'),
     path('program/<int:pk>/update/', views.ProgramUpdate.as_view(), name='dashboard_program_update_page'),
     path('program/<int:program_id>/benefit/create/', views.ProgramBenefitCreate.as_view(), name='dashboard_program_benefit_create_page'),
-    path('program/<int:pk>/<int:program_id>/benefit/delete/', views.ProgramBenefitDelete.as_view(), name='dashboard_program_benefit_delete_page'),
+    path('program/<int:pk>/benefit/delete/', views.ProgramBenefitDelete.as_view(), name='dashboard_program_benefit_delete_page'),
     path('program/<int:program_id>/<str:visibility>/visibility/', views.ProgramVisibility.as_view(), name='dashboard_program_visibility_page'),
-    path('program/<int:program_id>/<int:pk>/enquiry/', views.ProgramEnquiryDelete.as_view(), name='dashboard_program_enquiry_page'),
+    path('program/<int:pk>/enquiry/', views.ProgramEnquiryDelete.as_view(), name='dashboard_program_enquiry_page'),
     # offer
     path('offer/', views.Offer.as_view(), name='dashboard_offer_page'),
     path('offer/<int:pk>/', views.OfferDetail.as_view(), name='dashboard_offer_detail_page'),

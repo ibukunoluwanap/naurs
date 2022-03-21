@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from about.forms import AboutForm
@@ -144,7 +145,7 @@ class ProgramBenefitCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             program_benefit.program = program
             program_benefit.save()
             messages.success(self.request, f"Successfully added a program benefit!")
-            return redirect("dashboard_program_detail_page", pk=program.id)
+            return HttpResponseRedirect(self.request.META.get('HTTP_REFERER', '/dashboard/'))
         messages.error(self.request, f"{program_benefit_form}")
         return redirect("dashboard_program_page")
 
@@ -163,7 +164,7 @@ class ProgramBenefitDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_success_url(self):
         messages.success(self.request, f"Successfully deleted program benefit!")
-        return reverse_lazy('dashboard_program_detail_page', kwargs={'pk': self.kwargs['program_id']})
+        return HttpResponseRedirect(self.request.META.get('HTTP_REFERER', '/dashboard/'))
 
 # dashboard program visibility view
 class ProgramVisibility(LoginRequiredMixin, UserPassesTestMixin, View):
@@ -186,11 +187,11 @@ class ProgramVisibility(LoginRequiredMixin, UserPassesTestMixin, View):
                 program.is_active = False
                 program.save()
                 messages.success(self.request, "Successfully deactivated program!")
-                return redirect('dashboard_program_detail_page', pk=program_id)
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
             program.is_active = True
             program.save()
             messages.success(self.request, "Successfully reactivated program!")
-            return redirect('dashboard_program_detail_page', pk=program_id)
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
         elif visibility == 'delete':
             program.delete()
             messages.success(self.request, "Successfully deleted program!")
@@ -210,11 +211,10 @@ class ProgramEnquiryDelete(LoginRequiredMixin, UserPassesTestMixin, View):
 
     def post(self, request, *args, **kwargs):
         pk = self.kwargs['pk']
-        program_id = self.kwargs['program_id']
         program_enquiry =ProgramEnquiryModel.objects.get(id=pk)
         program_enquiry.delete()
         messages.success(self.request, "Successfully deleted program enquiry!")
-        return redirect('dashboard_program_detail_page', pk=program_id)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
 
 # dashboard offer view
 class Offer(LoginRequiredMixin, UserPassesTestMixin, ListView):

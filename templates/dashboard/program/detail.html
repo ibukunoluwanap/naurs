@@ -119,7 +119,7 @@
           <li class="my-4 position-relative">
               <i class="bi bi-arrow-return-right align-middle text-cus-primary"></i>
               {{ benefit.benefit }}
-              <form action="{% url 'dashboard_program_benefit_delete_page' pk=benefit.id program_id=program.id %}" method="post" class="d-inline position-absolute" style="right: 0;">
+              <form action="{% url 'dashboard_program_benefit_delete_page' pk=benefit.id %}" method="post" class="d-inline position-absolute" style="right: 0;">
                 {% csrf_token %}
                 <button class="btn btn-sm bg-danger border border-danger text-cus-secondary" type="submit">
                   <span data-feather="trash"></span>
@@ -231,7 +231,7 @@
                   <td class="p-2">{{enquiry.enquiry|safe|truncatechars:20}}</td>
                   <td class="p-2">{{enquiry.created_on|naturaltime}}</td>
                   <td class="p-2">
-                    <form action="{% url 'dashboard_program_enquiry_page' program_id=program.id pk=enquiry.id %}" method="post">
+                    <form action="{% url 'dashboard_program_enquiry_page' pk=enquiry.id %}" method="post">
                       {% csrf_token %}
                       <button class="w-100 btn btn-sm btn-danger d-flex justify-content-center text-center" type="submit">
                         Delete
