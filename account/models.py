@@ -49,11 +49,7 @@ class User(AbstractBaseUser):
     avatar = models.FileField("avatar", upload_to="avatar/", max_length=100, blank=True, null=True)
     first_name = models.CharField("first name", max_length=100, blank=False, null=False)
     last_name = models.CharField("last name", max_length=100, blank=False, null=False)
-    email = models.EmailField(
-        verbose_name='email address',
-        max_length=255,
-        unique=True,
-    )
+    email = models.EmailField(verbose_name='email address', max_length=255, unique=True,)
     is_active = models.BooleanField(default=True) # is account activate
     staff = models.BooleanField(default=False) # a staff user; non super-user
     admin = models.BooleanField(default=False) # a superuser
