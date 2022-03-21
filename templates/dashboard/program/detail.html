@@ -126,26 +126,13 @@
     </div>
     <form action="{% url 'dashboard_program_benefit_create_page' program_id=program.id %}" method="post" class="col card shadow border-0 py-3">
       {% csrf_token %}
-      {{ program_benefit_inline_formset_with_instance.non_form_errors }}
-      {{ program_benefit_inline_formset_with_instance.management_form }}
       <div class="row">
-        <div class="col-sm-6">
-          {% for field in program_benefit_inline_formset_with_instance|slice:":3" %}
+        <div class="col-sm-12">
+          {% for field in program_benefit_form %}
             <div class="form-floating shadow mb-4">
-              {{ field.benefit|add_class:"form-control"|attr:"placeholder:field.benefit.label" }}
-              <label for="{{ field.benefit.auto_id }}">{{ field.benefit.label }}</label>
-              {% for error in field.benefit.errors %}
-                  <p class="text-danger">{{ error }}</p>
-              {% endfor %}
-            </div>
-          {% endfor %}
-        </div>
-        <div class="col-sm-6">
-          {% for field in program_benefit_inline_formset_with_instance|slice:"3:" %}
-            <div class="form-floating shadow mb-4">
-              {{ field.benefit|add_class:"form-control"|attr:"placeholder:field.benefit.label" }}
-              <label for="{{ field.benefit.auto_id }}">{{ field.benefit.label }}</label>
-              {% for error in field.benefit.errors %}
+              {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
+              <label for="{{ field.auto_id }}">{{ field.label }}</label>
+              {% for error in field.errors %}
                   <p class="text-danger">{{ error }}</p>
               {% endfor %}
             </div>

@@ -12,7 +12,7 @@ from django.contrib import messages
 from offer.models import OfferModel
 from django.views.generic import View, ListView, CreateView, DetailView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from program.forms import ProgramBenefitInlineFormset, ProgramForm
+from program.forms import ProgramBenefitForm, ProgramForm
 from program.models import ProgramModel
 from django.contrib.auth import get_user_model
 from student.forms import StudentForm
@@ -79,7 +79,7 @@ class ProgramDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         context = super(ProgramDetail, self).get_context_data(**kwargs)
         program = ProgramModel.objects.get(id=self.kwargs['pk'])
         context['program_form_with_instance'] = list(ProgramForm(instance=program))
-        context['program_benefit_inline_formset_with_instance'] = list(ProgramBenefitInlineFormset(instance=program))
+        # context['program_benefit_inline_formset_with_instance'] = list(ProgramBenefitInlineFormset(instance=program))
         return context
 
 # dashboard program create view
@@ -120,9 +120,8 @@ class ProgramUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return (self.request.user.is_admin)
 
     def get_success_url(self):
-        kwargs = {'pk': self.kwargs['pk']}
         messages.success(self.request, "Successfully updated program!")
-        return reverse_lazy('dashboard_program_detail_page', kwargs=kwargs)
+        return redirect('dashboard_program_detail_page', pk=self.kwargs['pk'])
 
 # dashboard program Update view
 class ProgramBenefitCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
@@ -139,43 +138,17 @@ class ProgramBenefitCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
     def post(self, request, *args, **kwargs):
         program = ProgramModel.objects.get(id=self.kwargs['program_id'])
-        program_benefit_inline_formset = ProgramBenefitInlineFormset(request.POST, instance=program)
+        program_benefit_form = ProgramBenefitForm(request.POST)
 
-        if program_benefit_inline_formset.is_valid():
-            return self.form_valid(program, program_benefit_inline_formset)
-        messages.error(self.request, f"{program_benefit_inline_formset.errors}")
+        if program_benefit_form.is_valid():
+            program_benefit = program_benefit_form.save(commit=False)
+            program_benefit.program = program
+            program_benefit.save()
+            messages.success(self.request, f"Successfully added a program benefit!")
+            return redirect("dashboard_program_detail_page", pk=program.id)
+        messages.error(self.request, f"{program_benefit_form}")
         return redirect("dashboard_program_page")
-
-    def form_valid(self, program, program_benefit_inline_formset):
-        program_benefit = program_benefit_inline_formset.save(commit=False)
-        for benefit in program_benefit:
-            benefit.program = program
-            benefit.save()
-        messages.success(self.request, f"Successfully added a program benefit!")
-        return reverse_lazy("dashboard_program_detail_page", kwargs={'pk': self.object.id})
-
-    # def post(self, request, *args, **kwargs):
-    #     self.object = None
-    #     form_class = self.get_form_class()
-    #     program_form = self.get_form(form_class)
-    #     program = ProgramModel.objects.get(id=self.kwargs['program_id'])
-    #     program_benefit_inline_formset = ProgramBenefitInlineFormset(request.POST, instance=program)
-
-    #     if program_form.is_valid() and program_benefit_inline_formset.is_valid():
-    #         return self.form_valid(program_form, program_benefit_inline_formset)
-    #     messages.success(self.request, f"{program_form.errors}")
-    #     return redirect("dashboard_program_page")
-
-    # def form_valid(self, program_form, program_benefit_inline_formset):
-    #     self.object = program_form.save(commit=False)
-    #     self.object.save()
-    #     program_benefit = program_benefit_inline_formset.save(commit=False)
-    #     for benefit in program_benefit:
-    #         benefit.program = self.object
-    #         benefit.save()
-    #     messages.success(self.request, f"Successfully added a program benefit!")
-    #     return reverse_lazy("dashboard_program_detail_page", kwargs={'pk': self.object.id})
-
+        
 # dashboard offer view
 class Offer(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = OfferModel

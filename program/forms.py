@@ -1,7 +1,6 @@
 from django import forms
 from tinymce.widgets import TinyMCE
 from .models import ProgramBenefitModel, ProgramEnquiryModel, ProgramModel, ProgramPaymentModel
-from django.forms import inlineformset_factory
 
 # program form
 class ProgramForm(forms.ModelForm):
@@ -17,21 +16,6 @@ class ProgramBenefitForm(forms.ModelForm):
     class Meta:
         model = ProgramBenefitModel
         exclude = ['program', 'created_on']
-
-# program benefit inline formset
-ProgramBenefitInlineFormset = inlineformset_factory(
-    ProgramModel,
-    ProgramBenefitModel,
-    form=ProgramBenefitForm,
-    extra=1,
-    max_num=6,
-    # fk_name=None,
-    # fields=None, exclude=None, can_order=False,
-    # can_delete=True, max_num=None, formfield_callback=None,
-    # widgets=None, validate_max=False, localized_fields=None,
-    # labels=None, help_texts=None, error_messages=None,
-    # min_num=None, validate_min=False, field_classes=None
-)
 
 # program enquiry form
 class ProgramEnquiryForm(forms.ModelForm):
