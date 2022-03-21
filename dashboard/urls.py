@@ -19,6 +19,7 @@ urlpatterns = [
     # student
     path('student/', views.Student.as_view(), name='dashboard_student_page'),
     path('student/<int:pk>/', views.StudentDetail.as_view(), name='dashboard_student_detail_page'),
+    path('student/create/', views.StudentCreate.as_view(), name='dashboard_student_create_page'),
     # admin
     path('admin/', views.Admin.as_view(), name='dashboard_admin_page'),
     path('admin/<int:pk>/', views.AdminDetail.as_view(), name='dashboard_admin_detail_page'),

@@ -202,7 +202,6 @@ class InstructorCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             instructor_form.save()
             messages.success(self.request, f"Successfully added an instructor!")
             return redirect("dashboard_instructor_page")
-        print(instructor_form.errors)
         return render(request, self.template_name, context)
 
 # dashboard student view
@@ -238,6 +237,29 @@ class StudentDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         context['student_form_with_instance'] = list(StudentForm(instance=student))
         context['update_user_form_with_instance'] = UpdateUserForm(instance=student.user)
         return context
+
+# dashboard student create view
+class StudentCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    form_class = StudentForm
+    login_url = 'login_page'
+    template_name = "dashboard/student/student.html"
+    raise_exception = True
+
+    def test_func(self):
+        try:
+            return (self.request.user.instructormodel)
+        except:
+            return (self.request.user.is_admin)
+
+    def post(self, request, *args, **kwargs):
+        context = {}
+        context["student_form"] = student_form = StudentForm(request.POST)
+
+        if student_form.is_valid():
+            student_form.save()
+            messages.success(self.request, f"Successfully added an student!")
+            return redirect("dashboard_student_page")
+        return render(request, self.template_name, context)
 
 # dashboard admin view
 class Admin(LoginRequiredMixin, UserPassesTestMixin, ListView):
