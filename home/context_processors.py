@@ -98,6 +98,7 @@ def global_context(request):
     context['students'] = StudentModel.objects.all()
     # student form
     context['student_form'] = StudentForm()
+    context['student_form_list'] = list(StudentForm())
 
     # authentication
     context['register_form'] = RegisterForm()
