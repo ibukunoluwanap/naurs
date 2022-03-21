@@ -42,6 +42,7 @@ class Register(View):
             login(request, user)
             messages.success(request, "Successfully registered and logged in! Select program & class to start with")
             return redirect('program_page')
+        messages.error(self.request, f"{register_form.errors}")
         return render(request, self.template_name, context)
 
 # login view
@@ -80,6 +81,7 @@ class Login(View):
                     return redirect('home_page')
             messages.error(request, "Check user's credentials!")
             return redirect('login_page')
+        messages.error(self.request, f"{login_form.errors}")
         return render(request, self.template_name, context)
 
 # change view
@@ -94,12 +96,13 @@ class ChangePassword(View):
         return render(request, self.template_name, context)
 
     def post(self, request):
-        form = PasswordChangeForm(request.user, request.POST)
-        if form.is_valid():
-            user = form.save()
+        password_change_form = PasswordChangeForm(request.user, request.POST)
+        if password_change_form.is_valid():
+            user = password_change_form.save()
             update_session_auth_hash(request, user)  # Important!
             messages.success(request, 'Your password was successfully updated!')
             return redirect('change_password')
+        messages.error(self.request, f"{password_change_form.errors}")
         return render(request, self.template_name)
 
 # password reset done

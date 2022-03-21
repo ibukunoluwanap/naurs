@@ -107,6 +107,7 @@ class ProgramCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             program_form.save()
             messages.success(self.request, f"Successfully created a program!")
             return redirect("dashboard_program_page")
+        messages.error(self.request, f"{program_form.errors}")
         return render(request, self.template_name, context)
 
 # dashboard offer view
@@ -154,6 +155,7 @@ class OfferCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             offer_form.save()
             messages.success(self.request, f"Successfully created an offer!")
             return redirect("dashboard_offer_page")
+        messages.error(self.request, f"{offer_form.errors}")
         return render(request, self.template_name, context)
 
 # dashboard instructor view
@@ -215,6 +217,7 @@ class InstructorCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
                     instructor_form.save()
                     messages.success(self.request, f"Successfully added an instructor!")
                     return redirect("dashboard_instructor_page")
+        messages.error(self.request, f"{instructor_form.errors}")
         return render(request, self.template_name, context)
 
 # dashboard student view
@@ -285,6 +288,7 @@ class StudentCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
                     student_form.save()
                     messages.success(self.request, f"Successfully added an student!")
                     return redirect("dashboard_student_page")
+        messages.error(self.request, f"{student_form.errors}")
         return render(request, self.template_name, context)
 
 # dashboard admin view
@@ -332,7 +336,7 @@ class AdminCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         context["admin_form"] = admin_form = UpdateAdminForm(request.POST, request.FILES)
 
         if admin_form.is_valid():
-            user = admin_form.cleaned_data.get('user')
+            user = admin_form.cleaned_data.get('email')
             if user.is_admin:
                 messages.info(self.request, f"{user} already an admin!")
                 return redirect("dashboard_admin_page")
@@ -348,6 +352,7 @@ class AdminCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
                     # admin_form.save()
                     messages.success(self.request, f"Successfully added an admin!")
                     return redirect("dashboard_admin_page")
+        messages.error(self.request, f"{admin_form.errors}")
         return render(request, self.template_name, context)
 
 # dashboard about view
@@ -395,6 +400,7 @@ class AboutCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             about_form.save()
             messages.success(self.request, f"Successfully added an about!")
             return redirect("dashboard_about_page")
+        messages.error(self.request, f"{about_form.errors}")
         return render(request, self.template_name, context)
 
 # dashboard home view
@@ -442,6 +448,7 @@ class HomeCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             listing_form.save()
             messages.success(self.request, f"Successfully added a listing!")
             return redirect("dashboard_home_page")
+        messages.error(self.request, f"{listing_form.errors}")
         return render(request, self.template_name, context)
 
 # dashboard account detail view
