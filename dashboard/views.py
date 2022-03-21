@@ -584,14 +584,18 @@ class AccountDetail(LoginRequiredMixin, UserPassesTestMixin, View):
         return render(request, self.template_name, context)
 
     def post(self, request):
-        user = User.objects.get(id=self.request.user.id)
-        update_admin_form = UpdateAdminForm(request.POST, request.FILES, instance=user)
+        is_admin = request.user.admin
+        update_admin_form = UpdateAdminForm(request.POST, request.FILES, instance=request.user)
         if update_admin_form.is_valid():
             new_update_admin_form = update_admin_form.save(commit=False)
             new_update_admin_form.avatar = update_admin_form.cleaned_data.get('avatar')
             new_update_admin_form.first_name = update_admin_form.cleaned_data.get('first_name')
             new_update_admin_form.last_name = update_admin_form.cleaned_data.get('last_name')
             new_update_admin_form.email = update_admin_form.cleaned_data.get('email')
+            if is_admin:
+                new_update_admin_form.is_active = update_admin_form.cleaned_data.get('is_active')
+                new_update_admin_form.staff = update_admin_form.cleaned_data.get('staff')
+                new_update_admin_form.admin = update_admin_form.cleaned_data.get('admin')
             new_update_admin_form.is_active = True
             new_update_admin_form.staff = False
             new_update_admin_form.admin = False
