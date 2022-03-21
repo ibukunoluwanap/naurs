@@ -314,6 +314,42 @@ class AdminDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         context['admin_form_with_instance'] = list(UpdateAdminForm(instance=admin))
         return context
 
+# dashboard admin create view
+class AdminCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    form_class = UpdateAdminForm
+    login_url = 'login_page'
+    template_name = "dashboard/admin/admin.html"
+    raise_exception = True
+
+    def test_func(self):
+        try:
+            return (self.request.user.instructormodel)
+        except:
+            return (self.request.user.is_admin)
+
+    def post(self, request, *args, **kwargs):
+        context = {}
+        context["admin_form"] = admin_form = UpdateAdminForm(request.POST, request.FILES)
+
+        if admin_form.is_valid():
+            user = admin_form.cleaned_data.get('user')
+            if user.is_admin:
+                messages.info(self.request, f"{user} already an admin!")
+                return redirect("dashboard_admin_page")
+            else:
+                try:
+                    if user.instructormodel:
+                        messages.error(self.request, f"{user} is instructor and cannot be admin!")
+                        return redirect("dashboard_admin_page")
+                    elif user.studentmodel:
+                        messages.error(self.request, f"{user} is student and cannot be admin!")
+                        return redirect("dashboard_admin_page")
+                except:
+                    # admin_form.save()
+                    messages.success(self.request, f"Successfully added an admin!")
+                    return redirect("dashboard_admin_page")
+        return render(request, self.template_name, context)
+
 # dashboard about view
 class About(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = AboutModel

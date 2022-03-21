@@ -23,6 +23,7 @@ urlpatterns = [
     # admin
     path('admin/', views.Admin.as_view(), name='dashboard_admin_page'),
     path('admin/<int:pk>/', views.AdminDetail.as_view(), name='dashboard_admin_detail_page'),
+    path('admin/create/', views.AdminCreate.as_view(), name='dashboard_admin_create_page'),
     # about
     path('about/', views.About.as_view(), name='dashboard_about_page'),
     path('about/<int:pk>/', views.AboutDetail.as_view(), name='dashboard_about_detail_page'),
