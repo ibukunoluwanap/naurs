@@ -2,6 +2,7 @@ from urllib import request
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.contrib.auth import password_validation
 
 # setting User model
 User = get_user_model()
@@ -110,8 +111,10 @@ class UpdateAdminForm(forms.ModelForm):
 
 # update password
 class UpdatePasswordForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput)
+    old_password = forms.CharField(label="Old Password", strip=False, widget=forms.PasswordInput, help_text=password_validation.password_validators_help_text_html(),)
+    new_password1 = forms.CharField(label="New Password", strip=False, widget=forms.PasswordInput, help_text=password_validation.password_validators_help_text_html(),)
+    new_password2 = forms.CharField(label="Comfirm New Password", strip=False, widget=forms.PasswordInput, help_text=password_validation.password_validators_help_text_html(),)
 
     class Meta:
         model = User
-        fields = ['password',]
+        fields = ['old_password', 'new_password1', 'new_password2']

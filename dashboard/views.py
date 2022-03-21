@@ -19,6 +19,8 @@ from django.contrib.auth import get_user_model
 from student.forms import StudentForm
 from django.contrib.auth.mixins import UserPassesTestMixin
 from student.models import StudentModel
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 
 # setting User model
 User = get_user_model()
@@ -103,7 +105,9 @@ class ProgramCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             program_form.save()
             messages.success(self.request, f"Successfully created a program!")
             return redirect("dashboard_program_page")
-        messages.error(self.request, f"{program_form.errors}")
+        for field in program_form:
+            for error in field.errors:
+                messages.error(self.request, f"<b>{field.label}:</b> {error}")
         return render(request, self.template_name, context)
 
 # dashboard program Update view
@@ -146,7 +150,9 @@ class ProgramBenefitCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             program_benefit.save()
             messages.success(self.request, f"Successfully added a program benefit!")
             return HttpResponseRedirect(self.request.META.get('HTTP_REFERER', '/dashboard/'))
-        messages.error(self.request, f"{program_benefit_form}")
+        for field in program_benefit_form:
+            for error in field.errors:
+                messages.error(self.request, f"<b>{field.label}:</b> {error}")
         return redirect("dashboard_program_page")
 
 # dashboard program benefit delete view
@@ -261,7 +267,9 @@ class OfferCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             offer_form.save()
             messages.success(self.request, f"Successfully created an offer!")
             return redirect("dashboard_offer_page")
-        messages.error(self.request, f"{offer_form.errors}")
+        for field in offer_form:
+            for error in field.errors:
+                messages.error(self.request, f"<b>{field.label}:</b> {error}")
         return render(request, self.template_name, context)
 
 # dashboard instructor view
@@ -323,7 +331,9 @@ class InstructorCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
                     instructor_form.save()
                     messages.success(self.request, f"Successfully added an instructor!")
                     return redirect("dashboard_instructor_page")
-        messages.error(self.request, f"{instructor_form.errors}")
+        for field in instructor_form:
+            for error in field.errors:
+                messages.error(self.request, f"<b>{field.label}:</b> {error}")
         return render(request, self.template_name, context)
 
 # dashboard student view
@@ -394,7 +404,9 @@ class StudentCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
                     student_form.save()
                     messages.success(self.request, f"Successfully added an student!")
                     return redirect("dashboard_student_page")
-        messages.error(self.request, f"{student_form.errors}")
+        for field in student_form:
+            for error in field.errors:
+                messages.error(self.request, f"<b>{field.label}:</b> {error}")
         return render(request, self.template_name, context)
 
 # dashboard admin view
@@ -448,7 +460,9 @@ class AdminCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             new_admin.save()
             messages.success(self.request, f"Successfully added an admin!")
             return redirect("dashboard_admin_page")
-        messages.error(self.request, f"{admin_form.errors}")
+        for field in admin_form:
+            for error in field.errors:
+                messages.error(self.request, f"<b>{field.label}:</b> {error}")
         return render(request, self.template_name, context)
 
 # dashboard about view
@@ -496,7 +510,9 @@ class AboutCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             about_form.save()
             messages.success(self.request, f"Successfully added an about!")
             return redirect("dashboard_about_page")
-        messages.error(self.request, f"{about_form.errors}")
+        for field in about_form:
+            for error in field.errors:
+                messages.error(self.request, f"<b>{field.label}:</b> {error}")
         return render(request, self.template_name, context)
 
 # dashboard home view
@@ -544,7 +560,9 @@ class HomeCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             listing_form.save()
             messages.success(self.request, f"Successfully added a listing!")
             return redirect("dashboard_home_page")
-        messages.error(self.request, f"{listing_form.errors}")
+        for field in listing_form:
+            for error in field.errors:
+                messages.error(self.request, f"<b>{field.label}:</b> {error}")
         return render(request, self.template_name, context)
 
 # dashboard account detail view
@@ -580,3 +598,32 @@ class AccountDetail(LoginRequiredMixin, UserPassesTestMixin, View):
             new_update_admin_form.save()
             messages.success(self.request, "Successfully updated account!")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
+
+# account change password view
+class AccountChangePassword(View):
+    login_url = 'login_page'
+    template_name = "dashboard/account/account.html"
+    raise_exception = True
+
+    def test_func(self):
+        try:
+            return (self.request.user.instructormodel)
+        except:
+            return (self.request.user.is_admin)
+
+    def get(self, request):
+        context = {}
+        context["change_password_form"] = PasswordChangeForm(request.user)
+        return render(request, self.template_name, context)
+
+    def post(self, request):
+        password_change_form = PasswordChangeForm(request.user, request.POST)
+        if password_change_form.is_valid():
+            user = password_change_form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
+        for field in password_change_form:
+            for error in field.errors:
+                messages.error(self.request, f"<b>{field.label}:</b> {error}")
+        return render(request, self.template_name)

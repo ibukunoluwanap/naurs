@@ -39,4 +39,5 @@ urlpatterns = [
     path('home/create/', views.HomeCreate.as_view(), name='dashboard_home_create_page'),
     # account
     path('account/', views.AccountDetail.as_view(), name='dashboard_account_detail_page'),
+    path('account/password/change/', views.AccountChangePassword.as_view(), name='dashboard_account_change_password_page'),
 ]

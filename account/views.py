@@ -4,8 +4,6 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
 from account.forms import RegisterForm, LoginForm
 from django.http.response import HttpResponseRedirect
-from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, logout, authenticate
 
@@ -42,7 +40,9 @@ class Register(View):
             login(request, user)
             messages.success(request, "Successfully registered and logged in! Select program & class to start with")
             return redirect('program_page')
-        messages.error(self.request, f"{register_form.errors}")
+        for field in register_form:
+            for error in field.errors:
+                messages.error(self.request, f"<b>{field.label}:</b> {error}")
         return render(request, self.template_name, context)
 
 # login view
@@ -85,7 +85,9 @@ class Login(View):
                     return redirect('home_page')
             messages.error(request, "Check user's credentials!")
             return redirect('login_page')
-        messages.error(self.request, f"{login_form.errors}")
+        for field in login_form:
+            for error in field.errors:
+                messages.error(self.request, f"<b>{field.label}:</b> {error}")
         return render(request, self.template_name, context)
 
 # password reset done
