@@ -11,4 +11,4 @@ class StudentForm(forms.ModelForm):
 
     class Meta:
         model = StudentModel
-        exclude = ['user', 'created_on']
+        exclude = ['created_on']
