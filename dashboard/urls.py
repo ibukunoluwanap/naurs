@@ -8,8 +8,11 @@ urlpatterns = [
     path('program/', views.Program.as_view(), name='dashboard_program_page'),
     path('program/<int:pk>/', views.ProgramDetail.as_view(), name='dashboard_program_detail_page'),
     path('program/create/', views.ProgramCreate.as_view(), name='dashboard_program_create_page'),
-    path('<int:pk>/update/', views.ProgramUpdate.as_view(), name='dashboard_program_update_page'),
+    path('program/<int:pk>/update/', views.ProgramUpdate.as_view(), name='dashboard_program_update_page'),
     path('program/<int:program_id>/benefit/create/', views.ProgramBenefitCreate.as_view(), name='dashboard_program_benefit_create_page'),
+    path('program/<int:pk>/<int:program_id>/benefit/delete/', views.ProgramBenefitDelete.as_view(), name='dashboard_program_benefit_delete_page'),
+    path('program/<int:program_id>/<str:visibility>/visibility/', views.ProgramVisibility.as_view(), name='dashboard_program_visibility_page'),
+
     # offer
     path('offer/', views.Offer.as_view(), name='dashboard_offer_page'),
     path('offer/<int:pk>/', views.OfferDetail.as_view(), name='dashboard_offer_detail_page'),

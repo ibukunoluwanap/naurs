@@ -10,10 +10,10 @@ from instructor.models import InstructorModel
 from offer.forms import OfferForm
 from django.contrib import messages
 from offer.models import OfferModel
-from django.views.generic import View, ListView, CreateView, DetailView, UpdateView
+from django.views.generic import View, ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from program.forms import ProgramBenefitForm, ProgramForm
-from program.models import ProgramModel
+from program.models import ProgramBenefitModel, ProgramModel
 from django.contrib.auth import get_user_model
 from student.forms import StudentForm
 from django.contrib.auth.mixins import UserPassesTestMixin
@@ -79,7 +79,6 @@ class ProgramDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         context = super(ProgramDetail, self).get_context_data(**kwargs)
         program = ProgramModel.objects.get(id=self.kwargs['pk'])
         context['program_form_with_instance'] = list(ProgramForm(instance=program))
-        # context['program_benefit_inline_formset_with_instance'] = list(ProgramBenefitInlineFormset(instance=program))
         return context
 
 # dashboard program create view
@@ -121,9 +120,9 @@ class ProgramUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def get_success_url(self):
         messages.success(self.request, "Successfully updated program!")
-        return redirect('dashboard_program_detail_page', pk=self.kwargs['pk'])
+        return reverse_lazy('dashboard_program_detail_page', kwargs={'pk': self.kwargs['pk']})
 
-# dashboard program Update view
+# dashboard program benefit create view
 class ProgramBenefitCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     form_class = ProgramForm
     login_url = 'login_page'
@@ -148,7 +147,48 @@ class ProgramBenefitCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             return redirect("dashboard_program_detail_page", pk=program.id)
         messages.error(self.request, f"{program_benefit_form}")
         return redirect("dashboard_program_page")
-        
+
+# dashboard program benefit delete view
+class ProgramBenefitDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = ProgramBenefitModel
+    login_url = 'login_page'
+    template_name = "dashboard/program/detail.html"
+    raise_exception = True
+
+    def test_func(self):
+        try:
+            return (self.request.user.instructormodel)
+        except:
+            return (self.request.user.is_admin)
+
+    def get_success_url(self):
+        messages.success(self.request, f"Successfully deleted program benefit!")
+        return reverse_lazy('dashboard_program_detail_page', kwargs={'pk': self.kwargs['program_id']})
+
+# dashboard program visibility view
+class ProgramVisibility(LoginRequiredMixin, UserPassesTestMixin, View):
+    template_name = "dashboard/dashboard.html"
+    login_url = 'login_page'
+    raise_exception = True
+
+    def test_func(self):
+        try:
+            return (self.request.user.instructormodel)
+        except:
+            return (self.request.user.is_admin)
+
+    def post(self, request, *args, **kwargs):
+        program_id = self.kwargs['program_id']
+        visibility = self.kwargs['visibility']
+        program =ProgramModel.objects.get(id=program_id)
+        if visibility == 'deactivate':
+            program.is_active = False
+            program.save()
+            return reverse_lazy('dashboard_program_detail_page', kwargs={'pk': program_id})
+        elif visibility == 'delete':
+            program.delete()
+            return redirect('dashboard_program_page')
+
 # dashboard offer view
 class Offer(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = OfferModel

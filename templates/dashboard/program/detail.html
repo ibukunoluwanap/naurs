@@ -119,7 +119,7 @@
           <li class="my-4 position-relative">
               <i class="bi bi-arrow-return-right align-middle text-cus-primary"></i>
               {{ benefit.benefit }}
-              <form action="" method="post" class="d-inline position-absolute" style="right: 0;">
+              <form action="{% url 'dashboard_program_benefit_delete_page' pk=benefit.id program_id=program.id %}" method="post" class="d-inline position-absolute" style="right: 0;">
                 {% csrf_token %}
                 <button class="btn btn-sm bg-danger border border-danger text-cus-secondary" type="submit">
                   <span data-feather="trash"></span>
@@ -268,10 +268,13 @@
         the website or application.
       </div>
       <div class="d-flex flex-row justify-content-center">
-        <a href="#" class="btn btn-lg bg-warning border border-warning text-cus-primary">
-          <span data-feather="x-circle"></span>
-          Deactivate
-        </a>
+        <form action="{% url 'dashboard_program_visibility_page' program_id=program.id visibility='deactivate' %}" method="post">
+          {% csrf_token %}
+          <button class="btn btn-sm bg-warning border border-warning text-cus-secondary" type="submit">
+            <span data-feather="x-circle"></span>
+            Deactivate
+          </button>
+        </form>
       </div>
     </div>
     <div class="col-sm-6 mb-3">
