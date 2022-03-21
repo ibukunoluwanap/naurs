@@ -20,10 +20,10 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form action="#" method="post" class="col border-0 py-3">
+              <form action="{% url 'dashboard_student_create_page' %}" method="post" class="col border-0 py-3">
                 {% csrf_token %}
                 <div class="row">
-                  <div class="col-sm-12">
+                  <div class="col-sm-6">
                     {% for field in student_form_list|slice:":1" %}
                       {% if forloop.counter == 1 %}
                         <div class="form-floating shadow mb-4">
@@ -39,14 +39,17 @@
                   <div class="col-sm-6">
                     {% for field in student_form_list|slice:":2" %}
                       {% if forloop.counter == 2 %}
-                        <div class="card p-3 shadow mb-4 form-check form-switch overflow-height" style="height: 185px;">
-                            {{ field }}
-                            <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
+                        <div class="form-floating shadow mb-4">
+                          {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
+                          <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                          {% for error in field.errors %}
+                              <p class="text-danger">{{ error }}</p>
+                          {% endfor %}
                         </div>
                       {% endif %}
                     {% endfor %}
                   </div>
-                  <div class="col-sm-6">
+                  <div class="col-sm-12">
                     {% for field in student_form_list|slice:":3" %}
                       {% if forloop.counter == 3 %}
                         <div class="card p-3 shadow mb-4 form-check form-switch overflow-height" style="height: 185px;">

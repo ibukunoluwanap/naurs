@@ -199,9 +199,22 @@ class InstructorCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         context["instructor_form"] = instructor_form = InstructorForm(request.POST)
 
         if instructor_form.is_valid():
-            instructor_form.save()
-            messages.success(self.request, f"Successfully added an instructor!")
-            return redirect("dashboard_instructor_page")
+            user = instructor_form.cleaned_data.get('user')
+            if user.is_admin:
+                messages.error(self.request, f"{user} is admin and cannot be instructor!")
+                return redirect("dashboard_instructor_page")
+            else:
+                try:
+                    if user.studentmodel:
+                        messages.error(self.request, f"{user} is student and cannot be instructor!")
+                        return redirect("dashboard_instructor_page")
+                    elif user.instructormodel:
+                        messages.info(self.request, f"{user} already a instructor!")
+                        return redirect("dashboard_instructor_page")
+                except:
+                    instructor_form.save()
+                    messages.success(self.request, f"Successfully added an instructor!")
+                    return redirect("dashboard_instructor_page")
         return render(request, self.template_name, context)
 
 # dashboard student view
@@ -256,9 +269,22 @@ class StudentCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         context["student_form"] = student_form = StudentForm(request.POST)
 
         if student_form.is_valid():
-            student_form.save()
-            messages.success(self.request, f"Successfully added an student!")
-            return redirect("dashboard_student_page")
+            user = student_form.cleaned_data.get('user')
+            if user.is_admin:
+                messages.error(self.request, f"{user} is admin and cannot be student!")
+                return redirect("dashboard_student_page")
+            else:
+                try:
+                    if user.instructormodel:
+                        messages.error(self.request, f"{user} is instructor and cannot be student!")
+                        return redirect("dashboard_student_page")
+                    elif user.studentmodel:
+                        messages.info(self.request, f"{user} already a student!")
+                        return redirect("dashboard_student_page")
+                except:
+                    student_form.save()
+                    messages.success(self.request, f"Successfully added an student!")
+                    return redirect("dashboard_student_page")
         return render(request, self.template_name, context)
 
 # dashboard admin view
