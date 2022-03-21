@@ -14,9 +14,6 @@
         <span data-feather="corner-up-left"></span> Back
       </a>
     </div>
-    <div class="col-sm-12">
-      <h4 class="my-3">{{user.email}}</h4>
-    </div>
   </div>
 
   <!-- about -->
@@ -27,12 +24,15 @@
       {% else %}
         <i class="bi bi-person-circle align-middle" class="avatar-lg shadow mb-3" style="font-size: 250px;"></i>
       {% endif %}
+      <div class="col-sm-12">
+        <h4 class="my-3">{{user.email}}</h4>
+      </div>
     </div>
     <form action="#" method="post" class="col card shadow border-0 py-3" enctype="multipart/form-data">
       {% csrf_token %}
       <div class="row">
-        <div class="col-sm-6">
-          {% for field in user_form_with_instance|slice:":4" %}
+        <div class="col-sm-12">
+          {% for field in update_admin_form_list|slice:":1" %}
             {% if forloop.counter == 1 %}
               <div class="card p-3 shadow mb-4">
                 {{ field|add_class:"cus-file-input" }}
@@ -40,7 +40,12 @@
                     <p class="text-danger">{{ error }}</p>
                 {% endfor %}
               </div>
-            {% else %}
+            {% endif %}
+          {% endfor %}
+        </div>
+        <div class="col-sm-6">
+          {% for field in update_admin_form_list|slice:":4" %}
+            {% if forloop.counter > 1 %}
               <div class="form-floating shadow mb-4">
                 {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
                 <label for="{{ field.auto_id }}">{{ field.label }}</label>
@@ -52,17 +57,17 @@
           {% endfor %}
         </div>
         <div class="col-sm-6">
-            {% for field in user_form_with_instance|slice:"4:" %}
-                <div class="card p-3 shadow mb-4">
-                    <div class="form-check form-switch">
-                        {{ field|add_class:"form-check-input"|attr:"placeholder:field.label" }}
-                        <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
-                        {% for error in field.errors %}
-                            <p class="text-danger">{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                </div>
-            {% endfor %}
+          {% for field in update_admin_form_list|slice:"4:" %}
+              <div class="card p-3 shadow mb-4">
+                  <div class="form-check form-switch">
+                      {{ field|add_class:"form-check-input"|attr:"placeholder:field.label" }}
+                      <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
+                      {% for error in field.errors %}
+                          <p class="text-danger">{{ error }}</p>
+                      {% endfor %}
+                  </div>
+              </div>
+          {% endfor %}
         </div>
       </div>
       <button class="btn-lg" type="submit">Update</button>

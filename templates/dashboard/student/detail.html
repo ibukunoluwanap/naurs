@@ -14,9 +14,6 @@
         <span data-feather="corner-up-left"></span> Back
       </a>
     </div>
-    <div class="col-sm-12">
-      <h4 class="my-3">{{student.email}}</h4>
-    </div>
   </div>
 
   <!-- about -->
@@ -27,6 +24,9 @@
       {% else %}
         <i class="bi bi-person-circle align-middle" class="avatar-lg shadow mb-3" style="font-size: 250px;"></i>
       {% endif %}
+      <div class="col-sm-12">
+        <h4 class="my-3">{{student.user.email}}</h4>
+      </div>
     </div>
     <form action="#" method="post" class="col card shadow border-0 py-3" enctype="multipart/form-data">
       {% csrf_token %}
