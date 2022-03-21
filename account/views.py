@@ -88,27 +88,6 @@ class Login(View):
         messages.error(self.request, f"{login_form.errors}")
         return render(request, self.template_name, context)
 
-# change view
-class ChangePassword(View):
-    template_name = "account/forget_password.html"
-
-    def get(self, request):
-        context = {}
-        form = PasswordChangeForm(request.user)
-        context["form"] = form
-
-        return render(request, self.template_name, context)
-
-    def post(self, request):
-        password_change_form = PasswordChangeForm(request.user, request.POST)
-        if password_change_form.is_valid():
-            user = password_change_form.save()
-            update_session_auth_hash(request, user)  # Important!
-            messages.success(request, 'Your password was successfully updated!')
-            return redirect('change_password')
-        messages.error(self.request, f"{password_change_form.errors}")
-        return render(request, self.template_name)
-
 # password reset done
 class PasswordResetDone(View):
     def get(self, request):

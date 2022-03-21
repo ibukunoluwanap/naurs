@@ -102,7 +102,7 @@ class UpdateAdminForm(forms.ModelForm):
     first_name = forms.CharField(max_length=30, required=True, widget=forms.TextInput)
     last_name = forms.CharField(max_length=30, required=True, widget=forms.TextInput)
     email = forms.EmailField(max_length=254, required=True, widget=forms.EmailInput, help_text='Required. Inform a valid email address.')
-    admin = forms.BooleanField(initial=True)
+    admin = forms.BooleanField(required=False, initial=True)
 
     class Meta:
         model = User

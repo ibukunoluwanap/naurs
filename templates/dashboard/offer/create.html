@@ -1,0 +1,57 @@
+{% extends 'app/app.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}<title>Dashboard - Offer creation</title>{% endblock title %}
+
+{% block app %}
+    <main id="main form-signin"> 
+        <section id="breadcrumbs" class="breadcrumbs">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center text-white">
+                    <h2>Offers</h2>
+                    <ol>
+                        <li>
+                            <a href="{% url 'home_page' %}">Home</a>
+                        </li>
+                        <li>Offers</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+        <!-- ======= offer creation section ======= -->
+        <section class="section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-5">
+                        <form action="{% url 'dashboard_offer_create_page' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            {% for field in offer_form %}
+                                {% if field.name == "content" %}
+                                    <div class="form-floating shadow mb-4">
+                                        {{ offer_form.media }}
+                                        {{ field }}
+                                        {% for error in field.errors %}
+                                            <p class="text-danger">{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <div class="form-floating shadow mb-4">
+                                        {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
+                                        <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                                        {% for error in field.errors %}
+                                            <p class="text-danger">{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}                            
+                            {% endfor %}
+
+                            <button class="w-50 btn-lg" type="submit">Create Offer</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock app %}
