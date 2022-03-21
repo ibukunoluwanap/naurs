@@ -336,22 +336,12 @@ class AdminCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         context["admin_form"] = admin_form = UpdateAdminForm(request.POST, request.FILES)
 
         if admin_form.is_valid():
-            user = admin_form.cleaned_data.get('email')
-            if user.is_admin:
-                messages.info(self.request, f"{user} already an admin!")
-                return redirect("dashboard_admin_page")
-            else:
-                try:
-                    if user.instructormodel:
-                        messages.error(self.request, f"{user} is instructor and cannot be admin!")
-                        return redirect("dashboard_admin_page")
-                    elif user.studentmodel:
-                        messages.error(self.request, f"{user} is student and cannot be admin!")
-                        return redirect("dashboard_admin_page")
-                except:
-                    # admin_form.save()
-                    messages.success(self.request, f"Successfully added an admin!")
-                    return redirect("dashboard_admin_page")
+            new_admin = admin_form.save(commit=False)
+            new_admin.admin = True
+            new_admin.staff = False
+            new_admin.save()
+            messages.success(self.request, f"Successfully added an admin!")
+            return redirect("dashboard_admin_page")
         messages.error(self.request, f"{admin_form.errors}")
         return render(request, self.template_name, context)
 
