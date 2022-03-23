@@ -25,7 +25,7 @@
       <img src="{{offer.image.url}}" alt="{{offer.title}}" class="object-fit rounded" width="100%" height="300px">
       {{offer.content|safe|truncatechars:500}}
     </div>
-    <form action="#" method="post" class="col card shadow border-0 py-3" enctype="multipart/form-data">
+    <form action="{% url 'dashboard_offer_update_page' pk=offer.id %}" method="post" class="col card shadow border-0 py-3" enctype="multipart/form-data">
       {% csrf_token %}
       <div class="row">
         <div class="col-sm-6">

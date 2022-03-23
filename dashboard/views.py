@@ -10,7 +10,7 @@ from instructor.forms import InstructorForm
 from instructor.models import InstructorModel
 from offer.forms import OfferForm
 from django.contrib import messages
-from offer.models import OfferModel
+from offer.models import BookOfferModel, OfferModel
 from django.views.generic import View, ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from program.forms import ProgramBenefitForm, ProgramForm
@@ -174,7 +174,6 @@ class ProgramBenefitDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 # dashboard program visibility view
 class ProgramVisibility(LoginRequiredMixin, UserPassesTestMixin, View):
-    template_name = "dashboard/dashboard.html"
     login_url = 'login_page'
     raise_exception = True
 
@@ -205,7 +204,6 @@ class ProgramVisibility(LoginRequiredMixin, UserPassesTestMixin, View):
 
 # dashboard program enquiry delete view
 class ProgramEnquiryDelete(LoginRequiredMixin, UserPassesTestMixin, View):
-    template_name = "dashboard/dashboard.html"
     login_url = 'login_page'
     raise_exception = True
 
@@ -271,6 +269,35 @@ class OfferCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             for error in field.errors:
                 messages.error(self.request, f"<b>{field.label}:</b> {error}")
         return render(request, self.template_name, context)
+
+# dashboard offer create view
+class OfferUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = OfferModel
+    form_class = OfferForm
+    login_url = 'login_page'
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
+
+    def get_success_url(self):
+        messages.success(self.request, "Successfully updated offer!")
+        return reverse_lazy('dashboard_offer_detail_page', kwargs={'pk': self.kwargs['pk']})
+
+# dashboard offer booking delete view
+class BookOfferDelete(LoginRequiredMixin, UserPassesTestMixin, View):
+    login_url = 'login_page'
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
+
+    def post(self, request, *args, **kwargs):
+        pk = self.kwargs['pk']
+        book_offer =BookOfferModel.objects.get(id=pk)
+        book_offer.delete()
+        messages.success(self.request, "Successfully deleted booked offer!")
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
 
 # dashboard instructor view
 class Instructor(LoginRequiredMixin, UserPassesTestMixin, ListView):
