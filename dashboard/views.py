@@ -200,7 +200,7 @@ class ProgramVisibility(LoginRequiredMixin, UserPassesTestMixin, View):
         elif visibility == 'delete':
             program.delete()
             messages.success(self.request, "Successfully deleted program!")
-            return redirect('dashboard_program_page')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
 
 # dashboard program enquiry delete view
 class ProgramEnquiryDelete(LoginRequiredMixin, UserPassesTestMixin, View):
@@ -309,7 +309,7 @@ class OfferVisibility(LoginRequiredMixin, UserPassesTestMixin, View):
         elif visibility == 'delete':
             offer.delete()
             messages.success(self.request, "Successfully deleted offer!")
-            return redirect('dashboard_offer_page')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
 
 # dashboard offer booking delete view
 class BookOfferDelete(LoginRequiredMixin, UserPassesTestMixin, View):
