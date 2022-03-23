@@ -145,14 +145,14 @@
                   </form>
                 </td>
                 <td class="p-2">
-                  <button type="button" class="w-100 btn btn-sm btn-danger d-flex justify-self-center justify-content-center text-center" data-bs-toggle="modal" data-bs-target="#deleteProgramModel">
+                  <button type="button" class="w-100 btn btn-sm btn-danger d-flex justify-self-center justify-content-center text-center" data-bs-toggle="modal" data-bs-target="#deleteProgramModel{{program.id}}">
                     Delete
                   </button>
-                  <div class="modal fade" id="deleteProgramModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteProgramModelLabel" aria-hidden="true">
+                  <div class="modal fade" id="deleteProgramModel{{program.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteProgramModel{{program.id}}Label" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title text-danger" id="deleteProgramModelLabel">Delete Program!</h5>
+                          <h5 class="modal-title text-danger" id="deleteProgramModel{{program.id}}Label">Delete Program!</h5>
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -231,14 +231,14 @@
                       </form>
                     </td>
                     <td class="p-2">
-                      <button type="button" class="w-100 btn btn-sm btn-danger d-flex justify-self-center justify-content-center text-center" data-bs-toggle="modal" data-bs-target="#deleteProgramModel">
+                      <button type="button" class="w-100 btn btn-sm btn-danger d-flex justify-self-center justify-content-center text-center" data-bs-toggle="modal" data-bs-target="#deleteProgramModel{{program.id}}">
                         Delete
                       </button>
-                      <div class="modal fade" id="deleteProgramModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteProgramModelLabel" aria-hidden="true">
+                      <div class="modal fade" id="deleteProgramModel{{program.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteProgramModel{{program.id}}Label" aria-hidden="true">
                         <div class="modal-dialog">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h5 class="modal-title text-danger" id="deleteProgramModelLabel">Delete Program!</h5>
+                              <h5 class="modal-title text-danger" id="deleteProgramModel{{program.id}}Label">Delete Program!</h5>
                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
