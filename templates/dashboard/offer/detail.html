@@ -132,11 +132,12 @@
                   </td>
                   <td class="p-2">{{offer.created_on|naturaltime}}</td>
                   <td class="p-2">
-                    <a
-                      href="#"
-                      class="btn btn-sm btn-danger d-flex justify-content-center text-center"
-                      >Delete</a
-                    >
+                    <form action="{% url 'dashboard_book_offer_page' pk=offer.id %}" method="post">
+                      {% csrf_token %}
+                      <button class="w-100 btn btn-sm btn-danger d-flex justify-content-center text-center" type="submit">
+                        Delete
+                      </button>
+                    </form>
                   </td>
                 </tr>
               {% endfor %}
