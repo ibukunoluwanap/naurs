@@ -284,6 +284,33 @@ class OfferUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         messages.success(self.request, "Successfully updated offer!")
         return reverse_lazy('dashboard_offer_detail_page', kwargs={'pk': self.kwargs['pk']})
 
+# dashboard offer visibility view
+class OfferVisibility(LoginRequiredMixin, UserPassesTestMixin, View):
+    login_url = 'login_page'
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
+
+    def post(self, request, *args, **kwargs):
+        offer_id = self.kwargs['offer_id']
+        visibility = self.kwargs['visibility']
+        offer = OfferModel.objects.get(id=offer_id)
+        if visibility == 'deactivate':
+            if offer.is_active:
+                offer.is_active = False
+                offer.save()
+                messages.success(self.request, "Successfully deactivated offer!")
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
+            offer.is_active = True
+            offer.save()
+            messages.success(self.request, "Successfully reactivated offer!")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
+        elif visibility == 'delete':
+            offer.delete()
+            messages.success(self.request, "Successfully deleted offer!")
+            return redirect('dashboard_offer_page')
+
 # dashboard offer booking delete view
 class BookOfferDelete(LoginRequiredMixin, UserPassesTestMixin, View):
     login_url = 'login_page'
