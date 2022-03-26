@@ -102,10 +102,20 @@
         It's advisable to deactivate student account instead of deleting.
       </div>
       <div class="d-flex flex-row justify-content-center">
-          <a href="#" class="btn btn-lg bg-warning border border-warning text-cus-primary">
-            <span data-feather="user-x"></span>
-            Deactivate
-          </a>
+        <form action="{% url 'dashboard_student_visibility_page' student_id=student.id visibility='deactivate' %}" method="post">
+          {% csrf_token %}
+          {% if student.user.is_active %}
+            <button class="btn btn-lg bg-warning border border-warning text-cus-secondary" type="submit">
+              <span data-feather="x-circle"></span>
+              Deactivate
+            </button>
+          {% else %}
+            <button class="btn btn-lg bg-info border border-info text-cus-secondary" type="submit">
+              <span data-feather="check-circle"></span>
+              Reactivate
+            </button>
+          {% endif %}
+        </form>
       </div>
     </div>
     <div class="col-sm-6 mb-3">
@@ -113,16 +123,42 @@
             This will <b>forever</b> remove this account from the Naurs. This cannot be undone. 
         </div>
       <div class="d-flex flex-row justify-content-center">
-        {% if student.is_admin %}
+        {% if student.user.is_admin %}
           <a class="btn btn-lg bg-danger border border-danger text-cus-secondary disabled">
             <span data-feather="trash"></span>
             Delete
           </a>
         {% else %}
-          <a href="#" class="btn btn-lg bg-danger border border-danger text-cus-secondary">
+          <button type="button" class="btn btn-lg bg-danger border border-danger text-cus-secondary" data-bs-toggle="modal" data-bs-target="#deleteStudentModel">
             <span data-feather="trash"></span>
             Delete
-          </a>
+          </button>
+          <div class="modal fade" id="deleteStudentModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteStudentModelLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title text-danger" id="deleteStudentModelLabel">Delete Student!</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row justify-content-center">
+                    <div class="col-12 text-center">
+                      <div class="alert alert-danger" role="alert">
+                        This will <b>forever</b> remove the student from the database. Click <b>"Continue"</b> to delete.
+                      </div>
+                      <form action="{% url 'dashboard_student_visibility_page' student_id=student.id visibility='delete' %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn btn-lg bg-danger border border-danger text-cus-secondary" type="submit">
+                          <span data-feather="trash"></span>
+                          Continue
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         {% endif %}
       </div>
     </div>
