@@ -1,10 +1,12 @@
 from django import forms
 from tinymce.widgets import TinyMCE
 from .models import ProgramBenefitModel, ProgramEnquiryModel, ProgramModel, ProgramPaymentModel
+from bootstrap_datepicker_plus.widgets import DateTimePickerInput
 
 # program form
 class ProgramForm(forms.ModelForm):
     image = forms.ImageField(widget=forms.FileInput)
+    calendar = forms.DateTimeField(widget=DateTimePickerInput())
     content = forms.CharField(required=True, widget=TinyMCE(attrs={'cols': 10, 'rows': 20}))
 
     class Meta:

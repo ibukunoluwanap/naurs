@@ -20,6 +20,7 @@ class ProgramModel(models.Model):
     price = models.PositiveIntegerField()
     total_space = models.PositiveIntegerField()
     is_active = models.BooleanField(verbose_name="activate", default=True)
+    calendar = models.DateTimeField("calendar")
     content = HTMLField()
     created_on = models.DateTimeField("created on", auto_now_add=True)
 

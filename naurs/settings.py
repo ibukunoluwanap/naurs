@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     # added application
     'widget_tweaks',
     'tinymce',
+    'bootstrap_datepicker_plus',
     'account.apps.AccountConfig', # to handle authentication and user logics
     'home.apps.HomeConfig', # to handle home page contents and functionality
     'program.apps.ProgramConfig', # to handle program page contents and functionality
