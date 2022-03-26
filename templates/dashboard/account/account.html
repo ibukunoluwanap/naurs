@@ -114,10 +114,36 @@
             Delete
           </a>
         {% else %}
-          <a href="#" class="btn btn-lg bg-danger border border-danger text-cus-secondary">
-            <span data-feather="trash"></span>
-            Delete
-          </a>
+          <button type="button" class="btn btn-lg bg-danger border border-danger text-cus-secondary" data-bs-toggle="modal" data-bs-target="#deleteAccountModel">
+              <span data-feather="trash"></span>
+              Delete
+          </button>
+          <div class="modal fade" id="deleteAccountModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteAccountModelLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title text-danger" id="deleteAccountModelLabel">Delete Account!</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                          <div class="row justify-content-center">
+                              <div class="col-12 text-center">
+                                  <div class="alert alert-danger" role="alert">
+                                      This will <b>forever</b> remove the account from the database. Click <b>"Continue"</b> to delete.
+                                  </div>
+                                  <form action="{% url 'dashboard_account_delete_page' pk=user.id %}" method="post">
+                                      {% csrf_token %}
+                                      <button class="btn btn-lg bg-danger border border-danger text-cus-secondary" type="submit">
+                                          <span data-feather="trash"></span>
+                                          Continue
+                                      </button>
+                                  </form>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
         {% endif %}
       </div>
     </div>

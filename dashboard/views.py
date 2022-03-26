@@ -708,6 +708,21 @@ class AccountDetail(LoginRequiredMixin, UserPassesTestMixin, View):
             messages.success(self.request, "Successfully updated account!")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
 
+# dashboard account delete view
+class AccountDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = User
+    login_url = 'login_page'
+    template_name = "dashboard/account/detail.html"
+    raise_exception = True
+
+    def test_func(self):
+        return (not self.request.user.is_admin)
+
+    def get_success_url(self):
+        messages.success(self.request, f"Successfully deleted account!")
+        return reverse_lazy('logout_page')
+
+
 # account change password view
 class AccountChangePassword(View):
     login_url = 'login_page'

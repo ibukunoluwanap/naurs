@@ -47,4 +47,5 @@ urlpatterns = [
     # account
     path('account/', views.AccountDetail.as_view(), name='dashboard_account_detail_page'),
     path('account/password/change/', views.AccountChangePassword.as_view(), name='dashboard_account_change_password_page'),
+    path('account/<int:pk>/delete/', views.AccountDelete.as_view(), name='dashboard_account_delete_page'),
 ]
