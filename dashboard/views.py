@@ -390,6 +390,33 @@ class InstructorCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
                 messages.error(self.request, f"<b>{field.label}:</b> {error}")
         return render(request, self.template_name, context)
 
+# dashboard instructor visibility view
+class InstructorVisibility(LoginRequiredMixin, UserPassesTestMixin, View):
+    login_url = 'login_page'
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
+
+    def post(self, request, *args, **kwargs):
+        instructor_id = self.kwargs['instructor_id']
+        visibility = self.kwargs['visibility']
+        instructor = InstructorModel.objects.get(id=instructor_id)
+        if visibility == 'deactivate':
+            if instructor.user.is_active:
+                instructor.user.is_active = False
+                instructor.save()
+                messages.success(self.request, "Successfully deactivated instructor!")
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
+            instructor.user.is_active = True
+            instructor.save()
+            messages.success(self.request, "Successfully reactivated instructor!")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
+        elif visibility == 'delete':
+            instructor.delete()
+            messages.success(self.request, "Successfully deleted instructor!")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
+
 # dashboard student view
 class Student(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = StudentModel
