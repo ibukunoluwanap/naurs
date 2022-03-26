@@ -1,17 +1,28 @@
 from django import forms
 from tinymce.widgets import TinyMCE
 from .models import ProgramBenefitModel, ProgramEnquiryModel, ProgramModel, ProgramPaymentModel
-from bootstrap_datepicker_plus.widgets import DateTimePickerInput
+
+# custom datetime input
+class DateTimeLocalInput(forms.DateTimeInput):
+    input_type = "datetime-local"
+
+# custom datetime field
+class DateTimeLocalField(forms.DateTimeField):
+    input_formats = [
+        "%Y-%m-%dT%H:%M:%S", 
+        "%Y-%m-%dT%H:%M:%S.%f", 
+        "%Y-%m-%dT%H:%M"
+    ]
+    widget = DateTimeLocalInput(format="%Y-%m-%dT%H:%M")
 
 # program form
 class ProgramForm(forms.ModelForm):
     image = forms.ImageField(widget=forms.FileInput)
-    calendar = forms.DateTimeField(widget=DateTimePickerInput())
+    calendar = DateTimeLocalField()
     content = forms.CharField(required=True, widget=TinyMCE(attrs={'cols': 10, 'rows': 20}))
-
     class Meta:
         model = ProgramModel
-        exclude = ['created_on']
+        exclude = ['created_on',]
 
 # program benefit form
 class ProgramBenefitForm(forms.ModelForm):
