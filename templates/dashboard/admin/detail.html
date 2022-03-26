@@ -19,7 +19,7 @@
   <!-- about -->
   <div class="row justify-content-center">
     <div class="col-sm-4 text-center">
-      {% if user.avatar %}
+      {% if admin.user.avatar %}
         <img src="{{admin.avatar.url}}" alt="{{admin.first_name}}" class="avatar-lg shadow mb-3">
       {% else %}
         <i class="bi bi-person-circle align-middle" class="avatar-lg shadow mb-3" style="font-size: 250px;"></i>
