@@ -607,6 +607,47 @@ class AdminCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
                 messages.error(self.request, f"<b>{field.label}:</b> {error}")
         return render(request, self.template_name, context)
 
+# dashboard admin create view
+class AdminUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = User
+    form_class = UpdateAdminForm
+    login_url = 'login_page'
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
+
+    def get_success_url(self):
+        messages.success(self.request, "Successfully updated admin!")
+        return reverse_lazy('dashboard_admin_detail_page', kwargs={'pk': self.kwargs['pk']})
+
+# dashboard admin visibility view
+class AdminVisibility(LoginRequiredMixin, UserPassesTestMixin, View):
+    login_url = 'login_page'
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
+
+    def post(self, request, *args, **kwargs):
+        admin_id = self.kwargs['admin_id']
+        visibility = self.kwargs['visibility']
+        admin = User.objects.get(id=admin_id)
+        if visibility == 'deactivate':
+            if admin.is_active:
+                admin.is_active = False
+                admin.save()
+                messages.success(self.request, "Successfully deactivated admin!")
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
+            admin.is_active = True
+            admin.save()
+            messages.success(self.request, "Successfully reactivated admin!")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
+        elif visibility == 'delete':
+            admin.delete()
+            messages.success(self.request, "Successfully deleted admin!")
+            return redirect("dashboard_admin_page")
+
 # dashboard about view
 class About(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = AboutModel
