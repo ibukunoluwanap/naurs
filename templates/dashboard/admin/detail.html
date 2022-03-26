@@ -19,16 +19,16 @@
   <!-- about -->
   <div class="row justify-content-center">
     <div class="col-sm-4 text-center">
-      {% if admin.user.avatar %}
+      {% if admin.avatar %}
         <img src="{{admin.avatar.url}}" alt="{{admin.first_name}}" class="avatar-lg shadow mb-3">
       {% else %}
         <i class="bi bi-person-circle align-middle" class="avatar-lg shadow mb-3" style="font-size: 250px;"></i>
       {% endif %}
       <div class="col-sm-12">
-        <h4 class="my-3">{{user.email}}</h4>
+        <h4 class="my-3">{{admin.email}}</h4>
       </div>
     </div>
-    <form action="#" method="post" class="col card shadow border-0 py-3" enctype="multipart/form-data">
+    <form action="{% url 'dashboard_admin_update_page' pk=admin.id %}" method="post" class="col card shadow border-0 py-3" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="row">
           <div class="col-sm-12">
@@ -90,10 +90,20 @@
         It's advisable to deactivate admin account instead of deleting.
       </div>
       <div class="d-flex flex-row justify-content-center">
-          <a href="#" class="btn btn-lg bg-warning border border-warning text-cus-primary">
-            <span data-feather="user-x"></span>
-            Deactivate
-          </a>
+        <form action="{% url 'dashboard_admin_visibility_page' admin_id=admin.id visibility='deactivate' %}" method="post">
+          {% csrf_token %}
+          {% if admin.is_active %}
+            <button class="btn btn-lg bg-warning border border-warning text-cus-secondary" type="submit">
+              <span data-feather="x-circle"></span>
+              Deactivate
+            </button>
+          {% else %}
+            <button class="btn btn-lg bg-info border border-info text-cus-secondary" type="submit">
+              <span data-feather="check-circle"></span>
+              Reactivate
+            </button>
+          {% endif %}
+        </form>
       </div>
     </div>
     <div class="col-sm-6 mb-3">
