@@ -27,9 +27,9 @@
       {% else %}
         <i class="bi bi-person-circle align-middle" class="avatar-lg shadow mb-3" style="font-size: 250px;"></i>
       {% endif %}
-      {{instructor.about|safe|truncatechars:700}}
+      {{instructor.about|safe|truncatechars:500}}
     </div>
-    <form action="#" method="post" class="col card shadow border-0 py-3" enctype="multipart/form-data">
+    <form action="{% url 'dashboard_instructor_update_page' pk=instructor.id %}" method="post" class="col card shadow border-0 py-3">
       {% csrf_token %}
       <div class="row">
         <div class="col-sm-6">
