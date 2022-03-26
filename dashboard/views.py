@@ -200,7 +200,7 @@ class ProgramVisibility(LoginRequiredMixin, UserPassesTestMixin, View):
         elif visibility == 'delete':
             program.delete()
             messages.success(self.request, "Successfully deleted program!")
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
+            return redirect("dashboard_program_page")
 
 # dashboard program enquiry delete view
 class ProgramEnquiryDelete(LoginRequiredMixin, UserPassesTestMixin, View):
@@ -309,7 +309,7 @@ class OfferVisibility(LoginRequiredMixin, UserPassesTestMixin, View):
         elif visibility == 'delete':
             offer.delete()
             messages.success(self.request, "Successfully deleted offer!")
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
+            return redirect("dashboard_offer_page")
 
 # dashboard offer booking delete view
 class BookOfferDelete(LoginRequiredMixin, UserPassesTestMixin, View):
@@ -405,17 +405,17 @@ class InstructorVisibility(LoginRequiredMixin, UserPassesTestMixin, View):
         if visibility == 'deactivate':
             if instructor.user.is_active:
                 instructor.user.is_active = False
-                instructor.save()
+                instructor.user.save()
                 messages.success(self.request, "Successfully deactivated instructor!")
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
             instructor.user.is_active = True
-            instructor.save()
+            instructor.user.save()
             messages.success(self.request, "Successfully reactivated instructor!")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
         elif visibility == 'delete':
-            instructor.delete()
+            instructor.user.delete()
             messages.success(self.request, "Successfully deleted instructor!")
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
+            return redirect("dashboard_instructor_page")
 
 # dashboard student view
 class Student(LoginRequiredMixin, UserPassesTestMixin, ListView):
