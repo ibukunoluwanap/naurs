@@ -504,6 +504,53 @@ class StudentCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
                 messages.error(self.request, f"<b>{field.label}:</b> {error}")
         return render(request, self.template_name, context)
 
+# dashboard student create view
+class StudentUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = StudentModel
+    form_class = StudentForm
+    login_url = 'login_page'
+    raise_exception = True
+
+    def test_func(self):
+        try:
+            return (self.request.user.instructormodel)
+        except:
+            return (self.request.user.is_admin)
+
+    def get_success_url(self):
+        messages.success(self.request, "Successfully updated student!")
+        return reverse_lazy('dashboard_student_detail_page', kwargs={'pk': self.kwargs['pk']})
+
+# dashboard student visibility view
+class StudentVisibility(LoginRequiredMixin, UserPassesTestMixin, View):
+    login_url = 'login_page'
+    raise_exception = True
+
+    def test_func(self):
+        try:
+            return (self.request.user.instructormodel)
+        except:
+            return (self.request.user.is_admin)
+
+    def post(self, request, *args, **kwargs):
+        student_id = self.kwargs['student_id']
+        visibility = self.kwargs['visibility']
+        student = StudentModel.objects.get(id=student_id)
+        if visibility == 'deactivate':
+            if student.user.is_active:
+                student.user.is_active = False
+                student.user.save()
+                messages.success(self.request, "Successfully deactivated student!")
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
+            student.user.is_active = True
+            student.user.save()
+            messages.success(self.request, "Successfully reactivated student!")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
+        elif visibility == 'delete':
+            student.user.delete()
+            messages.success(self.request, "Successfully deleted student!")
+            return redirect("dashboard_student_page")
+
 # dashboard admin view
 class Admin(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = User
