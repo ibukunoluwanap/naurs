@@ -619,6 +619,20 @@ class HomeCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
                 messages.error(self.request, f"<b>{field.label}:</b> {error}")
         return render(request, self.template_name, context)
 
+# dashboard home create view
+class HomeUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = ListingModel
+    form_class = ListingForm
+    login_url = 'login_page'
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
+
+    def get_success_url(self):
+        messages.success(self.request, "Successfully updated listing!")
+        return reverse_lazy('dashboard_home_detail_page', kwargs={'pk': self.kwargs['pk']})
+
 # dashboard home delete view
 class HomeDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = ListingModel
