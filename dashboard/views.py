@@ -390,6 +390,20 @@ class InstructorCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
                 messages.error(self.request, f"<b>{field.label}:</b> {error}")
         return render(request, self.template_name, context)
 
+# dashboard instructor create view
+class InstructorUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = InstructorModel
+    form_class = InstructorForm
+    login_url = 'login_page'
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
+
+    def get_success_url(self):
+        messages.success(self.request, "Successfully updated instructor!")
+        return reverse_lazy('dashboard_instructor_detail_page', kwargs={'pk': self.kwargs['pk']})
+
 # dashboard instructor visibility view
 class InstructorVisibility(LoginRequiredMixin, UserPassesTestMixin, View):
     login_url = 'login_page'
@@ -748,7 +762,6 @@ class AccountDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def get_success_url(self):
         messages.success(self.request, f"Successfully deleted account!")
         return reverse_lazy('logout_page')
-
 
 # account change password view
 class AccountChangePassword(View):
