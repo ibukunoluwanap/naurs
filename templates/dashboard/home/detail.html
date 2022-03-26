@@ -74,10 +74,36 @@
                 This will <b>remove</b> the listing total from naurs's database and cannot be restored.
             </div>
             <div class="d-flex flex-row justify-content-center">
-                <a href="#" class="btn btn-lg bg-danger border border-danger text-cus-secondary">
-                <span data-feather="trash"></span>
-                Delete
-                </a>
+                <button type="button" class="btn btn-lg bg-danger border border-danger text-cus-secondary" data-bs-toggle="modal" data-bs-target="#deleteListingModel">
+                    <span data-feather="trash"></span>
+                    Delete
+                </button>
+                <div class="modal fade" id="deleteListingModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteListingModelLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-danger" id="deleteListingModelLabel">Delete Listing!</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row justify-content-center">
+                                    <div class="col-12 text-center">
+                                        <div class="alert alert-danger" role="alert">
+                                            This will <b>forever</b> remove the listing from the database. Click <b>"Continue"</b> to delete.
+                                        </div>
+                                        <form action="{% url 'dashboard_home_delete_page' pk=listing.id %}" method="post">
+                                            {% csrf_token %}
+                                            <button class="btn btn-lg bg-danger border border-danger text-cus-secondary" type="submit">
+                                                <span data-feather="trash"></span>
+                                                Continue
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

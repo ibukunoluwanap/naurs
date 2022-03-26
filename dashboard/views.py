@@ -170,7 +170,7 @@ class ProgramBenefitDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_success_url(self):
         messages.success(self.request, f"Successfully deleted program benefit!")
-        return HttpResponseRedirect(self.request.META.get('HTTP_REFERER', '/dashboard/'))
+        return reverse_lazy('dashboard_program_detail_page', kwargs={'pk': self.kwargs['pk']})
 
 # dashboard program visibility view
 class ProgramVisibility(LoginRequiredMixin, UserPassesTestMixin, View):
@@ -618,6 +618,20 @@ class HomeCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             for error in field.errors:
                 messages.error(self.request, f"<b>{field.label}:</b> {error}")
         return render(request, self.template_name, context)
+
+# dashboard home delete view
+class HomeDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = ListingModel
+    login_url = 'login_page'
+    template_name = "dashboard/home/detail.html"
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
+
+    def get_success_url(self):
+        messages.success(self.request, f"Successfully deleted listing!")
+        return reverse_lazy('dashboard_home_page')
 
 # dashboard account detail view
 class AccountDetail(LoginRequiredMixin, UserPassesTestMixin, View):
