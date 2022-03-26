@@ -28,7 +28,7 @@
         <h4 class="my-3">{{student.user.email}}</h4>
       </div>
     </div>
-    <form action="#" method="post" class="col card shadow border-0 py-3" enctype="multipart/form-data">
+    <form action="{% url 'dashboard_student_update_page' pk=student.id %}" method="post" class="col card shadow border-0 py-3" enctype="multipart/form-data">
       {% csrf_token %}
       <div class="row">
         <div class="col-sm-6">
