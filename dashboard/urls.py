@@ -36,6 +36,8 @@ urlpatterns = [
     path('about/', views.About.as_view(), name='dashboard_about_page'),
     path('about/<int:pk>/', views.AboutDetail.as_view(), name='dashboard_about_detail_page'),
     path('about/create/', views.AboutCreate.as_view(), name='dashboard_about_create_page'),
+    path('about/<int:pk>/update/', views.AboutUpdate.as_view(), name='dashboard_about_update_page'),
+    path('about/<int:pk>/delete/', views.AboutDelete.as_view(), name='dashboard_about_delete_page'),
     # home
     path('home/', views.Home.as_view(), name='dashboard_home_page'),
     path('home/<int:pk>/', views.HomeDetail.as_view(), name='dashboard_home_detail_page'),

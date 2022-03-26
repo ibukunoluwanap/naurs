@@ -569,6 +569,34 @@ class AboutCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
                 messages.error(self.request, f"<b>{field.label}:</b> {error}")
         return render(request, self.template_name, context)
 
+# dashboard about create view
+class AboutUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = AboutModel
+    form_class = AboutForm
+    login_url = 'login_page'
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
+
+    def get_success_url(self):
+        messages.success(self.request, "Successfully updated about!")
+        return reverse_lazy('dashboard_about_detail_page', kwargs={'pk': self.kwargs['pk']})
+
+# dashboard about delete view
+class AboutDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = AboutModel
+    login_url = 'login_page'
+    template_name = "dashboard/about/detail.html"
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
+
+    def get_success_url(self):
+        messages.success(self.request, f"Successfully deleted about!")
+        return reverse_lazy('dashboard_about_page')
+
 # dashboard home view
 class Home(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = ListingModel
