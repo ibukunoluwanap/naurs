@@ -19,4 +19,4 @@ class InstructorModel(models.Model):
         verbose_name_plural = 'Instructors'
 
     def __str__(self):
-        return f"{self.user.email}"
+        return f"{self.user}"
