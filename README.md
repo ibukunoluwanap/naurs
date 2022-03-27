@@ -10,10 +10,19 @@ The gym category of the naurs application consists of classes(programs) like;
 - ****Kangoo Jump***
 
 ### Music.
-The gym category of the naurs application consists of classes(programs) like;
+The music category of the naurs application consists of classes(programs) like;
 
-- [ ] ***Vocal***
+- ***Vocal***
 - ***Keyboard Electronic***
 - ***Guitar***
 - ***Piano***
 - ***Saxophone***
+
+### Art.
+The art category of the naurs application consists of classes(programs) like;
+
+***Kids Speech & Personality Development*** `coming soon`
+***Theater & Drama*** `coming soon`
+***Painting***
+***Indian Classical Dance form***
+***Bollywood Dance***
