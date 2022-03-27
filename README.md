@@ -12,7 +12,7 @@ The gym category of the naurs application consists of classes(programs) like;
 ### Music.
 The gym category of the naurs application consists of classes(programs) like;
 
-- ***Vocal***
+- [ ] ***Vocal***
 - ***Keyboard Electronic***
 - ***Guitar***
 - ***Piano***
