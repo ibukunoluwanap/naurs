@@ -26,3 +26,4 @@ The art category of the naurs application consists of classes(programs) like;
 ***Painting***
 ***Indian Classical Dance form***
 ***Bollywood Dance***
+***Bollywood Dance***
