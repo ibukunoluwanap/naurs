@@ -21,9 +21,9 @@ The music category of the naurs application consists of classes(programs) like;
 ### Art.
 The art category of the naurs application consists of classes(programs) like;
 
-***Kids Speech & Personality Development*** `coming soon`
-***Theater & Drama*** `coming soon`
-***Painting***
-***Indian Classical Dance form***
-***Bollywood Dance***
-***Bollywood Dance***
+- ***Kids Speech & Personality Development*** `coming soon`
+- ***Theater & Drama*** `coming soon`
+- ***Painting***
+- ***Indian Classical Dance form***
+- ***Bollywood Dance***
+- ***Bollywood Dance***
