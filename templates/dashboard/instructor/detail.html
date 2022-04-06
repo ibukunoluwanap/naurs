@@ -103,7 +103,7 @@
     <div class="col-sm-6 mb-3">
       <div class="alert alert-warning" role="alert">
         It's advisable to deactivate instructor account instead of deleting, as deactivating
-        will keep the all programs (class), tasks and roles performed by the instructor perviously.
+        will keep the all classes, tasks and roles performed by the instructor perviously.
       </div>
       <div class="d-flex flex-row justify-content-center">
         <form action="{% url 'dashboard_instructor_visibility_page' instructor_id=instructor.id visibility='deactivate' %}" method="post">
@@ -125,7 +125,7 @@
     <div class="col-sm-6 mb-3">
       <div class="alert alert-danger" role="alert">
         It's not advisable to delete instructor account instead deactivate it, as deleting
-        will remove the all programs (class), tasks and roles performed by the instructor perviously.
+        will remove the all classes, tasks and roles performed by the instructor perviously.
       </div>
       <div class="d-flex flex-row justify-content-center">
         {% if instructor.user.is_admin %}

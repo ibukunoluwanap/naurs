@@ -265,7 +265,7 @@
     </div>
     <div class="col-sm-6 mb-3">
       <div class="alert {% if program.is_active %}alert-warning{% else %}alert-info{% endif %}" role="alert">
-        This will keep the program in the database, however the program will not be display on
+        This will keep the class in the database, however the class will not be display on
         the website or application.
       </div>
       <div class="d-flex flex-row justify-content-center">
@@ -287,7 +287,7 @@
     </div>
     <div class="col-sm-6 mb-3">
       <div class="alert alert-danger" role="alert">
-        This will <b>forever</b> remove the program from the database, and therefore not available for display on
+        This will <b>forever</b> remove the class from the database, and therefore not available for display on
         the website or application.
       </div>
       <div class="d-flex flex-row justify-content-center">
@@ -299,14 +299,14 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title text-danger" id="deleteProgramModelLabel">Delete Program!</h5>
+                <h5 class="modal-title text-danger" id="deleteProgramModelLabel">Delete Class!</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
                 <div class="row justify-content-center">
                   <div class="col-12 text-center">
                     <div class="alert alert-danger" role="alert">
-                      This will <b>forever</b> remove the program from the database. Click <b>"Continue"</b> to delete.
+                      This will <b>forever</b> remove the class from the database. Click <b>"Continue"</b> to delete.
                     </div>
                     <form action="{% url 'dashboard_program_visibility_page' program_id=program.id visibility='delete' %}" method="post">
                       {% csrf_token %}
