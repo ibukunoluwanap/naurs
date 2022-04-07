@@ -6,6 +6,7 @@ from account.forms import RegisterForm, LoginForm
 from django.http.response import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, logout, authenticate
+from student.models import StudentModel
 
 # setting User model
 User = get_user_model()
@@ -38,8 +39,10 @@ class Register(View):
             user = register_form.save()
             # login the user
             login(request, user)
-            messages.success(request, "Successfully registered and logged in! Select program & class to start with")
-            return redirect('program_page')
+            student = StudentModel.objects.create(user=request.user)
+            if student:
+                messages.success(request, "Successfully registered Select class to start with!")
+                return redirect('program_page')
         for field in register_form:
             for error in field.errors:
                 messages.error(self.request, f"<b>{field.label}:</b> {error}")
