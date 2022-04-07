@@ -24,18 +24,8 @@
                 {% csrf_token %}
                 <div class="row">
                   <div class="col-sm-6">
-                    {% for field in package_form_list|slice:":7" %}
-                      {% if forloop.counter == 4 %}
-                        <div class="card p-3 shadow mb-4">
-                          <div class="form-check form-switch">
-                            {{ field|add_class:"form-check-input"|attr:"placeholder:field.label" }}
-                            <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
-                            {% for error in field.errors %}
-                                <p class="text-danger">{{ error }}</p>
-                            {% endfor %}
-                          </div>
-                        </div>
-                      {% elif forloop.counter == 1 %}
+                    {% for field in package_form_list|slice:":3" %}
+                      {% if forloop.counter == 1 %}
                         <div class="card p-3 shadow mb-4">
                           {{ field|add_class:"cus-file-input" }}
                           {% for error in field.errors %}
@@ -54,20 +44,35 @@
                     {% endfor %}
                   </div>
                   <div class="col-sm-6">
-                    {% for field in package_form_list|slice:":8" %}
-                      {% if forloop.counter == 8 %}
-                        <div class="form-floating shadow mb-4">
-                          {{ package_form.media }}
-                          {{ field }}
-                          {% for error in field.errors %}
-                              <p class="text-danger">{{ error }}</p>
-                          {% endfor %}
-                        </div>
-                      {% endif %}
+                    {% for field in package_form_list|slice:":6" %}
+                        {% if forloop.counter == 5 %}
+                            <div class="card p-3 shadow mb-4">
+                                <div class="form-check form-switch">
+                                    {{ field|add_class:"form-check-input"|attr:"placeholder:field.label" }}
+                                        <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
+                                    {% for error in field.errors %}
+                                        <p class="text-danger">{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% elif forloop.counter == 6 %}
+                            <div class="card p-3 shadow mb-4 form-check form-switch overflow-height">
+                                {{ field }}
+                                <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
+                            </div>
+                        {% elif forloop.counter == 4 %}
+                            <div class="form-floating shadow mb-4">
+                                {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
+                                    <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                                {% for error in field.errors %}
+                                    <p class="text-danger">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     {% endfor %}
                   </div>
                 </div>
-                <button class="btn-lg" type="submit">Create Class</button>
+                <button class="btn-lg" type="submit">Create Package</button>
               </form>
             </div>
           </div>
@@ -160,14 +165,14 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title text-danger" id="deletePackageModel{{package.id}}Label">Delete Class!</h5>
+                                <h5 class="modal-title text-danger" id="deletePackageModel{{package.id}}Label">Delete Package!</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <div class="row justify-content-center">
                                 <div class="col-12 text-center">
                                     <div class="alert alert-danger" role="alert">
-                                    This will <b>forever</b> remove the class from the database. Click <b>"Continue"</b> to delete.
+                                    This will <b>forever</b> remove the package from the database. Click <b>"Continue"</b> to delete.
                                     </div>
                                     <form action="{% url 'dashboard_package_visibility_page' package_id=package.id visibility='delete' %}" method="post">
                                     {% csrf_token %}

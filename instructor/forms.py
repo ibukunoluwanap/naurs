@@ -1,5 +1,6 @@
 from django import forms
 from tinymce.widgets import TinyMCE
+from program.forms import CustomMultipleChoiceField
 
 from program.models import ProgramModel
 from .models import InstructorModel
@@ -10,7 +11,7 @@ User = get_user_model()
 
 # instructor form
 class InstructorForm(forms.ModelForm):
-    program = forms.ModelMultipleChoiceField(required=True, widget=forms.CheckboxSelectMultiple, queryset=ProgramModel.objects.all())
+    program = CustomMultipleChoiceField(required=True, widget=forms.CheckboxSelectMultiple, queryset=ProgramModel.objects.all())
     about = forms.CharField(required=True, widget=TinyMCE(attrs={'cols': 10, 'rows': 27}))
 
     class Meta:

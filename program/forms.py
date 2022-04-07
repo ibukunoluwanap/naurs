@@ -2,6 +2,11 @@ from django import forms
 from tinymce.widgets import TinyMCE
 from .models import PackageModel, ProgramBenefitModel, ProgramEnquiryModel, ProgramModel, ProgramPaymentModel
 
+# custom ModelMultipleChoiceField
+class CustomMultipleChoiceField(forms.ModelMultipleChoiceField):
+    def label_from_instance(self, obj):
+        return obj.title
+
 # custom datetime input
 class DateTimeLocalInput(forms.DateTimeInput):
     input_type = "datetime-local"
@@ -53,7 +58,7 @@ class ProgramPaymentForm(forms.ModelForm):
 
 # package form
 class PackageForm(forms.ModelForm):
-    program = forms.ModelMultipleChoiceField(required=True, widget=forms.CheckboxSelectMultiple, queryset=ProgramModel.objects.all())
+    program = CustomMultipleChoiceField(required=True, widget=forms.CheckboxSelectMultiple, queryset=ProgramModel.objects.all())
 
     class Meta:
         model = PackageModel
