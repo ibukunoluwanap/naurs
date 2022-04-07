@@ -84,6 +84,7 @@ class PackageModel(models.Model):
     name = models.CharField("title", max_length=100, blank=False, null=False)
     initial_price = models.PositiveIntegerField()
     bonus_price = models.PositiveIntegerField()
+    is_active = models.BooleanField(verbose_name="activate", default=True)
     program = models.ManyToManyField(ProgramModel, verbose_name="class")
     created_on = models.DateTimeField("created on", auto_now_add=True)
 

@@ -6,7 +6,7 @@ from instructor.forms import InstructorForm
 from instructor.models import InstructorModel
 from about.models import AboutModel
 from program.forms import PackageForm, ProgramBenefitForm, ProgramEnquiryForm, ProgramForm, ProgramPaymentForm
-from program.models import ProgramBenefitModel, ProgramEnquiryModel, ProgramModel, ProgramPaymentModel
+from program.models import PackageModel, ProgramBenefitModel, ProgramEnquiryModel, ProgramModel, ProgramPaymentModel
 from offer.models import OfferModel, BookOfferModel
 from offer.forms import OfferForm, BookOfferForm, FreeTrialOfferForm
 from student.forms import StudentForm
@@ -49,6 +49,9 @@ def global_context(request):
     context['program_payment_form'] = ProgramPaymentForm()
 
 
+    # package
+    context['without_filter_packages'] = PackageModel.objects.order_by("-id")
+    # package form
     context['package_form'] = PackageForm()
     context['package_form_list'] = list(PackageForm())
 
