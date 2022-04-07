@@ -138,7 +138,7 @@
                                 href="{% url 'dashboard_program_detail_page' pk=program.id %}"
                                 class="text-decoration-none text-cus-primary"
                                 >
-                                {{program|truncatechars:20}},
+                                {{program.title|truncatechars:20}},
                             </a>
                         {% endfor %}
                     </td>
