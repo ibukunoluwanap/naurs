@@ -58,6 +58,7 @@ class ProgramPaymentForm(forms.ModelForm):
 
 # package form
 class PackageForm(forms.ModelForm):
+    image = forms.ImageField(widget=forms.FileInput)
     program = CustomMultipleChoiceField(required=True, widget=forms.CheckboxSelectMultiple, queryset=ProgramModel.objects.all())
 
     class Meta:

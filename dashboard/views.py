@@ -244,7 +244,7 @@ class PackageDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(PackageDetail, self).get_context_data(**kwargs)
         package = PackageModel.objects.get(id=self.kwargs['pk'])
-        context['program_form_with_instance'] = list(PackageForm(instance=package))
+        context['package_form_with_instance'] = list(PackageForm(instance=package))
         return context
 
 # dashboard package create view
