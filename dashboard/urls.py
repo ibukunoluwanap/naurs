@@ -13,6 +13,12 @@ urlpatterns = [
     path('program/<int:pk>/benefit/delete/', views.ProgramBenefitDelete.as_view(), name='dashboard_program_benefit_delete_page'),
     path('program/<int:program_id>/<str:visibility>/visibility/', views.ProgramVisibility.as_view(), name='dashboard_program_visibility_page'),
     path('program/<int:pk>/enquiry/', views.ProgramEnquiryDelete.as_view(), name='dashboard_program_enquiry_page'),
+    # package
+    path('package/', views.Package.as_view(), name='dashboard_package_page'),
+    path('package/<int:pk>/', views.PackageDetail.as_view(), name='dashboard_package_detail_page'),
+    path('package/create/', views.PackageCreate.as_view(), name='dashboard_package_create_page'),
+    path('package/<int:pk>/update/', views.PackageUpdate.as_view(), name='dashboard_package_update_page'),
+    path('package/<int:package_id>/<str:visibility>/visibility/', views.PackageVisibility.as_view(), name='dashboard_package_visibility_page'),
     # offer
     path('offer/', views.Offer.as_view(), name='dashboard_offer_page'),
     path('offer/<int:pk>/', views.OfferDetail.as_view(), name='dashboard_offer_detail_page'),

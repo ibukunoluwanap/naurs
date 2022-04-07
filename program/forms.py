@@ -1,6 +1,6 @@
 from django import forms
 from tinymce.widgets import TinyMCE
-from .models import ProgramBenefitModel, ProgramEnquiryModel, ProgramModel, ProgramPaymentModel
+from .models import PackageModel, ProgramBenefitModel, ProgramEnquiryModel, ProgramModel, ProgramPaymentModel
 
 # custom datetime input
 class DateTimeLocalInput(forms.DateTimeInput):
@@ -50,3 +50,11 @@ class ProgramPaymentForm(forms.ModelForm):
     class Meta:
         model = ProgramPaymentModel
         exclude = ['program', 'completed', 'created_on']
+
+# package form
+class PackageForm(forms.ModelForm):
+    program = forms.ModelMultipleChoiceField(required=True, widget=forms.CheckboxSelectMultiple, queryset=ProgramModel.objects.all())
+
+    class Meta:
+        model = PackageModel
+        exclude = ['created_on',]

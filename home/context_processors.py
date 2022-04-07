@@ -5,7 +5,7 @@ from home.models import ListingModel
 from instructor.forms import InstructorForm
 from instructor.models import InstructorModel
 from about.models import AboutModel
-from program.forms import ProgramBenefitForm, ProgramEnquiryForm, ProgramForm, ProgramPaymentForm
+from program.forms import PackageForm, ProgramBenefitForm, ProgramEnquiryForm, ProgramForm, ProgramPaymentForm
 from program.models import ProgramBenefitModel, ProgramEnquiryModel, ProgramModel, ProgramPaymentModel
 from offer.models import OfferModel, BookOfferModel
 from offer.forms import OfferForm, BookOfferForm, FreeTrialOfferForm
@@ -47,6 +47,10 @@ def global_context(request):
     context['program_benefit_form'] = ProgramBenefitForm()
     context['program_enquiry_form'] = ProgramEnquiryForm()
     context['program_payment_form'] = ProgramPaymentForm()
+
+
+    context['package_form'] = PackageForm()
+    context['package_form_list'] = list(PackageForm())
 
 
     # offer with activate filter

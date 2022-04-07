@@ -13,8 +13,8 @@ from django.contrib import messages
 from offer.models import BookOfferModel, OfferModel
 from django.views.generic import View, ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from program.forms import ProgramBenefitForm, ProgramForm
-from program.models import ProgramBenefitModel, ProgramEnquiryModel, ProgramModel
+from program.forms import PackageForm, ProgramBenefitForm, ProgramForm
+from program.models import PackageModel, ProgramBenefitModel, ProgramEnquiryModel, ProgramModel
 from django.contrib.auth import get_user_model
 from student.forms import StudentForm
 from django.contrib.auth.mixins import UserPassesTestMixin
@@ -219,6 +219,97 @@ class ProgramEnquiryDelete(LoginRequiredMixin, UserPassesTestMixin, View):
         program_enquiry.delete()
         messages.success(self.request, "Successfully deleted program enquiry!")
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
+
+# dashboard package view
+class Package(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = PackageModel
+    login_url = 'login_page'
+    template_name = "dashboard/package/package.html"
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
+
+# dashboard package detail view
+class PackageDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    model = PackageModel
+    login_url = 'login_page'
+    template_name = "dashboard/package/detail.html"
+    context_object_name = "package"
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
+
+    def get_context_data(self, **kwargs):
+        context = super(PackageDetail, self).get_context_data(**kwargs)
+        package = PackageModel.objects.get(id=self.kwargs['pk'])
+        context['program_form_with_instance'] = list(PackageForm(instance=package))
+        return context
+
+# dashboard package create view
+class PackageCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    form_class = PackageForm
+    login_url = 'login_page'
+    template_name = "dashboard/package/package.html"
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
+
+    def post(self, request, *args, **kwargs):
+        context = {}
+        context["package_form"] = package_form = PackageForm(request.POST, request.FILES)
+
+        if package_form.is_valid():
+            package_form.save()
+            messages.success(self.request, f"Successfully created a package!")
+            return redirect("dashboard_package_page")
+        for field in package_form:
+            for error in field.errors:
+                messages.error(self.request, f"<b>{field.label}:</b> {error}")
+        return render(request, self.template_name, context)
+
+# dashboard package Update view
+class PackageUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = PackageModel
+    form_class = PackageForm
+    login_url = 'login_page'
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
+
+    def get_success_url(self):
+        messages.success(self.request, "Successfully updated package!")
+        return reverse_lazy('dashboard_package_detail_page', kwargs={'pk': self.kwargs['pk']})
+
+# dashboard package visibility view
+class PackageVisibility(LoginRequiredMixin, UserPassesTestMixin, View):
+    login_url = 'login_page'
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
+
+    def post(self, request, *args, **kwargs):
+        package_id = self.kwargs['package_id']
+        visibility = self.kwargs['visibility']
+        package =PackageModel.objects.get(id=package_id)
+        if visibility == 'deactivate':
+            if package.is_active:
+                package.is_active = False
+                package.save()
+                messages.success(self.request, "Successfully deactivated package!")
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
+            package.is_active = True
+            package.save()
+            messages.success(self.request, "Successfully reactivated package!")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
+        elif visibility == 'delete':
+            package.delete()
+            messages.success(self.request, "Successfully deleted package!")
+            return redirect("dashboard_package_page")
 
 # dashboard offer view
 class Offer(LoginRequiredMixin, UserPassesTestMixin, ListView):
