@@ -81,6 +81,7 @@ class ProgramPaymentModel(models.Model):
 
 # package modal
 class PackageModel(models.Model):
+    image = models.FileField("image", upload_to="package/", max_length=100, blank=False, null=False)
     name = models.CharField("title", max_length=100, blank=False, null=False)
     initial_price = models.PositiveIntegerField()
     bonus_price = models.PositiveIntegerField()
