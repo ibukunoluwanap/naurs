@@ -3,84 +3,42 @@
 {% load humanize %}
 {% load widget_tweaks %}
 {% block title %}
-    <title>Naurs - {{ program.title }} Edit</title>
+    <title>Naurs - {{ package.name }} Edit</title>
 {% endblock title %}
 {% block dashboard %}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
   <!-- title and back-->
   <div class="row">
     <div class="col-sm-12">
-      <a href="{% url 'dashboard_program_page' %}" class="btn btn-s">
+      <a href="{% url 'dashboard_package_page' %}" class="btn btn-s">
         <span data-feather="corner-up-left"></span> Back
       </a>
     </div>
     <div class="col-sm-12">
-      <h4 class="my-3">{{program.title}}</h4>
+      <h4 class="my-3">{{package.name}}</h4>
     </div>
   </div>
 
   <!-- about -->
-  <div class="row">
-    <div class="col-sm-4">
-      <img src="{{program.image.url}}" alt="{{program.title}}" class="object-fit rounded" width="100%" height="300px">
-      <ul class="navbar-nav flex-row justify-content-between my-2 bg-cus-primary rounded">
-        <li class="nav-item">
-          <span class="nav-link p-3 text-cus-secondary text-center">
-            <span data-feather="folder"></span>
-            <span style="font-size: 12px;">Category </span>
-            <br>
-            <span style="font-size: 12px;">{{program.category}}</span>
-          </span>
-        </li>
-        <li class="nav-item">
-          <span class="nav-link p-3 text-cus-secondary text-center">
-            <span data-feather="credit-card"></span>
-            <span style="font-size: 12px;">Price </span>
-            <br>
-            <span style="font-size: 12px;">{{program.price}} AED</span>
-          </span>
-        </li>
-        <li class="nav-item">
-          <span class="nav-link p-3 text-cus-secondary text-center">
-            <span data-feather="activity"></span>
-            <span style="font-size: 12px;">Space </span>
-            <br>
-            <span style="font-size: 12px;">{{program.total_space}}</span>
-          </span>
-        </li>
-        <li class="nav-item">
-          <span class="nav-link p-3 text-cus-secondary text-center">
-            {% if program.is_active %}<span data-feather="toggle-right"></span>{% else %}<span data-feather="toggle-left"></span>{% endif %}
-            <span style="font-size: 12px;">Active </span>
-            <br>
-            <span style="font-size: 12px;">{% if program.is_active %}Yes{% else %}No{% endif %}</span>
-          </span>
-        </li>
-      </ul>
-      {{program.content|safe|truncatechars:350}}
+  <div class="row justify-content-center">
+    <div class="col-sm-4 text-center">
+      {% if package.image %}
+        <img src="{{package.image.url}}" alt="{{package.title}}" class="avatar-lg shadow mb-3">
+      {% else %}
+        <i class="bi bi-person-circle align-middle" class="avatar-lg shadow mb-3" style="font-size: 250px;"></i>
+      {% endif %}
     </div>
-    <form action="{% url 'dashboard_program_update_page' pk=program.id %}" method="post" class="col card shadow border-0 py-3" enctype="multipart/form-data">
+    <form action="{% url 'dashboard_instructor_update_page' pk=package.id %}" method="post" class="col card shadow border-0 py-3">
       {% csrf_token %}
       <div class="row">
         <div class="col-sm-6">
-          {% for field in program_form_with_instance|slice:":7" %}
-            {% if forloop.counter == 6 %}
-              <div class="card p-3 shadow mb-4">
-                <div class="form-check form-switch">
-                  {{ field|add_class:"form-check-input"|attr:"placeholder:field.label" }}
-                  <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
-                  {% for error in field.errors %}
-                      <p class="text-danger">{{ error }}</p>
-                  {% endfor %}
+          <!-- instructor form -->
+          {% for field in instructor_form_with_instance|slice:":3" %}
+            {% if forloop.counter == 2 %}
+                <div class="card p-3 shadow mb-4 form-check form-switch overflow-height">
+                    {{ field }}
+                    <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
                 </div>
-              </div>
-            {% elif forloop.counter == 1 %}
-              <div class="card p-3 shadow mb-4">
-                {{ field|add_class:"cus-file-input" }}
-                {% for error in field.errors %}
-                    <p class="text-danger">{{ error }}</p>
-                {% endfor %}
-              </div>
             {% else %}
               <div class="form-floating shadow mb-4">
                 {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
@@ -93,10 +51,10 @@
           {% endfor %}
         </div>
         <div class="col-sm-6">
-          {% for field in program_form_with_instance|slice:":8" %}
-            {% if forloop.counter == 8 %}
+          {% for field in instructor_form_with_instance|slice:":4" %}
+            {% if forloop.counter == 4 %}
               <div class="form-floating shadow mb-4">
-                {{ program_form.media }}
+                {{ instructor_form.media }}
                 {{ field }}
                 {% for error in field.errors %}
                     <p class="text-danger">{{ error }}</p>
@@ -110,151 +68,23 @@
     </form>
   </div>
 
-  <!-- benefits -->
-  <div class="row mt-5">
-    <div class="col-sm-4">
-      <h4>Benefits</h4>
-      <ul class="list-unstyled">
-        {% for benefit in program.programbenefitmodel_set.all %}
-          <li class="my-4 position-relative">
-              <i class="bi bi-arrow-return-right align-middle text-cus-primary"></i>
-              {{ benefit.benefit }}
-              <form action="{% url 'dashboard_program_benefit_delete_page' pk=benefit.id %}" method="post" class="d-inline position-absolute" style="right: 0;">
-                {% csrf_token %}
-                <button class="btn btn-sm bg-danger border border-danger text-cus-secondary" type="submit">
-                  <span data-feather="trash"></span>
-                  Delete
-                </button>
-              </form>
-          </li>
-        {% endfor %}
-      </ul>
-    </div>
-    <form action="{% url 'dashboard_program_benefit_create_page' program_id=program.id %}" method="post" class="col card shadow border-0 py-3">
-      <h5>Add New Benefit</h5>
-      {% csrf_token %}
-      <div class="row">
-        <div class="col-sm-12">
-          {% for field in program_benefit_form %}
-            <div class="form-floating shadow mb-4">
-              {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
-              <label for="{{ field.auto_id }}">{{ field.label }}</label>
-              {% for error in field.errors %}
-                  <p class="text-danger">{{ error }}</p>
-              {% endfor %}
-            </div>
-          {% endfor %}
-        </div>
-      </div>
-      <button class="btn-lg" type="submit">
-        Save
-        <span data-feather="check-square"></span>
-      </button>
-    </form>
-  </div>
-
-  <!-- instructors -->
   <div class="row mt-5">
     <div class="col-sm-12">
-      <h4>Instructors</h4>
+      <h4>Classes</h4>
     </div>
     <div class="col-sm-12">
-      {% if program.instructormodel_set.all %}
         <ul class="row list-unstyled">
-          {% for instructor in program.instructormodel_set.all %}
-            <li class="col-sm-4">
-                <i class="bi bi-mortarboard-fill align-middle text-cus-primary"></i> {{ instructor.user.get_full_name }}
-            </li>
-          {% endfor %}
+            {% for program in package.program.all %}
+                <li class="my-2 col-sm-3">
+                    <i class="bi bi-arrow-return-right align-middle text-cus-primary"></i>
+                    <a
+                    href="{% url 'dashboard_program_detail_page' pk=program.id %}"
+                    class="text-decoration-none text-cus-primary"
+                    >{{ program.title }}</a
+                    >
+                </li>
+            {% endfor %}
         </ul>
-      {% else %}
-        <a href="{% url 'dashboard_instructor_page' %}" class="btn-m">Add instructors</a>
-      {% endif %}
-    </div>
-  </div>
-
-  <!-- enquiries -->
-  <div class="row mt-5">
-    <div class="col-sm-12">
-      <h4>Enquiries</h4>
-    </div>
-    <div class="col-sm-12">
-      <div class="table-responsive shadow rounded">
-        <table class="table table-hover table-sm align-middle border-bottom m-0">
-          <thead class="table-cus-dark">
-            <tr>
-              <th scope="col" class="p-3">ID</th>
-              <th scope="col" class="p-3">Name</th>
-              <th scope="col" class="p-3">Email</th>
-              <th scope="col" class="p-3">Call</th>
-              <th scope="col" class="p-3">Enquiry</th>
-              <th scope="col" class="p-3">Created On</th>
-              <th scope="col" class="p-3">Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% if program.programenquirymodel_set.all %}              
-              {% for enquiry in program.programenquirymodel_set.all %}
-                <tr>
-                  <th scope="row" class="p-2">{{enquiry.id}}</th>
-                  <td class="p-2">
-                    <a href="#" type="button" data-bs-toggle="modal" data-bs-target="#enquiryModal" class="text-decoration-none text-cus-primary">
-                      {{enquiry.name|safe|truncatechars:50}}
-                    </a>
-                    <div class="modal fade" id="enquiryModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="enquiryModalLabel" aria-hidden="true">
-                      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h4 class="modal-title" id="enquiryModalLabel">
-                              Enquiry 
-                              <span class="text-muted fw-lighter" style="font-size: 14px;">By {{enquiry.name|safe}}</span>
-                            </h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body">
-                            {{enquiry.enquiry|safe}}
-                          </div>
-                        </div>
-                      </div>
-                    </div>      
-                  </td>
-                  <td class="p-2">
-                    <a href='mailto:{{enquiry.email}}?subject=Enquiry Reply&body=Replying to your inquiry "{{enquiry.enquiry|safe|truncatechars:20}}"' class="btn btn-sm text-cus-secondary bg-cus-pink d-flex justify-content-center text-center">
-                      <i class="bi bi-envelope align-middle" style="margin-right: .5rem;"></i> Email
-                    </a>
-                  </td>
-                  <td class="p-2">
-                    <a href="tel:{{enquiry.phone_number}}" class="btn btn-sm text-cus-secondary bg-cus-orange d-flex justify-content-center text-center">
-                      <i class="bi bi-telephone align-middle" style="margin-right: .5rem;"></i> Call
-                    </a>
-                  </td>
-                  <td class="p-2">{{enquiry.enquiry|safe|truncatechars:20}}</td>
-                  <td class="p-2">{{enquiry.created_on|naturaltime}}</td>
-                  <td class="p-2">
-                    <form action="{% url 'dashboard_program_enquiry_page' pk=enquiry.id %}" method="post">
-                      {% csrf_token %}
-                      <button class="w-100 btn btn-sm btn-danger d-flex justify-content-center text-center" type="submit">
-                        Delete
-                      </button>
-                    </form>
-                  </td>
-                </tr>
-              {% endfor %}
-            {% else %}
-              <tr>
-                  <td class="p-2">
-                    <i class="display-1 bi bi-trash align-middle"></i>
-                  </td>
-                  <td class="p-2">
-                    <p>
-                        No enquiries currently available!
-                    </p>
-                  </td>
-              </tr>
-            {% endif %}
-          </tbody>
-        </table>
-      </div>
     </div>
   </div>
 
@@ -264,14 +94,14 @@
       <h4>Deletion</h4>
     </div>
     <div class="col-sm-6 mb-3">
-      <div class="alert {% if program.is_active %}alert-warning{% else %}alert-info{% endif %}" role="alert">
-        This will keep the class in the database, however the class will not be display on
+      <div class="alert {% if package.is_active %}alert-warning{% else %}alert-info{% endif %}" role="alert">
+        This will keep the package in the database, however the class will not be display on
         the website or application.
       </div>
       <div class="d-flex flex-row justify-content-center">
-        <form action="{% url 'dashboard_program_visibility_page' program_id=program.id visibility='deactivate' %}" method="post">
+        <form action="{% url 'dashboard_package_visibility_page' package_id=package.id visibility='deactivate' %}" method="post">
           {% csrf_token %}
-            {% if program.is_active %}
+            {% if package.is_active %}
               <button class="btn btn-lg bg-warning border border-warning text-cus-secondary" type="submit">
                 <span data-feather="x-circle"></span>
                 Deactivate
@@ -287,28 +117,28 @@
     </div>
     <div class="col-sm-6 mb-3">
       <div class="alert alert-danger" role="alert">
-        This will <b>forever</b> remove the class from the database, and therefore not available for display on
+        This will <b>forever</b> remove the package from the database, and therefore not available for display on
         the website or application.
       </div>
       <div class="d-flex flex-row justify-content-center">
-        <button type="button" class="btn btn-lg bg-danger border border-danger text-cus-secondary" data-bs-toggle="modal" data-bs-target="#deleteProgramModel">
+        <button type="button" class="btn btn-lg bg-danger border border-danger text-cus-secondary" data-bs-toggle="modal" data-bs-target="#deletePackageModel">
           <span data-feather="trash"></span>
           Delete
         </button>
-        <div class="modal fade" id="deleteProgramModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteProgramModelLabel" aria-hidden="true">
+        <div class="modal fade" id="deletePackageModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deletePackageModelLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title text-danger" id="deleteProgramModelLabel">Delete Class!</h5>
+                <h5 class="modal-title text-danger" id="deletePackageModelLabel">Delete Class!</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
                 <div class="row justify-content-center">
                   <div class="col-12 text-center">
                     <div class="alert alert-danger" role="alert">
-                      This will <b>forever</b> remove the class from the database. Click <b>"Continue"</b> to delete.
+                      This will <b>forever</b> remove the package from the database. Click <b>"Continue"</b> to delete.
                     </div>
-                    <form action="{% url 'dashboard_program_visibility_page' program_id=program.id visibility='delete' %}" method="post">
+                    <form action="{% url 'dashboard_package_visibility_page' package_id=package.id visibility='delete' %}" method="post">
                       {% csrf_token %}
                       <button class="btn btn-lg bg-danger border border-danger text-cus-secondary" type="submit">
                         <span data-feather="trash"></span>

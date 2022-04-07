@@ -9,7 +9,7 @@ User = get_user_model()
 # instructor modal
 class InstructorModel(models.Model):
     user = models.OneToOneField(User, verbose_name="user", on_delete=models.CASCADE)
-    program = models.ManyToManyField(ProgramModel, verbose_name="program")
+    program = models.ManyToManyField(ProgramModel, verbose_name="class")
     role = models.CharField("role", max_length=100, blank=False, null=False)
     about = HTMLField()
     created_on = models.DateTimeField("created on", auto_now_add=True)
