@@ -10,7 +10,7 @@ User = get_user_model()
 class StudentModel(models.Model):
     user = models.OneToOneField(User, verbose_name="user", on_delete=models.CASCADE)
     instructor = models.ForeignKey(InstructorModel, verbose_name="instructor", null=True, on_delete=models.SET_NULL)
-    program = models.ManyToManyField(ProgramModel, verbose_name="program")
+    program = models.ManyToManyField(ProgramModel, verbose_name="class")
     created_on = models.DateTimeField("created on", auto_now_add=True)
 
     class Meta:

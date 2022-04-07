@@ -33,7 +33,7 @@ class ProgramModel(models.Model):
 
 # program modal
 class ProgramBenefitModel(models.Model):
-    program = models.ForeignKey(ProgramModel, verbose_name="program", on_delete=models.CASCADE)
+    program = models.ForeignKey(ProgramModel, verbose_name="class", on_delete=models.CASCADE)
     benefit = models.CharField("benefit", max_length=100, blank=False, null=False)
     created_on = models.DateTimeField("created on", auto_now_add=True)
 
@@ -46,7 +46,7 @@ class ProgramBenefitModel(models.Model):
 
 # program enquiry modal
 class ProgramEnquiryModel(models.Model):
-    program = models.ForeignKey(ProgramModel, verbose_name="program", on_delete=models.CASCADE)
+    program = models.ForeignKey(ProgramModel, verbose_name="class", on_delete=models.CASCADE)
     name = models.CharField("name", max_length=100, blank=False, null=False)
     email = models.EmailField("email address", max_length=254, blank=False, null=False)
     phone_number = models.CharField("phone number", max_length=100, blank=False, null=False)
@@ -62,7 +62,7 @@ class ProgramEnquiryModel(models.Model):
 
 # program payment modal
 class ProgramPaymentModel(models.Model):
-    program = models.ForeignKey(ProgramModel, verbose_name="program", on_delete=models.CASCADE)
+    program = models.ForeignKey(ProgramModel, verbose_name="class", on_delete=models.CASCADE)
     first_name = models.CharField("first name", max_length=100, blank=False, null=False)
     last_name = models.CharField("last name", max_length=100, blank=False, null=False)
     email = models.EmailField(max_length=255, blank=False, null=False)
@@ -78,3 +78,18 @@ class ProgramPaymentModel(models.Model):
 
     def __str__(self):
         return f"Payment by {self.get_full_name()}"
+
+# package modal
+class PackageModel(models.Model):
+    name = models.CharField("title", max_length=100, blank=False, null=False)
+    initial_price = models.PositiveIntegerField()
+    bonus_price = models.PositiveIntegerField()
+    program = models.ManyToManyField(ProgramModel, verbose_name="class", on_delete=models.CASCADE)
+    created_on = models.DateTimeField("created on", auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Program'
+        verbose_name_plural = 'Programs'
+
+    def __str__(self):
+        return f"{self.title} program program"
