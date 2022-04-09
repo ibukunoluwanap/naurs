@@ -17,7 +17,6 @@ class ProgramModel(models.Model):
     price = models.PositiveIntegerField()
     total_space = models.PositiveIntegerField()
     is_active = models.BooleanField(verbose_name="activate", default=True)
-    start_time = models.DateTimeField("start time")
     content = HTMLField()
     created_on = models.DateTimeField("created on", auto_now_add=True)
 
@@ -28,7 +27,7 @@ class ProgramModel(models.Model):
     def __str__(self):
         return f"{self.title}"
 
-# program modal
+# program benefit modal
 class ProgramBenefitModel(models.Model):
     program = models.ForeignKey(ProgramModel, verbose_name="class", on_delete=models.CASCADE)
     benefit = models.CharField("benefit", max_length=100, blank=False, null=False)
@@ -40,6 +39,19 @@ class ProgramBenefitModel(models.Model):
 
     def __str__(self):
         return f"{self.program} benefit"
+
+# program calendar modal
+class ProgramCalendarModel(models.Model):
+    program = models.ForeignKey(ProgramModel, verbose_name="class", on_delete=models.CASCADE)
+    calendar = models.DateTimeField("calendar")
+    created_on = models.DateTimeField("created on", auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Class Calendar'
+        verbose_name_plural = 'Class Calendars'
+
+    def __str__(self):
+        return f"{self.program} calendar"
 
 # program enquiry modal
 class ProgramEnquiryModel(models.Model):

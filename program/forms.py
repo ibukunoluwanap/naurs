@@ -1,6 +1,6 @@
 from django import forms
 from tinymce.widgets import TinyMCE
-from .models import PackageModel, ProgramBenefitModel, ProgramEnquiryModel, ProgramModel, ProgramPaymentModel
+from .models import PackageModel, ProgramBenefitModel, ProgramCalendarModel, ProgramEnquiryModel, ProgramModel, ProgramPaymentModel
 
 # custom ModelMultipleChoiceField
 class CustomMultipleChoiceField(forms.ModelMultipleChoiceField):
@@ -23,7 +23,6 @@ class DateTimeLocalField(forms.DateTimeField):
 # program form
 class ProgramForm(forms.ModelForm):
     image = forms.ImageField(widget=forms.FileInput)
-    start_time = DateTimeLocalField()
     content = forms.CharField(required=True, widget=TinyMCE(attrs={'cols': 10, 'rows': 20}))
     class Meta:
         model = ProgramModel
@@ -33,6 +32,13 @@ class ProgramForm(forms.ModelForm):
 class ProgramBenefitForm(forms.ModelForm):
     class Meta:
         model = ProgramBenefitModel
+        exclude = ['program', 'created_on']
+
+# program calendar form
+class ProgramCalendarForm(forms.ModelForm):
+    calendar = DateTimeLocalField()
+    class Meta:
+        model = ProgramCalendarModel
         exclude = ['program', 'created_on']
 
 # program enquiry form

@@ -24,7 +24,7 @@
                 {% csrf_token %}
                 <div class="row">
                   <div class="col-sm-6">
-                    {% for field in program_form_list|slice:":7" %}
+                    {% for field in program_form_list|slice:":6" %}
                       {% if forloop.counter == 6 %}
                         <div class="card p-3 shadow mb-4">
                           <div class="form-check form-switch">
@@ -54,8 +54,8 @@
                     {% endfor %}
                   </div>
                   <div class="col-sm-6">
-                    {% for field in program_form_list|slice:":8" %}
-                      {% if forloop.counter == 8 %}
+                    {% for field in program_form_list|slice:":7" %}
+                      {% if forloop.counter == 7 %}
                         <div class="form-floating shadow mb-4">
                           {{ program_form.media }}
                           {{ field }}

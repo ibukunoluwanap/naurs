@@ -63,7 +63,7 @@
       {% csrf_token %}
       <div class="row">
         <div class="col-sm-6">
-          {% for field in program_form_with_instance|slice:":8" %}
+          {% for field in program_form_with_instance|slice:":6" %}
             {% if forloop.counter == 6 %}
               <div class="card p-3 shadow mb-4">
                 <div class="form-check form-switch">
@@ -93,8 +93,8 @@
           {% endfor %}
         </div>
         <div class="col-sm-6">
-          {% for field in program_form_with_instance|slice:":9" %}
-            {% if forloop.counter == 9 %}
+          {% for field in program_form_with_instance|slice:":7" %}
+            {% if forloop.counter == 7 %}
               <div class="form-floating shadow mb-4">
                 {{ program_form.media }}
                 {{ field }}
@@ -110,24 +110,77 @@
     </form>
   </div>
 
+  <!-- calendar -->
+  <div class="row mt-5">
+    <div class="col-sm-4">
+      <h4>Calendar</h4>
+      <ul class="list-unstyled">
+        {% if program.programcalendarmodel_set.all %}          
+          {% for calendar in program.programcalendarmodel_set.all %}
+            <li class="my-4 position-relative">
+                <i class="bi bi-arrow-return-right align-middle text-cus-primary"></i>
+                {{ calendar.calendar }}
+                <form action="{% url 'dashboard_program_benefit_delete_page' pk=benefit.id %}" method="post" class="d-inline position-absolute" style="right: 0;">
+                  {% csrf_token %}
+                  <button class="btn btn-sm bg-danger border border-danger text-cus-secondary" type="submit">
+                    <span data-feather="trash"></span>
+                    Delete
+                  </button>
+                </form>
+            </li>
+          {% endfor %}
+        {% else %}
+          <i class="display-1 bi bi-trash align-middle"></i>
+          No benefit currently added!
+        {% endif %}
+      </ul>
+    </div>
+    <form action="{% url 'dashboard_program_benefit_create_page' program_id=program.id %}" method="post" class="col card shadow border-0 py-3">
+      <h5>Add New Benefit</h5>
+      {% csrf_token %}
+      <div class="row">
+        <div class="col-sm-12">
+          {% for field in program_benefit_form %}
+            <div class="form-floating shadow mb-4">
+              {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
+              <label for="{{ field.auto_id }}">{{ field.label }}</label>
+              {% for error in field.errors %}
+                  <p class="text-danger">{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      <button class="btn-lg" type="submit">
+        Save
+        <span data-feather="check-square"></span>
+      </button>
+    </form>
+  </div>
+
   <!-- benefits -->
   <div class="row mt-5">
     <div class="col-sm-4">
       <h4>Benefits</h4>
       <ul class="list-unstyled">
-        {% for benefit in program.programbenefitmodel_set.all %}
-          <li class="my-4 position-relative">
-              <i class="bi bi-arrow-return-right align-middle text-cus-primary"></i>
-              {{ benefit.benefit }}
-              <form action="{% url 'dashboard_program_benefit_delete_page' pk=benefit.id %}" method="post" class="d-inline position-absolute" style="right: 0;">
-                {% csrf_token %}
-                <button class="btn btn-sm bg-danger border border-danger text-cus-secondary" type="submit">
-                  <span data-feather="trash"></span>
-                  Delete
-                </button>
-              </form>
-          </li>
-        {% endfor %}
+        {% if program.programbenefitmodel_set.all %}          
+          {% for benefit in program.programbenefitmodel_set.all %}
+            <li class="my-4 position-relative">
+                <i class="bi bi-arrow-return-right align-middle text-cus-primary"></i>
+                {{ benefit.benefit }}
+                <form action="{% url 'dashboard_program_benefit_delete_page' pk=benefit.id %}" method="post" class="d-inline position-absolute" style="right: 0;">
+                  {% csrf_token %}
+                  <button class="btn btn-sm bg-danger border border-danger text-cus-secondary" type="submit">
+                    <span data-feather="trash"></span>
+                    Delete
+                  </button>
+                </form>
+            </li>
+          {% endfor %}
+        {% else %}
+          <i class="display-1 bi bi-trash align-middle"></i>
+          No benefit currently added!
+        {% endif %}
       </ul>
     </div>
     <form action="{% url 'dashboard_program_benefit_create_page' program_id=program.id %}" method="post" class="col card shadow border-0 py-3">
