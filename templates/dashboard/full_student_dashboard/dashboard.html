@@ -7,21 +7,21 @@
         <div class="col-4 col-md-4 mb-1 d-flex justify-content-center text-center">
             <div class="card data-card shadow border-0 bg-cus-pink text-cus-secondary">
                 <span class="m-auto">Wallet
-                    <b>{{ users|length }}</b>
+                    <b>0.00 AED</b>
                 </span>
             </div>
         </div>
         <div class="col-4 col-md-4 mb-1 d-flex justify-content-center text-center">
             <div class="card data-card shadow border-0 bg-cus-purple text-cus-secondary">
                 <span class="m-auto">Packages
-                    <b>{{instructors|length}}</b>
+                    <b>{{packages|length}}</b>
                 </span>
             </div>
         </div>
         <div class="col-4 col-md-4 mb-1 d-flex justify-content-center text-center">
             <div class="card data-card shadow border-0 bg-cus-orange text-cus-secondary">
                 <span class="m-auto">Classes
-                    <b>{{students|length}}</b>
+                    <b>{{programs|length}}</b>
                 </span>
             </div>
         </div>
@@ -34,7 +34,7 @@
         </div>
         {% for package in packages %}            
             <div class="col-3">
-                <div class="card shadow border-0" style="width: 18rem;">
+                <div class="card shadow border-0">
                     {% if package.image %}
                         <img src="{{package.image.url}}" width="100%" height="200px" class="card-img-top object-fit" alt="{{package.name}}">
                     {% else %}
@@ -47,7 +47,7 @@
                     <p class="card-text" style="font-size: 12px;">
                         Price: <b>{{package.initial_price}} AED</b>
                         <br>
-                        Bonus: +{{package.bonus_price}} (free)
+                        Bonus: +{{package.bonus_price}} AED (Free)
                         <br>
                         Numbers Of Classes: {{package.program.count}}
                     </p>
@@ -64,20 +64,20 @@
             <h4>Classes</h4>
         </div>
         {% for program in programs %}
-                <div class="col-md-4 mb-3 mt-5 animate__animated animate__fadeInUp"
-                        data-aos="fade-right">
-                    <div class="card shadow program-card">
-                        <img src="{{ program.image.url }}"
-                                class="card-img-top shadow"
-                                alt="program">
-                        <div class="card-body">
-                            <a href="{% url 'program_detail_page' pk=program.id %}">
-                                <h4>{{ program.title|truncatechars:30 }}</h4>
-                                <div class="card-content">{{ program.content|truncatechars_html:200|safe }}</div>
-                            </a>
-                        </div>
+            <div class="col-3">
+                <div class="card shadow ">
+                    <img src="{{ program.image.url }}"
+                            class="card-img-top shadow object-fit"
+                            width="100%" height="200px"
+                            alt="class">
+                    <div class="card-body">
+                        <a href="{% url 'program_detail_page' pk=program.id %}" class="text-cus-primary text-decoration-none" style="font-size: 12px;">
+                            <h4>{{ program.title|truncatechars:30 }}</h4>
+                            <div class="card-content">{{ program.content|truncatechars_html:200|safe }}</div>
+                        </a>
                     </div>
                 </div>
+            </div>
         {% endfor %}
     </div>
 </main>
