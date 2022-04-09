@@ -13,8 +13,8 @@ from django.contrib import messages
 from offer.models import BookOfferModel, FreeTrialOfferModel, OfferModel
 from django.views.generic import View, ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from program.forms import PackageForm, ProgramBenefitForm, ProgramForm
-from program.models import PackageModel, ProgramBenefitModel, ProgramEnquiryModel, ProgramModel
+from program.forms import PackageForm, ProgramBenefitForm, ProgramCalendarForm, ProgramForm
+from program.models import PackageModel, ProgramBenefitModel, ProgramCalendarModel, ProgramEnquiryModel, ProgramModel
 from django.contrib.auth import get_user_model
 from student.forms import StudentForm
 from django.contrib.auth.mixins import UserPassesTestMixin
@@ -129,6 +129,51 @@ class ProgramUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def get_success_url(self):
         messages.success(self.request, "Successfully updated program!")
+        return reverse_lazy('dashboard_program_detail_page', kwargs={'pk': self.kwargs['pk']})
+
+# dashboard program calendar create view
+class ProgramCalendarCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    form_class = ProgramForm
+    login_url = 'login_page'
+    template_name = "dashboard/program/detail.html"
+    raise_exception = True
+
+    def test_func(self):
+        try:
+            return (self.request.user.instructormodel)
+        except:
+            return (self.request.user.is_admin)
+
+    def post(self, request, *args, **kwargs):
+        program = ProgramModel.objects.get(id=self.kwargs['program_id'])
+        program_calendar_form = ProgramCalendarForm(request.POST)
+
+        if program_calendar_form.is_valid():
+            program_calendar = program_calendar_form.save(commit=False)
+            program_calendar.program = program
+            program_calendar.save()
+            messages.success(self.request, f"Successfully added a program calendar!")
+            return HttpResponseRedirect(self.request.META.get('HTTP_REFERER', '/dashboard/'))
+        for field in program_calendar_form:
+            for error in field.errors:
+                messages.error(self.request, f"<b>{field.label}:</b> {error}")
+        return redirect("dashboard_program_page")
+
+# dashboard program calendar delete view
+class ProgramCalendarDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = ProgramCalendarModel
+    login_url = 'login_page'
+    template_name = "dashboard/program/detail.html"
+    raise_exception = True
+
+    def test_func(self):
+        try:
+            return (self.request.user.instructormodel)
+        except:
+            return (self.request.user.is_admin)
+
+    def get_success_url(self):
+        messages.success(self.request, f"Successfully deleted program benefit!")
         return reverse_lazy('dashboard_program_detail_page', kwargs={'pk': self.kwargs['pk']})
 
 # dashboard program benefit create view

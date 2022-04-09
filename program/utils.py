@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from calendar import HTMLCalendar
-from .models import ProgramModel
+from .models import ProgramCalendarModel, ProgramModel
 
 class Calendar(HTMLCalendar):
 	def __init__(self, year=None, month=None):
@@ -11,10 +11,10 @@ class Calendar(HTMLCalendar):
 	# formats a day as a td
 	# filter classes by day
 	def formatday(self, day, classes):
-		classes_per_day = classes.filter(start_time__day=day)
+		classes_per_day = classes.filter(calendar__day=day)
 		d = ''
 		for _class in classes_per_day:
-			d += f'<li> <b>{_class.title}</b> by <b>{_class.start_time.hour}:{_class.start_time.minute}</b> </li>'
+			d += f'<li> <b>{_class.program.title}</b> by <b>{_class.calendar.hour}:{_class.calendar.minute}</b> </li>'
 
 		if day != 0:
 			return f"<td><span class='date'>{day}</span><ul> {d} </ul></td>"
@@ -30,7 +30,7 @@ class Calendar(HTMLCalendar):
 	# formats a month as a table
 	# filter classes by year and month
 	def formatmonth(self, withyear=True):
-		classes = ProgramModel.objects.filter(start_time__year=self.year, start_time__month=self.month)
+		classes = ProgramCalendarModel.objects.filter(calendar__year=self.year, calendar__month=self.month)
 
 		cal = f'<table border="0" cellpadding="0" cellspacing="0" class="calendar">\n'
 		cal += f'{self.formatmonthname(self.year, self.month, withyear=withyear)}\n'

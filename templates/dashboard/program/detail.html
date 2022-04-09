@@ -120,7 +120,7 @@
             <li class="my-4 position-relative">
                 <i class="bi bi-arrow-return-right align-middle text-cus-primary"></i>
                 {{ calendar.calendar }}
-                <form action="{% url 'dashboard_program_benefit_delete_page' pk=benefit.id %}" method="post" class="d-inline position-absolute" style="right: 0;">
+                <form action="{% url 'dashboard_program_calendar_delete_page' pk=calendar.id %}" method="post" class="d-inline position-absolute" style="right: 0;">
                   {% csrf_token %}
                   <button class="btn btn-sm bg-danger border border-danger text-cus-secondary" type="submit">
                     <span data-feather="trash"></span>
@@ -131,16 +131,16 @@
           {% endfor %}
         {% else %}
           <i class="display-1 bi bi-trash align-middle"></i>
-          No benefit currently added!
+          No calendar currently added!
         {% endif %}
       </ul>
     </div>
-    <form action="{% url 'dashboard_program_benefit_create_page' program_id=program.id %}" method="post" class="col card shadow border-0 py-3">
-      <h5>Add New Benefit</h5>
+    <form action="{% url 'dashboard_program_calendar_create_page' program_id=program.id %}" method="post" class="col card shadow border-0 py-3">
+      <h5>Add New Calendar</h5>
       {% csrf_token %}
       <div class="row">
         <div class="col-sm-12">
-          {% for field in program_benefit_form %}
+          {% for field in program_calendar_form %}
             <div class="form-floating shadow mb-4">
               {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
               <label for="{{ field.auto_id }}">{{ field.label }}</label>
