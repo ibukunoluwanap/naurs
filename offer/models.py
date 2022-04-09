@@ -44,4 +44,4 @@ class FreeTrialOfferModel(models.Model):
         verbose_name_plural = 'Free Trial Offers'
 
     def __str__(self):
-        return f"free trial from {self.name}"
+        return f'Free trial from "{self.name}"'
