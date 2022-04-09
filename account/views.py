@@ -46,7 +46,7 @@ class Register(View):
             student = StudentModel.objects.create(user=request.user)
             if student:
                 messages.success(request, "Successfully registered Select class to start with!")
-                return redirect('program_page')
+                return redirect('student_dashboard')
         for field in register_form:
             for error in field.errors:
                 messages.error(self.request, f"<b>{field.label}:</b> {error}")
@@ -91,8 +91,10 @@ class Login(View):
                 except:
                     login(request, user)
                     FreeTrialOfferModel.objects.filter(created_on__lte=datetime.now(timezone.utc)-timezone.timedelta(days=7)).update(is_active=False)
-                    messages.info(request, 'You are logged in! Please download the mobile app on your device to access our programs')
-                    return redirect('home_page')
+                    student = StudentModel.objects.create(user=request.user)
+                    if student:
+                        messages.success(request, "Successfully registered Select class to start with!")
+                        return redirect('student_dashboard')
             messages.error(request, "Check user's credentials!")
             return redirect('login_page')
         for field in login_form:
