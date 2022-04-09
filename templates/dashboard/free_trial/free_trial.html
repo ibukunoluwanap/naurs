@@ -24,11 +24,12 @@
               <th scope="col" class="p-3">Name</th>
               <th scope="col" class="p-3">Email</th>
               <th scope="col" class="p-3">Phone Number</th>
+              <th scope="col" class="p-3">Active</th>
               <th scope="col" class="p-3">Created On</th>
             </tr>
           </thead>
           <tbody>
-            {% if without_filter_free_trial %} {% for offer in without_filter_free_trial %}
+            {% if without_filter_free_trial %} {% for free_trial in without_filter_free_trial %}
             <tr>
               <th scope="row" class="p-2">
                 <div class="avatar">
@@ -36,16 +37,12 @@
                 </div>
               </th>
               <td class="p-2">
-                <a
-                  href="{% url 'dashboard_offer_detail_page' pk=offer.id %}"
-                  class="text-decoration-none text-cus-primary"
-                  >{{offer.name|safe|truncatechars:20}}</a
-                >
+                  {{free_trial.name|safe|truncatechars:20}}
               </td>
-              <td class="p-2">{{offer.email}}</td>
-              <td class="p-2">{{offer.phone_number}}</td>
+              <td class="p-2">{{free_trial.email}}</td>
+              <td class="p-2">{{free_trial.phone_number}}</td>
               <td class="p-2">
-                {% if offer.is_active %}
+                {% if free_trial.is_active %}
                     <button class="w-100 btn btn-sm btn-success d-flex justify-self-center justify-content-center text-center" type="button">
                         Active
                     </button>
@@ -55,7 +52,7 @@
                     </button>
                 {% endif %}
               </td>
-              <td class="p-2">{{offer.created_on|naturaltime}}</td>
+              <td class="p-2">{{free_trial.created_on|naturaltime}}</td>
             </tr>
             {% endfor %} {% else %}
             <tr>

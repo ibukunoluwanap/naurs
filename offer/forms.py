@@ -28,4 +28,4 @@ class FreeTrialOfferForm(forms.ModelForm):
 
     class Meta:
         model = FreeTrialOfferModel
-        exclude = ['created_on',]
+        exclude = ['is_active', 'created_on',]
