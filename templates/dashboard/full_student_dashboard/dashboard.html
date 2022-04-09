@@ -1,0 +1,30 @@
+{% extends 'app/dashboard.html' %}
+{% load static %} {% load humanize %}
+
+{%block dashboard %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
+    <div class="row justify-content-center mt-3 mb-3">
+        <div class="col-4 col-md-4 mb-1 d-flex justify-content-center text-center">
+            <div class="card data-card shadow border-0 bg-cus-pink text-cus-secondary">
+                <span class="m-auto">Wallet
+                    <b>{{ users|length }}</b>
+                </span>
+            </div>
+        </div>
+        <div class="col-4 col-md-4 mb-1 d-flex justify-content-center text-center">
+            <div class="card data-card shadow border-0 bg-cus-purple text-cus-secondary">
+                <span class="m-auto">Packages
+                    <b>{{instructors|length}}</b>
+                </span>
+            </div>
+        </div>
+        <div class="col-4 col-md-4 mb-1 d-flex justify-content-center text-center">
+            <div class="card data-card shadow border-0 bg-cus-orange text-cus-secondary">
+                <span class="m-auto">Classes
+                    <b>{{students|length}}</b>
+                </span>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock dashboard %}

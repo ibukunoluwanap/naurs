@@ -1030,3 +1030,31 @@ class AccountChangePassword(View):
             for error in field.errors:
                 messages.error(self.request, f"<b>{field.label}:</b> {error}")
         return render(request, self.template_name)
+
+
+
+# student dashboard
+class StudentDashboard(LoginRequiredMixin, UserPassesTestMixin, View):
+    template_name = "dashboard/full_student_dashboard/dashboard.html"
+    login_url = 'login_page'
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.studentmodel)
+
+    def get(self, request):
+        context = {}
+        labels = []
+        data = []
+
+        FreeTrialOfferModel.objects.filter(created_on__lte=datetime.now(timezone.utc)-timezone.timedelta(days=7)).update(is_active=False)
+
+        programs = ProgramModel.objects.order_by("-id")
+        for program in programs:
+            labels.append(program.title)
+            data.append(program.total_space)
+
+        context["labels"] = labels
+        context["data"] = data
+        return render(request, self.template_name, context)
+ 
