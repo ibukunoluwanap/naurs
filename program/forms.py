@@ -23,7 +23,7 @@ class DateTimeLocalField(forms.DateTimeField):
 # program form
 class ProgramForm(forms.ModelForm):
     image = forms.ImageField(widget=forms.FileInput)
-    calendar = DateTimeLocalField()
+    start_time = DateTimeLocalField()
     content = forms.CharField(required=True, widget=TinyMCE(attrs={'cols': 10, 'rows': 20}))
     class Meta:
         model = ProgramModel

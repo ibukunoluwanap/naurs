@@ -9,4 +9,6 @@ urlpatterns = [
     # package
     path('package/', views.Package.as_view(), name='package_page'),
     path('package/<int:pk>/', views.PackageDetail.as_view(), name='package_detail_page'),
+
+    path('calendar/', views.CalendarView.as_view(), name='calendar'),
 ]

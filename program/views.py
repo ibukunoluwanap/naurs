@@ -1,8 +1,11 @@
 from django.contrib import messages
 from program.forms import ProgramEnquiryForm
+from program.utils import Calendar
 from .models import PackageModel, ProgramEnquiryModel, ProgramModel
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.views.generic import FormView, ListView, DetailView
+from django.utils.safestring import mark_safe
+from datetime import date, datetime
 
 # program view
 class Program(ListView):
@@ -39,3 +42,29 @@ class PackageDetail(DetailView):
     model = PackageModel
     template_name = "package/detail.html"
     context_object_name = "package"
+
+
+
+class CalendarView(ListView):
+    model = ProgramModel
+    template_name = 'program/calendar.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # use today's date for the calendar
+        d = get_date(self.request.GET.get('day', None))
+
+        # Instantiate our calendar class with today's year and date
+        cal = Calendar(d.year, d.month)
+
+        # Call the formatmonth method, which returns our calendar as a table
+        html_cal = cal.formatmonth(withyear=True)
+        context['calendar'] = mark_safe(html_cal)
+        return context
+
+def get_date(req_day):
+    if req_day:
+        year, month = (int(x) for x in req_day.split('-'))
+        return date(year, month, day=1)
+    return datetime.today()

@@ -1,7 +1,4 @@
-from email.policy import default
-from tkinter.tix import Tree
 from django.db import models
-from django.forms import BooleanField
 from tinymce.models import HTMLField
 
 # program category
@@ -20,6 +17,7 @@ class ProgramModel(models.Model):
     price = models.PositiveIntegerField()
     total_space = models.PositiveIntegerField()
     is_active = models.BooleanField(verbose_name="activate", default=True)
+    start_time = models.DateTimeField("start time")
     content = HTMLField()
     created_on = models.DateTimeField("created on", auto_now_add=True)
 
@@ -28,7 +26,7 @@ class ProgramModel(models.Model):
         verbose_name_plural = 'Classes'
 
     def __str__(self):
-        return f"{self.title} program program"
+        return f"{self.title}"
 
 # program modal
 class ProgramBenefitModel(models.Model):
@@ -58,17 +56,6 @@ class ProgramEnquiryModel(models.Model):
 
     def __str__(self):
         return f"{self.program.title} enquiry from {self.name}"
-
-class ProgramCalendar(models.Model):
-    calendar = models.DateTimeField("calendar")
-
-    class Meta:
-        verbose_name = 'Class Calendar'
-        verbose_name_plural = 'Class Calendars'
-
-    def __str__(self):
-        return 'class monthly canlendar'
-
 
 # program payment modal
 class ProgramPaymentModel(models.Model):
@@ -104,4 +91,4 @@ class PackageModel(models.Model):
         verbose_name_plural = 'Classes'
 
     def __str__(self):
-        return f"{self.title} program program"
+        return f"{self.title}"
