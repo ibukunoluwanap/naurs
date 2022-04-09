@@ -34,6 +34,15 @@
         </li>
         <li class="nav-item">
           <a
+            class="nav-link {% if not request.user.is_admin %}py-4{% else %}py-3{% endif %} {% if '/dashboard/free_trial/' in request.path %} active {% endif %}"
+            href="{% url 'dashboard_free_trial_page' %}"
+          >
+            <span data-feather="shopping-bag"></span>
+            Free Trial
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
             class="nav-link {% if not request.user.is_admin %}py-4{% else %}py-3{% endif %} {% if '/dashboard/offer/' in request.path %} active {% endif %}"
             href="{% url 'dashboard_offer_page' %}"
           >
