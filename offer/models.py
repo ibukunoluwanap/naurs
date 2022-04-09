@@ -36,6 +36,7 @@ class FreeTrialOfferModel(models.Model):
     name = models.CharField("name", max_length=100, blank=False, null=False)
     email = models.EmailField("email address", max_length=254, blank=False, null=False)
     phone_number = models.CharField("phone number", max_length=100, blank=False, null=False)
+    # is_active = models.BooleanField(verbose_name="activate", default=True)
     created_on = models.DateTimeField("created on", auto_now_add=True)
 
     class Meta:

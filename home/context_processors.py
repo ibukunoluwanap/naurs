@@ -7,7 +7,7 @@ from instructor.models import InstructorModel
 from about.models import AboutModel
 from program.forms import PackageForm, ProgramBenefitForm, ProgramEnquiryForm, ProgramForm, ProgramPaymentForm
 from program.models import PackageModel, ProgramBenefitModel, ProgramEnquiryModel, ProgramModel, ProgramPaymentModel
-from offer.models import OfferModel, BookOfferModel
+from offer.models import FreeTrialOfferModel, OfferModel, BookOfferModel
 from offer.forms import OfferForm, BookOfferForm, FreeTrialOfferForm
 from student.forms import StudentForm
 from student.models import StudentModel
@@ -70,6 +70,10 @@ def global_context(request):
     context['offer_form_list'] = list(OfferForm())
     context['book_offer_form'] = BookOfferForm()
     context['free_offer_form'] = FreeTrialOfferForm()
+
+    
+    # free trial
+    context['without_filter_free_trial'] = FreeTrialOfferModel.objects.order_by("-id")
 
 
     # instructor
