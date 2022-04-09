@@ -20,13 +20,12 @@ class ProgramModel(models.Model):
     price = models.PositiveIntegerField()
     total_space = models.PositiveIntegerField()
     is_active = models.BooleanField(verbose_name="activate", default=True)
-    calendar = models.DateTimeField("calendar")
     content = HTMLField()
     created_on = models.DateTimeField("created on", auto_now_add=True)
 
     class Meta:
-        verbose_name = 'Program'
-        verbose_name_plural = 'Programs'
+        verbose_name = 'Class'
+        verbose_name_plural = 'Classes'
 
     def __str__(self):
         return f"{self.title} program program"
@@ -38,8 +37,8 @@ class ProgramBenefitModel(models.Model):
     created_on = models.DateTimeField("created on", auto_now_add=True)
 
     class Meta:
-        verbose_name = 'Program Benefit'
-        verbose_name_plural = 'Program Benefits'
+        verbose_name = 'Class Benefit'
+        verbose_name_plural = 'Class Benefits'
 
     def __str__(self):
         return f"{self.program} benefit"
@@ -54,11 +53,22 @@ class ProgramEnquiryModel(models.Model):
     created_on = models.DateTimeField("created on", auto_now_add=True)
 
     class Meta:
-        verbose_name = 'Program Enquiry'
-        verbose_name_plural = 'Program Enquiries'
+        verbose_name = 'Class Enquiry'
+        verbose_name_plural = 'Class Enquiries'
 
     def __str__(self):
         return f"{self.program.title} enquiry from {self.name}"
+
+class ProgramCalendar(models.Model):
+    calendar = models.DateTimeField("calendar")
+
+    class Meta:
+        verbose_name = 'Class Calendar'
+        verbose_name_plural = 'Class Calendars'
+
+    def __str__(self):
+        return 'class monthly canlendar'
+
 
 # program payment modal
 class ProgramPaymentModel(models.Model):
@@ -70,8 +80,8 @@ class ProgramPaymentModel(models.Model):
     created_on = models.DateTimeField("created on", auto_now_add=True)
 
     class Meta:
-        verbose_name = 'Program Payment'
-        verbose_name_plural = 'Program Payments'
+        verbose_name = 'Class Payment'
+        verbose_name_plural = 'Class Payments'
 
     def get_full_name(self):
         return f"{self.first_name} {self.last_name}"
@@ -90,8 +100,8 @@ class PackageModel(models.Model):
     created_on = models.DateTimeField("created on", auto_now_add=True)
 
     class Meta:
-        verbose_name = 'Program'
-        verbose_name_plural = 'Programs'
+        verbose_name = 'Class'
+        verbose_name_plural = 'Classes'
 
     def __str__(self):
         return f"{self.title} program program"
