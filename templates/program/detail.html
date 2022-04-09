@@ -67,26 +67,7 @@
                         <h4 class="mt-4 fw-bold text-cus-primary">Price</h4>
                         {{ program.price }} AED
                         <hr>
-                        <form action="#" class="col-md-8" method="post">
-                            <h5 class="fw-bold text-cus-primary">Make Payment</h5>
-                            {% csrf_token %}
-                            {% for field in program_payment_form %}
-                                <div class="form-floating shadow mb-4">
-                                    {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
-                                    <label for="{{ field.auto_id }}">{{ field.label }}</label>
-                                    {% for error in field.errors %}
-                                        <p class="text-danger">
-                                            {{ error }}
-                                        </p>
-                                    {% endfor %}
-                                </div>
-                            {% endfor %}
-                            <div class="d-flex justify-content-between">
-                                <button class="col-5 btn-lg" type="submit">Online</button>
-                                <h5 class="fw-bold text-cus-primary lh-0">OR</h5>
-                                <button class="col-5 btn-lg bg-cus-secondary text-cus-primary" type="submit">Offline</button>
-                            </div>
-                        </form>
+
                     </div>
                     <div class="col-md-4 mt-3 mb-3 pt-3 pb-3 rounded section-bg animate__animated animate__fadeInRight"
                          data-aos="fade-right">
