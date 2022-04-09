@@ -21,7 +21,8 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from student.models import StudentModel
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
-from datetime import datetime, timedelta
+from django.utils import timezone
+from datetime import datetime
 
 # setting User model
 User = get_user_model()
@@ -43,7 +44,7 @@ class Dashboard(LoginRequiredMixin, UserPassesTestMixin, View):
         labels = []
         data = []
 
-        FreeTrialOfferModel.objects.filter(created_on__lte=datetime.now()-timedelta(days=7)).update(is_active=False)
+        FreeTrialOfferModel.objects.filter(created_on__lte=datetime.now(timezone.utc)-timezone.timedelta(days=7)).update(is_active=False)
 
         programs = ProgramModel.objects.order_by("-id")
         for program in programs:
@@ -332,6 +333,7 @@ class FreeTrial(LoginRequiredMixin, UserPassesTestMixin, ListView):
     raise_exception = True
 
     def test_func(self):
+        FreeTrialOfferModel.objects.filter(created_on__lte=datetime.now(timezone.utc)-timezone.timedelta(days=7)).update(is_active=False)
         return (self.request.user.is_admin)
 
 # dashboard offer detail view
