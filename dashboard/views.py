@@ -10,7 +10,7 @@ from instructor.forms import InstructorForm
 from instructor.models import InstructorModel
 from offer.forms import OfferForm
 from django.contrib import messages
-from offer.models import BookOfferModel, OfferModel
+from offer.models import BookOfferModel, FreeTrialOfferModel, OfferModel
 from django.views.generic import View, ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from program.forms import PackageForm, ProgramBenefitForm, ProgramForm
@@ -316,6 +316,16 @@ class Offer(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = OfferModel
     login_url = 'login_page'
     template_name = "dashboard/offer/offer.html"
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
+
+# dashboard free trial view
+class FreeTrial(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = FreeTrialOfferModel
+    login_url = 'login_page'
+    template_name = "dashboard/free_trial/free_trial.html"
     raise_exception = True
 
     def test_func(self):

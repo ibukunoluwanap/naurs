@@ -26,6 +26,8 @@ urlpatterns = [
     path('offer/<int:pk>/update/', views.OfferUpdate.as_view(), name='dashboard_offer_update_page'),
     path('offer/<int:pk>/book/', views.BookOfferDelete.as_view(), name='dashboard_book_offer_page'),
     path('offer/<int:offer_id>/<str:visibility>/visibility/', views.OfferVisibility.as_view(), name='dashboard_offer_visibility_page'),
+    # free trial
+    path('free_trial/', views.FreeTrial.as_view(), name='dashboard_free_trial_page'),
     # instructor
     path('instructor/', views.Instructor.as_view(), name='dashboard_instructor_page'),
     path('instructor/<int:pk>/', views.InstructorDetail.as_view(), name='dashboard_instructor_detail_page'),
