@@ -63,7 +63,14 @@
                         <h4 class="mt-4 fw-bold text-cus-primary">Total Space Available</h4>
                         {{ program.total_space }}
                         <h4 class="mt-4 fw-bold text-cus-primary">Calendar</h4>
-                        {{ program.calendar|ordinal }}
+                        <ul>
+                            <a href="{% url 'program_calendar' %}" target="_blank">View full calendar</a>
+                            {% for calendar in program.programcalendarmodel_set.all %}
+                                <li>
+                                    <i class="bi bi-calendar-fill align-middle text-cus-primary"></i> {{ calendar.calendar }}
+                                </li>
+                            {% endfor %}
+                        </ul>
                         <h4 class="mt-4 fw-bold text-cus-primary">Price</h4>
                         {{ program.price }} AED
                         <hr>
