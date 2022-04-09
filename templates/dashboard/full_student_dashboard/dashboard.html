@@ -27,10 +27,58 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-3">
-            
+    <!-- packages -->
+    <div class="row my-4">
+        <div class="col-12">
+            <h4>Packages</h4>
         </div>
+        {% for package in packages %}            
+            <div class="col-3">
+                <div class="card shadow border-0" style="width: 18rem;">
+                    {% if package.image %}
+                        <img src="{{package.image.url}}" width="100%" height="200px" class="card-img-top object-fit" alt="{{package.name}}">
+                    {% else %}
+                        <div class="avatar">
+                            <span data-feather="package align-middle"></span>
+                        </div>
+                    {% endif %}
+                    <div class="card-body">
+                    <h6 class="card-title">{{package.name}}</h6>
+                    <p class="card-text" style="font-size: 12px;">
+                        Price: <b>{{package.initial_price}} AED</b>
+                        <br>
+                        Bonus: +{{package.bonus_price}} (free)
+                        <br>
+                        Numbers Of Classes: {{package.program.count}}
+                    </p>
+                    <a href="#" class="btn w-100 btn-dark">Purchase Now</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- classes -->
+    <div class="row my-4">
+        <div class="col-12">
+            <h4>Classes</h4>
+        </div>
+        {% for program in programs %}
+                <div class="col-md-4 mb-3 mt-5 animate__animated animate__fadeInUp"
+                        data-aos="fade-right">
+                    <div class="card shadow program-card">
+                        <img src="{{ program.image.url }}"
+                                class="card-img-top shadow"
+                                alt="program">
+                        <div class="card-body">
+                            <a href="{% url 'program_detail_page' pk=program.id %}">
+                                <h4>{{ program.title|truncatechars:30 }}</h4>
+                                <div class="card-content">{{ program.content|truncatechars_html:200|safe }}</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+        {% endfor %}
     </div>
 </main>
 {% endblock dashboard %}

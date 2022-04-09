@@ -51,6 +51,7 @@ def global_context(request):
 
 
     # package
+    context['packages'] = PackageModel.objects.filter(is_active=True).order_by("-id")
     context['without_filter_packages'] = PackageModel.objects.order_by("-id")
     # package form
     context['package_form'] = PackageForm()
