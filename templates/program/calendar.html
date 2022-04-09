@@ -16,10 +16,15 @@
       href="https://use.fontawesome.com/releases/v5.0.10/css/all.css"
     />
     <style>
+      body,
+      html {
+        padding: 0;
+        margin: 0;
+      }
       .calendar {
-        width: 98%;
-        margin: auto;
-        font-size: 13px;
+        width: 95%;
+        margin: 5rem auto;
+        font-size: 12px;
       }
 
       .calendar tr,
@@ -64,34 +69,51 @@
         float: right;
       }
 
-      .btn {
-        outline: none;
-        color: black;
-        background-color: transparent;
-        box-shadow: 0 0 0 0;
-      }
-
       .clearfix {
-        margin: 15px;
+        padding: 0.6rem;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        height: 3.5rem;
+        background: #011b2b;
       }
     </style>
     <title>Naurs Calendar</title>
   </head>
   <body>
     <div class="clearfix">
+      {% if not request.user.is_authenticated %}
       <a
-        class="btn btn-dark left"
+        class="btn btn-outline-warning mx-1 left"
+        href="{% url 'login_page' %}"
+      >
+        Login
+      </a>
+      {% elif request.user.is_authenticated and request.user.is_admin%}
+      <a
+        class="btn btn-outline-warning mx-1 left"
+        href="{% url 'dashboard_page' %}"
+      >
+        Dashboard
+      </a>
+      {% endif %}
+      <a class="btn btn-outline-info mx-1 left" href="{% url 'home_page' %}">
+        Website
+      </a>
+      <a
+        class="btn btn-light mx-1 left"
         href="{% url 'program_calendar' %}?{{ prev_month }}"
       >
         Previous Month
       </a>
       <a
-        class="btn btn-dark right"
+        class="btn btn-light mx-1 right"
         href="{% url 'program_calendar' %}?{{ next_month }}"
       >
         Next Month
       </a>
     </div>
+
     {{ calendar }}
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>

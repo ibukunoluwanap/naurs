@@ -113,7 +113,16 @@
   <!-- calendar -->
   <div class="row mt-5">
     <div class="col-sm-4">
-      <h4>Calendar</h4>
+      <div class="position-relative">
+        <h4 class="m-0 lh-1">Calendar</h4>
+        <form action="{% url 'program_calendar' %}" method="get" class="d-inline position-absolute" style="right: 0; top: 0">
+          {% csrf_token %}
+          <button class="btn btn-sm bg-cus-primary border border-pribg-cus-primary text-cus-secondary" type="submit">
+            <span data-feather="calendar"></span>
+            view calendar
+          </button>
+        </form>
+      </div>
       <ul class="list-unstyled">
         {% if program.programcalendarmodel_set.all %}          
           {% for calendar in program.programcalendarmodel_set.all %}
