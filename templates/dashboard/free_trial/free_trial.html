@@ -30,30 +30,34 @@
           </thead>
           <tbody>
             {% if without_filter_free_trial %} {% for free_trial in without_filter_free_trial %}
-            <tr>
-              <th scope="row" class="p-2">
-                <div class="avatar">
-                    <i class="bi bi-user align-middle"></i>
-                </div>
-              </th>
-              <td class="p-2">
-                  {{free_trial.name|safe|truncatechars:20}}
-              </td>
-              <td class="p-2">{{free_trial.email}}</td>
-              <td class="p-2">{{free_trial.phone_number}}</td>
-              <td class="p-2">
-                {% if free_trial.is_active %}
-                    <button class="w-100 btn btn-sm btn-success d-flex justify-self-center justify-content-center text-center" type="button">
-                        Active
-                    </button>
-                {% else %}
-                    <button class="w-100 btn btn-sm btn-secondary d-flex justify-self-center justify-content-center text-center" type="button">
-                        Inactive
-                    </button>
-                {% endif %}
-              </td>
-              <td class="p-2">{{free_trial.created_on|naturaltime}}</td>
-            </tr>
+                <tr>
+                    <th scope="row" class="p-2">
+                        <div class="avatar">
+                            <i class="bi bi-person-badge-fill align-middle"></i>
+                        </div>
+                    </th>
+                <td class="p-2">
+                    {{free_trial.name|truncatechars:20}}
+                </td>
+                    <td class="p-2">
+                        <a href="mailto:{{free_trial.email}}" class="text-secondary text-decoration-none">{{free_trial.email}}</a>
+                    </td>
+                <td class="p-2">
+                    <a href="tel:{{free_trial.phone_number}}" class="text-secondary text-decoration-none">{{free_trial.phone_number}}</a>
+                </td>
+                <td class="p-2">
+                    {% if free_trial.is_active %}
+                        <button class="w-100 btn btn-sm btn-success d-flex justify-self-center justify-content-center text-center" type="button">
+                            Active
+                        </button>
+                    {% else %}
+                        <button class="w-100 btn btn-sm btn-secondary d-flex justify-self-center justify-content-center text-center" type="button">
+                            Inactive
+                        </button>
+                    {% endif %}
+                </td>
+                <td class="p-2">{{free_trial.created_on|naturaltime}}</td>
+                </tr>
             {% endfor %} {% else %}
             <tr>
               <td class="p-2">
