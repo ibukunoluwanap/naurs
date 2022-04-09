@@ -6,7 +6,9 @@ from account.forms import RegisterForm, LoginForm
 from django.http.response import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, logout, authenticate
+from offer.models import FreeTrialOfferModel
 from student.models import StudentModel
+from datetime import datetime, timedelta
 
 # setting User model
 User = get_user_model()
@@ -39,6 +41,7 @@ class Register(View):
             user = register_form.save()
             # login the user
             login(request, user)
+            FreeTrialOfferModel.objects.filter(created_on__lte=datetime.now()-timedelta(days=7)).update(is_active=False)
             student = StudentModel.objects.create(user=request.user)
             if student:
                 messages.success(request, "Successfully registered Select class to start with!")
@@ -75,15 +78,18 @@ class Login(View):
             if user is not None:
                 if user.is_admin:
                     login(request, user)
+                    FreeTrialOfferModel.objects.filter(created_on__lte=datetime.now()-timedelta(days=7)).update(is_active=False)
                     messages.success(request, f"Welcome { user }!")
                     return redirect('dashboard_page')
                 try:
                     if user.instructormodel:
                         login(request, user)
+                        FreeTrialOfferModel.objects.filter(created_on__lte=datetime.now()-timedelta(days=7)).update(is_active=False)
                         messages.success(request, f"Welcome { user.instructormodel }!")
                         return redirect('dashboard_page')
                 except:
                     login(request, user)
+                    FreeTrialOfferModel.objects.filter(created_on__lte=datetime.now()-timedelta(days=7)).update(is_active=False)
                     messages.info(request, 'You are logged in! Please download the mobile app on your device to access our programs')
                     return redirect('home_page')
             messages.error(request, "Check user's credentials!")
@@ -129,6 +135,7 @@ class Logout(LoginRequiredMixin, View):
     login_url = 'login_page'
 
     def get(self, request):
+        FreeTrialOfferModel.objects.filter(created_on__lte=datetime.now()-timedelta(days=7)).update(is_active=False)
         logout(request)
         messages.success(request, 'Successfully logged out!')
         return redirect('login_page')
