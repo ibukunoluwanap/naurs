@@ -55,10 +55,43 @@
       a {
         color: #17a2b8;
       }
+
+      .left {
+        float: left;
+      }
+
+      .right {
+        float: right;
+      }
+
+      .btn {
+        outline: none;
+        color: black;
+        background-color: transparent;
+        box-shadow: 0 0 0 0;
+      }
+
+      .clearfix {
+        margin: 15px;
+      }
     </style>
     <title>Naurs Calendar</title>
   </head>
   <body>
+    <div class="clearfix">
+      <a
+        class="btn btn-dark left"
+        href="{% url 'program_calendar' %}?{{ prev_month }}"
+      >
+        Previous Month
+      </a>
+      <a
+        class="btn btn-dark right"
+        href="{% url 'program_calendar' %}?{{ next_month }}"
+      >
+        Next Month
+      </a>
+    </div>
     {{ calendar }}
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
