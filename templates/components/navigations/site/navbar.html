@@ -50,11 +50,19 @@
                 {% if request.user.is_authenticated %}
                     {% if request.user.is_admin or request.user.instructormodel %}
                         <li>
-                            <button type="button"
-                                    onclick="location.href={% url 'dashboard_page' %}"
-                                    class="navbar-btn {% if 'dashboard' in request.path %}active{% endif %}">
-                                Dashboard
-                            </button>
+                            <form action="{% url 'dashboard_page' %}" method="get">
+                                <button type="submit" class="navbar-btn">
+                                    Dashboard
+                                </button>
+                            </form>
+                        </li>
+                    {% elif request.user.studentmodel %}
+                        <li>
+                            <form action="{% url 'student_dashboard_page' %}" method="get">
+                                <button type="submit" class="navbar-btn">
+                                    Dashboard
+                                </button>
+                            </form>
                         </li>
                     {% endif %}
                     <li>
