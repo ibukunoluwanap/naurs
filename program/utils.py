@@ -14,7 +14,13 @@ class Calendar(HTMLCalendar):
 		classes_per_day = classes.filter(calendar__day=day)
 		d = ''
 		for _class in classes_per_day:
-			d += f'<li> <b>{_class.program.title}</b> by <b>{_class.calendar.hour}:{_class.calendar.minute}</b> </li>'
+			d += f'''
+				<li>
+					<b>Class:</b> {_class.program.title}
+					<br>
+					<b>Time:</b> {_class.calendar.strftime("%I:%M %p")}
+				</li>
+			'''
 
 		if day != 0:
 			return f"<td><span class='date'>{day}</span><ul> {d} </ul></td>"
