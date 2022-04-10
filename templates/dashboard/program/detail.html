@@ -129,13 +129,13 @@
             <li class="my-4 position-relative">
                 <i class="bi bi-arrow-return-right align-middle text-cus-primary"></i>
                 {{ calendar.calendar }}
-                <form action="{% url 'dashboard_program_calendar_delete_page' pk=calendar.id %}" method="post" class="d-inline position-absolute" style="right: 0;">
+                <!-- <form action="#" method="post" class="d-inline position-absolute" style="right: 0;">
                   {% csrf_token %}
                   <button class="btn btn-sm bg-danger border border-danger text-cus-secondary" type="submit">
                     <span data-feather="trash"></span>
                     Delete
                   </button>
-                </form>
+                </form> -->
             </li>
           {% endfor %}
         {% else %}
