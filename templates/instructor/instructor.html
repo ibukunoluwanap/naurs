@@ -35,8 +35,8 @@
                                             <i class="bi bi-person-circle align-middle member-img img-fluid" style="font-size: 234px;"></i>
                                         {% endif %}
                                         <div class="member-info">
-                                            <h4>{{ instructor.user.get_full_name }}</h4>
-                                            <span>{{ instructor.role }}</span>
+                                            <h4>{{ instructor.user.get_full_name|truncatechars:20 }}</h4>
+                                            <span>{{ instructor.role|truncatechars:20 }}</span>
                                         </div>
                                     </div>
                                 </a>
