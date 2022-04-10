@@ -539,37 +539,18 @@ class InstructorCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return render(request, self.template_name, context)
 
 # dashboard instructor create view
-class InstructorUpdate(LoginRequiredMixin, UserPassesTestMixin, View):
+class InstructorUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = InstructorModel
+    form_class = InstructorForm
     login_url = 'login_page'
     raise_exception = True
 
     def test_func(self):
         return (self.request.user.is_admin)
 
-    # def get_success_url(self):
-    #     messages.success(self.request, "Successfully updated instructor!")
-    #     return reverse_lazy('dashboard_instructor_detail_page', kwargs={'pk': self.kwargs['pk']})
-    
-    def post(self, request):
-        update_user_form = UpdateUserForm(request.POST, request.FILES, instance=request.user)
-        instructor_form = InstructorForm(request.POST)
-        if update_user_form.is_valid() and instructor_form.is_valid():
-            new_update_user_form = update_user_form.save(commit=False)
-            new_instructor_form = instructor_form.save(commit=False)
-            new_update_user_form.avatar = update_user_form.cleaned_data.get('avatar')
-            new_update_user_form.first_name = update_user_form.cleaned_data.get('first_name')
-            new_update_user_form.last_name = update_user_form.cleaned_data.get('last_name')
-            new_update_user_form.email = update_user_form.cleaned_data.get('email')
-
-            new_instructor_form.user = new_update_user_form
-            new_instructor_form.program = instructor_form.cleaned_data.get('program')
-            new_instructor_form.role = instructor_form.cleaned_data.get('role')
-            new_instructor_form.about = instructor_form.cleaned_data.get('about')
-
-            new_update_user_form.save()
-            new_instructor_form.save()
-            messages.success(self.request, "Successfully updated account!")
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
+    def get_success_url(self):
+        messages.success(self.request, "Successfully updated instructor!")
+        return reverse_lazy('dashboard_instructor_detail_page', kwargs={'pk': self.kwargs['pk']})
 
 # dashboard instructor visibility view
 class InstructorVisibility(LoginRequiredMixin, UserPassesTestMixin, View):

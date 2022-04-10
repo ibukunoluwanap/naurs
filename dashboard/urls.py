@@ -10,7 +10,7 @@ urlpatterns = [
     path('program/create/', views.ProgramCreate.as_view(), name='dashboard_program_create_page'),
     path('program/<int:pk>/update/', views.ProgramUpdate.as_view(), name='dashboard_program_update_page'),
     path('program/<int:program_id>/calendar/create/', views.ProgramCalendarCreate.as_view(), name='dashboard_program_calendar_create_page'),
-    # path('program/<int:pk>/calendar/delete/', views.ProgramCalendarDelete.as_view(), name='dashboard_program_calendar_delete_page'),
+    path('program/<int:pk>/calendar/delete/', views.ProgramCalendarDelete.as_view(), name='dashboard_program_calendar_delete_page'),
     path('program/<int:program_id>/benefit/create/', views.ProgramBenefitCreate.as_view(), name='dashboard_program_benefit_create_page'),
     path('program/<int:pk>/benefit/delete/', views.ProgramBenefitDelete.as_view(), name='dashboard_program_benefit_delete_page'),
     path('program/<int:program_id>/<str:visibility>/visibility/', views.ProgramVisibility.as_view(), name='dashboard_program_visibility_page'),
@@ -34,7 +34,7 @@ urlpatterns = [
     path('instructor/', views.Instructor.as_view(), name='dashboard_instructor_page'),
     path('instructor/<int:pk>/', views.InstructorDetail.as_view(), name='dashboard_instructor_detail_page'),
     path('instructor/create/', views.InstructorCreate.as_view(), name='dashboard_instructor_create_page'),
-    path('instructor/update/', views.InstructorUpdate.as_view(), name='dashboard_instructor_update_page'),
+    path('instructor/<int:pk>/update/', views.InstructorUpdate.as_view(), name='dashboard_instructor_update_page'),
     path('instructor/<int:instructor_id>/<str:visibility>/visibility/', views.InstructorVisibility.as_view(), name='dashboard_instructor_visibility_page'),
     # student
     path('student/', views.Student.as_view(), name='dashboard_student_page'),
