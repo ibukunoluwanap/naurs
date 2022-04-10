@@ -8,10 +8,25 @@ from django.views.generic import FormView, ListView, DetailView
 from django.utils.safestring import mark_safe
 from datetime import datetime, timedelta, date
 
-# program view
-class Program(ListView):
+# program music view
+class ProgramMusic(ListView):
     model = ProgramModel
-    template_name = "program/program.html"
+    template_name = "program/music.html"
+
+# program fitness view
+class ProgramFitness(ListView):
+    model = ProgramModel
+    template_name = "program/fitness.html"
+
+# program fine arts view
+class ProgramFineArts(ListView):
+    model = ProgramModel
+    template_name = "program/fine_arts.html"
+
+# program dance view
+class ProgramDance(ListView):
+    model = ProgramModel
+    template_name = "program/dance.html"
 
 # program detail view
 class ProgramDetail(DetailView):
@@ -44,8 +59,7 @@ class PackageDetail(DetailView):
     template_name = "package/detail.html"
     context_object_name = "package"
 
-
-
+# calendar view
 class CalendarView(ListView):
     model = ProgramModel
     template_name = 'program/calendar.html'

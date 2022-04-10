@@ -16,19 +16,19 @@
                        class="{% if request.path == '/' %}active{% endif %}">Home</a>
                 </li>
                 <li>
-                    <a href="{% url 'program_page' %}#music"
+                    <a href="{% url 'program_music_page' %}"
                        class="{% if 'music' in request.path %}active{% endif %}">Music</a>
                 </li>
                 <li>
-                    <a href="{% url 'program_page' %}#fitness"
+                    <a href="{% url 'program_fitness_page' %}"
                        class="{% if 'fitness' in request.path %}active{% endif %}">Fitness</a>
                 </li>
                 <li>
-                    <a href="{% url 'program_page' %}#fine_arts"
+                    <a href="{% url 'program_fine_arts_page' %}"
                        class="{% if 'fine_arts' in request.path %}active{% endif %}">Fine Arts</a>
                 </li>
                 <li>
-                    <a href="{% url 'program_page' %}#dance"
+                    <a href="{% url 'program_dance_page' %}"
                        class="{% if 'dance' in request.path %}active{% endif %}">Dance</a>
                 </li>
                 <li>

@@ -16,9 +16,7 @@
                         <li>
                             <a href="{% url 'home_page' %}">Home</a>
                         </li>
-                        <li>
-                            <a href="{% url 'program_page' %}">Classes</a>
-                        </li>
+                        <li>Classes</li>
                         <li>{{ program.title|truncatechars:10 }}</li>
                     </ol>
                 </div>
@@ -137,7 +135,6 @@
         <!-- ======= other programs & classes section ======= -->
         <section class="section">
             <div class="container" data-aos="fade-up">
-                <!-- music -->
                 <div class="row content">
                     <h4 class="fw-bold text-cus-primary">Other Classes</h4>
                     {% for program in last_3_programs %}
@@ -156,9 +153,6 @@
                             </div>
                         </div>
                     {% endfor %}
-                    <div class="col-12 text-center mt-5">
-                        <a class="btn-lg" href="{% url 'program_page' %}">View More</a>
-                    </div>
                 </div>
             </div>
         </div>

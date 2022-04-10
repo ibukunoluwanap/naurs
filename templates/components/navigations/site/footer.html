@@ -44,16 +44,16 @@
                             <a href="{% url 'offer_page' %}">Offers</a>
                         </li> -->
                         <li>
-                            <a href="{% url 'program_page' %}#music">Music</a>
+                            <a href="{% url 'program_music_page' %}">Music</a>
                         </li>
                         <li>
-                            <a href="{% url 'program_page' %}#fitness">Fitness</a>
+                            <a href="{% url 'program_fitness_page' %}">Fitness</a>
                         </li>
                         <li>
-                            <a href="{% url 'program_page' %}#fine_arts">Fine Arts</a>
+                            <a href="{% url 'program_fine_arts_page' %}">Fine Arts</a>
                         </li>
                         <li>
-                            <a href="{% url 'program_page' %}#dance">Dance</a>
+                            <a href="{% url 'program_dance_page' %}">Dance</a>
                         </li>
                         {% if request.user.is_authenticated %}
                             <li>
