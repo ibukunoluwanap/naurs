@@ -38,5 +38,5 @@ class FreeTrial(FormView):
 
     def form_valid(self, form):
         user = form.save()
-        messages.success(self.request, f"{user.name} successfully requested for free trial!")
+        messages.success(self.request, f'successfully activated 7 days free trial on this email "{user.name}!"')
         return super(FreeTrial, self).form_valid(form)
