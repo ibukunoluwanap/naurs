@@ -8,10 +8,12 @@
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
   <div class="row mb-3">
     <div class="col-sm-12">
-      <a href="#" class="btn btn-lg float-end" data-bs-toggle="modal" data-bs-target="#createProgram">
-        <span data-feather="plus"></span>
-        Create Class
-      </a>
+      {% if request.user.is_admin %}
+        <a href="#" class="btn btn-lg float-end" data-bs-toggle="modal" data-bs-target="#createProgram">
+          <span data-feather="plus"></span>
+          Create Class
+        </a>
+      {% endif %}
       <div class="modal fade" id="createProgram" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createProgramLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
           <div class="modal-content">
