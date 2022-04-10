@@ -7,10 +7,11 @@
                 <div class="col-lg-3 col-md-6 footer-contact">
                     <h3>Naurs</h3>
                     <p>
-                        57R9+C24 - Business Bay
+                        F42-F43, Bay Avenue, Business Bay
                         <br>
-                        Dubai - Vereinigte Arabische Emirate
+                        Dubai - United Arab Emirates
                         <br>
+                        PO BOX: 24536
                         <br>
                         <strong>Email:</strong> <a href="mailto:naursfitnessandart@gmail.com" class="text-white">naursfitnessandart@gmail.com</a>
                         <br>
@@ -39,34 +40,39 @@
                 <div class="col-lg-3 col-md-6 footer-links">
                     <h4>Offers & Classes</h4>
                     <ul>
-                        <li>
+                        <!-- <li>
                             <a href="{% url 'offer_page' %}">Offers</a>
-                        </li>
+                        </li> -->
                         <li>
                             <a href="{% url 'program_page' %}#music">Music</a>
                         </li>
                         <li>
-                            <a href="{% url 'program_page' %}#dance">Dance</a>
+                            <a href="{% url 'program_page' %}#fitness">Fitness</a>
                         </li>
                         <li>
                             <a href="{% url 'program_page' %}#fine_arts">Fine Arts</a>
                         </li>
                         <li>
-                            <a href="{% url 'program_page' %}#fitness">Fitness</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-lg-3 col-md-6 footer-links">
-                    <h4>Copyrights</h4>
-                    <ul>
-                        <li>
-                            <a href="#">Privacy Policy</a>
+                            <a href="{% url 'program_page' %}#dance">Dance</a>
                         </li>
                         {% if request.user.is_authenticated %}
                             <li>
                                 <a href="{% url 'logout_page' %}">Logout</a>
                             </li>
+                        {% else %}
+                            <li>
+                                <a href="{% url 'login_page' %}">Login</a>
+                            </li>
                         {% endif %}
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 footer-links">
+                    <h4>Copyrights</h4>
+                    <ul>
+                        <!-- <li>
+                            <a href="#">Privacy Policy</a>
+                        </li> -->
+
                     </ul>
                 </div>
             </div>
@@ -84,7 +90,7 @@
             <a href="https://www.linkedin.com/in/naurs-dubai-a5ba88230/"
                target="_blank"><i class="bx bxl-linkedin"></i></a>
             <a href="mailto:naursfitnessandart@gmail.com"><i class="bx bi-envelope-fill"></i></a>
-            <a href="tel:+971552759400"><i class="bx bi-telephone-fill"></i></a>
+            <a href="tel:+97143331091"><i class="bx bi-telephone-fill"></i></a>
         </div>
     </div>
 </footer>
