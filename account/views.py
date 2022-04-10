@@ -89,12 +89,14 @@ class Login(View):
                         messages.success(request, f"Welcome { user.instructormodel }!")
                         return redirect('dashboard_page')
                 except:
-                    login(request, user)
-                    FreeTrialOfferModel.objects.filter(created_on__lte=datetime.now(timezone.utc)-timezone.timedelta(days=7)).update(is_active=False)
-                    student = StudentModel.objects.get(user=request.user)
-                    if student:
-                        messages.success(request, "Successfully registered Select class to start with!")
-                        return redirect('student_dashboard_page')
+                    try:
+                        if user.studentmodel:
+                            login(request, user)
+                            FreeTrialOfferModel.objects.filter(created_on__lte=datetime.now(timezone.utc)-timezone.timedelta(days=7)).update(is_active=False)
+                            messages.success(request, "Successfully registered Select class to start with!")
+                            return redirect('student_dashboard_page')
+                    except:
+                        pass
             messages.error(request, "Check user's credentials!")
             return redirect('login_page')
         for field in login_form:
