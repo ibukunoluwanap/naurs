@@ -34,7 +34,7 @@ urlpatterns = [
     path('instructor/', views.Instructor.as_view(), name='dashboard_instructor_page'),
     path('instructor/<int:pk>/', views.InstructorDetail.as_view(), name='dashboard_instructor_detail_page'),
     path('instructor/create/', views.InstructorCreate.as_view(), name='dashboard_instructor_create_page'),
-    path('instructor/<int:pk>/update/', views.InstructorUpdate.as_view(), name='dashboard_instructor_update_page'),
+    path('instructor/update/', views.InstructorUpdate.as_view(), name='dashboard_instructor_update_page'),
     path('instructor/<int:instructor_id>/<str:visibility>/visibility/', views.InstructorVisibility.as_view(), name='dashboard_instructor_visibility_page'),
     # student
     path('student/', views.Student.as_view(), name='dashboard_student_page'),

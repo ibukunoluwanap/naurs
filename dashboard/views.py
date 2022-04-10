@@ -1,9 +1,10 @@
+import email
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from about.forms import AboutForm
 from about.models import AboutModel
-from account.forms import UpdateAdminForm, UpdateUserForm
+from account.forms import RegisterForm, UpdateAdminForm, UpdateUserForm
 from home.forms import ListingForm
 from home.models import ListingModel
 from instructor.forms import InstructorForm
@@ -518,42 +519,57 @@ class InstructorCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     def post(self, request, *args, **kwargs):
         context = {}
         context["instructor_form"] = instructor_form = InstructorForm(request.POST)
+        context["register_form"] = register_form = RegisterForm(request.POST)
 
-        if instructor_form.is_valid():
-            user = instructor_form.cleaned_data.get('user')
-            if user.is_admin:
-                messages.error(self.request, f"{user} is admin and cannot be instructor!")
-                return redirect("dashboard_instructor_page")
-            else:
-                try:
-                    if user.studentmodel:
-                        messages.error(self.request, f"{user} is student and cannot be instructor!")
-                        return redirect("dashboard_instructor_page")
-                    elif user.instructormodel:
-                        messages.info(self.request, f"{user} already a instructor!")
-                        return redirect("dashboard_instructor_page")
-                except:
-                    instructor_form.save()
-                    messages.success(self.request, f"Successfully added an instructor!")
-                    return redirect("dashboard_instructor_page")
-        for field in instructor_form:
-            for error in field.errors:
-                messages.error(self.request, f"<b>{field.label}:</b> {error}")
+        if instructor_form.is_valid() and register_form.is_valid():
+            user=register_form.save()
+            new_instructor = instructor_form.save(commit=False)
+            new_instructor.user = user
+            new_instructor.save()
+            messages.success(self.request, f"Successfully added an instructor!")
+            return redirect("dashboard_instructor_page")
+        if instructor_form.errors:
+            for field in instructor_form:
+                for error in field.errors:
+                    messages.error(self.request, f"<b>{field.label}:</b> {error}")
+        if register_form.errors:
+            for field in register_form:
+                for error in field.errors:
+                    messages.error(self.request, f"<b>{field.label}:</b> {error}")
         return render(request, self.template_name, context)
 
 # dashboard instructor create view
-class InstructorUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = InstructorModel
-    form_class = InstructorForm
+class InstructorUpdate(LoginRequiredMixin, UserPassesTestMixin, View):
     login_url = 'login_page'
     raise_exception = True
 
     def test_func(self):
         return (self.request.user.is_admin)
 
-    def get_success_url(self):
-        messages.success(self.request, "Successfully updated instructor!")
-        return reverse_lazy('dashboard_instructor_detail_page', kwargs={'pk': self.kwargs['pk']})
+    # def get_success_url(self):
+    #     messages.success(self.request, "Successfully updated instructor!")
+    #     return reverse_lazy('dashboard_instructor_detail_page', kwargs={'pk': self.kwargs['pk']})
+    
+    def post(self, request):
+        update_user_form = UpdateUserForm(request.POST, request.FILES, instance=request.user)
+        instructor_form = InstructorForm(request.POST)
+        if update_user_form.is_valid() and instructor_form.is_valid():
+            new_update_user_form = update_user_form.save(commit=False)
+            new_instructor_form = instructor_form.save(commit=False)
+            new_update_user_form.avatar = update_user_form.cleaned_data.get('avatar')
+            new_update_user_form.first_name = update_user_form.cleaned_data.get('first_name')
+            new_update_user_form.last_name = update_user_form.cleaned_data.get('last_name')
+            new_update_user_form.email = update_user_form.cleaned_data.get('email')
+
+            new_instructor_form.user = new_update_user_form
+            new_instructor_form.program = instructor_form.cleaned_data.get('program')
+            new_instructor_form.role = instructor_form.cleaned_data.get('role')
+            new_instructor_form.about = instructor_form.cleaned_data.get('about')
+
+            new_update_user_form.save()
+            new_instructor_form.save()
+            messages.success(self.request, "Successfully updated account!")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
 
 # dashboard instructor visibility view
 class InstructorVisibility(LoginRequiredMixin, UserPassesTestMixin, View):
