@@ -28,7 +28,7 @@
             <div class="row g-0">
                 <div class="col-12 text-white text-center">
                     <div class="head-img"
-                         style="background-image: url('{{ instructor.user.avatar.url }}');">
+                         style="background-image: url('{% if instructor.user.avatar %}{{ instructor.user.avatar.url }}{% else %}{% endif %}');">
                         <div class="dark-layer"></div>
                         <h3 class="fw-bold position-absolute top-50 start-50 translate-middle">{{ instructor.user.get_full_name }}</h3>
                     </div>
@@ -90,9 +90,12 @@
                         <div class="col-lg-3 col-md-6 align-items-stretch">
                             <a href="{% url 'instructor_detail_page' pk=instructor.id %}">
                                 <div class="member">
-                                    <img class="member-img"src="{{ instructor.user.avatar.url }}"
-                                        class="img-fluid"
+                                    {% if instructor.user.avatar %}
+                                        <img class="member-img img-fluid" src="{{ instructor.user.avatar.url }}"
                                         alt="instructor">
+                                    {% else %}
+                                        <i class="bi bi-person-circle align-middle member-img img-fluid" style="font-size: 234px;"></i>
+                                    {% endif %}
                                     <div class="member-info">
                                         <h4>{{ instructor.user.get_full_name }}</h4>
                                         <span>{{ instructor.role }}</span>
