@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <!-- seo -->
+    {% block title %}<title>Naurs - 400 Bad Request</title>{% endblock title %}
+	<meta property="og:title" content="Naurs - 400 Bad Request" />
+    <meta name="description" content="Naurs focus on delivery the best quality and unique fitness and art classes within your 1km radius.">
+    <meta property="og:description" content="Naurs focus on delivery the best quality and unique fitness and art classes within your 1km radius." />
+    <meta name="keywords" content="fitness, gym, art, near, uae, dubai, yoga, classes, safety, music">
+    <meta itemprop="image" property="og:image" content="{% static 'images/favicon.png' %}" />
+	<meta property="og:image:width" content="1277" />
+	<meta property="og:image:height" content="473" />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="{{ request.get_host }}" />
+    <meta name="theme-color" content="#011b2b">
+    <!-- favicons -->
+    <link href="{% static 'images/favicon.png' %}" rel="icon">
+    <link href="{% static 'images/favicon.png' %}" rel="apple-touch-icon">
+    <!-- vendor css file -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;1,100;1,200;1,300;1,400&display=swap" rel="stylesheet">
+    <!-- main css file -->
+    <link href="{% static 'css/site/style.css' %}" rel="stylesheet">
+    <style>
+        .cover-container {
+            max-width: 42em;
+        }
+    </style>
+</head>
+
+<body class="d-flex h-100 text-center text-dark bg-light">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <main class="px-3 my-auto">
+            <img src="{% static 'images/logo_trans_sm.png' %}" width="250px" alt="logo">
+            <h1>
+                <b>400</b> 
+                Bad Request
+            </h1>
+            <p class="lead">Cannot process the request due to a client error.</p>
+            <p class="lead">
+                <a href="{% url 'home_page' %}" class="btn btn-lg">Go Home</a>
+            </p>
+        </main>
+    </div>
+        
+    <!-- Vendor JS Files -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/site/main.js' %}"></script>
+</body>

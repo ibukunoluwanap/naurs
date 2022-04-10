@@ -18,8 +18,8 @@ urlpatterns = [
     path('student/', include('student.urls')),
 ]
 
-admin.site.site_header  =  "Test Admin Dashboard"  
-admin.site.site_title  =  "Test Admin Dashboard"
-admin.site.index_title  =  "Test Admin Dashboard"
+admin.site.site_header  =  "Dev Admin Dashboard"  
+admin.site.site_title  =  "Dev Admin Dashboard"
+admin.site.index_title  =  "Dev Admin Dashboard"
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
