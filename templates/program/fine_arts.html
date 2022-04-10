@@ -9,7 +9,7 @@
         <section id="breadcrumbs" class="breadcrumbs">
             <div class="container">
                 <div class="d-flex justify-content-between align-items-center text-white">
-                    <h2>Classes</h2>
+                    <h2>Fine Arts Classes</h2>
                     <ol>
                         <li>
                             <a href="{% url 'home_page' %}">Home</a>
@@ -24,7 +24,6 @@
             <div class="container" data-aos="fade-up">
                 <!-- fine art -->
                 <div id="fine_arts" class="row content">
-                    <h1 class="h2 fw-bold mt-5 text-cus-primary">Fine Arts</h1>
                     {% for program in programs %}
                         {% if program.category == "Fine Arts" %}
                             <div class="col-md-4 mb-3 mt-5 animate__animated animate__fadeInUp"
