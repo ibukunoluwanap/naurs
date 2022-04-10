@@ -65,7 +65,7 @@
         </div>
         {% for program in programs %}
             <div class="col-3">
-                <div class="card shadow ">
+                <div class="card shadow mb-3" style="height: 350px;">
                     <img src="{{ program.image.url }}"
                             class="card-img-top shadow object-fit"
                             width="100%" height="200px"
@@ -73,7 +73,7 @@
                     <div class="card-body">
                         <a href="{% url 'program_detail_page' pk=program.id %}" class="text-cus-primary text-decoration-none" style="font-size: 12px;">
                             <h4>{{ program.title|truncatechars:30 }}</h4>
-                            <div class="card-content">{{ program.content|truncatechars_html:200|safe }}</div>
+                            <div class="card-content">{{ program.content|truncatechars_html:150|safe }}</div>
                         </a>
                     </div>
                 </div>
