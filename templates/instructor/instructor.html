@@ -21,11 +21,11 @@
         </section>
         <!-- ======= instructors section ======= -->
         <section id="team" class="team">
-            <div class="container" data-aos="fade-up">
+            <div class="container instructor-container" data-aos="fade-up">
                 <div class="row">
                     {% if instructors %}
                         {% for instructor in instructors %}
-                            <div class="col-lg-3 col-md-6 align-items-stretch">
+                            <div class="col-12">
                                 <a href="{% url 'instructor_detail_page' pk=instructor.id %}">
                                     <div class="member">
                                         {% if instructor.user.avatar %}
@@ -37,6 +37,7 @@
                                         <div class="member-info">
                                             <h4>{{ instructor.user.get_full_name|truncatechars:20 }}</h4>
                                             <span>{{ instructor.role|truncatechars:20 }}</span>
+                                            {{ instructor.about|safe|truncatechars_html:500 }}
                                         </div>
                                     </div>
                                 </a>
