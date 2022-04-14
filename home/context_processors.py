@@ -17,7 +17,7 @@ def global_context(request):
 
 
     # user
-    context['users'] = User.objects.all()
+    context['users'] = User.objects.order_by("-id")
     # user form
     context['update_user_form'] = UpdateUserForm()
     context['update_user_form_list'] = list(UpdateUserForm())
@@ -107,7 +107,7 @@ def global_context(request):
 
     
     # student
-    context['students'] = StudentModel.objects.all()
+    context['students'] = StudentModel.objects.order_by("-id")
     # student form
     context['student_form'] = StudentForm()
     context['student_form_list'] = list(StudentForm())
