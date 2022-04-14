@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'offer.apps.OfferConfig', # to handle offer page contents and functionality
     'instructor.apps.InstructorConfig', # to handle instructor page contents and functionality
     'student.apps.StudentConfig', # to handle student page contents and functionality
+    'finance.apps.FinanceConfig', # to handle finance page contents and functionality
 ]
 
 # custom authentication user model

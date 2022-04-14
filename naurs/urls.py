@@ -16,6 +16,7 @@ urlpatterns = [
     path('offer/', include('offer.urls')),
     path('instructor/', include('instructor.urls')),
     path('student/', include('student.urls')),
+    path('finance/', include('finance.urls')),
 ]
 
 admin.site.site_header  =  "Dev Admin Dashboard"  
