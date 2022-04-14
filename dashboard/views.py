@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from about.forms import AboutForm
 from about.models import AboutModel
 from account.forms import RegisterForm, UpdateAdminForm, UpdateUserForm
+from finance.models import WalletModel
 from home.forms import ListingForm
 from home.models import ListingModel
 from instructor.forms import InstructorForm
@@ -1075,6 +1076,7 @@ class StudentDashboard(LoginRequiredMixin, UserPassesTestMixin, View):
 
         context["labels"] = labels
         context["data"] = data
+        context["wallet"] = WalletModel.objects.get(user=request.user)
         return render(request, self.template_name, context)
  
 # student account detail view

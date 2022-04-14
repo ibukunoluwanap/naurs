@@ -6,6 +6,7 @@ from account.forms import RegisterForm, LoginForm
 from django.http.response import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, logout, authenticate
+from finance.models import WalletModel
 from offer.models import FreeTrialOfferModel
 from student.models import StudentModel
 from django.utils import timezone
@@ -45,6 +46,7 @@ class Register(View):
             FreeTrialOfferModel.objects.filter(created_on__lte=datetime.now(timezone.utc)-timezone.timedelta(days=7)).update(is_active=False)
             student = StudentModel.objects.create(user=request.user)
             if student:
+                WalletModel.objects.create(user=request.user)
                 messages.success(request, "Successfully registered Select class to start with!")
                 return redirect('student_dashboard_page')
         for field in register_form:
