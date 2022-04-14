@@ -7,7 +7,7 @@ User = get_user_model()
 # wallet modal
 class WalletModel(models.Model):
     user = models.ForeignKey(User, verbose_name="user", on_delete=models.CASCADE)
-    balance = models.PositiveIntegerField()
+    balance = models.FloatField()
     updated_on = models.DateTimeField("updated on", auto_now=True)
 
     class Meta:
