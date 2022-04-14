@@ -13,8 +13,8 @@ class InstructorModel(models.Model):
     role = models.CharField("role", max_length=100, blank=False, null=False)
     about = HTMLField()
     # ending
-    # salary = models.PositiveIntegerField()
-    # comission = models.PositiveIntegerField()
+    # salary = models.FloatField(default=0.00)
+    # comission = models.FloatField(default=0.00)
     created_on = models.DateTimeField("created on", auto_now_add=True)
 
     class Meta:

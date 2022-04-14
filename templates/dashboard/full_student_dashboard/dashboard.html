@@ -45,9 +45,9 @@
                     <div class="card-body">
                     <h6 class="card-title">{{package.name}}</h6>
                     <p class="card-text" style="font-size: 12px;">
-                        Price: <b>{{package.initial_price}} AED</b>
+                        Price: <b>{{package.initial_price|floatformat:2|intcomma}} </b>
                         <br>
-                        Bonus: +{{package.bonus_price}} AED (Free)
+                        Bonus: +{{package.bonus_price|floatformat:2|intcomma}} AED (Free)
                         <br>
                         Numbers Of Classes: {{package.program.count}}
                     </p>
@@ -74,7 +74,7 @@
                         <a href="{% url 'program_detail_page' pk=program.id %}" class="text-cus-primary text-decoration-none" style="font-size: 12px;">
                             <h5>{{ program.title|truncatechars:20 }}</h5>
                             <div class="card-content">{{ program.content|truncatechars_html:100|safe }}</div>
-                            <span class="card-price shadow">{{ program.price }} AED</span>
+                            <span class="card-price shadow">{{ program.price|floatformat:2|intcomma }} AED</span>
                             <a href="#" class="btn w-100 btn-dark bg-cus-primary">Purchase Now</a>
                         </a>
                     </div>

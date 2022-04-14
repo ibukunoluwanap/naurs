@@ -4,13 +4,24 @@
 {%block dashboard %}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
     <div class="row justify-content-center mt-3 mb-3">
-        <div class="col-4 col-md-4 mb-1 d-flex justify-content-center text-center">
-            <div class="card data-card shadow border-0 bg-cus-pink text-cus-secondary">
-                <span class="m-auto">Total Registered
-                    <b>{{ users|length }}</b>
-                </span>
+        
+        {% if request.user.is_admin %}
+            <div class="col-4 col-md-4 mb-1 d-flex justify-content-center text-center">
+                <div class="card data-card shadow border-0 bg-cus-pink text-cus-secondary">
+                    <span class="m-auto">Total Registered
+                        <b>{{ users|length }}</b>
+                    </span>
+                </div>
             </div>
-        </div>
+        {% else %}            
+            <div class="col-4 col-md-4 mb-1 d-flex justify-content-center text-center">
+                <div class="card data-card shadow border-0 bg-cus-pink text-cus-secondary">
+                    <span class="m-auto">Wallet
+                        <b>{{wallet.balance|floatformat:2}} AED</b>
+                    </span>
+                </div>
+            </div>
+        {% endif %}
         <div class="col-4 col-md-4 mb-1 d-flex justify-content-center text-center">
             <div class="card data-card shadow border-0 bg-cus-purple text-cus-secondary">
                 <span class="m-auto">Total Instructors
@@ -157,7 +168,7 @@
                                 <th scope="col" class="p-3"></th>
                                 <th scope="col" class="p-3">Title</th>
                                 <th scope="col" class="p-3">Category</th>
-                                <th scope="col" class="p-3">Price</th>
+                                <th scope="col" class="p-3">Price AED</th>
                                 <th scope="col" class="p-3">Content</th>
                                 <th scope="col" class="p-3">Created On</th>
                                 <th scope="col" class="p-3">Visibility</th>
@@ -188,7 +199,7 @@
                         >
                                 </td>
                                 <td class="p-2">{{program.category}}</td>
-                                <td class="p-2">{{program.price}} AED</td>
+                                <td class="p-2">{{program.price|floatformat:2|intcomma}}</td>
                                 <td class="p-2">{{program.content|safe|truncatechars:20}}</td>
                                 <td class="p-2">{{program.created_on|naturaltime}}</td>
                                 <td class="p-2">
@@ -286,7 +297,7 @@
                                 <th scope="col" class="p-3"></th>
                                 <th scope="col" class="p-3">Title</th>
                                 <th scope="col" class="p-3">Category</th>
-                                <th scope="col" class="p-3">Price</th>
+                                <th scope="col" class="p-3">Price AED</th>
                                 <th scope="col" class="p-3">Content</th>
                                 <th scope="col" class="p-3">Created On</th>
                                 <th scope="col" class="p-3">Visibility</th>
@@ -318,7 +329,7 @@
                                 >
                                         </td>
                                         <td class="p-2">{{program.category}}</td>
-                                        <td class="p-2">{{program.price}} AED</td>
+                                        <td class="p-2">{{program.price|floatformat:2|intcomma}}</td>
                                         <td class="p-2">{{program.content|safe|truncatechars:20}}</td>
                                         <td class="p-2">{{program.created_on|naturaltime}}</td>
                                         <td class="p-2">

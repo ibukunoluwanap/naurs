@@ -97,8 +97,8 @@
             <tr>
               <th scope="col" class="p-3"></th>
               <th scope="col" class="p-3">Name</th>
-              <th scope="col" class="p-3">Initial Price</th>
-              <th scope="col" class="p-3">Bonus Price</th>
+              <th scope="col" class="p-3">Initial Price AED</th>
+              <th scope="col" class="p-3">Bonus Price AED</th>
               <th scope="col" class="p-3">Classes</th>
               <th scope="col" class="p-3">Created On</th>
               <th scope="col" class="p-3">Visibility</th>
@@ -130,8 +130,8 @@
                         >{{package.name|safe|truncatechars:50}}</a
                         >
                     </td>
-                    <td class="p-2">{{package.initial_price}} AED</td>
-                    <td class="p-2">{{package.bonus_price}} AED</td>
+                    <td class="p-2">{{package.initial_price|floatformat:2|intcomma}}</td>
+                    <td class="p-2">{{package.bonus_price|floatformat:2|intcomma}}</td>
                     <td class="p-2">
                         {% for program in package.program.all %}
                             <a

@@ -95,7 +95,7 @@
               <th scope="col" class="p-3"></th>
               <th scope="col" class="p-3">Title</th>
               <th scope="col" class="p-3">Category</th>
-              <th scope="col" class="p-3">Price</th>
+              <th scope="col" class="p-3">Price AED</th>
               <th scope="col" class="p-3">Content</th>
               <th scope="col" class="p-3">Created On</th>
               <th scope="col" class="p-3">Visibility</th>
@@ -129,7 +129,7 @@
                   >
                 </td>
                 <td class="p-2">{{program.category}}</td>
-                <td class="p-2">{{program.price}} AED</td>
+                <td class="p-2">{{program.price|floatformat:2|intcomma}} AED</td>
                 <td class="p-2">{{program.content|safe|truncatechars:20}}</td>
                 <td class="p-2">{{program.created_on|naturaltime}}</td>
                 <td class="p-2">
@@ -215,7 +215,7 @@
                       >
                     </td>
                     <td class="p-2">{{program.category}}</td>
-                    <td class="p-2">{{program.price}} AED</td>
+                    <td class="p-2">{{program.price|floatformat:2|intcomma}}</td>
                     <td class="p-2">{{program.content|safe|truncatechars:20}}</td>
                     <td class="p-2">{{program.created_on|naturaltime}}</td>
                     <td class="p-2">

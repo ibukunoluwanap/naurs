@@ -55,6 +55,10 @@ class Dashboard(LoginRequiredMixin, UserPassesTestMixin, View):
 
         context["labels"] = labels
         context["data"] = data
+        try:
+            context["wallet"] = WalletModel.objects.get(user=request.user)
+        except:
+            pass
         return render(request, self.template_name, context)
 
 # dashboard program view
