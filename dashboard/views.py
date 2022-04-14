@@ -120,6 +120,7 @@ class ProgramUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = ProgramModel
     form_class = ProgramForm
     login_url = 'login_page'
+    template_name = "dashboard/program/program.html"
     raise_exception = True
 
     def test_func(self):
@@ -325,6 +326,7 @@ class PackageUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = PackageModel
     form_class = PackageForm
     login_url = 'login_page'
+    template_name = "dashboard/package/package.html"
     raise_exception = True
 
     def test_func(self):
@@ -427,6 +429,7 @@ class OfferUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = OfferModel
     form_class = OfferForm
     login_url = 'login_page'
+    template_name = "dashboard/offer/offer.html"
     raise_exception = True
 
     def test_func(self):
@@ -543,6 +546,7 @@ class InstructorUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = InstructorModel
     form_class = InstructorForm
     login_url = 'login_page'
+    template_name = "dashboard/instructor/instructor.html"
     raise_exception = True
 
     def test_func(self):
@@ -657,6 +661,7 @@ class StudentUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = StudentModel
     form_class = StudentForm
     login_url = 'login_page'
+    template_name = "dashboard/student/student.html"
     raise_exception = True
 
     def test_func(self):
@@ -730,6 +735,7 @@ class AdminDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 class AdminCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     form_class = UpdateAdminForm
     login_url = 'login_page'
+    template_name = "dashboard/instructor/instructor.html"
     template_name = "dashboard/admin/admin.html"
     raise_exception = True
 
@@ -760,6 +766,7 @@ class AdminUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = User
     form_class = UpdateAdminForm
     login_url = 'login_page'
+    template_name = "dashboard/instructor/instructor.html"
     raise_exception = True
 
     def test_func(self):
@@ -851,6 +858,7 @@ class AboutUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = AboutModel
     form_class = AboutForm
     login_url = 'login_page'
+    template_name = "dashboard/about/about.html"
     raise_exception = True
 
     def test_func(self):
@@ -929,6 +937,7 @@ class HomeUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = ListingModel
     form_class = ListingForm
     login_url = 'login_page'
+    template_name = "dashboard/home/home.html"
     raise_exception = True
 
     def test_func(self):
