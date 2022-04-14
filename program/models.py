@@ -43,7 +43,8 @@ class ProgramBenefitModel(models.Model):
 # program calendar modal
 class ProgramCalendarModel(models.Model):
     program = models.ForeignKey(ProgramModel, verbose_name="class", on_delete=models.CASCADE)
-    calendar = models.DateTimeField("calendar")
+    start_at = models.DateTimeField("start_at")
+    end_at = models.DateTimeField("end_at")
     created_on = models.DateTimeField("created on", auto_now_add=True)
 
     class Meta:

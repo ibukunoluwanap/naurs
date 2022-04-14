@@ -31,7 +31,8 @@ class ProgramBenefitForm(forms.ModelForm):
 
 # program calendar form
 class ProgramCalendarForm(forms.ModelForm):
-    calendar = DateTimeLocalField()
+    start_at = DateTimeLocalField()
+    end_at = DateTimeLocalField()
     class Meta:
         model = ProgramCalendarModel
         exclude = ['program', 'created_on']

@@ -65,7 +65,8 @@
                             <a href="{% url 'program_calendar' %}" target="_blank">View full calendar</a>
                             {% for calendar in program.programcalendarmodel_set.all %}
                                 <li>
-                                    <i class="bi bi-calendar-fill align-middle text-cus-primary"></i> {{ calendar.calendar }}
+                                    <i class="bi bi-calendar-fill align-middle text-cus-primary"></i>
+                                    {{ calendar.start_at }} <b>-</b> {{ calendar.end_at }}
                                 </li>
                             {% endfor %}
                         </ul>

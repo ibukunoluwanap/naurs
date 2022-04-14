@@ -128,7 +128,7 @@
           {% for calendar in program.programcalendarmodel_set.all %}
             <li class="my-4 position-relative">
                 <i class="bi bi-arrow-return-right align-middle text-cus-primary"></i>
-                {{ calendar.calendar }}
+                {{ calendar.start_at }} <b>-</b> {{ calendar.end_at }}
                 <!-- <form action="#" method="post" class="d-inline position-absolute" style="right: 0;">
                   {% csrf_token %}
                   <button class="btn btn-sm bg-danger border border-danger text-cus-secondary" type="submit">
