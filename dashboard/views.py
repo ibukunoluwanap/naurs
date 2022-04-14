@@ -977,22 +977,35 @@ class AccountDetail(LoginRequiredMixin, UserPassesTestMixin, View):
         context = {}
         user = User.objects.get(id=self.request.user.id)
         context['update_admin_form_with_instance'] = list(UpdateAdminForm(instance=user))
+        context['update_user_form_with_instance'] = list(UpdateUserForm(instance=user))
         return render(request, self.template_name, context)
 
     def post(self, request):
-        update_admin_form = UpdateAdminForm(request.POST, request.FILES, instance=request.user)
-        if update_admin_form.is_valid():
-            new_update_admin_form = update_admin_form.save(commit=False)
-            new_update_admin_form.avatar = update_admin_form.cleaned_data.get('avatar')
-            new_update_admin_form.first_name = update_admin_form.cleaned_data.get('first_name')
-            new_update_admin_form.last_name = update_admin_form.cleaned_data.get('last_name')
-            new_update_admin_form.email = update_admin_form.cleaned_data.get('email')
-            new_update_admin_form.is_active = update_admin_form.cleaned_data.get('is_active')
-            new_update_admin_form.staff = update_admin_form.cleaned_data.get('staff')
-            new_update_admin_form.admin = update_admin_form.cleaned_data.get('admin')
-            new_update_admin_form.save()
-            messages.success(self.request, "Successfully updated account!")
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
+        if request.user.is_admin:
+            update_admin_form = UpdateAdminForm(request.POST, request.FILES, instance=request.user)
+            if update_admin_form.is_valid():
+                new_update_admin_form = update_admin_form.save(commit=False)
+                new_update_admin_form.avatar = update_admin_form.cleaned_data.get('avatar')
+                new_update_admin_form.first_name = update_admin_form.cleaned_data.get('first_name')
+                new_update_admin_form.last_name = update_admin_form.cleaned_data.get('last_name')
+                new_update_admin_form.email = update_admin_form.cleaned_data.get('email')
+                new_update_admin_form.is_active = update_admin_form.cleaned_data.get('is_active')
+                new_update_admin_form.staff = update_admin_form.cleaned_data.get('staff')
+                new_update_admin_form.admin = update_admin_form.cleaned_data.get('admin')
+                new_update_admin_form.save()
+                messages.success(self.request, "Successfully updated account!")
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
+        elif request.user.instructormodel:
+            update_user_form = UpdateUserForm(request.POST, request.FILES, instance=request.user)
+            if update_user_form.is_valid():
+                new_update_user_form = update_user_form.save(commit=False)
+                new_update_user_form.avatar = update_user_form.cleaned_data.get('avatar')
+                new_update_user_form.first_name = update_user_form.cleaned_data.get('first_name')
+                new_update_user_form.last_name = update_user_form.cleaned_data.get('last_name')
+                new_update_user_form.email = update_user_form.cleaned_data.get('email')
+                new_update_user_form.save()
+                messages.success(self.request, "Successfully updated account!")
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
 
 # dashboard account delete view
 class AccountDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
