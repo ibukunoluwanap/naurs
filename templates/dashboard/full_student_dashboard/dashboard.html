@@ -51,7 +51,7 @@
                         <br>
                         Numbers Of Classes: {{package.program.count}}
                     </p>
-                    <a href="#" class="btn w-100 btn-dark">Purchase Now</a>
+                    <a href="#" class="btn w-100 btn-dark bg-cus-primary">Purchase Now</a>
                     </div>
                 </div>
             </div>
@@ -68,12 +68,14 @@
                 <div class="card shadow mb-3" style="height: 350px;">
                     <img src="{{ program.image.url }}"
                             class="card-img-top shadow object-fit"
-                            width="100%" height="200px"
+                            width="100%" height="50%"
                             alt="class">
                     <div class="card-body">
                         <a href="{% url 'program_detail_page' pk=program.id %}" class="text-cus-primary text-decoration-none" style="font-size: 12px;">
-                            <h4>{{ program.title|truncatechars:30 }}</h4>
-                            <div class="card-content">{{ program.content|truncatechars_html:150|safe }}</div>
+                            <h5>{{ program.title|truncatechars:20 }}</h5>
+                            <div class="card-content">{{ program.content|truncatechars_html:100|safe }}</div>
+                            <span class="card-price shadow">{{ program.price }} AED</span>
+                            <a href="#" class="btn w-100 btn-dark bg-cus-primary">Purchase Now</a>
                         </a>
                     </div>
                 </div>
