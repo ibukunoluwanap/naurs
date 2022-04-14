@@ -1,0 +1,135 @@
+{% extends 'dashboard/dashboard.html' %}
+{% load static %}
+{% load humanize %}
+{% load widget_tweaks %}
+{% block title %}
+    <title>Naurs - My Account</title>
+{% endblock title %}
+{% block dashboard %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
+  <!-- title and back-->
+  <div class="row">
+    <div class="col-sm-12">
+      <a href="{{request.META.HTTP_REFERER|escape}}" class="btn btn-s">
+        <span data-feather="corner-up-left"></span> Back
+      </a>
+    </div>
+  </div>
+
+  <!-- about -->
+  <div class="row">
+    <div class="col-sm-4 text-center">   
+      {% if user.avatar %}
+        <img src="{{user.avatar.url}}" alt="{{user.email}}" class="avatar-lg shadow mb-3">
+      {% else %}
+        <i class="bi bi-person-circle align-middle" class="avatar-lg shadow mb-3" style="font-size: 250px;"></i>
+      {% endif %}
+      <div class="col-sm-12">
+        <h4 class="my-3">{{user.email}}</h4>
+      </div>
+    </div>
+    
+    <form action="{% url 'student_dashboard_account_page' %}" method="post" class="col card shadow border-0 py-3" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-sm-12">
+        {% for field in update_user_form_with_instance|slice:":4" %}
+            {% if forloop.counter == 1 %}
+            <div class="card p-3 shadow mb-4">
+                {{ field|add_class:"cus-file-input" }}
+                {% for error in field.errors %}
+                    <p class="text-danger">{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="form-floating shadow mb-4">
+                {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
+                <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                {% for error in field.errors %}
+                    <p class="text-danger">{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        {% endfor %}
+        </div>
+    </div>
+    <button class="btn-lg" type="submit">Update</button>
+    </form>
+  </div>
+
+  <!-- deletion and password -->
+  <div class="row justify-content-between mt-5">
+    <div class="col-sm-12">
+      {% if user.is_admin %}
+        <div class="alert alert-info text-center" role="alert">
+          <i class="bi bi-info-circle-fill"></i>
+          This account has admin role and therefore can not be deleted
+        </div>
+      {% endif %}
+    </div>
+    <div class="col-sm-6 mb-3">
+      <h4>Change Password</h4>
+      <form action="{% url 'student_account_change_password_page' %}" method="post">
+        {% csrf_token %}
+        {% for field in update_password_form %}
+            <div class="form-floating shadow mb-4">
+                {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
+                <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                {% for error in field.errors %}
+                  <p class="text-danger">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <div class="d-flex flex-row justify-content-center">
+          <button class="btn-lg" type="submit">Update</button>
+        </div>
+      </form>
+    </div>
+    <div class="col-sm-6 mb-3">
+      <h4>Deletion</h4>
+      <div class="alert alert-danger" role="alert">
+        This will <b>forever</b> remove this account from the Naurs. This cannot be undone. 
+      </div>
+      <div class="d-flex flex-row justify-content-center">
+        {% if user.is_admin %}
+          <a class="btn btn-lg bg-danger border border-danger text-cus-secondary disabled">
+            <span data-feather="trash"></span>
+            Delete
+          </a>
+        {% else %}
+          <button type="button" class="btn btn-lg bg-danger border border-danger text-cus-secondary" data-bs-toggle="modal" data-bs-target="#deleteAccountModel">
+              <span data-feather="trash"></span>
+              Delete
+          </button>
+          <div class="modal fade" id="deleteAccountModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteAccountModelLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title text-danger" id="deleteAccountModelLabel">Delete Account!</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                          <div class="row justify-content-center">
+                              <div class="col-12 text-center">
+                                  <div class="alert alert-danger" role="alert">
+                                      This will <b>forever</b> remove the account from the database. Click <b>"Continue"</b> to delete.
+                                  </div>
+                                  <form action="{% url 'dashboard_account_delete_page' pk=user.id %}" method="post">
+                                      {% csrf_token %}
+                                      <button class="btn btn-lg bg-danger border border-danger text-cus-secondary" type="submit">
+                                          <span data-feather="trash"></span>
+                                          Continue
+                                      </button>
+                                  </form>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock dashboard %}

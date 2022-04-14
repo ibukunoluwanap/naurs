@@ -1077,3 +1077,59 @@ class StudentDashboard(LoginRequiredMixin, UserPassesTestMixin, View):
         context["data"] = data
         return render(request, self.template_name, context)
  
+# student account detail view
+class StudentAccountDetail(LoginRequiredMixin, UserPassesTestMixin, View):
+    login_url = 'login_page'
+    template_name = "dashboard/full_student_dashboard/account.html"
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.studentmodel)
+
+    def get(self, request):
+        context = {}
+        user = User.objects.get(id=self.request.user.id)
+        context['update_user_form_with_instance'] = list(UpdateUserForm(instance=user))
+        return render(request, self.template_name, context)
+
+    def post(self, request):
+        if request.user.studentmodel:
+            update_user_form = UpdateUserForm(request.POST, request.FILES, instance=request.user)
+            if update_user_form.is_valid():
+                new_update_user_form = update_user_form.save(commit=False)
+                new_update_user_form.avatar = update_user_form.cleaned_data.get('avatar')
+                new_update_user_form.first_name = update_user_form.cleaned_data.get('first_name')
+                new_update_user_form.last_name = update_user_form.cleaned_data.get('last_name')
+                new_update_user_form.email = update_user_form.cleaned_data.get('email')
+                new_update_user_form.save()
+                messages.success(self.request, "Successfully updated account!")
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
+
+# student account change password view
+class StudentAccountChangePassword(View):
+    login_url = 'login_page'
+    template_name = "dashboard/full_student_dashboard/account.html"
+    raise_exception = True
+
+    def test_func(self):
+        try:
+            return (self.request.user.instructormodel)
+        except:
+            return (self.request.user.is_admin)
+
+    def get(self, request):
+        context = {}
+        context["change_password_form"] = PasswordChangeForm(request.user)
+        return render(request, self.template_name, context)
+
+    def post(self, request):
+        password_change_form = PasswordChangeForm(request.user, request.POST)
+        if password_change_form.is_valid():
+            user = password_change_form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
+        for field in password_change_form:
+            for error in field.errors:
+                messages.error(self.request, f"<b>{field.label}:</b> {error}")
+        return render(request, self.template_name)
