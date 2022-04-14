@@ -529,6 +529,7 @@ class InstructorCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             user=register_form.save()
             new_instructor = instructor_form.save(commit=False)
             new_instructor.user = user
+            WalletModel.objects.create(user=new_instructor.user)
             new_instructor.save()
             messages.success(self.request, f"Successfully added an instructor!")
             return redirect("dashboard_instructor_page")
