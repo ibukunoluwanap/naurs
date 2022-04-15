@@ -69,7 +69,6 @@
     </div>
     <div class="col-sm-12">
       <ul class="row list-unstyled">
-        
         {% for program in programs %}
           {% for program_instructor in program.instructors.all %}
             {% if program_instructor.user == instructor.user %}
