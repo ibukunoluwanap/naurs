@@ -110,6 +110,52 @@
     </form>
   </div>
 
+  <!-- instructors -->
+  <div class="row mt-5">
+    <div class="col-sm-12">
+      <h4>Instructors</h4>
+    </div>
+    <div class="col-sm-12">
+      <ul class="row list-unstyled">
+        {% for instructor in program.instructors.all %}
+          <li class="col-sm-4">
+              <i class="bi bi-mortarboard-fill align-middle text-cus-primary"></i> {{ instructor.user.get_full_name }}
+          </li>
+        {% endfor %}
+      </ul>
+      <a href="#" class="btn btn-m" data-bs-toggle="modal" data-bs-target="#addInstructors">
+        <span data-feather="plus"></span>
+        Add instructors
+      </a>
+      <div class="modal fade" id="addInstructors" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addInstructorsLabel" aria-hidden="true">
+        <div class="modal-dialog modal modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="addInstructorsLabel">Add instructor to class</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="{% url 'dashboard_program_instructor_create_page' pk=program.id %}" method="post" class="col border-0 py-3" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-sm-12">
+                    {% for field in program_instructor_form %}
+                      <div class="card p-3 shadow mb-4 form-check form-switch overflow-height" style="height: 185px;">
+                        {{ field }}
+                        <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+                <button class="btn-lg" type="submit">Add instructor</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- calendar -->
   <div class="row mt-5">
     <div class="col-sm-4">
@@ -145,7 +191,7 @@
       </ul>
     </div>
     <form action="{% url 'dashboard_calendar_create_page' program_id=program.id %}" method="post" class="col card shadow border-0 py-3">
-      <h5>Add New Calendar</h5>
+      <h5>Add new calendar with instructor</h5>
       {% csrf_token %}
       <div class="row">
         <div class="col-sm-12">
@@ -213,26 +259,6 @@
         <span data-feather="check-square"></span>
       </button>
     </form>
-  </div>
-
-  <!-- instructors -->
-  <div class="row mt-5">
-    <div class="col-sm-12">
-      <h4>Instructors</h4>
-    </div>
-    <div class="col-sm-12">
-      {% if program.instructormodel_set.all %}
-        <ul class="row list-unstyled">
-          {% for instructor in program.instructormodel_set.all %}
-            <li class="col-sm-4">
-                <i class="bi bi-mortarboard-fill align-middle text-cus-primary"></i> {{ instructor.user.get_full_name }}
-            </li>
-          {% endfor %}
-        </ul>
-      {% else %}
-        <a href="{% url 'dashboard_instructor_page' %}" class="btn-m">Add instructors</a>
-      {% endif %}
-    </div>
   </div>
 
   <!-- enquiries -->

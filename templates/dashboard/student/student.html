@@ -112,11 +112,12 @@
                     {% endif %}
                 </th>
                   <td class="p-2">
-                    <a
+                    <!-- <a
                       href="{% url 'dashboard_student_detail_page' pk=student.id %}"
                       class="text-decoration-none text-cus-primary"
                       >{{student.user.get_full_name|safe|truncatechars:50}}</a
-                    >
+                    > -->
+                    {{student.user.get_full_name|safe|truncatechars:50}}
                   </td>
                   <td class="p-2">{{student.user.email}}</td>
                   <td class="p-2">{{student.user.date_joined|naturaltime}}</td>
@@ -200,11 +201,12 @@
                           {% endif %}
                       </th>
                         <td class="p-2">
-                          <a
+                          <!-- <a
                             href="{% url 'dashboard_student_detail_page' pk=student.id %}"
                             class="text-decoration-none text-cus-primary"
                             >{{student.user.get_full_name|safe|truncatechars:50}}</a
-                          >
+                          > -->
+                          {{student.user.get_full_name|safe|truncatechars:50}}
                         </td>
                         <td class="p-2">{{student.user.email}}</td>
                         <td class="p-2">{{student.user.date_joined|naturaltime}}</td>

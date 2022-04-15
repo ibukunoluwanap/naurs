@@ -32,15 +32,9 @@
     <form action="{% url 'dashboard_instructor_update_page' pk=instructor.id %}" method="post" class="col card shadow border-0 py-3">
       {% csrf_token %}
       <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-12">
           <!-- instructor form -->
-          {% for field in instructor_form_with_instance|slice:":2" %}
-            {% if forloop.counter == 1 %}
-                <div class="card p-3 shadow mb-4 form-check form-switch overflow-height">
-                    {{ field }}
-                    <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
-                </div>
-            {% else %}
+          {% for field in instructor_form_with_instance|slice:":1" %}
               <div class="form-floating shadow mb-4">
                 {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
                 <label for="{{ field.auto_id }}">{{ field.label }}</label>
@@ -48,12 +42,11 @@
                     <p class="text-danger">{{ error }}</p>
                 {% endfor %}
               </div>
-            {% endif %}
           {% endfor %}
         </div>
-        <div class="col-sm-6">
-          {% for field in instructor_form_with_instance|slice:":3" %}
-            {% if forloop.counter == 3 %}
+        <div class="col-sm-12">
+          {% for field in instructor_form_with_instance|slice:":2" %}
+            {% if forloop.counter == 2 %}
               <div class="form-floating shadow mb-4">
                 {{ instructor_form.media }}
                 {{ field }}
@@ -69,9 +62,36 @@
     </form>
   </div>
 
+  <!-- classes -->
   <div class="row mt-5">
     <div class="col-sm-12">
-      <h4>Students</h4>
+      <h4>Classes taken by instructor</h4>
+    </div>
+    <div class="col-sm-12">
+      <ul class="row list-unstyled">
+        
+        {% for program in programs %}
+          {% for program_instructor in program.instructors.all %}
+            {% if program_instructor.user == instructor.user %}
+              <li class="my-2 col-sm-3">
+                <i class="bi bi-arrow-return-right align-middle text-cus-primary"></i>
+                <a
+                  href="{% url 'dashboard_program_detail_page' pk=program.id %}"
+                  class="text-decoration-none text-cus-primary"
+                  >{{ program.title }}</a
+                >
+              </li>
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <!-- students -->
+  <div class="row mt-5">
+    <div class="col-sm-12">
+      <h4>Students under instructor</h4>
     </div>
     <div class="col-sm-12">
       <ul class="row list-unstyled">

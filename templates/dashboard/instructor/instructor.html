@@ -35,13 +35,7 @@
                         </div>
                     {% endfor %}
                     <!-- instructor form -->
-                    {% for field in instructor_form_list|slice:":2" %}
-                      {% if forloop.counter == 1 %}
-                          <div class="card p-3 shadow mb-4 form-check form-switch overflow-height">
-                              {{ field }}
-                              <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
-                          </div>
-                      {% else %}
+                    {% for field in instructor_form_list|slice:":1" %}
                         <div class="form-floating shadow mb-4">
                           {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
                           <label for="{{ field.auto_id }}">{{ field.label }}</label>
@@ -49,12 +43,11 @@
                               <p class="text-danger">{{ error }}</p>
                           {% endfor %}
                         </div>
-                      {% endif %}
                     {% endfor %}
                   </div>
                   <div class="col-sm-6">
-                    {% for field in instructor_form_list|slice:":3" %}
-                      {% if forloop.counter == 3 %}
+                    {% for field in instructor_form_list|slice:":2" %}
+                      {% if forloop.counter == 2 %}
                         <div class="form-floating shadow mb-4">
                           {{ instructor_form.media }}
                           {{ field }}

@@ -14,7 +14,7 @@ from django.contrib import messages
 from offer.models import BookOfferModel, FreeTrialOfferModel, OfferModel
 from django.views.generic import View, ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from program.forms import PackageForm, ProgramBenefitForm, ProgramForm
+from program.forms import PackageForm, ProgramBenefitForm, ProgramForm, ProgramInstructorForm
 from program.models import PackageModel, ProgramBenefitModel, ProgramEnquiryModel, ProgramModel
 from django.contrib.auth import get_user_model
 from student.forms import StudentForm
@@ -112,7 +112,7 @@ class ProgramCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
         if program_form.is_valid():
             program_form.save()
-            messages.success(self.request, f"Successfully created a program!")
+            messages.success(self.request, f"Successfully created a class!")
             return redirect("dashboard_program_page")
         for field in program_form:
             for error in field.errors:
@@ -134,8 +134,35 @@ class ProgramUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return (self.request.user.is_admin)
 
     def get_success_url(self):
-        messages.success(self.request, "Successfully updated program!")
+        messages.success(self.request, "Successfully updated class!")
         return reverse_lazy('dashboard_program_detail_page', kwargs={'pk': self.kwargs['pk']})
+
+# dashboard program instructor create view
+class ProgramInstructorCreate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    form_class = ProgramInstructorForm
+    login_url = 'login_page'
+    template_name = "dashboard/program/program.html"
+    raise_exception = True
+
+    def test_func(self):
+        try:
+            return (self.request.user.instructormodel)
+        except:
+            return (self.request.user.is_admin)
+
+    def post(self, request, *args, **kwargs):
+        context = {}
+        context["program_instructor_form"] = program_instructor_form = ProgramInstructorForm(request.POST)
+
+        if program_instructor_form.is_valid():
+            instructors = program_instructor_form.cleaned_data.get("instructors")
+            ProgramModel.objects.get(id=self.kwargs['pk']).instructors.add(*instructors)
+            messages.success(self.request, f"Successfully added instructor to class!")
+            return redirect('dashboard_program_detail_page', pk=self.kwargs['pk'])
+        for field in program_instructor_form:
+            for error in field.errors:
+                messages.error(self.request, f"<b>{field.label}:</b> {error}")
+        return render(request, self.template_name, context)
 
 # dashboard program calendar create view
 class ProgramCalendarCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
@@ -246,15 +273,15 @@ class ProgramVisibility(LoginRequiredMixin, UserPassesTestMixin, View):
             if program.is_active:
                 program.is_active = False
                 program.save()
-                messages.success(self.request, "Successfully deactivated program!")
+                messages.success(self.request, "Successfully deactivated class!")
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
             program.is_active = True
             program.save()
-            messages.success(self.request, "Successfully reactivated program!")
+            messages.success(self.request, "Successfully reactivated class!")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
         elif visibility == 'delete':
             program.delete()
-            messages.success(self.request, "Successfully deleted program!")
+            messages.success(self.request, "Successfully deleted class!")
             return redirect("dashboard_program_page")
 
 # dashboard program enquiry delete view

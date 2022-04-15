@@ -1,6 +1,9 @@
 from django.db import models
 from tinymce.models import HTMLField
 
+from instructor.models import InstructorModel
+from student.models import StudentModel
+
 # program category
 PROGRAM_CATEGORY = (
     ("Music", "Music"),
@@ -16,6 +19,8 @@ class ProgramModel(models.Model):
     title = models.CharField("title", max_length=100, blank=False, null=False)
     price = models.FloatField(default=0.00)
     total_space = models.PositiveIntegerField()
+    students = models.ManyToManyField(StudentModel, verbose_name="students")
+    instructors = models.ManyToManyField(InstructorModel, verbose_name="instructors")
     is_active = models.BooleanField(verbose_name="activate", default=True)
     content = HTMLField()
     created_on = models.DateTimeField("created on", auto_now_add=True)

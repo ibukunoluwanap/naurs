@@ -1,5 +1,4 @@
 from django.db import models
-from program.models import ProgramModel
 from tinymce.models import HTMLField
 from django.contrib.auth import get_user_model
 
@@ -9,10 +8,8 @@ User = get_user_model()
 # instructor modal
 class InstructorModel(models.Model):
     user = models.OneToOneField(User, verbose_name="user", on_delete=models.CASCADE)
-    program = models.ManyToManyField(ProgramModel, verbose_name="class")
     role = models.CharField("role", max_length=100, blank=False, null=False)
     about = HTMLField()
-    # ending
     # salary = models.FloatField(default=0.00)
     # comission = models.FloatField(default=0.00)
     created_on = models.DateTimeField("created on", auto_now_add=True)

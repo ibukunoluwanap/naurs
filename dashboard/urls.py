@@ -8,6 +8,7 @@ urlpatterns = [
     path('program/', views.Program.as_view(), name='dashboard_program_page'),
     path('program/<int:pk>/', views.ProgramDetail.as_view(), name='dashboard_program_detail_page'),
     path('program/create/', views.ProgramCreate.as_view(), name='dashboard_program_create_page'),
+    path('program/instructor/<int:pk>/create/', views.ProgramInstructorCreate.as_view(), name='dashboard_program_instructor_create_page'),
     path('program/<int:pk>/update/', views.ProgramUpdate.as_view(), name='dashboard_program_update_page'),
     path('program/<int:program_id>/calendar/create/', views.ProgramCalendarCreate.as_view(), name='dashboard_calendar_create_page'),
     path('program/<int:pk>/calendar/delete/', views.ProgramCalendarDelete.as_view(), name='dashboard_calendar_delete_page'),

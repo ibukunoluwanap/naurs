@@ -5,7 +5,7 @@ from home.models import ListingModel
 from instructor.forms import InstructorForm
 from instructor.models import InstructorModel
 from about.models import AboutModel
-from program.forms import PackageForm, ProgramBenefitForm, ProgramEnquiryForm, ProgramForm, ProgramPaymentForm
+from program.forms import PackageForm, ProgramBenefitForm, ProgramEnquiryForm, ProgramForm, ProgramInstructorForm, ProgramPaymentForm
 from program.models import PackageModel, ProgramBenefitModel, ProgramEnquiryModel, ProgramModel, ProgramPaymentModel
 from offer.models import FreeTrialOfferModel, OfferModel, BookOfferModel
 from offer.forms import OfferForm, BookOfferForm, FreeTrialOfferForm
@@ -89,6 +89,7 @@ def global_context(request):
     context['last_4_instructors'] = InstructorModel.objects.order_by("-id")[:4]
     # instructor form
     context['instructor_form'] = InstructorForm()
+    context['program_instructor_form'] = ProgramInstructorForm()
     context['instructor_form_list'] = list(InstructorForm())
 
 

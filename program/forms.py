@@ -1,5 +1,7 @@
 from django import forms
 from tinymce.widgets import TinyMCE
+
+from instructor.models import InstructorModel
 from .models import PackageModel, ProgramBenefitModel, ProgramEnquiryModel, ProgramModel, ProgramPaymentModel
 
 # program form
@@ -8,7 +10,7 @@ class ProgramForm(forms.ModelForm):
     content = forms.CharField(required=True, widget=TinyMCE(attrs={'cols': 10, 'rows': 20}))
     class Meta:
         model = ProgramModel
-        exclude = ['created_on',]
+        exclude = ['students', 'instructors', 'created_on',]
 
 # program benefit form
 class ProgramBenefitForm(forms.ModelForm):
@@ -40,8 +42,16 @@ class ProgramPaymentForm(forms.ModelForm):
 # package form
 class PackageForm(forms.ModelForm):
     image = forms.ImageField(widget=forms.FileInput)
-    program = forms.ModelMultipleChoiceField(required=True, widget=forms.CheckboxSelectMultiple, queryset=ProgramModel.objects.all())
+    program = forms.ModelMultipleChoiceField(required=True, widget=forms.CheckboxSelectMultiple, queryset=ProgramModel.objects.order_by())
 
     class Meta:
         model = PackageModel
         exclude = ['created_on',]
+
+# instructor list form
+class ProgramInstructorForm(forms.ModelForm):
+    instructors = forms.ModelMultipleChoiceField(required=True, widget=forms.CheckboxSelectMultiple, queryset=InstructorModel.objects.order_by())
+
+    class Meta:
+        model = ProgramModel
+        fields = ['instructors',]
