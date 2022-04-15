@@ -18,6 +18,8 @@ class Calendar(HTMLCalendar):
 					<b>Class:</b> {_class.program.title}
 					<br>
 					<b>Time:</b> {_class.start_at.strftime("%I:%M %p")} - {_class.end_at.strftime("%I:%M %p")}
+					<br>
+					<b>Instructor:</b> {_class.instructor.user.get_full_name()}
 				</li>
 			'''
 

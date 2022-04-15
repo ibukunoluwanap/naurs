@@ -15,7 +15,7 @@ class Home(ListView):
 # calendar view
 class CalendarView(ListView):
     model = ProgramModel
-    template_name = 'program/calendar.html'
+    template_name = 'home/calendar.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

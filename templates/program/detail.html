@@ -50,14 +50,6 @@
                                 </li>
                             {% endfor %}
                         </ul>
-                        <h4 class="mt-4 fw-bold text-cus-primary">Instructors</h4>
-                        <ul>
-                            {% for instructor in program.instructormodel_set.all %}
-                                <li>
-                                    <i class="bi bi-mortarboard-fill align-middle text-cus-primary"></i> {{ instructor.user.get_full_name }}
-                                </li>
-                            {% endfor %}
-                        </ul>
                         <h4 class="mt-4 fw-bold text-cus-primary">Total Space Available</h4>
                         {{ program.total_space }}
                         <h4 class="mt-4 fw-bold text-cus-primary">Calendar</h4>
@@ -65,8 +57,24 @@
                             <a href="{% url 'calendar' %}" target="_blank">View full calendar</a>
                             {% for calendar in program.calendarmodel_set.all %}
                                 <li>
-                                    <i class="bi bi-calendar-fill align-middle text-cus-primary"></i>
-                                    {{ calendar.start_at }} <b>-</b> {{ calendar.end_at }}
+                                    <ul style="padding: 0.5rem 1rem;
+                                    background: #011b2b80;
+                                    color: #fff;
+                                    border-radius: 0.2rem;
+                                    line-height: 1.3;">
+                                        <li>
+                                            <i class="bi bi-calendar-fill align-middle text-cus-primary"></i>
+                                            <small>
+                                                {{ calendar.start_at }} <b>-</b> {{ calendar.end_at }}
+                                            </small>
+                                        </li>
+                                        <li>
+                                            <i class="bi bi-mortarboard-fill align-middle text-cus-primary"></i>
+                                            <small>
+                                                {{ calendar.instructor.user.get_full_name }}
+                                            </small>
+                                        </li>
+                                    </ul>
                                 </li>
                             {% endfor %}
                         </ul>
