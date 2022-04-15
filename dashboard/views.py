@@ -1166,3 +1166,24 @@ class StudentAccountChangePassword(View):
             for error in field.errors:
                 messages.error(self.request, f"<b>{field.label}:</b> {error}")
         return render(request, self.template_name)
+
+# student package view
+class StudentPackage(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = PackageModel
+    login_url = 'login_page'
+    template_name = "dashboard/full_student_dashboard/package.html"
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.studentmodel)
+
+# student class view
+class StudentClass(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = ProgramModel
+    login_url = 'login_page'
+    template_name = "dashboard/full_student_dashboard/program.html"
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.studentmodel)
+
