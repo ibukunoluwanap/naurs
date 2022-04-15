@@ -1,4 +1,3 @@
-import email
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
@@ -6,8 +5,8 @@ from about.forms import AboutForm
 from about.models import AboutModel
 from account.forms import RegisterForm, UpdateAdminForm, UpdateUserForm
 from finance.models import WalletModel
-from home.forms import ListingForm
-from home.models import ListingModel
+from home.forms import CalendarForm, ListingForm
+from home.models import CalendarModel, ListingModel
 from instructor.forms import InstructorForm
 from instructor.models import InstructorModel
 from offer.forms import OfferForm
@@ -15,8 +14,8 @@ from django.contrib import messages
 from offer.models import BookOfferModel, FreeTrialOfferModel, OfferModel
 from django.views.generic import View, ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from program.forms import PackageForm, ProgramBenefitForm, ProgramCalendarForm, ProgramForm
-from program.models import PackageModel, ProgramBenefitModel, ProgramCalendarModel, ProgramEnquiryModel, ProgramModel
+from program.forms import PackageForm, ProgramBenefitForm, ProgramForm
+from program.models import PackageModel, ProgramBenefitModel, ProgramEnquiryModel, ProgramModel
 from django.contrib.auth import get_user_model
 from student.forms import StudentForm
 from django.contrib.auth.mixins import UserPassesTestMixin
@@ -153,22 +152,22 @@ class ProgramCalendarCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView)
 
     def post(self, request, *args, **kwargs):
         program = ProgramModel.objects.get(id=self.kwargs['program_id'])
-        program_calendar_form = ProgramCalendarForm(request.POST)
+        calendar_form = CalendarForm(request.POST)
 
-        if program_calendar_form.is_valid():
-            program_calendar = program_calendar_form.save(commit=False)
-            program_calendar.program = program
-            program_calendar.save()
+        if calendar_form.is_valid():
+            calendar = calendar_form.save(commit=False)
+            calendar.program = program
+            calendar.save()
             messages.success(self.request, f"Successfully added a program calendar!")
             return HttpResponseRedirect(self.request.META.get('HTTP_REFERER', '/dashboard/'))
-        for field in program_calendar_form:
+        for field in calendar_form:
             for error in field.errors:
                 messages.error(self.request, f"<b>{field.label}:</b> {error}")
         return redirect("dashboard_program_page")
 
 # dashboard program calendar delete view
 class ProgramCalendarDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    model = ProgramCalendarModel
+    model = CalendarModel
     login_url = 'login_page'
     template_name = "dashboard/program/detail.html"
     raise_exception = True

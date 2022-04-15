@@ -1,19 +1,6 @@
 from django import forms
 from tinymce.widgets import TinyMCE
-from .models import PackageModel, ProgramBenefitModel, ProgramCalendarModel, ProgramEnquiryModel, ProgramModel, ProgramPaymentModel
-
-# custom datetime input
-class DateTimeLocalInput(forms.DateTimeInput):
-    input_type = "datetime-local"
-
-# custom datetime field
-class DateTimeLocalField(forms.DateTimeField):
-    input_formats = [
-        "%Y-%m-%dT%H:%M:%S", 
-        "%Y-%m-%dT%H:%M:%S.%f", 
-        "%Y-%m-%dT%H:%M"
-    ]
-    widget = DateTimeLocalInput(format="%Y-%m-%dT%H:%M")
+from .models import PackageModel, ProgramBenefitModel, ProgramEnquiryModel, ProgramModel, ProgramPaymentModel
 
 # program form
 class ProgramForm(forms.ModelForm):
@@ -27,14 +14,6 @@ class ProgramForm(forms.ModelForm):
 class ProgramBenefitForm(forms.ModelForm):
     class Meta:
         model = ProgramBenefitModel
-        exclude = ['program', 'created_on']
-
-# program calendar form
-class ProgramCalendarForm(forms.ModelForm):
-    start_at = DateTimeLocalField()
-    end_at = DateTimeLocalField()
-    class Meta:
-        model = ProgramCalendarModel
         exclude = ['program', 'created_on']
 
 # program enquiry form

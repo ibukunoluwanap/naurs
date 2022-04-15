@@ -1,5 +1,5 @@
 from calendar import HTMLCalendar
-from .models import ProgramCalendarModel
+from home.models import CalendarModel
 
 class Calendar(HTMLCalendar):
 	def __init__(self, year=None, month=None):
@@ -35,7 +35,7 @@ class Calendar(HTMLCalendar):
 	# formats a month as a table
 	# filter classes by year and month
 	def formatmonth(self, withyear=True):
-		classes = ProgramCalendarModel.objects.filter(start_at__year=self.year, start_at__month=self.month).order_by("-id")
+		classes = CalendarModel.objects.filter(start_at__year=self.year, start_at__month=self.month).order_by("-id")
 
 		cal = f'<table class="calendar table align-middle table-bordered"\n'
 		cal += f'{self.formatmonthname(self.year, self.month, withyear=withyear)}\n'

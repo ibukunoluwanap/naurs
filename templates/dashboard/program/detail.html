@@ -115,7 +115,7 @@
     <div class="col-sm-4">
       <div class="position-relative">
         <h4 class="m-0 lh-1">Calendar</h4>
-        <form action="{% url 'program_calendar' %}" method="get" class="d-inline position-absolute" style="right: 0; top: 0">
+        <form action="{% url 'calendar' %}" method="get" class="d-inline position-absolute" style="right: 0; top: 0">
           {% csrf_token %}
           <button class="btn btn-sm bg-cus-primary border border-pribg-cus-primary text-cus-secondary" type="submit">
             <span data-feather="calendar"></span>
@@ -124,8 +124,8 @@
         </form>
       </div>
       <ul class="list-unstyled">
-        {% if program.programcalendarmodel_set.all %}          
-          {% for calendar in program.programcalendarmodel_set.all %}
+        {% if program.calendarmodel_set.all %}          
+          {% for calendar in program.calendarmodel_set.all %}
             <li class="my-4 position-relative">
                 <i class="bi bi-arrow-return-right align-middle text-cus-primary"></i>
                 {{ calendar.start_at }} <b>-</b> {{ calendar.end_at }}
@@ -144,12 +144,12 @@
         {% endif %}
       </ul>
     </div>
-    <form action="{% url 'dashboard_program_calendar_create_page' program_id=program.id %}" method="post" class="col card shadow border-0 py-3">
+    <form action="{% url 'dashboard_calendar_create_page' program_id=program.id %}" method="post" class="col card shadow border-0 py-3">
       <h5>Add New Calendar</h5>
       {% csrf_token %}
       <div class="row">
         <div class="col-sm-12">
-          {% for field in program_calendar_form %}
+          {% for field in calendar_form %}
             <div class="form-floating shadow mb-4">
               {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
               <label for="{{ field.auto_id }}">{{ field.label }}</label>

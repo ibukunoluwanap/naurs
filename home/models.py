@@ -1,6 +1,6 @@
-from email.policy import default
 from django.db import models
-from django.forms import BooleanField
+from instructor.models import InstructorModel
+from program.models import ProgramModel
 
 LISTING_CATEGORY = (
     ("Music", "Music"),
@@ -23,3 +23,18 @@ class ListingModel(models.Model):
 
     def __str__(self):
         return f"{self.listing}"
+
+# program calendar modal
+class CalendarModel(models.Model):
+    program = models.ForeignKey(ProgramModel, verbose_name="class", on_delete=models.CASCADE)
+    instructor = models.ForeignKey(InstructorModel,  verbose_name="instructor", on_delete=models.CASCADE)
+    start_at = models.DateTimeField("start_at")
+    end_at = models.DateTimeField("end_at")
+    created_on = models.DateTimeField("created on", auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Class Calendar'
+        verbose_name_plural = 'Class Calendars'
+
+    def __str__(self):
+        return f"{self.program} calendar"

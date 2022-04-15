@@ -40,20 +40,6 @@ class ProgramBenefitModel(models.Model):
     def __str__(self):
         return f"{self.program} benefit"
 
-# program calendar modal
-class ProgramCalendarModel(models.Model):
-    program = models.ForeignKey(ProgramModel, verbose_name="class", on_delete=models.CASCADE)
-    start_at = models.DateTimeField("start_at")
-    end_at = models.DateTimeField("end_at")
-    created_on = models.DateTimeField("created on", auto_now_add=True)
-
-    class Meta:
-        verbose_name = 'Class Calendar'
-        verbose_name_plural = 'Class Calendars'
-
-    def __str__(self):
-        return f"{self.program} calendar"
-
 # program enquiry modal
 class ProgramEnquiryModel(models.Model):
     program = models.ForeignKey(ProgramModel, verbose_name="class", on_delete=models.CASCADE)
