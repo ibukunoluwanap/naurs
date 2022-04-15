@@ -72,7 +72,7 @@
       <li class="nav-item">
         <a class="nav-link py-4" href="#">
           <span data-feather="credit-card"></span>
-          Payments
+          Finances
         </a>
       </li>
       {% if request.user.is_admin %}
@@ -88,7 +88,7 @@
         <li class="nav-item">
           <a class="nav-link {% if not request.user.is_admin %}py-4{% else %}py-3{% endif %}" href="#">
             <span data-feather="credit-card"></span>
-            Payments
+            Finances
           </a>
         </li>
       {% endif %}

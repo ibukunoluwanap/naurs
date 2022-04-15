@@ -55,7 +55,11 @@
                         <br>
                         Numbers Of Classes: {{package.program.count}}
                     </p>
-                    <a href="#" class="btn w-100 btn-dark bg-cus-primary" data-bs-toggle="modal" data-bs-target="#addBillingAddress">Purchase Now</a>
+                    {% if billing_addresses %}
+                        <a href="#" class="btn w-100 btn-dark bg-cus-primary">Purchase Now</a>
+                    {% else %}
+                        <a class="btn w-100 btn-dark bg-cus-primary" data-bs-toggle="modal" data-bs-target="#addBillingAddress">Purchase Now</a>
+                    {% endif %}
                     </div>
                 </div>
             </div>
@@ -79,7 +83,11 @@
                             <h5>{{ program.title|truncatechars:20 }}</h5>
                             <div class="card-content">{{ program.content|truncatechars_html:100|safe }}</div>
                             <span class="card-price shadow">{{ program.price|floatformat:2|intcomma }} AED</span>
-                            <a href="#" class="btn w-100 btn-dark bg-cus-primary" data-bs-toggle="modal" data-bs-target="#addBillingAddress">Purchase Now</a>
+                            {% if billing_addresses %}
+                                <a href="#" class="btn w-100 btn-dark bg-cus-primary">Purchase Now</a>
+                            {% else %}
+                                <a class="btn w-100 btn-dark bg-cus-primary" data-bs-toggle="modal" data-bs-target="#addBillingAddress">Purchase Now</a>
+                            {% endif %}
                         </a>
                     </div>
                 </div>
@@ -96,7 +104,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action="{% url 'dashboard_about_create_page' %}" method="post" class="col border-0 py-3">
+            <form action="{% url 'billing_address_create_page' %}" method="post" class="col border-0 py-3">
                 {% csrf_token %}
                 <div class="row justify-content-center">
                     <div class="col-sm-12">

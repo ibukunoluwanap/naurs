@@ -7,8 +7,8 @@ from home.models import ListingModel
 from instructor.forms import InstructorForm
 from instructor.models import InstructorModel
 from about.models import AboutModel
-from program.forms import PackageForm, ProgramBenefitForm, ProgramEnquiryForm, ProgramForm, ProgramInstructorForm, ProgramPaymentForm
-from program.models import PackageModel, ProgramBenefitModel, ProgramEnquiryModel, ProgramModel, ProgramPaymentModel
+from program.forms import PackageForm, ProgramBenefitForm, ProgramEnquiryForm, ProgramForm, ProgramInstructorForm
+from program.models import PackageModel, ProgramBenefitModel, ProgramEnquiryModel, ProgramModel
 from offer.models import FreeTrialOfferModel, OfferModel, BookOfferModel
 from offer.forms import OfferForm, BookOfferForm, FreeTrialOfferForm
 from student.forms import StudentForm
@@ -42,14 +42,12 @@ def global_context(request):
     context['without_filter_last_3_programs'] = ProgramModel.objects.order_by("-id")[:4]
     context['program_benefit'] = ProgramBenefitModel()
     context['program_enquiries'] = ProgramEnquiryModel.objects.order_by("-id")
-    context['program_payments'] = ProgramPaymentModel.objects.order_by("-id")
     # program form
     context['program_form'] = ProgramForm()
     context['program_form_list'] = list(ProgramForm())
     context['calendar_form'] = CalendarForm()
     context['program_benefit_form'] = ProgramBenefitForm()
     context['program_enquiry_form'] = ProgramEnquiryForm()
-    context['program_payment_form'] = ProgramPaymentForm()
 
 
     # package

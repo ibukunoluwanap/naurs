@@ -32,9 +32,12 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link py-4" href="#">
+        <a
+          class="nav-link py-4 {% if '/finance/' in request.path %} active {% endif %}"
+          href="{% url 'finance_page' %}"
+        >
           <span data-feather="credit-card"></span>
-          Payments
+          Finances
         </a>
       </li>
     </ul>
