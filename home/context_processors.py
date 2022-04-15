@@ -1,5 +1,7 @@
 from about.forms import AboutForm
 from account.forms import RegisterForm, LoginForm, UpdateAdminForm, UpdatePasswordForm, UpdateUserForm, User
+from finance.forms import BillingAddressForm
+from finance.models import BillingAddressModel
 from home.forms import CalendarForm, ListingForm
 from home.models import ListingModel
 from instructor.forms import InstructorForm
@@ -113,9 +115,16 @@ def global_context(request):
     context['student_form'] = StudentForm()
     context['student_form_list'] = list(StudentForm())
 
+
     # authentication
     context['register_form'] = RegisterForm()
     context['login_form'] = LoginForm()
     context['update_password_form'] = UpdatePasswordForm()
+
+
+    # finance
+    context['billing_addresses'] = BillingAddressModel.objects.order_by("-id")
+    # finance form
+    context['billing_address_form'] = BillingAddressForm()
 
     return context

@@ -28,23 +28,23 @@
                   <!-- listing form -->
                   {% for field in listing_form_list %}
                       {% if forloop.counter == 3 %}
-                          <div class="card p-3 shadow mb-4">
-                              <div class="form-check form-switch">
-                              {{ field|add_class:"form-check-input"|attr:"placeholder:field.label" }}
-                              <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
-                              {% for error in field.errors %}
-                                  <p class="text-danger">{{ error }}</p>
-                              {% endfor %}
-                              </div>
-                          </div>
+                        <div class="card p-3 shadow mb-4">
+                            <div class="form-check form-switch">
+                            {{ field|add_class:"form-check-input"|attr:"placeholder:field.label" }}
+                            <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
+                            {% for error in field.errors %}
+                                <p class="text-danger">{{ error }}</p>
+                            {% endfor %}
+                            </div>
+                        </div>
                       {% else %}
-                          <div class="form-floating shadow mb-4">
-                              {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
-                              <label for="{{ field.auto_id }}">{{ field.label }}</label>
-                              {% for error in field.errors %}
-                                  <p class="text-danger">{{ error }}</p>
-                              {% endfor %}
-                          </div>
+                        <div class="form-floating shadow mb-4">
+                            {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
+                            <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                            {% for error in field.errors %}
+                                <p class="text-danger">{{ error }}</p>
+                            {% endfor %}
+                        </div>
                       {% endif %}
                   {% endfor %}
                   <button class="btn-lg" type="submit">Add Listing</button>
