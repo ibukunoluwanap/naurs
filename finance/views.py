@@ -1,14 +1,24 @@
-from django.shortcuts import redirect, render
+import json
+from django.http import HttpResponseNotFound
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
+from pkg_resources import require
 from finance.forms import BillingAddressForm
-from finance.models import BillingAddressModel, WalletModel
+from finance.models import BillingAddressModel, OrderModel
 from django.contrib import messages
 from offer.models import FreeTrialOfferModel
-from django.views.generic import View, ListView, CreateView, DetailView, UpdateView, DeleteView
+from django.views.generic import View, ListView, CreateView, DetailView, UpdateView, DeleteView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from program.models import ProgramModel
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.utils import timezone
 from datetime import datetime
+from django.conf import settings
+from django.http.response import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import stripe
+
+from program.models import ProgramModel
+# from django.contrib.sites.models import Site
 
 # finance list view
 class Finance(LoginRequiredMixin, UserPassesTestMixin, View):
@@ -54,3 +64,69 @@ class BillingAddressCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             for error in field.errors:
                 messages.error(self.request, f"<b>{field.label}:</b> {error}")
         return render(request, self.template_name, context)
+
+# configuring stripe
+@csrf_exempt
+def stripe_config(request):
+    if request.method == 'GET':
+        stripe_config = {'publicKey': settings.STRIPE_PUBLISHABLE_KEY}
+        return JsonResponse(stripe_config, safe=False)
+
+@csrf_exempt
+def create_checkout_session(request, id):
+    program = get_object_or_404(ProgramModel, pk=id)
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+
+    checkout_session = stripe.checkout.Session.create(
+        payment_method_types=['card'],
+        mode='payment',
+        success_url=request.build_absolute_uri(reverse('payment_success')) + "?session_id={CHECKOUT_SESSION_ID}",
+        cancel_url=request.build_absolute_uri(reverse('payment_failed')),
+        line_items=[
+            {
+                'price_data': {
+                    'currency': 'aed',
+                    'product_data': {
+                    'name': program.title,
+                    },
+                    'unit_amount': int(program.price * 100),
+                },
+                'quantity': 1,
+            }
+        ],
+    )
+
+    # create order
+    OrderModel.objects.create(
+        user = request.user,
+        program = program,
+        stripe_payment_intent = checkout_session['payment_intent'],
+        amount = program.price
+    )
+
+    # return JsonResponse({'data': checkout_session})
+    return JsonResponse({'sessionId': checkout_session.id})
+
+
+class PaymentSuccess(TemplateView):
+    template_name = "finance/payment/payment_success.html"
+
+    def get(self, request, *args, **kwargs):
+        session_id = request.GET.get('session_id')
+        if session_id is None:
+            return HttpResponseNotFound()
+        
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        session = stripe.checkout.Session.retrieve(session_id)
+
+        order = get_object_or_404(OrderModel, stripe_payment_intent=session.payment_intent)
+        order.status = True
+        order.save()
+        return render(request, self.template_name)
+
+class PaymentFailed(TemplateView):
+    template_name = "finance/payment/payment_failed.html"
+
+class OrderHistory(ListView):
+    model = OrderModel
+    template_name = "finance/payment/order_history.html"

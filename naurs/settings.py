@@ -6,6 +6,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
+STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY')
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -26,6 +28,7 @@ INSTALLED_APPS = [
     # added application
     'widget_tweaks',
     'tinymce',
+    'stripe',
     'account.apps.AccountConfig', # to handle authentication and user logics
     'home.apps.HomeConfig', # to handle home page contents and functionality
     'program.apps.ProgramConfig', # to handle program page contents and functionality

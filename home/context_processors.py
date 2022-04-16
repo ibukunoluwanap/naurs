@@ -1,3 +1,4 @@
+from django.conf import settings
 from about.forms import AboutForm
 from account.forms import RegisterForm, LoginForm, UpdateAdminForm, UpdatePasswordForm, UpdateUserForm, User
 from finance.forms import BillingAddressForm
@@ -17,6 +18,8 @@ from student.models import StudentModel
 def global_context(request):
     context = {}
 
+    # stripe publishable key
+    context['stripe_publishable_key'] = settings.STRIPE_PUBLISHABLE_KEY
 
     # user
     context['users'] = User.objects.order_by("-id")

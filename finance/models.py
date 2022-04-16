@@ -1,10 +1,12 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
+from program.models import ProgramModel
+
 # setting User model
 User = get_user_model()
 
-# wallet modal
+# wallet model
 class WalletModel(models.Model):
     user = models.ForeignKey(User, verbose_name="user", on_delete=models.CASCADE)
     balance = models.FloatField(default=0.00)
@@ -17,7 +19,7 @@ class WalletModel(models.Model):
     def __str__(self):
         return f"{self.user}"
 
-# billing address modal
+# billing address model
 class BillingAddressModel(models.Model):
     user = models.OneToOneField(User, verbose_name="user", on_delete=models.CASCADE)
     street_address = models.CharField("street address", max_length=250, blank=False, null=False)
@@ -33,3 +35,19 @@ class BillingAddressModel(models.Model):
     def __str__(self):
         return f"{self.user}"
 
+# order model
+class OrderModel(models.Model):
+    user = models.ForeignKey(User, verbose_name="user", on_delete=models.CASCADE)
+    program = models.ForeignKey(ProgramModel, verbose_name="class", on_delete=models.PROTECT)
+    amount = models.IntegerField(verbose_name='Amount')
+    stripe_payment_intent = models.CharField(max_length=200)
+    status = models.BooleanField(default=False,verbose_name='Payment Status')
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Order'
+        verbose_name_plural = 'Orders'
+
+    def __str__(self):
+        return f"{self.user} Orders"
