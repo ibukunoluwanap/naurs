@@ -65,24 +65,30 @@ class BillingAddressCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
                 messages.error(self.request, f"<b>{field.label}:</b> {error}")
         return render(request, self.template_name, context)
 
-# configuring stripe
-@csrf_exempt
-def stripe_config(request):
-    if request.method == 'GET':
-        stripe_config = {'publicKey': settings.STRIPE_PUBLISHABLE_KEY}
-        return JsonResponse(stripe_config, safe=False)
-
 @csrf_exempt
 def create_checkout_session(request, id):
     program = get_object_or_404(ProgramModel, pk=id)
+    billing_address = get_object_or_404(BillingAddressModel, user=request.user)
     stripe.api_key = settings.STRIPE_SECRET_KEY
+    
+    stripe_customer = stripe.Customer.create(
+        address = {
+            'city': billing_address.city_town,
+            'country': billing_address.country,
+            'line1': billing_address.street_address,
+            'postal_code': billing_address.zip_code
+        },
+        email = request.user.email,
+        name = request.user.get_full_name(),
+    )
 
     checkout_session = stripe.checkout.Session.create(
-        payment_method_types=['card'],
-        mode='payment',
-        success_url=request.build_absolute_uri(reverse('payment_success')) + "?session_id={CHECKOUT_SESSION_ID}",
-        cancel_url=request.build_absolute_uri(reverse('payment_failed')),
-        line_items=[
+        customer = stripe_customer.id,
+        payment_method_types = ['card'],
+        mode = 'payment',
+        success_url = request.build_absolute_uri(reverse('payment_success')) + "?session_id={CHECKOUT_SESSION_ID}",
+        cancel_url = request.build_absolute_uri(reverse('payment_failed')),
+        line_items = [
             {
                 'price_data': {
                     'currency': 'aed',
@@ -104,10 +110,52 @@ def create_checkout_session(request, id):
         amount = program.price
     )
 
-    # return JsonResponse({'data': checkout_session})
+    # update program total space
+    program.total_space = program.total_space - 1
+    program.save()
+
     return JsonResponse({'sessionId': checkout_session.id})
 
+@csrf_exempt
+def top_up_wallet_session(request, amount):
+    billing_address = get_object_or_404(BillingAddressModel, user=request.user)
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+    amount_int = int(amount)
 
+    # creating stripe customer
+    stripe_customer = stripe.Customer.create(
+        address = {
+            'city': billing_address.city_town,
+            'country': billing_address.country,
+            'line1': billing_address.street_address,
+            'postal_code': billing_address.zip_code
+        },
+        email = request.user.email,
+        name = request.user.get_full_name(),
+    )
+
+    wallet_session = stripe.checkout.Session.create(
+        customer = stripe_customer.id,
+        payment_method_types = ['card'],
+        mode = 'payment',
+        success_url = request.build_absolute_uri(reverse('payment_success')) + "?session_id={CHECKOUT_SESSION_ID}",
+        cancel_url = request.build_absolute_uri(reverse('payment_failed')),
+        line_items = [
+            {
+                'price_data': {
+                    'currency': 'aed',
+                    'product_data': {
+                    'name': "Wallet Top Up",
+                    },
+                    'unit_amount': int(amount_int * 100),
+                },
+                'quantity': 1,
+            }
+        ],
+    )
+
+    return JsonResponse({'sessionId': wallet_session.id})
+    
 class PaymentSuccess(TemplateView):
     template_name = "finance/payment/payment_success.html"
 

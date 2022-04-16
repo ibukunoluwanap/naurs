@@ -8,21 +8,27 @@
 {%block dashboard %}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
     <div class="row justify-content-center my-3">
-        <div class="col-4 col-md-4 mb-1 d-flex justify-content-center text-center">
+        <!-- wallet -->
+        <div class="col-12 col-md-4 mb-1 d-flex justify-content-center text-center">
             <div class="card data-card shadow border-0 bg-cus-pink text-cus-secondary">
-                <span class="m-auto">Wallet
+                <span class="m-auto">
+                    Wallet
                     <b>{{wallet.balance|floatformat:2}} AED</b>
                 </span>
+                <button class="top-up-wallet" data-bs-toggle="modal" data-bs-target="#topUpWalletAmountModal">
+                    <span data-feather="plus" class="align-middle top-up-btn"></span>
+                    <span style="font-size: .8rem;" class="text-cus-secondary">Top up wallet</span>
+                </button>
             </div>
         </div>
-        <div class="col-4 col-md-4 mb-1 d-flex justify-content-center text-center">
+        <div class="col-6 col-md-4 mb-1 d-flex justify-content-center text-center">
             <div class="card data-card shadow border-0 bg-cus-purple text-cus-secondary">
                 <span class="m-auto">Packages
                     <b>{{packages|length}}</b>
                 </span>
             </div>
         </div>
-        <div class="col-4 col-md-4 mb-1 d-flex justify-content-center text-center">
+        <div class="col-6 col-md-4 mb-1 d-flex justify-content-center text-center">
             <div class="card data-card shadow border-0 bg-cus-orange text-cus-secondary">
                 <span class="m-auto">Classes
                     <b>{{programs|length}}</b>
@@ -37,7 +43,7 @@
             <h4>Packages</h4>
         </div>
         {% for package in packages %}
-            <div class="col-3">
+            <div class="col-sm-3">
                 <div class="card shadow border-0">
                     {% if package.image %}
                         <img src="{{package.image.url}}" width="100%" height="200px" class="card-img-top object-fit" alt="{{package.name}}">
@@ -49,16 +55,22 @@
                     <div class="card-body">
                     <h6 class="card-title">{{package.name}}</h6>
                     <p class="card-text" style="font-size: 12px;">
-                        Price: <b>{{package.initial_price|floatformat:2|intcomma}} </b>
+                        Price: <b>{{package.initial_price|floatformat:2|intcomma}} AED </b>
                         <br>
                         Bonus: +{{package.bonus_price|floatformat:2|intcomma}} AED (Free)
                         <br>
                         Numbers Of Classes: {{package.program.count}}
-                    </p>
-                    {% if billing_addresses %}
-                        <button id="packagePurchaseBtn" class="btn w-100 btn-dark bg-cus-primary">Purchase Now</button>
+                    </p>                
+                    {% if wallet.balance > 0 %}
+                        {% for billing_address in billing_addresses %}
+                            {% if billing_address.user == request.user %}
+                                <button id="packagePurchaseBtn{{package.id}}" class="btn w-100 btn-dark bg-cus-primary">Purchase Now</button>
+                            {% else %}
+                                <a class="btn w-100 btn-dark bg-cus-primary" data-bs-toggle="modal" data-bs-target="#addBillingAddressModal">Purchase Now</a>
+                            {% endif %}
+                        {% endfor %}
                     {% else %}
-                        <a class="btn w-100 btn-dark bg-cus-primary" data-bs-toggle="modal" data-bs-target="#addBillingAddress">Purchase Now</a>
+                        <a class="btn w-100 btn-dark bg-cus-primary" data-bs-toggle="modal" data-bs-target="#topUpWalletModal">Purchase Now</a>
                     {% endif %}
                     </div>
                 </div>
@@ -72,7 +84,7 @@
             <h4>Classes</h4>
         </div>
         {% for program in programs %}
-            <div class="col-3">
+            <div class="col-sm-3">
                 <div class="card shadow mb-3" style="height: 350px;">
                     <img src="{{ program.image.url }}"
                             class="card-img-top shadow object-fit"
@@ -84,11 +96,7 @@
                             <div class="card-content">{{ program.content|truncatechars_html:100|safe }}</div>
                             <span class="card-price shadow">{{ program.price|floatformat:2|intcomma }} AED</span>
                         </a>
-                        {% if billing_addresses %}
-                            <button id="programPurchaseBtn{{program.id}}" class="btn w-100 btn-dark bg-cus-primary">Purchase Now</button>
-                        {% else %}
-                            <a class="btn w-100 btn-dark bg-cus-primary" data-bs-toggle="modal" data-bs-target="#addBillingAddress">Purchase Now</a>
-                        {% endif %}
+                        <button class="btn w-100 btn-dark bg-cus-primary">Take A Spot</button>
                     </div>
                 </div>
             </div>
@@ -96,11 +104,11 @@
     </div>
 
     <!-- billing address modal -->
-    <div class="modal fade" id="addBillingAddress" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addBillingAddressLabel" aria-hidden="true">
+    <div class="modal fade" id="addBillingAddressModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addBillingAddressModalLabel" aria-hidden="true">
     <div class="modal-dialog modal modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="addBillingAddressLabel">Add Billing Address</h5>
+            <h5 class="modal-title" id="addBillingAddressModalLabel">Add Billing Address</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -125,15 +133,46 @@
         </div>
     </div>
     </div>
+
+    <!-- top up message modal -->
+    <div class="modal fade" id="topUpWalletModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="topUpWalletModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <b>Top up wallet!</b> You need to top up your wallet before you can purchase packages.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- top up amount modal -->
+    <div class="modal fade" id="topUpWalletAmountModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="topUpWalletAmountModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                            <div class="form-floating shadow mb-4">
+                                <input type="number" name="topUpWalletAmount" placeholder="Enter amount" class="form-control" required="true" id="topUpWalletAmount">
+                                <label for="topUpWalletAmount">Top up amount</label>
+                            </div>
+                    <button id="topUpWalletBtn" class="btn-lg float-end">
+                        Continue 
+                        <span data-feather="arrow-right" class="align-middle"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
 <script type="text/javascript">
-    // Create an instance of the Stripe object with your publishable API key
     let stripe = Stripe('{{ stripe_publishable_key }}');
-    {% for program in programs %}
-        document.getElementById('programPurchaseBtn{{program.id}}').addEventListener('click', () => {
-        // Create a new Checkout Session using the server-side endpoint you
-        // created in step 3.
-        fetch("{% url 'payment_checkout_session' id=program.id %}", {
+
+    document.getElementById('topUpWalletBtn').addEventListener('click', () => {
+        if (document.getElementById('topUpWalletAmount').value.length == 0) {
+            alert("Please enter top up amount!");
+            return;
+        }
+        url = `/finance/payment/top_up_wallet_session/${document.getElementById('topUpWalletAmount').value}/`
+        fetch(url, {
             method: 'POST',
             body: JSON.stringify()
         })
@@ -144,9 +183,6 @@
                 return stripe.redirectToCheckout({ sessionId: session.sessionId });
             })
             .then(function (result) {
-                // If `redirectToCheckout` fails due to a browser or network
-                // error, you should display the localized error message to your
-                // customer using `error.message`.
                 if (result.error) {
                     alert(result.error.message);
                 }
@@ -155,6 +191,28 @@
                 console.error('Error:', error);
             });
     });
-    {% endfor %}
+    
+    // {% for p in packages %}
+    //     document.getElementById('packagePurchaseBtn{{p.id}}').addEventListener('click', () => {
+    //     fetch("{% url 'payment_checkout_session' id=p.id %}", {
+    //         method: 'POST',
+    //         body: JSON.stringify()
+    //     })
+    //         .then(function (response) {
+    //             return response.json();
+    //         })
+    //         .then(function (session) {
+    //             return stripe.redirectToCheckout({ sessionId: session.sessionId });
+    //         })
+    //         .then(function (result) {
+    //             if (result.error) {
+    //                 alert(result.error.message);
+    //             }
+    //         })
+    //         .catch(function (error) {
+    //             console.error('Error:', error);
+    //         });
+    // });
+    // {% endfor %}
 </script>
 {% endblock dashboard %}
