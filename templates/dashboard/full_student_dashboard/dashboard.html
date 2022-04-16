@@ -36,7 +36,7 @@
         <div class="col-12">
             <h4>Packages</h4>
         </div>
-        {% for package in packages %}            
+        {% for package in packages %}
             <div class="col-3">
                 <div class="card shadow border-0">
                     {% if package.image %}
@@ -56,7 +56,7 @@
                         Numbers Of Classes: {{package.program.count}}
                     </p>
                     {% if billing_addresses %}
-                        <button id="checkoutBtn" class="btn w-100 btn-dark bg-cus-primary">Purchase Now</button>
+                        <button id="packagePurchaseBtn" class="btn w-100 btn-dark bg-cus-primary">Purchase Now</button>
                     {% else %}
                         <a class="btn w-100 btn-dark bg-cus-primary" data-bs-toggle="modal" data-bs-target="#addBillingAddress">Purchase Now</a>
                     {% endif %}
@@ -83,12 +83,12 @@
                             <h5>{{ program.title|truncatechars:20 }}</h5>
                             <div class="card-content">{{ program.content|truncatechars_html:100|safe }}</div>
                             <span class="card-price shadow">{{ program.price|floatformat:2|intcomma }} AED</span>
-                            {% if billing_addresses %}
-                                <a href="#" class="btn w-100 btn-dark bg-cus-primary">Purchase Now</a>
-                            {% else %}
-                                <a class="btn w-100 btn-dark bg-cus-primary" data-bs-toggle="modal" data-bs-target="#addBillingAddress">Purchase Now</a>
-                            {% endif %}
                         </a>
+                        {% if billing_addresses %}
+                            <button id="programPurchaseBtn{{program.id}}" class="btn w-100 btn-dark bg-cus-primary">Purchase Now</button>
+                        {% else %}
+                            <a class="btn w-100 btn-dark bg-cus-primary" data-bs-toggle="modal" data-bs-target="#addBillingAddress">Purchase Now</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -129,12 +129,11 @@
 <script type="text/javascript">
     // Create an instance of the Stripe object with your publishable API key
     let stripe = Stripe('{{ stripe_publishable_key }}');
-    let checkoutBtn = document.getElementById('checkoutBtn');
-
-    checkoutBtn.addEventListener('click', () => {
+    {% for program in programs %}
+        document.getElementById('programPurchaseBtn{{program.id}}').addEventListener('click', () => {
         // Create a new Checkout Session using the server-side endpoint you
         // created in step 3.
-        fetch("{% url 'payment_checkout_session' id=1 %}", {
+        fetch("{% url 'payment_checkout_session' id=program.id %}", {
             method: 'POST',
             body: JSON.stringify()
         })
@@ -156,5 +155,6 @@
                 console.error('Error:', error);
             });
     });
+    {% endfor %}
 </script>
 {% endblock dashboard %}
