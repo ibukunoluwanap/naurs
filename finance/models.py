@@ -29,8 +29,8 @@ class BillingAddressModel(models.Model):
     updated_on = models.DateTimeField("updated on", auto_now=True)
 
     class Meta:
-        verbose_name = 'BillingAddress'
-        verbose_name_plural = 'BillingAddresses'
+        verbose_name = 'Billing Address'
+        verbose_name_plural = 'Billing Addresses'
 
     def __str__(self):
         return f"{self.user}"

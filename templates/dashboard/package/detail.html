@@ -32,7 +32,7 @@
         {% csrf_token %}
         <div class="row">
           <div class="col-sm-6">
-            {% for field in package_form_with_instance|slice:":3" %}
+            {% for field in package_form_with_instance|slice:":4" %}
               {% if forloop.counter == 1 %}
                 <div class="card p-3 shadow mb-4">
                   {{ field|add_class:"cus-file-input" }}
@@ -52,8 +52,8 @@
             {% endfor %}
           </div>
           <div class="col-sm-6">
-            {% for field in package_form_with_instance|slice:":6" %}
-                {% if forloop.counter == 5 %}
+            {% for field in package_form_with_instance|slice:":8" %}
+                {% if forloop.counter == 7 %}
                     <div class="card p-3 shadow mb-4">
                         <div class="form-check form-switch">
                             {{ field|add_class:"form-check-input"|attr:"placeholder:field.label" }}
@@ -63,12 +63,12 @@
                             {% endfor %}
                         </div>
                     </div>
-                {% elif forloop.counter == 6 %}
+                {% elif forloop.counter == 8 %}
                     <div class="card p-3 shadow mb-4 form-check form-switch overflow-height">
                         {{ field }}
                         <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
                     </div>
-                {% elif forloop.counter == 4 %}
+                {% elif forloop.counter > 4 and forloop.counter < 7 %}
                     <div class="form-floating shadow mb-4">
                         {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
                             <label for="{{ field.auto_id }}">{{ field.label }}</label>

@@ -83,11 +83,11 @@
                         <hr>
                         
                         {% if request.user.is_authenticated and request.user.studentmodel %}
-                            <a href="{% url 'student_dashboard_page' %}" class="w-100 text-center btn-lg" type="submit">Join Class</a>
+                            <a href="{% url 'student_dashboard_page' %}" class="w-100 text-center btn-lg" type="submit">Pick A Spot</a>
                         {% elif request.user.is_authenticated%}
                             <span class="text-danger">Only registered students can join!</span>
                         {% else %}
-                            <a href="{% url 'login_page' %}" class="w-100 text-center btn-lg" type="submit">Join Class</a>
+                            <a href="{% url 'login_page' %}" class="w-100 text-center btn-lg" type="submit">Pick A Spot</a>
                         {% endif %}
                     </div>
                     <div class="col-md-4 my-3 pt-3 pb-3 rounded section-bg animate__animated animate__fadeInRight"

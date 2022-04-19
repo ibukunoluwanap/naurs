@@ -7,6 +7,9 @@ User = get_user_model()
 # student modal
 class StudentModel(models.Model):
     user = models.OneToOneField(User, verbose_name="user", on_delete=models.CASCADE)
+    sessions = models.PositiveIntegerField(default=0)
+    kids = models.BooleanField(default=False)
+    senior_citizen = models.BooleanField(default=False)
     created_on = models.DateTimeField("created on", auto_now_add=True)
 
     class Meta:

@@ -49,6 +49,9 @@ urlpatterns = [
     path('admin/create/', views.AdminCreate.as_view(), name='dashboard_admin_create_page'),
     path('admin/<int:pk>/update/', views.AdminUpdate.as_view(), name='dashboard_admin_update_page'),
     path('admin/<int:admin_id>/<str:visibility>/visibility/', views.AdminVisibility.as_view(), name='dashboard_admin_visibility_page'),
+    # users
+    path('users/', views.Users.as_view(), name='dashboard_users_page'),
+    path('users/<int:user_id>/<str:visibility>/visibility/', views.UsersVisibility.as_view(), name='dashboard_users_visibility_page'),
     # about
     path('about/', views.About.as_view(), name='dashboard_about_page'),
     path('about/<int:pk>/', views.AboutDetail.as_view(), name='dashboard_about_detail_page'),

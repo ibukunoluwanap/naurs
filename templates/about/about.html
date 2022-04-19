@@ -71,21 +71,26 @@
             </div>
         </div>
     </section>
+
     <!-- ======= instructors section ======= -->
     <section id="team" class="team">
-        <div class="container" data-aos="fade-up">
+        <div class="container instructor-container" data-aos="fade-up">
             <div class="row">
                 {% if instructors %}
                     {% for instructor in instructors %}
-                        <div class="col-lg-3 col-md-6 align-items-stretch">
+                        <div class="col-12">
                             <a href="{% url 'instructor_detail_page' pk=instructor.id %}">
                                 <div class="member">
-                                    <img class="member-img"src="{{ instructor.user.avatar.url }}"
-                                        class="img-fluid"
+                                    {% if instructor.user.avatar %}
+                                        <img class="member-img img-fluid" src="{{ instructor.user.avatar.url }}"
                                         alt="instructor">
+                                    {% else %}
+                                        <i class="bi bi-person-circle align-middle member-img img-fluid" style="font-size: 234px;"></i>
+                                    {% endif %}
                                     <div class="member-info">
-                                        <h4>{{ instructor.user.get_full_name }}</h4>
-                                        <span>{{ instructor.role }}</span>
+                                        <h4>{{ instructor.user.get_full_name|truncatechars:20 }}</h4>
+                                        <span>{{ instructor.role|truncatechars:20 }}</span>
+                                        {{ instructor.about|safe|truncatechars_html:500 }}
                                     </div>
                                 </div>
                             </a>

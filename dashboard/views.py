@@ -835,6 +835,43 @@ class AdminVisibility(LoginRequiredMixin, UserPassesTestMixin, View):
             messages.success(self.request, "Successfully deleted admin!")
             return redirect("dashboard_admin_page")
 
+# dashboard user view
+class Users(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = User
+    login_url = 'login_page'
+    template_name = "dashboard/users/users.html"
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
+
+# dashboard users visibility view
+class UsersVisibility(LoginRequiredMixin, UserPassesTestMixin, View):
+    login_url = 'login_page'
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
+
+    def post(self, request, *args, **kwargs):
+        user_id = self.kwargs['user_id']
+        visibility = self.kwargs['visibility']
+        user = User.objects.get(id=user_id)
+        if visibility == 'deactivate':
+            if user.is_active:
+                user.is_active = False
+                user.save()
+                messages.success(self.request, "Successfully deactivated user!")
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
+            user.is_active = True
+            user.save()
+            messages.success(self.request, "Successfully reactivated user!")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
+        elif visibility == 'delete':
+            user.delete()
+            messages.success(self.request, "Successfully deleted user!")
+            return redirect("dashboard_users_page")
+
 # dashboard about view
 class About(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = AboutModel
@@ -1081,6 +1118,7 @@ class AccountChangePassword(View):
             for error in field.errors:
                 messages.error(self.request, f"<b>{field.label}:</b> {error}")
         return render(request, self.template_name)
+
 
 
 
