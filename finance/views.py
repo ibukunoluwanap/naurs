@@ -1,5 +1,5 @@
 import json
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from pkg_resources import require
@@ -170,7 +170,7 @@ class PaymentSuccess(TemplateView):
         order = get_object_or_404(OrderModel, stripe_payment_intent=session.payment_intent)
         order.status = True
         order.save()
-        return render(request, self.template_name)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/finance/'))
 
 class PaymentFailed(TemplateView):
     template_name = "finance/payment/payment_failed.html"
@@ -221,8 +221,6 @@ def top_up_wallet_session(request, amount):
     return JsonResponse({'sessionId': wallet_session.id})
   
 class TopUpWalletPaymentSuccess(TemplateView):
-    template_name = "finance/payment/payment_success.html"
-
     def get(self, request, *args, **kwargs):
         session_id = request.GET.get('session_id')
         if session_id is None:
@@ -235,7 +233,11 @@ class TopUpWalletPaymentSuccess(TemplateView):
         new_wallet_balance = wallet.balance + int(session.amount_total / 100)
         wallet.balance = new_wallet_balance
         wallet.save()
-        return render(request, self.template_name)
+        messages.success(request, 'Payment successful! Your account has been topped up.')
+        return redirect('student_dashboard_page')
 
 class TopUpWalletPaymentFailed(TemplateView):
-    template_name = "finance/payment/payment_failed.html"
+    def get(self, request, *args, **kwargs):
+        messages.error(request, 'Something went wrong during the payment processing! If your account was deducted please wait for n\
+                        reverse within 24hrs. If still no progress, contact us and your bank. Thank you.')
+        return redirect('student_dashboard_page')
