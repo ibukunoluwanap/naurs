@@ -4,6 +4,7 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     # authentication
+    path('verify_email/<uidb64>/<token>/', views.VerifyEmail.as_view(), name='verify_email'),
     path('register/', views.Register.as_view(), name='register_page'),
     path('login/', views.Login.as_view(), name='login_page'),
     path('logout/', views.Logout.as_view(), name='logout_page'),

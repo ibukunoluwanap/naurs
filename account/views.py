@@ -1,3 +1,8 @@
+
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.utils.encoding import force_bytes, force_str
+from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib import messages
 from django.views.generic import View
 from django.shortcuts import render, redirect
@@ -7,13 +12,50 @@ from django.http.response import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, logout, authenticate
 from finance.models import WalletModel
+from naurs.settings import EMAIL_HOST_USER
 from offer.models import FreeTrialOfferModel
 from student.models import StudentModel
+from django.core.mail import send_mail, BadHeaderError
 from django.utils import timezone
 from datetime import datetime
+import six, socket
+from email.errors import HeaderParseError
+from django.template import loader
 
 # setting User model
 User = get_user_model()
+
+# email token
+class EmailVerificationToken(PasswordResetTokenGenerator):
+    def _make_hash_value(self, user, timestamp):
+        token = six.text_type(user.pk) + six.text_type(timestamp) + six.text_type(user.is_active)
+        return token
+        
+# email verification
+class VerifyEmail(View):
+    def get(self, request, uidb64, token, *args, **kwargs):
+        try:
+            uid = force_str(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=uid)
+        except:
+            user = None
+            messages.error(request, 'Invalid user ID')
+            return redirect('main')
+            
+        if user is not None and EmailVerificationToken().check_token(user, token):
+            user.is_active = True
+            user.save()
+
+            # login the user
+            FreeTrialOfferModel.objects.filter(created_on__lte=datetime.now(timezone.utc)-timezone.timedelta(days=7)).update(is_active=False)
+            
+            student = StudentModel.objects.create(user=user)
+            if student:
+                WalletModel.objects.create(user=user)
+                messages.success(request, 'Thank you for your email confirmation. Now you can login.')
+                return redirect('login_page')
+        messages.error(request, 'Activation link is invalid!')
+        return redirect('login_page')
 
 # register view
 class Register(View):
@@ -40,15 +82,39 @@ class Register(View):
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
             # saving user to database
-            user = register_form.save()
-            # login the user
-            login(request, user)
-            FreeTrialOfferModel.objects.filter(created_on__lte=datetime.now(timezone.utc)-timezone.timedelta(days=7)).update(is_active=False)
-            student = StudentModel.objects.create(user=request.user)
-            if student:
-                WalletModel.objects.create(user=request.user)
-                messages.success(request, "Successfully registered Select class to start with!")
-                return redirect('student_dashboard_page')
+            user = register_form.save(commit=False)
+            user.is_active = False # disable user
+            user.save()
+            current_site = get_current_site(request)
+            subject = 'Naurs Email Activation.'
+                
+            to_email = email
+            context['domain'] = current_site.domain
+            context['uid'] = urlsafe_base64_encode(force_bytes(user.pk))
+            context['token'] = EmailVerificationToken().make_token(user)
+            context['subject'] = subject
+            context['message'] = f"Hi {email}, Please verify your Naurs account to be able to login by clicking on the link below to confirm your registration."
+            actual_message = loader.render_to_string('components/notifications/emails.html', context)
+
+            try:
+                send_mail(subject, actual_message, EMAIL_HOST_USER, [to_email], fail_silently = False, html_message=actual_message)
+                messages.success(request, 'Check email inbox or spam to confirm email!')
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            except socket.gaierror:
+                messages.error(request, 'No internet connect')
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            except HeaderParseError:
+                messages.error(request, 'A user has an invalid domain')
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            except BadHeaderError:
+                messages.error(request, 'Bad header')
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            except TimeoutError:
+                messages.error(request, 'Time out')
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            except ValueError as e:
+                messages.error(request, f'{e}')
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         for field in register_form:
             for error in field.errors:
                 messages.error(self.request, f"<b>{field.label}:</b> {error}")
@@ -78,7 +144,7 @@ class Login(View):
             user = authenticate(email=email, password=password)
 
             # login the user
-            if user is not None:
+            if user is not None and user.is_active:
                 if user.is_admin:
                     login(request, user)
                     FreeTrialOfferModel.objects.filter(created_on__lte=datetime.now(timezone.utc)-timezone.timedelta(days=7)).update(is_active=False)
@@ -99,8 +165,9 @@ class Login(View):
                             return redirect('student_dashboard_page')
                     except:
                         pass
-            messages.error(request, "Check user's credentials!")
+            messages.error(request, "Check user's credentials OR Verify your email!")
             return redirect('login_page')
+
         for field in login_form:
             for error in field.errors:
                 messages.error(self.request, f"<b>{field.label}:</b> {error}")
