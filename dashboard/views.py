@@ -1262,12 +1262,13 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
             wallet.save()
             
             # create order
-            OrderModel.objects.create(
+            order = OrderModel.objects.create(
                 user = request.user,
-                package = package,
                 amount = price_with_bonus,
                 status = True,
             )
+
+            order.package.add(package),
 
             # update program total space
             for program in package.program.all():

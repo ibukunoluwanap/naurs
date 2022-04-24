@@ -77,4 +77,4 @@ class PackageModel(models.Model):
         verbose_name_plural = 'Classes'
 
     def __str__(self):
-        return f"{self.title}"
+        return f"{self.name}"

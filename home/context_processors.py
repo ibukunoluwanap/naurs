@@ -2,7 +2,7 @@ from django.conf import settings
 from about.forms import AboutForm
 from account.forms import RegisterForm, LoginForm, UpdateAdminForm, UpdatePasswordForm, UpdateUserForm, User
 from finance.forms import BillingAddressForm
-from finance.models import BillingAddressModel
+from finance.models import BillingAddressModel, OrderModel
 from home.forms import CalendarForm, ListingForm
 from home.models import ListingModel
 from instructor.forms import InstructorForm
@@ -127,5 +127,8 @@ def global_context(request):
     context['billing_addresses'] = BillingAddressModel.objects.order_by("-id")
     # finance form
     context['billing_address_form'] = BillingAddressForm()
+
+    # order
+    context['orders'] = OrderModel.objects.order_by("-id")
 
     return context

@@ -38,7 +38,7 @@ class BillingAddressModel(models.Model):
 # order model
 class OrderModel(models.Model):
     user = models.ForeignKey(User, verbose_name="user", on_delete=models.CASCADE)
-    package = models.ForeignKey(PackageModel, verbose_name="package", null=True, blank=True, on_delete=models.PROTECT)
+    package = models.ManyToManyField(PackageModel, verbose_name="package")
     program = models.ManyToManyField(ProgramModel, verbose_name="class")
     amount = models.IntegerField(verbose_name='Amount')
     # stripe_payment_intent = models.CharField(max_length=200)
@@ -51,4 +51,4 @@ class OrderModel(models.Model):
         verbose_name_plural = 'Orders'
 
     def __str__(self):
-        return f"{self.user} Orders"
+        return f"{self.user} orders"

@@ -60,29 +60,42 @@
                         </div>
                     {% endif %}
                     <div class="card-body">
-                    <h6 class="card-title">
-                        <b>{{package.name}}</b>
-                    </h6>
-                    <p class="card-text" style="font-size: 12px;">
-                        <b>Price:</b> {{package.initial_price|floatformat:2|intcomma}} AED
-                        <br>
-                        <b>Bonus:</b> +{{package.bonus_price|floatformat:2|intcomma}} AED (Free)
-                        <br>
-                        <b>Kids:</b> {{package.number_of_free_kids_sessions}} sessions (Free)
-                        <br>
-                        <b>Senior citizen:</b> {{package.number_of_free_senior_citizen_sessions}} sessions (Free)
-                        <br>
-                        <b>Numbers of class(es):</b> {{package.program.count}}
-                    </p>                
-                    {% if wallet.balance > 0 %}
-                        {% if request.user.billingaddressmodel %}
-                            <button class="btn w-100 btn-dark bg-cus-primary" data-bs-toggle="modal" data-bs-target="#getPackage{{package.id}}">Get Package</button>
+                        {% for order in package.ordermodel_set.all %}
+                            {% if order.user == request.user %}
+                                {% if order.status %}
+                                    <span class="card-price bg-success text-cus-secondary shadow">
+                                        Active
+                                    </span>
+                                {% else %}
+                                    <span class="card-price bg-secondary text-cus-secondary shadow">
+                                        Inactive
+                                    </span>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                        <h6 class="card-title">
+                            <b>{{package.name}}</b>
+                        </h6>
+                        <p class="card-text" style="font-size: 12px;">
+                            <b>Price:</b> {{package.initial_price|floatformat:2|intcomma}} AED
+                            <br>
+                            <b>Bonus:</b> +{{package.bonus_price|floatformat:2|intcomma}} AED (Free)
+                            <br>
+                            <b>Kids:</b> {{package.number_of_free_kids_sessions}} sessions (Free)
+                            <br>
+                            <b>Senior citizen:</b> {{package.number_of_free_senior_citizen_sessions}} sessions (Free)
+                            <br>
+                            <b>Numbers of class(es):</b> {{package.program.count}}
+                        </p>                
+                        {% if wallet.balance > 0 %}
+                            {% if request.user.billingaddressmodel %}
+                                <button class="btn w-100 btn-dark bg-cus-primary" data-bs-toggle="modal" data-bs-target="#getPackage{{package.id}}">Get Package</button>
+                            {% else %}
+                                <a class="btn w-100 btn-dark bg-cus-primary" data-bs-toggle="modal" data-bs-target="#addBillingAddressModal">Get Package</a>
+                            {% endif %}
                         {% else %}
-                            <a class="btn w-100 btn-dark bg-cus-primary" data-bs-toggle="modal" data-bs-target="#addBillingAddressModal">Get Package</a>
+                            <a class="btn w-100 btn-dark bg-cus-primary" data-bs-toggle="modal" data-bs-target="#topUpWalletModal">Get Package</a>
                         {% endif %}
-                    {% else %}
-                        <a class="btn w-100 btn-dark bg-cus-primary" data-bs-toggle="modal" data-bs-target="#topUpWalletModal">Get Package</a>
-                    {% endif %}
                     </div>
                 </div>
             </div>
