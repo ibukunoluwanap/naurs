@@ -15,9 +15,7 @@ from django.conf import settings
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import stripe
-
 from program.models import ProgramModel
-# from django.contrib.sites.models import Site
 
 # finance list view
 class Finance(LoginRequiredMixin, UserPassesTestMixin, View):

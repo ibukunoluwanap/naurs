@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from about.forms import AboutForm
 from about.models import AboutModel
 from account.forms import RegisterForm, UpdateAdminForm, UpdateUserForm
-from finance.models import WalletModel
+from finance.models import OrderModel, WalletModel
 from home.forms import CalendarForm, ListingForm
 from home.models import CalendarModel, ListingModel
 from instructor.forms import InstructorForm
@@ -1215,6 +1215,11 @@ class StudentPackage(LoginRequiredMixin, UserPassesTestMixin, ListView):
     def test_func(self):
         return (self.request.user.studentmodel)
 
+    def get(self, request):
+        context = {}
+        context["wallet"] = WalletModel.objects.get(user=request.user)
+        return render(request, self.template_name, context)
+
 # student class view
 class StudentClass(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = ProgramModel
@@ -1224,6 +1229,11 @@ class StudentClass(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def test_func(self):
         return (self.request.user.studentmodel)
+
+    def get(self, request):
+        context = {}
+        context["wallet"] = WalletModel.objects.get(user=request.user)
+        return render(request, self.template_name, context)
 
 # get student package view
 class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
@@ -1250,6 +1260,19 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
             
             wallet.balance = new_wallet_balance
             wallet.save()
+            
+            # create order
+            OrderModel.objects.create(
+                user = request.user,
+                package = package,
+                amount = price_with_bonus,
+                status = True,
+            )
+
+            # update program total space
+            for program in package.program.all():
+                program.total_space = program.total_space - 1
+                program.save()
 
             messages.success(self.request, "Successfully purchased package with bonus!")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

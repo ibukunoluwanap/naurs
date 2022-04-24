@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
-from program.models import ProgramModel
+from program.models import PackageModel, ProgramModel
 
 # setting User model
 User = get_user_model()
@@ -38,10 +38,11 @@ class BillingAddressModel(models.Model):
 # order model
 class OrderModel(models.Model):
     user = models.ForeignKey(User, verbose_name="user", on_delete=models.CASCADE)
-    program = models.ForeignKey(ProgramModel, verbose_name="class", on_delete=models.PROTECT)
+    package = models.ForeignKey(PackageModel, verbose_name="package", null=True, blank=True, on_delete=models.PROTECT)
+    program = models.ManyToManyField(ProgramModel, verbose_name="class")
     amount = models.IntegerField(verbose_name='Amount')
-    stripe_payment_intent = models.CharField(max_length=200)
-    status = models.BooleanField(default=False,verbose_name='Payment Status')
+    # stripe_payment_intent = models.CharField(max_length=200)
+    status = models.BooleanField(default=False, verbose_name='Payment Status')
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now_add=True)
 
