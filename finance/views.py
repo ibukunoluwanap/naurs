@@ -2,7 +2,6 @@ import json
 from django.http import HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
-from pkg_resources import require
 from finance.forms import BillingAddressForm
 from finance.models import BillingAddressModel, OrderModel, WalletModel
 from django.contrib import messages
@@ -40,7 +39,6 @@ class Finance(LoginRequiredMixin, UserPassesTestMixin, View):
 class BillingAddressCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     form_class = BillingAddressModel
     login_url = 'login_page'
-    template_name = "dashboard/full_student_dashboard/finance.html"
     raise_exception = True
 
     def test_func(self):
@@ -59,11 +57,11 @@ class BillingAddressCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             new_billing_address.user = request.user
             new_billing_address.save()
             messages.success(self.request, f"Successfully added billing address! <b>You can now purchase packages and classes</b>")
-            return redirect("finance_page")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         for field in billing_address_from:
             for error in field.errors:
                 messages.error(self.request, f"<b>{field.label}:</b> {error}")
-        return render(request, self.template_name, context)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 @csrf_exempt
 def create_checkout_session(request, id):
