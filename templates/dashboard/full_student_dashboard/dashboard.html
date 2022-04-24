@@ -98,7 +98,7 @@
                     <div class="modal-body">
                         <form action="#" method="post" class="col border-0 py-3">
                             {% csrf_token %}
-                            <button class="w-100 btn-lg bg-cus-orange" type="submit">Get 400 AED OFF initial price!</button>
+                            <button class="w-100 btn-lg bg-cus-orange" type="submit">Get {{package.bonus_price|floatformat:2|intcomma}} AED OFF initial price!</button>
                         </form>
                         <form action="#" method="post" class="col border-0 py-3">
                             {% csrf_token %}
