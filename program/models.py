@@ -1,6 +1,5 @@
 from django.db import models
 from tinymce.models import HTMLField
-
 from instructor.models import InstructorModel
 from student.models import StudentModel
 

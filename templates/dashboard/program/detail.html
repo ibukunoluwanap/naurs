@@ -169,12 +169,15 @@
           </button>
         </form>
       </div>
-      <ul class="list-unstyled">
+      <ul class="list-unstyled mt-4">
         {% if program.calendarmodel_set.all %}          
           {% for calendar in program.calendarmodel_set.all %}
-            <li class="my-4 position-relative">
-                <i class="bi bi-arrow-return-right align-middle text-cus-primary"></i>
-                {{ calendar.start_at }} <b>-</b> {{ calendar.end_at }}
+            <li class="my-2 position-relative bg-cus-primary text-cus-secondary p-2 rounded">
+                Instructor: <span style="font-size: 13px;">{{ calendar.instructor.user.get_full_name }}</span>
+                <br>
+                <span style="font-size: 12px;">
+                  {{ calendar.start_at }} -> {{ calendar.end_at }}
+                </span>
                 <!-- <form action="#" method="post" class="d-inline position-absolute" style="right: 0;">
                   {% csrf_token %}
                   <button class="btn btn-sm bg-danger border border-danger text-cus-secondary" type="submit">

@@ -96,7 +96,13 @@
               <th scope="col" class="p-3">Title</th>
               <th scope="col" class="p-3">Category</th>
               <th scope="col" class="p-3">Price AED</th>
-              <th scope="col" class="p-3">Content</th>
+              <th scope="col" class="p-3">
+                {% if request.user.is_admin %}
+                  Content
+                {% else %}
+                  Duration
+                {% endif %}
+              </th>
               <th scope="col" class="p-3">Created On</th>
               <th scope="col" class="p-3">Visibility</th>
               <th scope="col" class="p-3">Delete</th>
@@ -192,9 +198,9 @@
           {% else %}
             <tbody>
               {% for program in programs %}
-                {% if program.instructors.all %}              
-                  {% for program_instructor in program.instructors.all %}
-                    {% if program_instructor.user == instructor.user %}
+                {% if program.calendarmodel_set.all %}              
+                  {% for calendar in program.calendarmodel_set.all %}
+                    {% if calendar.instructor.user == instructor.user %}
                       <tr>
                         <th scope="row" class="p-2">
                           {% if program.image %}
@@ -218,67 +224,70 @@
                         </td>
                         <td class="p-2">{{program.category}}</td>
                         <td class="p-2">{{program.price|floatformat:2|intcomma}}</td>
-                        <td class="p-2">{{program.content|safe|truncatechars:20}}</td>
+                        <td class="p-2" style="font-size: 12px;">
+                          {{ calendar.start_at }} -> {{ calendar.end_at }}
+                        </td>
                         <td class="p-2">{{program.created_on|naturaltime}}</td>
                         <td class="p-2">
-                          <form action="{% url 'dashboard_program_visibility_page' program_id=program.id visibility='deactivate' %}" method="post">
-                            {% csrf_token %}
-                              {% if program.is_active %}
-                                <button class="w-100 btn btn-sm btn-secondary d-flex justify-self-center justify-content-center text-center" type="submit">
-                                  Deactivate
-                                </button>
-                              {% else %}
-                                <button class="w-100 btn btn-sm btn-success d-flex justify-self-center justify-content-center text-center" type="submit">
-                                  Reactivate
-                                </button>
-                              {% endif %}
-                          </form>
+                          {% if request.user.is_admin %}
+                            <form action="{% url 'dashboard_program_visibility_page' program_id=program.id visibility='deactivate' %}" method="post">
+                              {% csrf_token %}
+                                {% if program.is_active %}
+                                  <button class="w-100 btn btn-sm btn-secondary d-flex justify-self-center justify-content-center text-center" type="submit">
+                                    Deactivate
+                                  </button>
+                                {% else %}
+                                  <button class="w-100 btn btn-sm btn-success d-flex justify-self-center justify-content-center text-center" type="submit">
+                                    Reactivate
+                                  </button>
+                                {% endif %}
+                            </form>
+                          {% else %}
+                            <button class="w-100 btn btn-sm btn-secondary disabled d-flex justify-self-center justify-content-center text-center" type="button">
+                              Deactivate
+                            </button>
+                          {% endif %}
                         </td>
                         <td class="p-2">
-                          <button type="button" class="w-100 btn btn-sm btn-danger d-flex justify-self-center justify-content-center text-center" data-bs-toggle="modal" data-bs-target="#deleteProgramModel{{program.id}}">
-                            Delete
-                          </button>
-                          <div class="modal fade" id="deleteProgramModel{{program.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteProgramModel{{program.id}}Label" aria-hidden="true">
-                            <div class="modal-dialog">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5 class="modal-title text-danger" id="deleteProgramModel{{program.id}}Label">Delete Program!</h5>
-                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                  <div class="row justify-content-center">
-                                    <div class="col-12 text-center">
-                                      <div class="alert alert-danger" role="alert">
-                                        This will <b>forever</b> remove the program from the database. Click <b>"Continue"</b> to delete.
+                          {% if request.user.is_admin %}
+                            <button type="button" class="w-100 btn btn-sm btn-danger d-flex justify-self-center justify-content-center text-center" data-bs-toggle="modal" data-bs-target="#deleteProgramModel{{program.id}}">
+                              Delete
+                            </button>
+                            <div class="modal fade" id="deleteProgramModel{{program.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteProgramModel{{program.id}}Label" aria-hidden="true">
+                              <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title text-danger" id="deleteProgramModel{{program.id}}Label">Delete Program!</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <div class="row justify-content-center">
+                                      <div class="col-12 text-center">
+                                        <div class="alert alert-danger" role="alert">
+                                          This will <b>forever</b> remove the program from the database. Click <b>"Continue"</b> to delete.
+                                        </div>
+                                        <form action="{% url 'dashboard_program_visibility_page' program_id=program.id visibility='delete' %}" method="post">
+                                          {% csrf_token %}
+                                          <button class="btn btn-lg bg-danger border border-danger text-cus-secondary" type="submit">
+                                            <span data-feather="trash"></span>
+                                            Continue
+                                          </button>
+                                        </form>
                                       </div>
-                                      <form action="{% url 'dashboard_program_visibility_page' program_id=program.id visibility='delete' %}" method="post">
-                                        {% csrf_token %}
-                                        <button class="btn btn-lg bg-danger border border-danger text-cus-secondary" type="submit">
-                                          <span data-feather="trash"></span>
-                                          Continue
-                                        </button>
-                                      </form>
                                     </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
+                          {% else %}
+                            <button type="button" class="w-100 btn btn-sm btn-danger disabled d-flex justify-self-center justify-content-center text-center">
+                              Delete
+                            </button>
+                          {% endif %}
                         </td>
                       </tr>
                     {% endif %}
                   {% endfor %}
-                {% else %}
-                    <tr>
-                        <td class="p-2">
-                          <i class="display-1 bi bi-trash align-middle"></i>
-                        </td>
-                        <td class="p-2">
-                          <p>
-                              No class currently available!
-                          </p>
-                        </td>
-                    </tr>
                 {% endif %}
               {% endfor %}
             </tbody>
