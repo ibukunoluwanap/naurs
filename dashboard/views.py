@@ -1225,3 +1225,39 @@ class StudentClass(LoginRequiredMixin, UserPassesTestMixin, ListView):
     def test_func(self):
         return (self.request.user.studentmodel)
 
+# get student package view
+class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
+    model = PackageModel
+    login_url = 'login_page'
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.studentmodel)
+
+    def post(self, request, *args, **kwargs):
+        package_id = self.kwargs['package_id']
+        package_type = self.kwargs['package_type']
+        package = PackageModel.objects.get(id=package_id)
+        wallet = WalletModel.objects.get(user=request.user)
+
+        if package_type == "bonus":
+            price_with_bonus = package.initial_price - package.bonus_price
+            new_wallet_balance = wallet.balance - price_with_bonus
+
+            if wallet.balance < price_with_bonus:
+                messages.error(self.request, "Insufficient wallet balance! Please top-up your wallet")
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            
+            wallet.balance = new_wallet_balance
+            wallet.save()
+
+            messages.success(self.request, "Successfully purchased package with bonus!")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        elif package_type == "kids":
+            messages.success(self.request, "KIDS!")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+        elif package_type == "old":
+            messages.success(self.request, "OLD!")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
