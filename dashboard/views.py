@@ -1251,10 +1251,47 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
         wallet = WalletModel.objects.get(user=request.user)
 
         if package_type == "bonus":
-            price_with_bonus = package.initial_price - package.bonus_price
-            new_wallet_balance = wallet.balance - price_with_bonus
+            for program in package.program.all():
+                if program.total_space <= 0:
+                    messages.error(self.request, "All space taken for some classes!")
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-            if wallet.balance < price_with_bonus:
+                # update price
+                price_with_bonus = package.initial_price - package.bonus_price
+                new_wallet_balance = wallet.balance - price_with_bonus
+
+                # checking wallet balance
+                if wallet.balance < price_with_bonus:
+                    messages.error(self.request, "Insufficient wallet balance! Please top-up your wallet")
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+                
+                # updating wallet
+                wallet.balance = new_wallet_balance
+                wallet.save()
+                
+                # create order
+                order = OrderModel.objects.create(
+                    user = request.user,
+                    amount = price_with_bonus,
+                    status = True,
+                )
+                order.package.add(package)
+
+                # adding student to instructors
+                student = StudentModel.objects.get(user=request.user)
+                program.students.add(student)
+
+                # update program total space
+                program.total_space = program.total_space - 1
+                program.save()
+
+            messages.success(self.request, "Successfully purchased package with bonus!")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        
+        elif package_type == "kids":
+            new_wallet_balance = wallet.balance - package.initial_price
+
+            if wallet.balance < package.initial_price:
                 messages.error(self.request, "Insufficient wallet balance! Please top-up your wallet")
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
             
@@ -1264,7 +1301,7 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
             # create order
             order = OrderModel.objects.create(
                 user = request.user,
-                amount = price_with_bonus,
+                amount = package.initial_price,
                 status = True,
             )
 
@@ -1272,13 +1309,18 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
 
             # update program total space
             for program in package.program.all():
+                if program.total_space <= 0:
+                    wallet.balance = wallet.balance + package.initial_price
+                    wallet.save()
+
+                    OrderModel.objects.get(id=order.id).delete()
+
+                    messages.error(self.request, "All space taken for some classes!")
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
                 program.total_space = program.total_space - 1
                 program.save()
 
-            messages.success(self.request, "Successfully purchased package with bonus!")
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-        elif package_type == "kids":
-            messages.success(self.request, "KIDS!")
+            messages.success(self.request, "Successfully purchased package with kids free session!")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
         elif package_type == "old":

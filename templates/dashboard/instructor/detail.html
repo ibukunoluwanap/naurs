@@ -94,15 +94,17 @@
     </div>
     <div class="col-sm-12">
       <ul class="row list-unstyled">
-        {% for student in instructor.studentmodel_set.all %}
-          <li class="my-2 col-sm-3">
-            <i class="bi bi-arrow-return-right align-middle text-cus-primary"></i>
-            <a
-              href="{% url 'dashboard_student_detail_page' pk=student.id %}"
-              class="text-decoration-none text-cus-primary"
-              >{{ student.user }}</a
-            >
-          </li>
+        {% for program in programs %}
+          {% for program_student in program.students.all %}
+            <li class="my-2 col-sm-3">
+              <i class="bi bi-arrow-return-right align-middle text-cus-primary"></i>
+              <a
+                href="{% url 'dashboard_student_detail_page' pk=program_student.id %}"
+                class="text-decoration-none text-cus-primary"
+                >{{ program_student.user.get_full_name }}</a
+              >
+            </li>
+          {% endfor %}
         {% endfor %}
       </ul>
     </div>

@@ -96,13 +96,7 @@
               <th scope="col" class="p-3">Title</th>
               <th scope="col" class="p-3">Category</th>
               <th scope="col" class="p-3">Price AED</th>
-              <th scope="col" class="p-3">
-                {% if request.user.is_admin %}
-                  Content
-                {% else %}
-                  Duration
-                {% endif %}
-              </th>
+              <th scope="col" class="p-3">Content</th>
               <th scope="col" class="p-3">Created On</th>
               <th scope="col" class="p-3">Visibility</th>
               <th scope="col" class="p-3">Delete</th>
@@ -198,9 +192,9 @@
           {% else %}
             <tbody>
               {% for program in programs %}
-                {% if program.calendarmodel_set.all %}              
-                  {% for calendar in program.calendarmodel_set.all %}
-                    {% if calendar.instructor.user == instructor.user %}
+                {% if program.instructors.all %}              
+                  {% for program_instructor in program.instructors.all %}
+                    {% if program_instructor.user == instructor.user %}
                       <tr>
                         <th scope="row" class="p-2">
                           {% if program.image %}
@@ -224,9 +218,7 @@
                         </td>
                         <td class="p-2">{{program.category}}</td>
                         <td class="p-2">{{program.price|floatformat:2|intcomma}}</td>
-                        <td class="p-2" style="font-size: 12px;">
-                          {{ calendar.start_at }} -> {{ calendar.end_at }}
-                        </td>
+                        <td class="p-2">{{program.content|safe|truncatechars:20}}</td>
                         <td class="p-2">{{program.created_on|naturaltime}}</td>
                         <td class="p-2">
                           {% if request.user.is_admin %}

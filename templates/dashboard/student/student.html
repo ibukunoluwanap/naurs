@@ -91,7 +91,6 @@
                 <th scope="col" class="p-3">Delete</th>
             </tr>
           </thead>
-          
           {% if request.user.is_admin %}
             <tbody>
               {% if students %} {% for student in students %}
@@ -180,60 +179,61 @@
             </tbody>
           {% else %}
             <tbody>
-              
-              {% for student in students %}              
-                {% for instructor in student.instructor.all %}
-                  {% if instructor.user == request.user %}       
-                    <tr>
-                        <th scope="row" class="p-2">
-                          {% if student.user.avatar %}
-                              <img
-                                  class="avatar"
-                                  src="{{student.user.avatar.url}}"
-                                  width="100%"
-                                  height="100%"
-                                  alt="avatar"
-                              />
-                          {% else %}
-                              <div class="avatar">
-                                <i class="bi bi-person-circle align-middle"></i>
-                              </div>
-                          {% endif %}
-                      </th>
-                        <td class="p-2">
-                          <!-- <a
-                            href="{% url 'dashboard_student_detail_page' pk=student.id %}"
-                            class="text-decoration-none text-cus-primary"
-                            >{{student.user.get_full_name|safe|truncatechars:50}}</a
-                          > -->
-                          {{student.user.get_full_name|safe|truncatechars:50}}
-                        </td>
-                        <td class="p-2">{{student.user.email}}</td>
-                        <td class="p-2">{{student.user.date_joined|naturaltime}}</td>
-                        <td class="p-2">
-                          {% if student.user.is_active %}
-                          <a
-                            href="#"
-                            class="btn btn-sm btn-secondary d-flex justify-self-center justify-content-center text-center"
-                            >Deactivate</a
-                          >
-                          {% else %}
-                          <a
-                            href="#"
-                            class="btn btn-sm btn-success d-flex justify-self-center justify-content-center text-center"
-                            >Activate</a
-                          >
-                          {% endif %}
-                        </td>
-                        <td class="p-2">
-                          <a
-                            href="#"
-                            class="btn btn-sm btn-danger d-flex justify-self-center justify-content-center text-center"
-                            >Delete</a
-                          >
-                        </td>
-                    </tr>
-                  {% endif %}
+              {% for program in programs %}
+                {% for student in program.students.all %}
+                  {% for instructor in program.instructors.all %}
+                    {% if instructor.user == request.user %}       
+                      <tr>
+                          <th scope="row" class="p-2">
+                            {% if student.user.avatar %}
+                                <img
+                                    class="avatar"
+                                    src="{{student.user.avatar.url}}"
+                                    width="100%"
+                                    height="100%"
+                                    alt="avatar"
+                                />
+                            {% else %}
+                                <div class="avatar">
+                                  <i class="bi bi-person-circle align-middle"></i>
+                                </div>
+                            {% endif %}
+                        </th>
+                          <td class="p-2">
+                            <!-- <a
+                              href="{% url 'dashboard_student_detail_page' pk=student.id %}"
+                              class="text-decoration-none text-cus-primary"
+                              >{{student.user.get_full_name|safe|truncatechars:50}}</a
+                            > -->
+                            {{student.user.get_full_name|safe|truncatechars:50}}
+                          </td>
+                          <td class="p-2">{{student.user.email}}</td>
+                          <td class="p-2">{{student.user.date_joined|naturaltime}}</td>
+                          <td class="p-2">
+                            {% if student.user.is_active %}
+                            <a
+                              href="#"
+                              class="btn btn-sm btn-secondary d-flex justify-self-center justify-content-center text-center"
+                              >Deactivate</a
+                            >
+                            {% else %}
+                            <a
+                              href="#"
+                              class="btn btn-sm btn-success d-flex justify-self-center justify-content-center text-center"
+                              >Activate</a
+                            >
+                            {% endif %}
+                          </td>
+                          <td class="p-2">
+                            <a
+                              href="#"
+                              class="btn btn-sm btn-danger d-flex justify-self-center justify-content-center text-center"
+                              >Delete</a
+                            >
+                          </td>
+                      </tr>
+                    {% endif %}
+                  {% endfor %}
                 {% endfor %}
               {% endfor %}
             </tbody>
