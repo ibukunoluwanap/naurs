@@ -17,7 +17,7 @@ from django.views.decorators.csrf import csrf_exempt
 import stripe
 from program.models import ProgramModel
 
-# finance list view
+# finance view
 class Finance(LoginRequiredMixin, UserPassesTestMixin, View):
     template_name = "dashboard/full_student_dashboard/finance.html"
     login_url = 'login_page'
@@ -27,7 +27,23 @@ class Finance(LoginRequiredMixin, UserPassesTestMixin, View):
         try:
             return (self.request.user.studentmodel)
         except:
-            return (self.request.user.instructormodel)
+            return (self.request.user.is_admin)
+
+    def get(self, request):
+        FreeTrialOfferModel.objects.filter(created_on__lte=datetime.now(timezone.utc)-timezone.timedelta(days=7)).update(is_active=False)
+        return render(request, self.template_name)
+
+# order view
+class Order(LoginRequiredMixin, UserPassesTestMixin, View):
+    template_name = "dashboard/full_student_dashboard/order.html"
+    login_url = 'login_page'
+    raise_exception = True
+
+    def test_func(self):
+        try:
+            return (self.request.user.studentmodel)
+        except:
+            return (self.request.user.is_admin)
 
     def get(self, request):
         FreeTrialOfferModel.objects.filter(created_on__lte=datetime.now(timezone.utc)-timezone.timedelta(days=7)).update(is_active=False)
