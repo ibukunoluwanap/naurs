@@ -1269,7 +1269,16 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
                 wallet.balance = new_wallet_balance
                 wallet.save()
                 
-                # create order
+            # create order
+            try:
+                current_order = None
+                for order in program.ordermodel_set.all():
+                    current_order = OrderModel.objects.get(id=order.id)
+                    
+                if current_order.status == True:
+                    messages.error(self.request, "This package is currently active on your account!")
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            except:
                 order = OrderModel.objects.create(
                     user = request.user,
                     amount = price_with_bonus,
@@ -1278,13 +1287,13 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
                 order.package.add(package)
                 order.program.add(*package.program.all())
 
-                # adding student to instructors
-                student = StudentModel.objects.get(user=request.user)
-                program.students.add(student)
+            # adding student to instructors
+            student = StudentModel.objects.get(user=request.user)
+            program.students.add(student)
 
-                # update program total space
-                program.total_space = program.total_space - 1
-                program.save()
+            # update program total space
+            program.total_space = program.total_space - 1
+            program.save()
 
             messages.success(self.request, "Successfully purchased package with bonus!")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
