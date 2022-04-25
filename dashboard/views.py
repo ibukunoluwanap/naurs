@@ -1276,6 +1276,7 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
                     status = True,
                 )
                 order.package.add(package)
+                order.program.add(*package.program.all())
 
                 # adding student to instructors
                 student = StudentModel.objects.get(user=request.user)
