@@ -1119,6 +1119,18 @@ class AccountChangePassword(View):
                 messages.error(self.request, f"<b>{field.label}:</b> {error}")
         return render(request, self.template_name)
 
+# order view
+class Order(LoginRequiredMixin, UserPassesTestMixin, View):
+    template_name = "dashboard/order.html"
+    login_url = 'login_page'
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
+
+    def get(self, request):
+        FreeTrialOfferModel.objects.filter(created_on__lte=datetime.now(timezone.utc)-timezone.timedelta(days=7)).update(is_active=False)
+        return render(request, self.template_name)
 
 
 
@@ -1412,4 +1424,3 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
 
             messages.success(self.request, "Successfully purchased package with senior citizen free session!")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
