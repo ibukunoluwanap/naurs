@@ -1256,29 +1256,37 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
                     messages.error(self.request, "All space taken for some classes!")
                     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-                # update price
-                price_with_bonus = package.initial_price - package.bonus_price
-                new_wallet_balance = wallet.balance - price_with_bonus
+            # update price
+            price_with_bonus = package.initial_price - package.bonus_price
+            new_wallet_balance = wallet.balance - price_with_bonus
 
-                # checking wallet balance
-                if wallet.balance < price_with_bonus:
-                    messages.error(self.request, "Insufficient wallet balance! Please top-up your wallet")
-                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-                
-                # updating wallet
-                wallet.balance = new_wallet_balance
-                wallet.save()
-                
-            # create order
+            # checking wallet balance
+            if wallet.balance < price_with_bonus:
+                messages.error(self.request, "Insufficient wallet balance! Please top-up your wallet")
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            
+            # updating wallet
+            wallet.balance = new_wallet_balance
+            wallet.save()
+                          
             try:
                 current_order = None
                 for order in program.ordermodel_set.all():
                     current_order = OrderModel.objects.get(id=order.id)
                     
                 if current_order.status == True:
+                    # update price
+                    price_with_bonus = package.initial_price - package.bonus_price
+                    new_wallet_balance = wallet.balance + price_with_bonus
+                    
+                    # updating wallet
+                    wallet.balance = new_wallet_balance
+                    wallet.save()
+
                     messages.error(self.request, "This package is currently active on your account!")
                     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
             except:
+                # create order
                 order = OrderModel.objects.create(
                     user = request.user,
                     amount = price_with_bonus,
@@ -1287,48 +1295,67 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
                 order.package.add(package)
                 order.program.add(*package.program.all())
 
-            # adding student to instructors
-            student = StudentModel.objects.get(user=request.user)
-            program.students.add(student)
+                # adding student to instructors
+                student = StudentModel.objects.get(user=request.user)
+                program.students.add(student)
 
-            # update program total space
-            program.total_space = program.total_space - 1
-            program.save()
+                # update program total space
+                program.total_space = program.total_space - 1
+                program.save()
 
-            messages.success(self.request, "Successfully purchased package with bonus!")
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+                messages.success(self.request, "Successfully purchased package with bonus!")
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         
         elif package_type == "kids":
+            for program in package.program.all():
+                if program.total_space <= 0:
+                    messages.error(self.request, "All space taken for some classes!")
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
             new_wallet_balance = wallet.balance - package.initial_price
 
             if wallet.balance < package.initial_price:
                 messages.error(self.request, "Insufficient wallet balance! Please top-up your wallet")
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-            
+        
             wallet.balance = new_wallet_balance
             wallet.save()
-            
+
             # create order
-            order = OrderModel.objects.create(
-                user = request.user,
-                amount = package.initial_price,
-                status = True,
-            )
-
-            order.package.add(package),
-
-            # update program total space
-            for program in package.program.all():
-                if program.total_space <= 0:
-                    wallet.balance = wallet.balance + package.initial_price
+            try:
+                current_order = None
+                for order in program.ordermodel_set.all():
+                    current_order = OrderModel.objects.get(id=order.id)
+                    
+                if current_order.status == True:
+                    # update price
+                    new_wallet_balance = wallet.balance + package.initial_price
+                    
+                    # updating wallet
+                    wallet.balance = new_wallet_balance
                     wallet.save()
 
-                    OrderModel.objects.get(id=order.id).delete()
-
-                    messages.error(self.request, "All space taken for some classes!")
+                    messages.error(self.request, "This package is currently active on your account!")
                     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-                program.total_space = program.total_space - 1
-                program.save()
+            except:
+                order = OrderModel.objects.create(
+                    user = request.user,
+                    amount = package.initial_price,
+                    status = True,
+                )
+                order.package.add(package)
+                order.program.add(*package.program.all())
+
+            # adding student to instructors
+            student = StudentModel.objects.get(user=request.user)
+            student.kids = True
+            student.kids_sessions = package.kids_sessions
+            student.save()
+            program.students.add(student)
+
+            # update program total space
+            program.total_space = program.total_space - 1
+            program.save()
 
             messages.success(self.request, "Successfully purchased package with kids free session!")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
