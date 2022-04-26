@@ -10,6 +10,8 @@ class StudentModel(models.Model):
     sessions = models.PositiveIntegerField(default=0)
     kids = models.BooleanField(default=False)
     senior_citizen = models.BooleanField(default=False)
+    kids_sessions = models.PositiveIntegerField(default=0)
+    senior_citizen_sessions = models.PositiveIntegerField(default=0)
     created_on = models.DateTimeField("created on", auto_now_add=True)
 
     class Meta:
