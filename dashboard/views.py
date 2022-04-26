@@ -1360,6 +1360,56 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
         elif package_type == "old":
-            messages.success(self.request, "OLD!")
+            for program in package.program.all():
+                if program.total_space <= 0:
+                    messages.error(self.request, "All space taken for some classes!")
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+            new_wallet_balance = wallet.balance - package.initial_price
+
+            if wallet.balance < package.initial_price:
+                messages.error(self.request, "Insufficient wallet balance! Please top-up your wallet")
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        
+            wallet.balance = new_wallet_balance
+            wallet.save()
+
+            # create order
+            try:
+                current_order = None
+                for order in program.ordermodel_set.all():
+                    current_order = OrderModel.objects.get(id=order.id)
+                    
+                if current_order.status == True and current_order.user:
+                    # update price
+                    new_wallet_balance = wallet.balance + package.initial_price
+                    
+                    # updating wallet
+                    wallet.balance = new_wallet_balance
+                    wallet.save()
+
+                    messages.error(self.request, "This package is currently active on your account!")
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            except:
+                order = OrderModel.objects.create(
+                    user = request.user,
+                    amount = package.initial_price,
+                    status = True,
+                )
+                order.package.add(package)
+                order.program.add(*package.program.all())
+
+            # adding student to instructors
+            student = StudentModel.objects.get(user=request.user)
+            student.senior_citizen = True
+            student.senior_citizen_sessions = package.senior_citizen_sessions
+            student.save()
+            program.students.add(student)
+
+            # update program total space
+            program.total_space = program.total_space - 1
+            program.save()
+
+            messages.success(self.request, "Successfully purchased package with senior citizen free session!")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
