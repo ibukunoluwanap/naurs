@@ -41,7 +41,6 @@ class OrderModel(models.Model):
     package = models.ManyToManyField(PackageModel, verbose_name="package")
     program = models.ManyToManyField(ProgramModel, verbose_name="class")
     amount = models.IntegerField(verbose_name='Amount')
-    # stripe_payment_intent = models.CharField(max_length=200)
     status = models.BooleanField(default=False, verbose_name='Payment Status')
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now_add=True)
