@@ -1273,8 +1273,7 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
                 current_order = None
                 for order in program.ordermodel_set.all():
                     current_order = OrderModel.objects.get(id=order.id)
-                    
-                if current_order.status == True:
+                if current_order.status == True and current_order.user:
                     # update price
                     price_with_bonus = package.initial_price - package.bonus_price
                     new_wallet_balance = wallet.balance + price_with_bonus
@@ -1327,7 +1326,7 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
                 for order in program.ordermodel_set.all():
                     current_order = OrderModel.objects.get(id=order.id)
                     
-                if current_order.status == True:
+                if current_order.status == True and current_order.user:
                     # update price
                     new_wallet_balance = wallet.balance + package.initial_price
                     
