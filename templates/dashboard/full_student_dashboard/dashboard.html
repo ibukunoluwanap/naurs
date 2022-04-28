@@ -128,31 +128,6 @@
         {% endfor %}
     </div>
 
-    <!-- classes -->
-    <div class="row my-4">
-        <div class="col-12">
-            <h4>Classes</h4>
-        </div>
-        {% for program in programs %}
-            <div class="col-sm-3 my-2">
-                <div class="card shadow mb-3" style="height: 350px;">
-                    <img src="{{ program.image.url }}"
-                            class="card-img-top shadow object-fit"
-                            width="100%" height="50%"
-                            alt="class">
-                    <div class="card-body">
-                        <a href="{% url 'program_detail_page' pk=program.id %}" class="text-cus-primary text-decoration-none" style="font-size: 12px;">
-                            <h5>{{ program.title|truncatechars:20 }}</h5>
-                            <div class="card-content">{{ program.content|truncatechars_html:100|safe }}</div>
-                            <span class="card-price shadow">{{ program.price|floatformat:2|intcomma }} AED</span>
-                        </a>
-                        <button class="btn w-100 btn-dark bg-cus-primary">Pick A Spot</button>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
-
     <!-- billing address modal -->
     <div class="modal fade" id="addBillingAddressModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addBillingAddressModalLabel" aria-hidden="true">
     <div class="modal-dialog modal modal-dialog-centered modal-dialog-scrollable">

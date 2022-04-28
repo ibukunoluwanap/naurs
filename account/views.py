@@ -161,7 +161,7 @@ class Login(View):
                         if user.studentmodel:
                             login(request, user)
                             FreeTrialOfferModel.objects.filter(created_on__lte=datetime.now(timezone.utc)-timezone.timedelta(days=7)).update(is_active=False)
-                            messages.success(request, "Successfully registered select class/package to start with!")
+                            messages.success(request, "Successfully registered select package to start with!")
                             return redirect('student_dashboard_page')
                     except:
                         pass

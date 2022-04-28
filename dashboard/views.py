@@ -1232,21 +1232,6 @@ class StudentPackage(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context["wallet"] = WalletModel.objects.get(user=request.user)
         return render(request, self.template_name, context)
 
-# student class view
-class StudentClass(LoginRequiredMixin, UserPassesTestMixin, ListView):
-    model = ProgramModel
-    login_url = 'login_page'
-    template_name = "dashboard/full_student_dashboard/program.html"
-    raise_exception = True
-
-    def test_func(self):
-        return (self.request.user.studentmodel)
-
-    def get(self, request):
-        context = {}
-        context["wallet"] = WalletModel.objects.get(user=request.user)
-        return render(request, self.template_name, context)
-
 # get student package view
 class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
     model = PackageModel
