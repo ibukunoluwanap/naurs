@@ -1253,17 +1253,17 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
                     messages.error(self.request, "All space taken for some classes!")
                     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-            # update price
-            price_with_bonus = package.initial_price + package.bonus_price
-            new_wallet_balance = wallet.balance + package.bonus_price
-
             # checking wallet balance
-            if wallet.balance < price_with_bonus:
+            if wallet.balance < package.initial_price:
                 messages.error(self.request, "Insufficient wallet balance! Please top-up your wallet")
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
             
+            # update price
+            new_wallet_balance = wallet.balance - package.initial_price
+            wallet_balance = new_wallet_balance + package.bonus_price
+
             # updating wallet
-            wallet.balance = new_wallet_balance
+            wallet.balance = wallet_balance
             wallet.save()
                           
             try:
@@ -1272,11 +1272,11 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
                     current_order = OrderModel.objects.get(id=order.id)
                 if current_order.status == True and current_order.user:
                     # update price
-                    price_with_bonus = package.initial_price - package.bonus_price
-                    new_wallet_balance = wallet.balance + price_with_bonus
-                    
+                    new_wallet_balance = wallet.balance + package.initial_price
+                    wallet_balance = new_wallet_balance - package.bonus_price
+
                     # updating wallet
-                    wallet.balance = new_wallet_balance
+                    wallet.balance = wallet_balance
                     wallet.save()
 
                     messages.error(self.request, "This package is currently active on your account!")
@@ -1285,7 +1285,7 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
                 # create order
                 order = OrderModel.objects.create(
                     user = request.user,
-                    amount = price_with_bonus,
+                    amount = package.initial_price,
                     status = True,
                 )
                 order.package.add(package)
@@ -1299,7 +1299,7 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
                 program.total_space = program.total_space - 1
                 program.save()
 
-                messages.success(self.request, "Successfully purchased package with bonus!")
+                messages.success(self.request, f"Successfully purchased package with <b>+{int(package.bonus_price)} AED</b> bonus!")
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         
         elif package_type == "kids":
