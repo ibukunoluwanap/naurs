@@ -1269,8 +1269,8 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
                     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
             # update price
-            price_with_bonus = package.initial_price - package.bonus_price
-            new_wallet_balance = wallet.balance - price_with_bonus
+            price_with_bonus = package.initial_price + package.bonus_price
+            new_wallet_balance = wallet.balance + package.bonus_price
 
             # checking wallet balance
             if wallet.balance < price_with_bonus:
