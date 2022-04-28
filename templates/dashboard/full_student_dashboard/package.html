@@ -89,9 +89,9 @@
                             <br>
                             <b>Bonus:</b> +{{package.bonus_price|floatformat:2|intcomma}} AED (Free) <b>OR</b>
                             <br>
-                            <b>Kids:</b> {{package.number_of_free_kids_sessions}} sessions (Free) <b>OR</b>
+                            <b>Kids:</b> {{package.kids_sessions}} sessions (Free) <b>OR</b>
                             <br>
-                            <b>Senior citizen:</b> {{package.number_of_free_senior_citizen_sessions}} sessions (Free)
+                            <b>Senior citizen:</b> {{package.senior_citizen_sessions}} sessions (Free)
                             <br>
                             <b>Numbers of class(es):</b> {{package.program.count}}
                         </p>                
@@ -123,11 +123,11 @@
                         </form>
                         <form action="{% url 'student_get_package' package_id=package.id package_type='kids' %}" method="post" class="col border-0 py-3">
                             {% csrf_token %}
-                            <button class="w-100 btn-lg bg-cus-pink" type="submit">Get {{package.number_of_free_kids_sessions}} free sessions for kids!</button>
+                            <button class="w-100 btn-lg bg-cus-pink" type="submit">Get {{package.kids_sessions}} free sessions for kids!</button>
                         </form>
                         <form action="{% url 'student_get_package' package_id=package.id package_type='old' %}" method="post" class="col border-0 py-3">
                             {% csrf_token %}
-                            <button class="w-100 btn-lg bg-cus-purple" type="submit">Get {{package.number_of_free_senior_citizen_sessions}} free sessions for senior citizen!</button>
+                            <button class="w-100 btn-lg bg-cus-purple" type="submit">Get {{package.senior_citizen_sessions}} free sessions for senior citizen!</button>
                         </form>
                     </div>
                     </div>
