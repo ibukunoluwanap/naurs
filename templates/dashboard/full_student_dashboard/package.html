@@ -46,9 +46,12 @@
                                             Free {{package.kids_sessions}} kids sessions
                                             <br>
                                         {% endif %}
+                                        
                                         {% if package.senior_citizen_sessions > 0 %}
                                             Free {{package.senior_citizen_sessions}} senior citizen sessions
-                                        {% else %}
+                                        {% endif %}
+
+                                        {% if package.kids_sessions <= 0 and package.senior_citizen_sessions <= 0 %}
                                             <br>
                                             Free +{{package.bonus_price|floatformat:2|intcomma}} AED added to wallet
                                         {% endif %}

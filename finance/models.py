@@ -42,6 +42,9 @@ class OrderModel(models.Model):
     program = models.ManyToManyField(ProgramModel, verbose_name="class")
     amount = models.IntegerField(verbose_name='Amount')
     status = models.BooleanField(default=False, verbose_name='Payment Status')
+    sessions = models.PositiveIntegerField(default=0)
+    kids_sessions = models.PositiveIntegerField(default=0)
+    senior_citizen_sessions = models.PositiveIntegerField(default=0)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now_add=True)
 
