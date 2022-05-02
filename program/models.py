@@ -66,6 +66,7 @@ class PackageModel(models.Model):
     name = models.CharField("title", max_length=100, blank=False, null=False)
     initial_price = models.FloatField(default=0.00)
     bonus_price = models.FloatField(default=0.00)
+    sessions = models.PositiveIntegerField(default=0)
     kids_sessions = models.PositiveIntegerField(default=0)
     senior_citizen_sessions = models.PositiveIntegerField(default=0)
     is_active = models.BooleanField(verbose_name="activate", default=True)
