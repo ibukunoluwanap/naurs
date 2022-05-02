@@ -40,10 +40,22 @@
                                 <p class="card-text" style="font-size: 12px;">
                                     <b>Bought At:</b> {{order.amount|floatformat:2|intcomma}} AED
                                     <br>
-                                    <b>Bonus Type:</b> +{{package.bonus_price|floatformat:2|intcomma}} AED (Free)
+                                    <b>Bonus Type:</b>
+                                        {% if package.kids_sessions > 0 %}
+                                            <br>
+                                            Free {{package.kids_sessions}} kids sessions
+                                            <br>
+                                        {% endif %}
+                                        {% if package.senior_citizen_sessions > 0 %}
+                                            Free {{package.senior_citizen_sessions}} senior citizen sessions
+                                        {% else %}
+                                            <br>
+                                            Free +{{package.bonus_price|floatformat:2|intcomma}} AED added to wallet
+                                        {% endif %}
                                     <br>
                                     <b>Numbers of class(es):</b> {{package.program.count}}
                                 </p>
+                                <button class="btn w-100 btn-dark bg-cus-primary" data-bs-toggle="modal" data-bs-target="#getPackage{{package.id}}">Get Package</button>
                             </div>
                         </div>
                     </div>
