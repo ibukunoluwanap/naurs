@@ -41,24 +41,26 @@
                                     <b>Bought At:</b> {{order.amount|floatformat:2|intcomma}} AED
                                     <br>
                                     <b>Bonus Type:</b>
-                                        {% if package.kids_sessions > 0 %}
+                                        {% if order.kids_sessions > 0 %}
                                             <br>
-                                            Free {{package.kids_sessions}} kids sessions
-                                            <br>
+                                            Free <b>{{order.kids_sessions}}</b> kids sessions
                                         {% endif %}
                                         
-                                        {% if package.senior_citizen_sessions > 0 %}
-                                            Free {{package.senior_citizen_sessions}} senior citizen sessions
+                                        {% if order.senior_citizen_sessions > 0 %}
+                                            <br>
+                                            Free <b>{{order.senior_citizen_sessions}}</b> senior citizen sessions
                                         {% endif %}
 
-                                        {% if package.kids_sessions <= 0 and package.senior_citizen_sessions <= 0 %}
+                                        {% if order.kids_sessions <= 0 and order.senior_citizen_sessions <= 0 %}
                                             <br>
-                                            Free +{{package.bonus_price|floatformat:2|intcomma}} AED added to wallet
+                                            Free <b>+{{package.bonus_price|floatformat:2|intcomma}}</b> AED added to wallet
                                         {% endif %}
                                     <br>
                                     <b>Numbers of class(es):</b> {{package.program.count}}
+                                    <br>
+                                    <b>Total Package Sessions:</b> {{package.sessions}}
                                 </p>
-                                <button class="btn w-100 btn-dark bg-cus-primary" data-bs-toggle="modal" data-bs-target="#getPackage{{package.id}}">Get Package</button>
+                                <button class="btn w-100 btn-dark bg-cus-pink" data-bs-toggle="modal" data-bs-target="#getPackage{{package.id}}">Get Entry Ticket</button>
                             </div>
                         </div>
                     </div>
@@ -109,6 +111,8 @@
                             <b>Senior citizen:</b> {{package.senior_citizen_sessions}} sessions (Free)
                             <br>
                             <b>Numbers of class(es):</b> {{package.program.count}}
+                            <br>
+                            <b>Total Package Sessions:</b> {{package.sessions}}
                         </p>                
                         {% if wallet.balance > 0 %}
                             {% if request.user.billingaddressmodel %}

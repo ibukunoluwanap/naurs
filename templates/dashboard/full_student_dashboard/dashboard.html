@@ -86,6 +86,8 @@
                             <b>Senior citizen:</b> {{package.senior_citizen_sessions}} sessions (Free)
                             <br>
                             <b>Numbers of class(es):</b> {{package.program.count}}
+                            <br>
+                            <b>Total Package Sessions:</b> {{package.sessions}}
                         </p>                
                         {% if wallet.balance > 0 %}
                             {% if request.user.billingaddressmodel %}

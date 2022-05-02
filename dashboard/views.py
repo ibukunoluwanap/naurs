@@ -1338,15 +1338,13 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
                     user = request.user,
                     amount = package.initial_price,
                     status = True,
+                    kids_sessions = package.kids_sessions,
                 )
                 order.package.add(package)
                 order.program.add(*package.program.all())
 
             # adding student to instructors
             student = StudentModel.objects.get(user=request.user)
-            student.kids = True
-            student.kids_sessions = package.kids_sessions
-            student.save()
             program.students.add(student)
 
             # update program total space
@@ -1392,15 +1390,13 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
                     user = request.user,
                     amount = package.initial_price,
                     status = True,
+                    senior_citizen_sessions = package.senior_citizen_sessions,
                 )
                 order.package.add(package)
                 order.program.add(*package.program.all())
 
             # adding student to instructors
             student = StudentModel.objects.get(user=request.user)
-            student.senior_citizen = True
-            student.senior_citizen_sessions = package.senior_citizen_sessions
-            student.save()
             program.students.add(student)
 
             # update program total space
