@@ -60,7 +60,41 @@
                                     <br>
                                     <b>Total Package Sessions:</b> {{package.sessions}}
                                 </p>
-                                <button class="btn w-100 btn-dark bg-cus-pink" data-bs-toggle="modal" data-bs-target="#getPackage{{package.id}}">Get Entry Ticket</button>
+                                <button class="btn w-100 btn-dark bg-cus-pink" data-bs-toggle="modal" data-bs-target="#entryTicket{{package.id}}">Get Entry Ticket</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- get entry ticket modal -->
+                    <div class="modal fade" id="entryTicket{{package.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="entryTicket{{package.id}}Label" aria-hidden="true">
+                        <div class="modal-dialog modal modal-dialog-centered modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="entryTicket{{package.id}}Label">Entry Ticket</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    {% if order.kids_sessions > 0 %}
+                                        <form action="{% url 'student_get_package' package_id=package.id package_type='bonus' %}" method="post" class="col border-0 py-3">
+                                            {% csrf_token %}
+                                            <button class="w-100 btn-lg bg-cus-pink" type="submit">From kids sessions ({{order.kids_sessions}} remaining!)</button>
+                                        </form>
+                                    {% endif %}
+                                    
+                                    {% if order.senior_citizen_sessions > 0 %}
+                                        <form action="{% url 'student_get_package' package_id=package.id package_type='bonus' %}" method="post" class="col border-0 py-3">
+                                            {% csrf_token %}
+                                            <button class="w-100 btn-lg bg-cus-pink" type="submit">From senior citizen sessions ({{order.senior_citizen_sessions}} remaining!)</button>
+                                        </form>
+                                    {% endif %}
+
+                                    {% if order.sessions > 0 %}
+                                        <form action="{% url 'student_get_package' package_id=package.id package_type='bonus' %}" method="post" class="col border-0 py-3">
+                                            {% csrf_token %}
+                                            <button class="w-100 btn-lg bg-cus-pink" type="submit">From package sessions ({{order.sessions}} remaining!)</button>
+                                        </form>
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
                     </div>

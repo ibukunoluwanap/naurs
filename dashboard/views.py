@@ -1287,6 +1287,7 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
                     user = request.user,
                     amount = package.initial_price,
                     status = True,
+                    sessions = package.sessions,
                 )
                 order.package.add(package)
                 order.program.add(*package.program.all())
