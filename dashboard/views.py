@@ -1270,7 +1270,7 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
                 current_order = None
                 for order in program.ordermodel_set.all():
                     current_order = OrderModel.objects.get(id=order.id)
-                if current_order.status == True and current_order.user:
+                if current_order.status == True and current_order.user == request.user:
                     # update price
                     new_wallet_balance = wallet.balance + package.initial_price
                     wallet_balance = new_wallet_balance - package.bonus_price
@@ -1324,7 +1324,7 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
                 for order in program.ordermodel_set.all():
                     current_order = OrderModel.objects.get(id=order.id)
                     
-                if current_order.status == True and current_order.user:
+                if current_order.status == True and current_order.user == request.user:
                     # update price
                     new_wallet_balance = wallet.balance + package.initial_price
                     
@@ -1339,6 +1339,7 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
                     user = request.user,
                     amount = package.initial_price,
                     status = True,
+                    sessions = package.sessions,
                     kids_sessions = package.kids_sessions,
                 )
                 order.package.add(package)
@@ -1376,7 +1377,7 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
                 for order in program.ordermodel_set.all():
                     current_order = OrderModel.objects.get(id=order.id)
                     
-                if current_order.status == True and current_order.user:
+                if current_order.status == True and current_order.user == request.user:
                     # update price
                     new_wallet_balance = wallet.balance + package.initial_price
                     
@@ -1391,6 +1392,7 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
                     user = request.user,
                     amount = package.initial_price,
                     status = True,
+                    sessions = package.sessions,
                     senior_citizen_sessions = package.senior_citizen_sessions,
                 )
                 order.package.add(package)
