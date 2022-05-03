@@ -74,7 +74,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="{% url 'student_get_package' package_id=package.id package_type='bonus' %}" method="post" class="col border-0 py-3">
+                                    <form action="{% url 'student_get_ticket' order_id=order.id ticket_type='kids_sessions' %}" method="post" class="col border-0 py-3">
                                         {% csrf_token %}
                                         
                                         {% if order.kids_sessions <= 0 %}
@@ -83,7 +83,7 @@
                                             <button class="w-100 btn-lg bg-cus-pink" type="submit">From kids sessions ({{order.kids_sessions}} remaining!)</button>
                                         {% endif %}
                                     </form>
-                                    <form action="{% url 'student_get_package' package_id=package.id package_type='bonus' %}" method="post" class="col border-0 py-3">
+                                    <form action="{% url 'student_get_ticket' order_id=order.id ticket_type='senior_citizen_sessions' %}" method="post" class="col border-0 py-3">
                                         {% csrf_token %}
                                         {% if order.senior_citizen_sessions <= 0 %}
                                             <button class="w-100 btn-lg bg-secondary disabled" type="button">From senior citizen sessions ({{order.senior_citizen_sessions}} remaining!)</button>
@@ -91,7 +91,7 @@
                                             <button class="w-100 btn-lg bg-cus-pink" type="submit">From senior citizen sessions ({{order.senior_citizen_sessions}} remaining!)</button>
                                         {% endif %}
                                     </form>
-                                    <form action="{% url 'student_get_package' package_id=package.id package_type='bonus' %}" method="post" class="col border-0 py-3">
+                                    <form action="{% url 'student_get_ticket' order_id=order.id ticket_type='sessions' %}" method="post" class="col border-0 py-3">
                                         {% csrf_token %}
                                         <button class="w-100 btn-lg bg-cus-primary" type="submit">From package sessions ({{order.sessions}} remaining!)</button>
                                     </form>

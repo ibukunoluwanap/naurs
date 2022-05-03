@@ -79,4 +79,5 @@ urlpatterns = [
     path('student_dashboard/account/password/change/', views.StudentAccountChangePassword.as_view(), name='student_account_change_password_page'),
     path('student_dashboard/package/', views.StudentPackage.as_view(), name='student_dashboard_package_page'),
     path('student_dashboard/get_package/<int:package_id>/<package_type>/', views.GetStudentPackage.as_view(), name='student_get_package'),
+    path('student_dashboard/get_ticket/<int:order_id>/<ticket_type>/', views.GetPackageTicket.as_view(), name='student_get_ticket'),
 ]

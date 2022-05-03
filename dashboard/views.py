@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from about.forms import AboutForm
 from about.models import AboutModel
 from account.forms import RegisterForm, UpdateAdminForm, UpdateUserForm
-from finance.models import OrderModel, WalletModel
+from finance.models import OrderModel, TicketModel, WalletModel
 from home.forms import CalendarForm, ListingForm
 from home.models import CalendarModel, ListingModel
 from instructor.forms import InstructorForm
@@ -1408,3 +1408,27 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
 
             messages.success(self.request, "Successfully purchased package with senior citizen free session!")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+# get package ticket view
+class GetPackageTicket(LoginRequiredMixin, UserPassesTestMixin, View):
+    model = TicketModel
+    login_url = 'login_page'
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.studentmodel)
+
+    def post(self, request, *args, **kwargs):
+        order_id = self.kwargs['order_id']
+        ticket_type = self.kwargs['ticket_type']
+
+        order = OrderModel.objects.get(id=order_id)
+        for order in order.package.all():
+            if ticket_type == "sessions":
+                print("Sessions Ticket")
+            if ticket_type == "kids_sessions":
+                print("Kids Sessions Ticket")
+            if ticket_type == "senior_citizen_sessions":
+                print("Senior Sessions Ticket")
+
+        
