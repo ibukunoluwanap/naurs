@@ -1432,8 +1432,7 @@ class GetPackageTicket(LoginRequiredMixin, UserPassesTestMixin, View):
                 order.sessions = order.sessions - 1
                 order.save()
                 if order.sessions == 0:
-                    order.status = False
-                    order.save()
+                    order.delete()
                 messages.success(self.request, f"You have {order.sessions} session(s) remaining!")
                 return render(request, self.template, context)
             messages.error(self.request, f"You have no sessions!")
