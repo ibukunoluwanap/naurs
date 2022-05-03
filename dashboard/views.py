@@ -1414,6 +1414,7 @@ class GetPackageTicket(LoginRequiredMixin, UserPassesTestMixin, View):
     model = TicketModel
     login_url = 'login_page'
     raise_exception = True
+    template = "dashboard/ticket.html"
 
     def test_func(self):
         return (self.request.user.studentmodel)
@@ -1423,12 +1424,39 @@ class GetPackageTicket(LoginRequiredMixin, UserPassesTestMixin, View):
         ticket_type = self.kwargs['ticket_type']
 
         order = OrderModel.objects.get(id=order_id)
-        for order in order.package.all():
-            if ticket_type == "sessions":
-                print("Sessions Ticket")
-            if ticket_type == "kids_sessions":
-                print("Kids Sessions Ticket")
-            if ticket_type == "senior_citizen_sessions":
-                print("Senior Sessions Ticket")
+
+        if ticket_type == "sessions":
+            context = {}
+            context["my_order"] = order
+            if order.sessions > 0:
+                order.sessions = order.sessions - 1
+                order.save()
+                if order.sessions == 0:
+                    order.status = False
+                    order.save()
+                messages.success(self.request, f"You have {order.sessions} session(s) remaining!")
+                return render(request, self.template, context)
+            messages.error(self.request, f"You have no sessions!")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        if ticket_type == "kids_sessions":
+            context = {}
+            context["my_order"] = order
+            if order.kids_sessions > 0:
+                order.kids_sessions = order.kids_sessions - 1
+                order.save()
+                messages.success(self.request, f"You have {order.kids_sessions} session(s) remaining!")
+                return render(request, self.template, context)
+            messages.error(self.request, f"You have no free kids sessions!")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        if ticket_type == "senior_citizen_sessions":
+            context = {}
+            context["my_order"] = order
+            if order.senior_citizen_sessions > 0:
+                order.senior_citizen_sessions = order.senior_citizen_sessions - 1
+                order.save()
+                messages.success(self.request, f"You have {order.senior_citizen_sessions} session(s) remaining!")
+                return render(request, self.template, context)
+            messages.error(self.request, f"You have no free senior citizen sessions!")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
         
