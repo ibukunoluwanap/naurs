@@ -54,15 +54,3 @@ class OrderModel(models.Model):
 
     def __str__(self):
         return f"Order by {self.user}"
-
-# ticket model
-class TicketModel(models.Model):
-    order = models.ManyToManyField(OrderModel, verbose_name="order")
-    created_on = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        verbose_name = 'Ticket'
-        verbose_name_plural = 'Tickets'
-
-    def __str__(self):
-        return f"Ticket for {self.order.user}"

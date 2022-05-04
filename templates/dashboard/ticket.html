@@ -38,59 +38,72 @@
     <script src="https://js.stripe.com/v3/"></script>
 </head>
 
-<body style="height: 100%;
-display: flex;
-align-items: center;
-padding-top: 40px;
-padding-bottom: 40px;
-background-color: #f5f5f5;">
+<body style="    height: 100%; background-color: #f5f5f5; display: flex; align-items: center;">
+    <span style="position: absolute;
+    font-size: 30vw;
+    font-weight: bold;
+    color: #011b2b1a;
+    z-index: 9999;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);">
+        Origin
+    </span>
 
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-sm-6">
-                <div class="card" style="width: 100%;
-                padding: 15px;
-                margin: auto;">
+                <div class="card" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
                     <div class="card-body">
-                      <h5 class="card-title">
-                          <b>Naurs Entry Ticket</b>
-                      </h5>
-                      <p class="card-subtitle mb-2 text-muted">
-                        This entry ticket is only valid for this session. Please 
-                        <button onclick="window.print();" class="btn btn-sm btn-primary bg-cus-primary" download="Naurs_Entry_Ticket({{my_order.id}}) " >
-                            <b>Print</b>
-                        </button> or <b>screenshot</b> to avoid losing it!
-                      </p>
-                      <p class="card-text">
-                          <ul class="list-unstyled">
-                                <li>
+                        <h5 class="card-title">
+                            <img src="{% static 'images/logo.png' %}" class="rounded-circle" width="10%" height="10%" alt="logo">
+                            <b>Naurs Entry Ticket</b>
+                        </h5>
+                        <p class="card-subtitle mb-2 text-muted">
+                            This entry ticket is only valid for this session. Please 
+                            <button onclick="window.print();" class="btn btn-sm btn-primary bg-cus-primary" download="Naurs_Entry_Ticket({{my_order.id}}) " >
+                                <b>Print</b>
+                            </button> or <b>screenshot</b> to avoid losing it!
+                        </p>
+                        <p class="card-text">
+                            <ul class="list-unstyled">
+                                <li class="my-4">
                                     <b>Order ID: </b>
                                     {{my_order.id}}
                                 </li>
-                                <li>
+                                <li class="my-4">
                                     <b>Package: </b> 
                                     {% for package in my_order.package.all %}
                                         {{package.name}}
                                     {% endfor %}
                                 </li>
-                                <li>
+                                <li class="my-4">
                                     <b>Student Account: </b>
                                     {{my_order.user}}
                                 </li>
-                                <li>
+                                <li class="my-4">
                                     <b>Sessions: </b>
-                                    {{my_order.sessions}}
+                                    {{my_order.sessions}} remaining
                                 </li>
-                                <li>
+                                <li class="my-4">
                                     <b>Kids Sessions: </b>
-                                    {{my_order.kids_sessions}}
+                                    {{my_order.kids_sessions}} remaining
                                 </li>
-                                <li>
+                                <li class="my-4">
                                     <b>Senior Citizen Sessions: </b>
-                                    {{my_order.senior_citizens.sessions}}
+                                    {{my_order.senior_citizen_sessions}} remaining
                                 </li>
-                          </ul>
-                      </p>
+                                <li class="my-4">
+                                    <b>Ticket Created On: </b>
+                                    {{my_order.created_on}}
+                                </li>
+                            </ul>
+                            <br>
+                            <h4>
+                                <b>Ticket ID</b>
+                            </h4>
+                            {{my_ticket.id}}{{my_order.id}}
+                        </p>
                     </div>
                 </div>
             </div>

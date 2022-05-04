@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from about.forms import AboutForm
 from about.models import AboutModel
 from account.forms import RegisterForm, UpdateAdminForm, UpdateUserForm
-from finance.models import OrderModel, TicketModel, WalletModel
+from finance.models import OrderModel, WalletModel
 from home.forms import CalendarForm, ListingForm
 from home.models import CalendarModel, ListingModel
 from instructor.forms import InstructorForm
@@ -1411,7 +1411,6 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
 
 # get package ticket view
 class GetPackageTicket(LoginRequiredMixin, UserPassesTestMixin, View):
-    model = TicketModel
     login_url = 'login_page'
     raise_exception = True
     template = "dashboard/ticket.html"
@@ -1431,6 +1430,7 @@ class GetPackageTicket(LoginRequiredMixin, UserPassesTestMixin, View):
             if order.sessions > 0:
                 order.sessions = order.sessions - 1
                 order.save()
+                context["ticket_id"] = "k"
                 if order.sessions == 0:
                     order.delete()
                 messages.success(self.request, f"You have {order.sessions} session(s) remaining!")
