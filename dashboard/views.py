@@ -1422,8 +1422,12 @@ class GetPackageTicket(LoginRequiredMixin, UserPassesTestMixin, View):
     def post(self, request, *args, **kwargs):
         order_id = self.kwargs['order_id']
         ticket_type = self.kwargs['ticket_type']
-
-        order = OrderModel.objects.get(id=order_id)
+        
+        try:
+            order = OrderModel.objects.get(id=order_id)
+        except:
+            messages.error(self.request, f"This order does not longer exist!")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
         if ticket_type == "sessions":
             context = {}

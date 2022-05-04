@@ -72,15 +72,10 @@ background-repeat: repeat;   background-size: 100px 100px;">
                             <ul class="list-unstyled">
                                 <li class="my-4">
                                     <b>Order ID: </b>
-                                    {{my_order.id}}
-                                </li>
-                                <li class="my-4">
-                                    <b>Package: </b> 
-                                    
-                                    {% if my_order.package.all %}
-                                        {% for package in my_order.package.all %}
-                                            {{package.name}}
-                                        {% endfor %}
+                                    {% if my_order.id == None %}
+                                        <span class="text-warning">This is your last ticket on the package</span>
+                                    {% else %}
+                                        {{my_order.id}}
                                     {% endif %}
                                 </li>
                                 <li class="my-4">
