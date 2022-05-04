@@ -1,3 +1,4 @@
+import uuid
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
@@ -1430,7 +1431,7 @@ class GetPackageTicket(LoginRequiredMixin, UserPassesTestMixin, View):
             if order.sessions > 0:
                 order.sessions = order.sessions - 1
                 order.save()
-                context["ticket_id"] = "k"
+                context["ticket_id"] = uuid.uuid1().hex
                 if order.sessions == 0:
                     order.delete()
                 messages.success(self.request, f"You have {order.sessions} session(s) remaining!")
@@ -1443,6 +1444,7 @@ class GetPackageTicket(LoginRequiredMixin, UserPassesTestMixin, View):
             if order.kids_sessions > 0:
                 order.kids_sessions = order.kids_sessions - 1
                 order.save()
+                context["ticket_id"] = uuid.uuid1().hex
                 messages.success(self.request, f"You have {order.kids_sessions} session(s) remaining!")
                 return render(request, self.template, context)
             messages.error(self.request, f"You have no free kids sessions!")
@@ -1453,6 +1455,7 @@ class GetPackageTicket(LoginRequiredMixin, UserPassesTestMixin, View):
             if order.senior_citizen_sessions > 0:
                 order.senior_citizen_sessions = order.senior_citizen_sessions - 1
                 order.save()
+                context["ticket_id"] = uuid.uuid1().hex
                 messages.success(self.request, f"You have {order.senior_citizen_sessions} session(s) remaining!")
                 return render(request, self.template, context)
             messages.error(self.request, f"You have no free senior citizen sessions!")
