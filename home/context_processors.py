@@ -43,7 +43,7 @@ def global_context(request):
     context['without_filter_programs'] = ProgramModel.objects.order_by("-id")
     context['without_filter_last_10_programs'] = ProgramModel.objects.order_by("-id")[:10]
     context['without_filter_last_3_programs'] = ProgramModel.objects.order_by("-id")[:4]
-    context['program_benefit'] = ProgramBenefitModel()
+    context['program_benefit'] = ProgramBenefitModel.objects.order_by("-id")
     context['program_enquiries'] = ProgramEnquiryModel.objects.order_by("-id")
     # program form
     context['program_form'] = ProgramForm()

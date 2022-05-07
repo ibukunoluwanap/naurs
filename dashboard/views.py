@@ -1173,18 +1173,30 @@ class StudentAccountDetail(LoginRequiredMixin, UserPassesTestMixin, View):
     def get(self, request):
         context = {}
         user = User.objects.get(id=self.request.user.id)
+        student = StudentModel.objects.get(user=user)
+        context['student_form_with_instance'] = list(StudentForm(instance=student))
         context['update_user_form_with_instance'] = list(UpdateUserForm(instance=user))
         return render(request, self.template_name, context)
 
     def post(self, request):
         if request.user.studentmodel:
+            student = StudentModel.objects.get(user=request.user)
+            student_form = StudentForm(request.POST, instance=student)
             update_user_form = UpdateUserForm(request.POST, request.FILES, instance=request.user)
-            if update_user_form.is_valid():
+            if update_user_form.is_valid() and student_form.is_valid():
+                new_student_form = student_form.save(commit=False)
                 new_update_user_form = update_user_form.save(commit=False)
+
+                new_student_form.address = student_form.cleaned_data.get('address')
+                new_student_form.dob = student_form.cleaned_data.get('dob')
+
+                new_update_user_form.email = update_user_form.cleaned_data.get('email')
                 new_update_user_form.avatar = update_user_form.cleaned_data.get('avatar')
                 new_update_user_form.first_name = update_user_form.cleaned_data.get('first_name')
                 new_update_user_form.last_name = update_user_form.cleaned_data.get('last_name')
                 new_update_user_form.email = update_user_form.cleaned_data.get('email')
+
+                new_student_form.save()
                 new_update_user_form.save()
                 messages.success(self.request, "Successfully updated account!")
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))

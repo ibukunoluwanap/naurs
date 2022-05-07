@@ -32,25 +32,51 @@
     <form action="{% url 'student_dashboard_account_page' %}" method="post" class="col card shadow border-0 py-3" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="row">
-        <div class="col-sm-12">
-        {% for field in update_user_form_with_instance|slice:":4" %}
+        <div class="col-sm-6">
+          {% for field in student_form_with_instance|slice:":1" %}
             {% if forloop.counter == 1 %}
-            <div class="card p-3 shadow mb-4">
-                {{ field|add_class:"cus-file-input" }}
-                {% for error in field.errors %}
-                    <p class="text-danger">{{ error }}</p>
-                {% endfor %}
-            </div>
-            {% else %}
-            <div class="form-floating shadow mb-4">
-                {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
-                <label for="{{ field.auto_id }}">{{ field.label }}</label>
-                {% for error in field.errors %}
-                    <p class="text-danger">{{ error }}</p>
-                {% endfor %}
-            </div>
+              <div class="form-floating shadow mb-4">
+                  {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
+                  <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                  {% for error in field.errors %}
+                      <p class="text-danger">{{ error }}</p>
+                  {% endfor %}
+              </div>
             {% endif %}
-        {% endfor %}
+          {% endfor %}
+        </div>
+        <div class="col-sm-6">
+          {% for field in student_form_with_instance|slice:":2" %}
+            {% if forloop.counter == 2 %}
+              <div class="form-floating shadow mb-4">
+                  {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
+                  <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                  {% for error in field.errors %}
+                      <p class="text-danger">{{ error }}</p>
+                  {% endfor %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+        <div class="col-sm-12">
+          {% for field in update_user_form_with_instance|slice:":4" %}
+              {% if forloop.counter == 1 %}
+                <div class="card p-3 shadow mb-4">
+                    {{ field|add_class:"cus-file-input" }}
+                    {% for error in field.errors %}
+                        <p class="text-danger">{{ error }}</p>
+                    {% endfor %}
+                </div>
+              {% else %}
+                <div class="form-floating shadow mb-4">
+                    {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
+                    <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                    {% for error in field.errors %}
+                        <p class="text-danger">{{ error }}</p>
+                    {% endfor %}
+                </div>
+              {% endif %}
+          {% endfor %}
         </div>
     </div>
     <button class="btn-lg" type="submit">Update</button>
