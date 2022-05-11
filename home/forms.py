@@ -26,4 +26,4 @@ class CalendarForm(forms.ModelForm):
     end_at = DateTimeLocalField()
     class Meta:
         model = CalendarModel
-        exclude = ['program', 'created_on']
+        exclude = ['created_on']

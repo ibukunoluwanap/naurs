@@ -1,10 +1,9 @@
 import calendar
 from django.views.generic import ListView
-from home.models import ListingModel
+from home.models import CalendarModel, ListingModel
 from home.utils import Calendar
 from django.utils.safestring import mark_safe
 from datetime import datetime, timedelta, date
-from program.models import ProgramModel
 
 # home list view
 class Home(ListView):
@@ -14,7 +13,7 @@ class Home(ListView):
 
 # calendar view
 class CalendarView(ListView):
-    model = ProgramModel
+    model = CalendarModel
     template_name = 'home/calendar.html'
 
     def get_context_data(self, **kwargs):

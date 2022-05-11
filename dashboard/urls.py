@@ -10,12 +10,14 @@ urlpatterns = [
     path('program/create/', views.ProgramCreate.as_view(), name='dashboard_program_create_page'),
     path('program/instructor/<int:pk>/create/', views.ProgramInstructorCreate.as_view(), name='dashboard_program_instructor_create_page'),
     path('program/<int:pk>/update/', views.ProgramUpdate.as_view(), name='dashboard_program_update_page'),
-    path('program/<int:program_id>/calendar/create/', views.ProgramCalendarCreate.as_view(), name='dashboard_calendar_create_page'),
-    path('program/<int:pk>/calendar/delete/', views.ProgramCalendarDelete.as_view(), name='dashboard_calendar_delete_page'),
     path('program/<int:program_id>/benefit/create/', views.ProgramBenefitCreate.as_view(), name='dashboard_program_benefit_create_page'),
     path('program/<int:pk>/benefit/delete/', views.ProgramBenefitDelete.as_view(), name='dashboard_program_benefit_delete_page'),
     path('program/<int:program_id>/<str:visibility>/visibility/', views.ProgramVisibility.as_view(), name='dashboard_program_visibility_page'),
     path('program/<int:pk>/enquiry/', views.ProgramEnquiryDelete.as_view(), name='dashboard_program_enquiry_page'),
+    # calendar
+    path('calendar/', views.CalendarDashboard.as_view(), name='dashboard_calendar_page'),
+    path('calendar/create/', views.CalendarCreate.as_view(), name='dashboard_calendar_create_page'),
+    path('calendar/<int:pk>/delete/', views.CalendarDelete.as_view(), name='dashboard_calendar_delete_page'),
     # package
     path('package/', views.Package.as_view(), name='dashboard_package_page'),
     path('package/<int:pk>/', views.PackageDetail.as_view(), name='dashboard_package_detail_page'),
