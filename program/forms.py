@@ -1,6 +1,5 @@
 from django import forms
 from tinymce.widgets import TinyMCE
-
 from instructor.models import InstructorModel
 from .models import PackageModel, ProgramBenefitModel, ProgramEnquiryModel, ProgramModel
 
