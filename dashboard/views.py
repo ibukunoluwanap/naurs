@@ -1310,7 +1310,7 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
                 program.students.add(student)
 
                 # update program total space
-                program.total_space = program.total_space - 1
+                # program.total_space = program.total_space - 1
                 program.save()
 
                 messages.success(self.request, f"Successfully purchased package with <b>+{int(package.bonus_price)} AED</b> bonus!")
@@ -1363,7 +1363,7 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
             program.students.add(student)
 
             # update program total space
-            program.total_space = program.total_space - 1
+            # program.total_space = program.total_space - 1
             program.save()
 
             messages.success(self.request, "Successfully purchased package with kids free session!")
@@ -1416,7 +1416,7 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
             program.students.add(student)
 
             # update program total space
-            program.total_space = program.total_space - 1
+            # program.total_space = program.total_space - 1
             program.save()
 
             messages.success(self.request, "Successfully purchased package with senior citizen free session!")
