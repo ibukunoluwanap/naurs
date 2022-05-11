@@ -13,6 +13,17 @@
           Dashboard
         </a>
       </li>
+      {% if request.user.is_admin %}
+        <li class="nav-item">
+          <a
+            class="nav-link {% if not request.user.is_admin %}py-4{% else %}py-3{% endif %} {% if '/dashboard/instructor/' in request.path %} active {% endif %}"
+            href="{% url 'dashboard_instructor_page' %}"
+          >
+            <span data-feather="users"></span>
+            Instructors
+          </a>
+        </li>
+      {% endif %}
       <li class="nav-item">
         <a
           class="nav-link {% if not request.user.is_admin %}py-4{% else %}py-3{% endif %} {% if '/dashboard/program/' in request.path %} active {% endif %}"
@@ -48,15 +59,6 @@
           >
             <span data-feather="gift"></span>
             Offers
-          </a>
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link {% if not request.user.is_admin %}py-4{% else %}py-3{% endif %} {% if '/dashboard/instructor/' in request.path %} active {% endif %}"
-            href="{% url 'dashboard_instructor_page' %}"
-          >
-            <span data-feather="users"></span>
-            Instructors
           </a>
         </li>
       {% endif %}
