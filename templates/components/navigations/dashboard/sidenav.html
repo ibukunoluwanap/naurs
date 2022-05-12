@@ -1,7 +1,4 @@
-<nav
-  id="sidebarMenu"
-  class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
->
+<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
   <div class="position-sticky pt-3 h-100 overflow-auto sidebar-scroll">
     <ul class="nav flex-column">
       <li class="nav-item">
@@ -54,33 +51,13 @@
         </li>
         <li class="nav-item">
           <a
-            class="nav-link {% if not request.user.is_admin %}py-4{% else %}py-3{% endif %} {% if '/dashboard/free_trial/' in request.path %} active {% endif %}"
-            href="{% url 'dashboard_free_trial_page' %}"
+            class="nav-link py-4 {% if '/dashboard/order/' in request.path %} active {% endif %}"
+            href="{% url 'dashboard_order_page' %}"
           >
-            <span data-feather="shopping-bag"></span>
-            Free Trial
+            <span data-feather="truck"></span>
+            Purchases & Sessions
           </a>
         </li>
-        <li class="nav-item">
-          <a
-            class="nav-link {% if not request.user.is_admin %}py-4{% else %}py-3{% endif %} {% if '/dashboard/offer/' in request.path %} active {% endif %}"
-            href="{% url 'dashboard_offer_page' %}"
-          >
-            <span data-feather="gift"></span>
-            Offers
-          </a>
-        </li>
-      {% endif %}
-      <li class="nav-item">
-        <a
-          class="nav-link {% if not request.user.is_admin %}py-4{% else %}py-3{% endif %} {% if '/dashboard/student/' in request.path %} active {% endif %}"
-          href="{% url 'dashboard_student_page' %}"
-        >
-          <i class="feather bi bi-mortarboard"></i>
-          Students
-        </a>
-      </li>
-      {% if request.user.is_admin %}
         <li class="nav-item">
           <a
             class="nav-link {% if not request.user.is_admin %}py-4{% else %}py-3{% endif %} {% if '/dashboard/admin/' in request.path %} active {% endif %}"
@@ -99,13 +76,33 @@
             Users
           </a>
         </li>
+      {% endif %}
+      <li class="nav-item">
+        <a
+          class="nav-link {% if not request.user.is_admin %}py-4{% else %}py-3{% endif %} {% if '/dashboard/student/' in request.path %} active {% endif %}"
+          href="{% url 'dashboard_student_page' %}"
+        >
+          <i class="feather bi bi-mortarboard"></i>
+          Students
+        </a>
+      </li>
+      {% if request.user.is_admin %}
         <li class="nav-item">
           <a
-            class="nav-link py-4 {% if '/dashboard/order/' in request.path %} active {% endif %}"
-            href="{% url 'dashboard_order_page' %}"
+            class="nav-link {% if not request.user.is_admin %}py-4{% else %}py-3{% endif %} {% if '/dashboard/free_trial/' in request.path %} active {% endif %}"
+            href="{% url 'dashboard_free_trial_page' %}"
           >
-            <span data-feather="truck"></span>
-            Purchases & Sessions
+            <span data-feather="shopping-bag"></span>
+            Free Trial
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link {% if not request.user.is_admin %}py-4{% else %}py-3{% endif %} {% if '/dashboard/offer/' in request.path %} active {% endif %}"
+            href="{% url 'dashboard_offer_page' %}"
+          >
+            <span data-feather="gift"></span>
+            Offers
           </a>
         </li>
       {% endif %}
@@ -143,9 +140,7 @@
       </ul>
     {% endif %}
 
-    <h6
-      class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted"
-    >
+    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
       <span>Settings</span>
       <a class="link-secondary" href="#" aria-label="Add a new report">
         <span data-feather="settings"></span>
