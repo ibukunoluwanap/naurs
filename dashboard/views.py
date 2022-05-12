@@ -384,15 +384,12 @@ class CalendarCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return (self.request.user.is_admin)
 
     def post(self, request, *args, **kwargs):
-        program = ProgramModel.objects.get(id=self.kwargs['program_id'])
         calendar_form = CalendarForm(request.POST)
 
         if calendar_form.is_valid():
-            calendar = calendar_form.save(commit=False)
-            calendar.program = program
-            calendar.save()
+            calendar_form.save()
             messages.success(self.request, f"Successfully added a class to calendar!")
-            return HttpResponseRedirect(self.request.META.get('HTTP_REFERER', '/dashboard/'))
+            return HttpResponseRedirect(self.request.META.get('HTTP_REFERER', '/dashboard/calendar/'))
         for field in calendar_form:
             for error in field.errors:
                 messages.error(self.request, f"<b>{field.label}:</b> {error}")

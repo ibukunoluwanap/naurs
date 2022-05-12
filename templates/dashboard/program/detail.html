@@ -158,7 +158,7 @@
 
   <!-- calendar -->
   <div class="row mt-5">
-    <div class="col-sm-4">
+    <div class="col-sm-12">
       <div class="position-relative">
         <h4 class="m-0 lh-1">Calendar</h4>
         <form action="{% url 'calendar' %}" method="get" class="d-inline position-absolute" style="right: 0; top: 0">
@@ -169,51 +169,25 @@
           </button>
         </form>
       </div>
-      <ul class="list-unstyled mt-4">
-        {% if program.calendarmodel_set.all %}          
-          {% for calendar in program.calendarmodel_set.all %}
-            <li class="my-2 position-relative bg-cus-primary text-cus-secondary p-2 rounded">
-                Instructor: <span style="font-size: 13px;">{{ calendar.instructor.user.get_full_name }}</span>
-                <br>
-                <span style="font-size: 12px;">
-                  {{ calendar.start_at }} -> {{ calendar.end_at }}
-                </span>
-                <!-- <form action="#" method="post" class="d-inline position-absolute" style="right: 0;">
-                  {% csrf_token %}
-                  <button class="btn btn-sm bg-danger border border-danger text-cus-secondary" type="submit">
-                    <span data-feather="trash"></span>
-                    Delete
-                  </button>
-                </form> -->
-            </li>
-          {% endfor %}
-        {% else %}
-          <i class="display-1 bi bi-trash align-middle"></i>
-          No calendar currently added!
-        {% endif %}
-      </ul>
     </div>
-    <form action="{% url 'dashboard_calendar_create_page' program_id=program.id %}" method="post" class="col card shadow border-0 py-3">
-      <h5>Add new calendar with instructor</h5>
-      {% csrf_token %}
-      <div class="row">
-        <div class="col-sm-12">
-          {% for field in calendar_form %}
-            <div class="form-floating shadow mb-4">
-              {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
-              <label for="{{ field.auto_id }}">{{ field.label }}</label>
-              {% for error in field.errors %}
-                  <p class="text-danger">{{ error }}</p>
-              {% endfor %}
-            </div>
-          {% endfor %}
+    {% if program.calendarmodel_set.all %}          
+      {% for calendar in program.calendarmodel_set.all %}
+        <div class="col-sm-4">
+          <ul class="list-unstyled mt-4">
+            <li class="my-2 position-relative bg-cus-primary text-cus-secondary p-2 rounded">
+              Instructor: <span style="font-size: 13px;">{{ calendar.instructor.user.get_full_name }}</span>
+              <br>
+              <span style="font-size: 12px;">
+                {{ calendar.start_at }} -> {{ calendar.end_at }}
+              </span>
+            </li>
+          </ul>
         </div>
-      </div>
-      <button class="btn-lg" type="submit">
-        Save
-        <span data-feather="check-square"></span>
-      </button>
-    </form>
+      {% endfor %}
+    {% else %}
+      <i class="display-1 bi bi-trash align-middle"></i>
+      No calendar currently added!
+    {% endif %}
   </div>
 
   <!-- benefits -->
