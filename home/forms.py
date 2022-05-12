@@ -1,5 +1,7 @@
 from django import forms
 from home.models import ListingModel, CalendarModel
+from instructor.models import InstructorModel
+from program.models import ProgramModel
 
 # custom datetime input
 class DateTimeLocalInput(forms.DateTimeInput):
@@ -24,6 +26,14 @@ class ListingForm(forms.ModelForm):
 class CalendarForm(forms.ModelForm):
     start_at = DateTimeLocalField()
     end_at = DateTimeLocalField()
+
+    def __init__(self, *args, **kwargs):
+        super(CalendarForm, self).__init__(*args, **kwargs)
+        programs = ProgramModel.objects.order_by('-id')
+        instructors = InstructorModel.objects.order_by('-id')
+        self.fields['program'].choices = [(program.pk, program.title) for program in programs]
+        self.fields['instructor'].choices = [(instructor.user.pk, instructor.user.get_full_name()) for instructor in instructors]
+
     class Meta:
         model = CalendarModel
         exclude = ['created_on']
