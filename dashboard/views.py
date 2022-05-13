@@ -362,12 +362,15 @@ class CalendarDashboard(LoginRequiredMixin, UserPassesTestMixin, ListView):
     raise_exception = True
 
     def test_func(self):
-        return (self.request.user.is_admin)
+        try:
+            return (self.request.user.instructormodel)
+        except:
+            return (self.request.user.is_admin)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         d = get_date(self.request.GET.get('month', None))
-        cal = Calendar(d.year, d.month)
+        cal = Calendar(d.year, d.month, self.request.user)
         html_cal = cal.formatmonth(withyear=True)
         context['calendar'] = mark_safe(html_cal)
         context['prev_month'] = prev_month(d)

@@ -2,29 +2,53 @@ from calendar import HTMLCalendar
 from home.models import CalendarModel
 
 class Calendar(HTMLCalendar):
-	def __init__(self, year=None, month=None):
+	def __init__(self, year=None, month=None, login_user=None):
 		self.year = year
 		self.month = month
+		self.login_user = login_user
 		super(Calendar, self).__init__()
 
-	# formats a day as a td
 	# filter classes by day
 	def formatday(self, day, classes):
 		classes_per_day = classes.filter(start_at__day=day).order_by("-id")
 		d = ''
-		for _class in classes_per_day:
-			d += f'''
-				<li>
-					<a href="/dashboard/calendar/duplicate/{_class.id}/" class="d-btn">
-						<span data-feather="copy"></span>
-					</a>
-					<b>Class:</b> {_class.program.title}
-					<br>
-					<b>Time:</b> {_class.start_at.strftime("%I:%M %p")} - {_class.end_at.strftime("%I:%M %p")}
-					<br>
-					<b>Instructor:</b> {_class.instructor.user.get_full_name()}
-				</li>
-			'''
+		if self.login_user is not None and self.login_user.is_admin:
+			for _class in classes_per_day:
+				d += f'''
+					<li>
+						<a href="/dashboard/calendar/duplicate/{_class.id}/" class="d-btn">
+							<span data-feather="copy"></span>
+						</a>
+						<b>Class:</b> {_class.program.title}
+						<br>
+						<b>Time:</b> {_class.start_at.strftime("%I:%M %p")} - {_class.end_at.strftime("%I:%M %p")}
+						<br>
+						<b>Instructor:</b> {_class.instructor.user.get_full_name()}
+					</li>
+				'''
+		elif self.login_user is not None and self.login_user.instructormodel:
+			for _class in classes_per_day:
+				if self.login_user == _class.instructor.user:
+					d += f'''
+						<li>
+							<b>Class:</b> {_class.program.title}
+							<br>
+							<b>Time:</b> {_class.start_at.strftime("%I:%M %p")} - {_class.end_at.strftime("%I:%M %p")}
+							<br>
+							<b>Instructor:</b> {_class.instructor.user.get_full_name()}
+						</li>
+					'''
+		else:
+			for _class in classes_per_day:
+				d += f'''
+					<li>
+						<b>Class:</b> {_class.program.title}
+						<br>
+						<b>Time:</b> {_class.start_at.strftime("%I:%M %p")} - {_class.end_at.strftime("%I:%M %p")}
+						<br>
+						<b>Instructor:</b> {_class.instructor.user.get_full_name()}
+					</li>
+				'''
 
 		if day != 0:
 			return f"<td><span class='date'>{day}</span><ul> {d} </ul></td>"

@@ -30,7 +30,8 @@
           Classes
         </a>
       </li>
-      {% if request.user.is_admin %}
+      
+      {% if request.user.is_admin or request.user.instructormodel %}
         <li class="nav-item">
           <a
             class="nav-link {% if not request.user.is_admin %}py-4{% else %}py-3{% endif %} {% if '/dashboard/calendar/' in request.path %} active {% endif %}"
@@ -40,6 +41,9 @@
             Calendar
           </a>
         </li>
+      {% endif %}
+      
+      {% if request.user.is_admin %}
         <li class="nav-item">
           <a
             class="nav-link {% if not request.user.is_admin %}py-4{% else %}py-3{% endif %} {% if '/dashboard/package/' in request.path %} active {% endif %}"
