@@ -32,7 +32,7 @@ class CalendarForm(forms.ModelForm):
         programs = ProgramModel.objects.order_by('-id')
         instructors = InstructorModel.objects.order_by('-id')
         self.fields['program'].choices = [(program.pk, program.title) for program in programs]
-        self.fields['instructor'].choices = [(instructor.user.pk, instructor.user.get_full_name()) for instructor in instructors]
+        self.fields['instructor'].choices = [(instructor.pk, instructor.user.get_full_name()) for instructor in instructors]
 
     class Meta:
         model = CalendarModel

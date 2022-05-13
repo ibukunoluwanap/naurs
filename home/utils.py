@@ -15,6 +15,9 @@ class Calendar(HTMLCalendar):
 		for _class in classes_per_day:
 			d += f'''
 				<li>
+					<a href="/dashboard/calendar/duplicate/{_class.id}/" class="d-btn">
+						<span data-feather="copy"></span>
+					</a>
 					<b>Class:</b> {_class.program.title}
 					<br>
 					<b>Time:</b> {_class.start_at.strftime("%I:%M %p")} - {_class.end_at.strftime("%I:%M %p")}

@@ -17,6 +17,7 @@ urlpatterns = [
     # calendar
     path('calendar/', views.CalendarDashboard.as_view(), name='dashboard_calendar_page'),
     path('calendar/create/', views.CalendarCreate.as_view(), name='dashboard_calendar_create_page'),
+    path('calendar/duplicate/<int:pk>/', views.CalendarDuplicate.as_view(), name='dashboard_calendar_duplicate_page'),
     path('calendar/<int:pk>/delete/', views.CalendarDelete.as_view(), name='dashboard_calendar_delete_page'),
     # package
     path('package/', views.Package.as_view(), name='dashboard_package_page'),

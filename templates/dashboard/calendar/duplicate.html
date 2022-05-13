@@ -2,7 +2,7 @@
 {% load static %} 
 {% load humanize %}
 {% load widget_tweaks %} 
-{% block title %}<title>Naurs - Dashboard Calendar</title>{% endblock title %} 
+{% block title %}<title>Naurs - Dashboard Calendar Duplicate</title>{% endblock title %} 
 
 {% block head %}
   <style>
@@ -100,27 +100,21 @@
 
 {% block dashboard %}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
-    <div class="row mb-3">
+    <div class="row my-3">
         <div class="col-sm-12">
-            {% if request.user.is_admin %}
-                <a href="#" class="btn btn-lg float-end" data-bs-toggle="modal" data-bs-target="#createCalendar">
-                    <span data-feather="plus"></span>
-                    Add Class To Calendar
-                </a>
-            {% endif %}
             <div class="modal fade" id="createCalendar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createCalendarLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="createCalendarLabel">Add Class To Calendar</h5>
+                            <h5 class="modal-title" id="createCalendarLabel">Duplicate Calendar</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="{% url 'dashboard_calendar_create_page' %}" method="post" class="col border-0 py-3">
+                            <form action="{% url 'dashboard_calendar_duplicate_page' pk=calendar.id %}" method="post" class="col border-0 py-3">
                                 {% csrf_token %}
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        {% for field in calendar_form %}
+                                        {% for field in calendar_form_with_instance %}
                                         <div class="form-floating shadow mb-4">
                                             {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
                                             <label for="{{ field.auto_id }}">{{ field.label }}</label>
@@ -142,19 +136,15 @@
             </div>
         </div>
     </div>
-
-  <!-- title -->
-    <div class="row">
-        <div class="col-12">
-            <h4>Calendar</h4>
-        </div>
-    </div>
-
-  <!-- calendar -->
-  <div class="row">
-    <div class="col-sm-12">
-        <div class="table-responsive">{{ calendar }}</div>
-    </div>
-  </div>
 </main>
 {% endblock dashboard %}
+
+
+{% block script %}
+    <script>
+        window.onload = function () {
+            $("#createCalendar").modal('show');
+        };
+    </script>
+{% endblock script %}
+    

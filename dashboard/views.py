@@ -1,3 +1,4 @@
+from copy import deepcopy
 import uuid
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
@@ -375,9 +376,9 @@ class CalendarDashboard(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
 # dashboard  calendar create view
 class CalendarCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
-    form_class = ProgramForm
+    form_class = CalendarForm
     login_url = 'login_page'
-    template_name = "dashboard/calendar/detail.html"
+    template_name = "dashboard/calendar/calendar.html"
     raise_exception = True
 
     def test_func(self):
@@ -390,6 +391,42 @@ class CalendarCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             calendar_form.save()
             messages.success(self.request, f"Successfully added a class to calendar!")
             return HttpResponseRedirect(self.request.META.get('HTTP_REFERER', '/dashboard/calendar/'))
+        for field in calendar_form:
+            for error in field.errors:
+                messages.error(self.request, f"<b>{field.label}:</b> {error}")
+        return redirect("dashboard_calendar_page")
+
+class CalendarDuplicate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    form_class = CalendarForm
+    login_url = 'login_page'
+    template_name = "dashboard/calendar/duplicate.html"
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        calendar_id = self.kwargs['pk']
+        context['calendar'] = calendar = CalendarModel.objects.get(id=calendar_id)
+        context['calendar_form_with_instance'] = CalendarForm(instance=calendar)
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        calendar_form = CalendarForm(request.POST)
+        calendar_id = self.kwargs['pk']
+
+        if calendar_form.is_valid():
+            duplicate_calendar = deepcopy(CalendarModel.objects.get(id=calendar_id))
+            duplicate_calendar.id = None
+            duplicate_calendar.program = calendar_form.cleaned_data.get('program')
+            duplicate_calendar.instructor = calendar_form.cleaned_data.get('instructor')
+            duplicate_calendar.start_at = calendar_form.cleaned_data.get('start_at')
+            duplicate_calendar.end_at = calendar_form.cleaned_data.get('end_at')
+            duplicate_calendar.save()
+
+            messages.success(self.request, f"Successfully added a class to calendar!")
+            return redirect("dashboard_calendar_page")
         for field in calendar_form:
             for error in field.errors:
                 messages.error(self.request, f"<b>{field.label}:</b> {error}")
