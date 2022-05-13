@@ -74,8 +74,10 @@
                                                 <b>Free {{order.senior_citizen_sessions}}</b> senior citizen sessions
                                             {% endif %}
 
-                                            {% if order.kids_sessions <= 0 and order.senior_citizen_sessions <= 0 %}
-                                                Free <b>AED</b> added to wallet
+                                            {% if order.bonus_price > 0 %}
+                                                <b>Free AED</b> added to wallet.
+                                            {% elif order.kids_sessions <= 0 and order.senior_citizen_sessions <= 0 %}
+                                                <b>No Bonus</b>.
                                             {% endif %}
                                         </td>
                                         <td class="p-2">{{order.created_on|naturaltime}}</td>

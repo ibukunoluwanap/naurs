@@ -103,21 +103,29 @@
                 <div class="modal-dialog modal modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="getPackage{{package.id}}Label">Choose Bonus Type</h5>
+                        <h5 class="modal-title" id="getPackage{{package.id}}Label">Get Package</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
+                        {% if package.kids_sessions > 0 %}
+                            <form action="{% url 'student_get_package' package_id=package.id package_type='kids' %}" method="post" class="col border-0 py-3">
+                                {% csrf_token %}
+                                <button class="w-100 btn-lg bg-cus-pink" type="submit">Get {{package.kids_sessions}} free sessions for kids!</button>
+                            </form>
+                        {% endif %}
+                        {% if package.senior_citizen_sessions > 0 %}
+                            <form action="{% url 'student_get_package' package_id=package.id package_type='old' %}" method="post" class="col border-0 py-3">
+                                {% csrf_token %}
+                                <button class="w-100 btn-lg bg-cus-purple" type="submit">Get {{package.senior_citizen_sessions}} free sessions for senior citizen!</button>
+                            </form>
+                        {% endif %}
                         <form action="{% url 'student_get_package' package_id=package.id package_type='bonus' %}" method="post" class="col border-0 py-3">
                             {% csrf_token %}
-                            <button class="w-100 btn-lg bg-cus-orange" type="submit">Get {{package.bonus_price|floatformat:2|intcomma}} AED OFF initial price!</button>
-                        </form>
-                        <form action="{% url 'student_get_package' package_id=package.id package_type='kids' %}" method="post" class="col border-0 py-3">
-                            {% csrf_token %}
-                            <button class="w-100 btn-lg bg-cus-pink" type="submit">Get {{package.kids_sessions}} free sessions for kids!</button>
-                        </form>
-                        <form action="{% url 'student_get_package' package_id=package.id package_type='old' %}" method="post" class="col border-0 py-3">
-                            {% csrf_token %}
-                            <button class="w-100 btn-lg bg-cus-purple" type="submit">Get {{package.senior_citizen_sessions}} free sessions for senior citizen!</button>
+                            {% if package.bonus_price > 0 %}
+                                <button class="w-100 btn-lg bg-cus-orange" type="submit">Get {{package.bonus_price|floatformat:2|intcomma}} AED OFF initial price!</button>
+                            {% else %}
+                                <button class="w-100 btn-lg bg-cus-orange" type="submit">Get Package Now!</button>
+                            {% endif %}
                         </form>
                     </div>
                     </div>
