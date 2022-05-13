@@ -399,18 +399,15 @@ class CalendarCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 class CalendarDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = CalendarModel
     login_url = 'login_page'
-    template_name = "dashboard/calendar/detail.html"
+    template_name = "dashboard/calendar/calendar.html"
     raise_exception = True
 
     def test_func(self):
-        try:
-            return (self.request.user.instructormodel)
-        except:
-            return (self.request.user.is_admin)
+        return (self.request.user.is_admin)
 
     def get_success_url(self):
-        messages.success(self.request, f"Successfully deleted program benefit!")
-        return reverse_lazy('dashboard_program_detail_page', kwargs={'pk': self.kwargs['pk']})
+        messages.success(self.request, f"Successfully deleted class calendar!")
+        return reverse_lazy('dashboard_calendar_page', kwargs={'pk': self.kwargs['pk']})
 
 # dashboard offer view
 class Offer(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -1295,44 +1292,39 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
             # updating wallet
             wallet.balance = wallet_balance
             wallet.save()
-                          
-            try:
-                current_order = None
-                for order in program.ordermodel_set.all():
-                    current_order = OrderModel.objects.get(id=order.id)
-                if current_order.status == True and current_order.user == request.user:
-                    # update price
-                    new_wallet_balance = wallet.balance + package.initial_price
-                    wallet_balance = new_wallet_balance - package.bonus_price
 
-                    # updating wallet
-                    wallet.balance = wallet_balance
-                    wallet.save()
+            # create order
+            if request.user.ordermodel_set.filter(package=package).exists():
+                # update price
+                new_wallet_balance = wallet.balance + package.initial_price
+                wallet_balance = new_wallet_balance - package.bonus_price
 
-                    messages.error(self.request, "This package is currently active on your account!")
-                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-            except:
-                # create order
-                order = OrderModel.objects.create(
-                    user = request.user,
-                    amount = package.initial_price,
-                    status = True,
-                    sessions = package.sessions,
-                )
-                order.package.add(package)
-                order.program.add(*package.program.all())
-
-                # adding student to instructors
-                student = StudentModel.objects.get(user=request.user)
-                program.students.add(student)
-
-                # update program total space
-                # program.total_space = program.total_space - 1
-                program.save()
-
-                messages.success(self.request, f"Successfully purchased package with <b>+{int(package.bonus_price)} AED</b> bonus!")
+                # updating wallet
+                wallet.balance = wallet_balance
+                wallet.save()
+                messages.error(self.request, f"This package is currently active on your account!")
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-        
+
+            order = OrderModel.objects.create(
+                user = request.user,
+                amount = package.initial_price,
+                status = True,
+                sessions = package.sessions,
+            )
+            order.package.add(package)
+            order.program.add(*package.program.all())
+
+            # adding student to instructors
+            student = StudentModel.objects.get(user=request.user)
+            program.students.add(student)
+
+            # update program total space
+            # program.total_space = program.total_space - 1
+            program.save()
+
+            messages.success(self.request, f"Successfully purchased package!")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    
         elif package_type == "kids":
             for program in package.program.all():
                 if program.total_space <= 0:
@@ -1349,31 +1341,26 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
             wallet.save()
 
             # create order
-            try:
-                current_order = None
-                for order in program.ordermodel_set.all():
-                    current_order = OrderModel.objects.get(id=order.id)
-                    
-                if current_order.status == True and current_order.user == request.user:
-                    # update price
-                    new_wallet_balance = wallet.balance + package.initial_price
-                    
-                    # updating wallet
-                    wallet.balance = new_wallet_balance
-                    wallet.save()
+            if request.user.ordermodel_set.filter(package=package).exists():
+                # update price
+                new_wallet_balance = wallet.balance + package.initial_price
+                
+                # updating wallet
+                wallet.balance = new_wallet_balance
+                wallet.save()
 
-                    messages.error(self.request, "This package is currently active on your account!")
-                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-            except:
-                order = OrderModel.objects.create(
-                    user = request.user,
-                    amount = package.initial_price,
-                    status = True,
-                    sessions = package.sessions,
-                    kids_sessions = package.kids_sessions,
-                )
-                order.package.add(package)
-                order.program.add(*package.program.all())
+                messages.error(self.request, "This package is currently active on your account!")
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+            order = OrderModel.objects.create(
+                user = request.user,
+                amount = package.initial_price,
+                status = True,
+                sessions = package.sessions,
+                kids_sessions = package.kids_sessions,
+            )
+            order.package.add(package)
+            order.program.add(*package.program.all())
 
             # adding student to instructors
             student = StudentModel.objects.get(user=request.user)
@@ -1402,31 +1389,26 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
             wallet.save()
 
             # create order
-            try:
-                current_order = None
-                for order in program.ordermodel_set.all():
-                    current_order = OrderModel.objects.get(id=order.id)
-                    
-                if current_order.status == True and current_order.user == request.user:
-                    # update price
-                    new_wallet_balance = wallet.balance + package.initial_price
-                    
-                    # updating wallet
-                    wallet.balance = new_wallet_balance
-                    wallet.save()
+            if request.user.ordermodel_set.filter(package=package).exists():
+                # update price
+                new_wallet_balance = wallet.balance + package.initial_price
+                
+                # updating wallet
+                wallet.balance = new_wallet_balance
+                wallet.save()
 
-                    messages.error(self.request, "This package is currently active on your account!")
-                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-            except:
-                order = OrderModel.objects.create(
-                    user = request.user,
-                    amount = package.initial_price,
-                    status = True,
-                    sessions = package.sessions,
-                    senior_citizen_sessions = package.senior_citizen_sessions,
-                )
-                order.package.add(package)
-                order.program.add(*package.program.all())
+                messages.error(self.request, "This package is currently active on your account!")
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+                
+            order = OrderModel.objects.create(
+                user = request.user,
+                amount = package.initial_price,
+                status = True,
+                sessions = package.sessions,
+                senior_citizen_sessions = package.senior_citizen_sessions,
+            )
+            order.package.add(package)
+            order.program.add(*package.program.all())
 
             # adding student to instructors
             student = StudentModel.objects.get(user=request.user)
