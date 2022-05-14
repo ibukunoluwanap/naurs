@@ -42,4 +42,4 @@ class CalendarForm(forms.ModelForm):
 class StudioUserForm(forms.ModelForm):
     class Meta:
         model = StudioUserModel
-        exclude = ['created_on']
+        exclude = ['studio', 'created_on']

@@ -94,10 +94,12 @@ class StudioUserCreate(LoginRequiredMixin, UserPassesTestMixin, FormView):
         return (self.request.user.is_admin)
 
     def form_valid(self, form):
-        studio = StudioModel.objects.get(id=form.cleaned_data.get('studio').id)
+        new_form = form.save(commit=False)
+        studio = StudioModel.objects.get(id=self.kwargs['pk'])
         studio.is_active = True
         studio.save()
-        form.save()
+        new_form.studio = studio
+        new_form.save()
         messages.success(self.request, f'Successfully added person to studio!')
         return super(StudioUserCreate, self).form_valid(form)
 
