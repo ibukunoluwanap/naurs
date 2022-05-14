@@ -64,6 +64,15 @@
         </li>
         <li class="nav-item">
           <a
+            class="nav-link {% if not request.user.is_admin %}py-4{% else %}py-3{% endif %} {% if '/dashboard/studio/' in request.path %} active {% endif %}"
+            href="{% url 'dashboard_studio_page' %}"
+          >
+            <span data-feather="home"></span>
+            Studios
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
             class="nav-link {% if not request.user.is_admin %}py-4{% else %}py-3{% endif %} {% if '/dashboard/admin/' in request.path %} active {% endif %}"
             href="{% url 'dashboard_admin_page' %}"
           >

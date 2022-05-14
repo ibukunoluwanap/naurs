@@ -71,6 +71,19 @@ class Dashboard(LoginRequiredMixin, UserPassesTestMixin, View):
             pass
         return render(request, self.template_name, context)
 
+# Studio list view
+class Studio(LoginRequiredMixin, UserPassesTestMixin, View):
+    template_name = "dashboard/studio.html"
+    login_url = 'login_page'
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
+
+    def get(self, request):
+        context = {}
+        return render(request, self.template_name, context)
+
 # dashboard program view
 class Program(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = ProgramModel

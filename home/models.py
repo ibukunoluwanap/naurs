@@ -60,8 +60,8 @@ class StudioUserModel(models.Model):
     created_on = models.DateTimeField("created on", auto_now_add=True)
 
     class Meta:
-        verbose_name = 'Studio'
-        verbose_name_plural = 'Studios'
+        verbose_name = 'Studio User'
+        verbose_name_plural = 'Studio Users'
 
     def __str__(self):
         return f"{self.full_name} at {self.studio}"
