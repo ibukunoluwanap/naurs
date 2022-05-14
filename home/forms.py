@@ -1,5 +1,5 @@
 from django import forms
-from home.models import ListingModel, CalendarModel
+from home.models import ListingModel, CalendarModel, StudioUserModel
 from instructor.models import InstructorModel
 from program.models import ProgramModel
 
@@ -36,4 +36,10 @@ class CalendarForm(forms.ModelForm):
 
     class Meta:
         model = CalendarModel
+        exclude = ['created_on']
+
+# studio user form
+class StudioUserForm(forms.ModelForm):
+    class Meta:
+        model = StudioUserModel
         exclude = ['created_on']

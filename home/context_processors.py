@@ -3,7 +3,7 @@ from about.forms import AboutForm
 from account.forms import RegisterForm, LoginForm, UpdateAdminForm, UpdatePasswordForm, UpdateUserForm, User
 from finance.forms import BillingAddressForm
 from finance.models import BillingAddressModel, OrderModel
-from home.forms import CalendarForm, ListingForm
+from home.forms import CalendarForm, ListingForm, StudioUserForm
 from home.models import ListingModel, StudioModel, StudioUserModel
 from instructor.forms import InstructorForm
 from instructor.models import InstructorModel
@@ -119,6 +119,7 @@ def global_context(request):
     # studio
     context['studios'] = StudioModel.objects.all()
     context['studio_users'] = StudioUserModel.objects.order_by("-id")
+    context['studio_user_form'] = StudioUserForm()
 
     # authentication
     context['register_form'] = RegisterForm()
