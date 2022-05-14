@@ -10,8 +10,8 @@ from about.forms import AboutForm
 from about.models import AboutModel
 from account.forms import RegisterForm, UpdateAdminForm, UpdateUserForm
 from finance.models import OrderModel, TicketModel, WalletModel
-from home.forms import CalendarForm, ListingForm
-from home.models import CalendarModel, ListingModel
+from home.forms import CalendarForm, ListingForm, StudioUserForm
+from home.models import CalendarModel, ListingModel, StudioModel, StudioUserModel
 from home.views import get_date, next_month, prev_month
 from instructor.forms import InstructorForm
 from instructor.models import InstructorModel
@@ -19,7 +19,7 @@ from naurs.settings import EMAIL_HOST_USER
 from offer.forms import OfferForm
 from django.contrib import messages
 from offer.models import BookOfferModel, FreeTrialOfferModel, OfferModel
-from django.views.generic import View, ListView, CreateView, DetailView, UpdateView, DeleteView
+from django.views.generic import View, ListView, CreateView, DetailView, UpdateView, DeleteView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from program.forms import PackageForm, ProgramBenefitForm, ProgramForm, ProgramInstructorForm
 from program.models import PackageModel, ProgramBenefitModel, ProgramEnquiryModel, ProgramModel
@@ -83,6 +83,24 @@ class Studio(LoginRequiredMixin, UserPassesTestMixin, View):
     def get(self, request):
         context = {}
         return render(request, self.template_name, context)
+
+# Studio user form
+class StudioUserCreate(LoginRequiredMixin, UserPassesTestMixin, FormView):
+    template_name = "dashboard/studio.html"
+    model = StudioUserModel
+    form_class = StudioUserForm
+    success_url = '/dashboard/studio/'
+
+    def test_func(self):
+        return (self.request.user.is_admin)
+
+    def form_valid(self, form):
+        studio = StudioModel.objects.get(id=form.cleaned_data.get('studio').id)
+        studio.is_active = True
+        studio.save()
+        form.save()
+        messages.success(self.request, f'Successfully added person to studio!')
+        return super(StudioUserCreate, self).form_valid(form)
 
 # dashboard program view
 class Program(LoginRequiredMixin, UserPassesTestMixin, ListView):

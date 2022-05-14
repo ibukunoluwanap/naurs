@@ -36,7 +36,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="{% url 'dashboard_program_create_page' %}" method="post" class="col border-0 py-3">
+                                    <form action="{% url 'dashboard_studio_create_page' %}" method="post" class="col border-0 py-3">
                                         {% csrf_token %}
                                         <div class="row">
                                             <div class="col-sm-12">
@@ -97,7 +97,7 @@
                                     {{user.studio}}
                                 </td>
                                 <td class="p-2">{{user.email}}</td>
-                                <td class="p-2">{{user.updated_on|naturaltime}}</td>
+                                <td class="p-2">{{user.created_on|naturaltime}}</td>
                             </tr>
                         {% endfor %}
                     </tbody>

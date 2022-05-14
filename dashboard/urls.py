@@ -5,6 +5,7 @@ urlpatterns = [
     # dashboard
     path('', views.Dashboard.as_view(), name='dashboard_page'),
     path('studio/', views.Studio.as_view(), name='dashboard_studio_page'),
+    path('studio_user/create/', views.StudioUserCreate.as_view(), name='dashboard_studio_create_page'),
     # program
     path('program/', views.Program.as_view(), name='dashboard_program_page'),
     path('program/<int:pk>/', views.ProgramDetail.as_view(), name='dashboard_program_detail_page'),
