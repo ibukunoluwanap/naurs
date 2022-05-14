@@ -1514,22 +1514,24 @@ class GetPackageTicket(LoginRequiredMixin, UserPassesTestMixin, View):
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         if ticket_type == "kids_sessions":
             context = {}
-            context["my_order"] = order
+            context["ticket"] = ticket
             if order.kids_sessions > 0:
                 order.kids_sessions = order.kids_sessions - 1
+                ticket.ticket_id = uuid.uuid1().hex
                 order.save()
-                context["ticket_id"] = uuid.uuid1().hex
+                ticket.save()
                 messages.success(self.request, f"You have {order.kids_sessions} session(s) remaining!")
                 return render(request, self.template, context)
             messages.error(self.request, f"You have no free kids sessions!")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         if ticket_type == "senior_citizen_sessions":
             context = {}
-            context["my_order"] = order
+            context["ticket"] = ticket
             if order.senior_citizen_sessions > 0:
                 order.senior_citizen_sessions = order.senior_citizen_sessions - 1
+                ticket.ticket_id = uuid.uuid1().hex
                 order.save()
-                context["ticket_id"] = uuid.uuid1().hex
+                ticket.save()
                 messages.success(self.request, f"You have {order.senior_citizen_sessions} session(s) remaining!")
                 return render(request, self.template, context)
             messages.error(self.request, f"You have no free senior citizen sessions!")
