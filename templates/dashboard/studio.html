@@ -17,6 +17,13 @@
                     </span>
                     {% if studio.is_active %}
                         <small class="bg-cus-secondary text-cus-primary shadow-none py-1 px-2 rounded">Currently in use!</small>
+                        <br>
+                        <a 
+                        href="{% url 'dashboard_studio_free_page' pk=studio.id %}" 
+                        class="bg-cus-orange text-cus-primary shadow-lg py-1 px-2 rounded text-decoration-none"
+                        >
+                            Free Studio
+                        </a>
                     {% else %}
                         <br>
                         <small class="bg-cus-primary text-cus-secondary shadow-none py-1 px-2 rounded">Currently in FREE!</small>
@@ -32,11 +39,11 @@
                             <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="addStudioUserLabel">Studio User</h5>
+                                    <h5 class="modal-title text-cus-primary" id="addStudioUserLabel">Studio User</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="{% url 'dashboard_studio_create_page' %}" method="post" class="col border-0 py-3">
+                                    <form action="{% url 'dashboard_studio_user_create_page' %}" method="post" class="col border-0 py-3">
                                         {% csrf_token %}
                                         <div class="row">
                                             <div class="col-sm-12">

@@ -81,8 +81,7 @@ class Studio(LoginRequiredMixin, UserPassesTestMixin, View):
         return (self.request.user.is_admin)
 
     def get(self, request):
-        context = {}
-        return render(request, self.template_name, context)
+        return render(request, self.template_name)
 
 # Studio user form
 class StudioUserCreate(LoginRequiredMixin, UserPassesTestMixin, FormView):
@@ -101,6 +100,22 @@ class StudioUserCreate(LoginRequiredMixin, UserPassesTestMixin, FormView):
         form.save()
         messages.success(self.request, f'Successfully added person to studio!')
         return super(StudioUserCreate, self).form_valid(form)
+
+# Studio free list view
+class StudioFree(LoginRequiredMixin, UserPassesTestMixin, View):
+    template_name = "dashboard/studio.html"
+    login_url = 'login_page'
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
+
+    def get(self, request, pk):
+        studio = StudioModel.objects.get(id=pk)
+        studio.is_active = False
+        studio.save()
+        messages.success(self.request, f'Successfully <b>FREE</b> {studio}!')
+        return redirect("dashboard_studio_page")
 
 # dashboard program view
 class Program(LoginRequiredMixin, UserPassesTestMixin, ListView):
