@@ -36,10 +36,20 @@
     <!-- main css file -->
     <link href="{% static 'css/site/style.css' %}" rel="stylesheet">
     <script src="https://js.stripe.com/v3/"></script>
+
+    <style>
+        body {
+            background-repeat: repeat;
+            background-size: 100px 100px;
+            height: 100%;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+        }
+    </style>
 </head>
 
-<body style="height: 100%; background-color: #f5f5f5; display: flex; align-items: center; background-image: url({% static 'images/original.png'%});
-background-repeat: repeat;   background-size: 100px 100px;">
+<body style="background-image: url({% static 'images/original.png'%});">
     <!-- <span style="position: absolute;
     font-size: 30vw;
     font-weight: bold;
@@ -56,54 +66,56 @@ background-repeat: repeat;   background-size: 100px 100px;">
                 <div class="card shadow-lg" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
                     <div class="card-body">
                         <h5 class="card-title">
-                            <img src="{% static 'images/logo.png' %}" class="rounded-circle" width="10%" height="10%" alt="logo">
+                            <img src="{% static 'images/logo.png' %}" class="shadow rounded-circle" width="10%" height="10%" alt="logo">
                             <b>Naurs Entry Ticket</b>
                         </h5>
                         <p class="card-subtitle mb-2 text-muted">
                             This entry ticket is only valid for this session. Please 
-                            <button onclick="window.print();" class="btn btn-sm btn-primary bg-cus-primary" download="Naurs_Entry_Ticket({{my_order.id}}) " >
+                            <button onclick="window.print();" class="btn btn-sm shadow text-cus-secondary bg-cus-primary" download="Naurs_Entry_Ticket({{ticket.order.id}}) " >
                                 <b>Print</b>
                             </button> or <b>screenshot</b> to avoid losing it!
-                            <p class="text-danger text-center">
-                                <b>Do not refresh page!</b>
-                            </p>
                         </p>
                         <p class="card-text">
                             <ul class="list-unstyled">
                                 <li class="my-4">
                                     <b>Order ID: </b>
-                                    {% if my_order.id == None %}
+                                    {% if ticket.order.id == None %}
                                         <span class="text-warning">This is your last ticket on the package</span>
                                     {% else %}
-                                        {{my_order.id}}
+                                        {{ticket.order.id}}
                                     {% endif %}
                                 </li>
                                 <li class="my-4">
                                     <b>Student Account: </b>
-                                    {{my_order.user}}
+                                    {{ticket.order.user}}
                                 </li>
                                 <li class="my-4">
                                     <b>Sessions: </b>
-                                    {{my_order.sessions}} remaining
+                                    {{ticket.order.sessions}} remaining
                                 </li>
                                 <li class="my-4">
                                     <b>Kids Sessions: </b>
-                                    {{my_order.kids_sessions}} remaining
+                                    {{ticket.order.kids_sessions}} remaining
                                 </li>
                                 <li class="my-4">
                                     <b>Senior Citizen Sessions: </b>
-                                    {{my_order.senior_citizen_sessions}} remaining
+                                    {{ticket.order.senior_citizen_sessions}} remaining
                                 </li>
                                 <li class="my-4">
                                     <b>Ticket Created On: </b>
-                                    {{my_order.created_on}}
+                                    {{ticket.order.created_on}}
                                 </li>
                             </ul>
                             <br>
                             <h4>
                                 <b>Ticket ID</b>
                             </h4>
-                            {{ticket_id}}{{my_order.id}}
+                            <span class="bg-warning text-cus-primary shadow p-1 mx-1 rounded">
+                                {{ticket.ticket_id}}
+                            </span>
+                            <span class="bg-danger text-cus-secondary shadow p-1 mx-1 rounded">
+                                {{ticket.id}}{{ticket.order.id}}
+                            </span>
                         </p>
                     </div>
                 </div>
@@ -124,4 +136,11 @@ background-repeat: repeat;   background-size: 100px 100px;">
     <!-- Template Main JS File -->
     <script src="{% static 'js/tinymce-config.js' %}"></script>
     <script src="{% static 'js/site/main.js' %}"></script>
+
+    <script>
+        if ( window.history.replaceState ) {
+            window.history.replaceState( null, null, window.location.href );
+        }
+    </script>
+
 </body>

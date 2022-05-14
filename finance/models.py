@@ -54,3 +54,16 @@ class OrderModel(models.Model):
 
     def __str__(self):
         return f"Order by {self.user}"
+
+# Ticket model
+class TicketModel(models.Model):
+    order = models.ForeignKey(OrderModel, verbose_name="order", on_delete=models.CASCADE)
+    ticket_id = models.CharField(verbose_name="ticket id", max_length=200)
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Ticket'
+        verbose_name_plural = 'Tickets'
+
+    def __str__(self):
+        return f"Ticket for {self.order.user.get_full_name}"

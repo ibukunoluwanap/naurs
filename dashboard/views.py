@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from about.forms import AboutForm
 from about.models import AboutModel
 from account.forms import RegisterForm, UpdateAdminForm, UpdateUserForm
-from finance.models import OrderModel, WalletModel
+from finance.models import OrderModel, TicketModel, WalletModel
 from home.forms import CalendarForm, ListingForm
 from home.models import CalendarModel, ListingModel
 from home.views import get_date, next_month, prev_month
@@ -1189,6 +1189,7 @@ class Order(LoginRequiredMixin, UserPassesTestMixin, View):
 
 
 
+
 # student dashboard
 class StudentDashboard(LoginRequiredMixin, UserPassesTestMixin, View):
     template_name = "dashboard/full_student_dashboard/dashboard.html"
@@ -1470,6 +1471,21 @@ class GetPackageTicket(LoginRequiredMixin, UserPassesTestMixin, View):
     def test_func(self):
         return (self.request.user.studentmodel)
 
+    def get(self, request, *args, **kwargs):
+        order_id = self.kwargs['order_id']
+        
+        try:
+            order = OrderModel.objects.get(id=order_id)
+        except:
+            messages.error(self.request, f"This order does not longer exist!")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        
+        ticket = TicketModel.objects.filter(order=order).latest('id')
+
+        context = {}
+        context["ticket"] = ticket
+        return render(request, self.template, context)
+
     def post(self, request, *args, **kwargs):
         order_id = self.kwargs['order_id']
         ticket_type = self.kwargs['ticket_type']
@@ -1479,14 +1495,17 @@ class GetPackageTicket(LoginRequiredMixin, UserPassesTestMixin, View):
         except:
             messages.error(self.request, f"This order does not longer exist!")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
+        
+        ticket = TicketModel.objects.create(order=order)
+        
         if ticket_type == "sessions":
             context = {}
-            context["my_order"] = order
+            context["ticket"] = ticket
             if order.sessions > 0:
                 order.sessions = order.sessions - 1
+                ticket.ticket_id = uuid.uuid1().hex
                 order.save()
-                context["ticket_id"] = uuid.uuid1().hex
+                ticket.save()
                 if order.sessions == 0:
                     order.delete()
                 messages.success(self.request, f"You have {order.sessions} session(s) remaining!")
