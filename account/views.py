@@ -85,14 +85,13 @@ class Register(View):
             user = register_form.save(commit=False)
             user.is_active = False # disable user
             user.save()
+
             current_site = get_current_site(request)
-            subject = 'Naurs Email Activation.'
-                
+            context['subject'] = subject = 'Naurs Email Activation.'
             to_email = email
             context['domain'] = current_site.domain
             context['uid'] = urlsafe_base64_encode(force_bytes(user.pk))
             context['token'] = EmailVerificationToken().make_token(user)
-            context['subject'] = subject
             context['message'] = f"Hi {email}, Please verify your Naurs account to be able to login by clicking on the link below to confirm your registration."
             actual_message = loader.render_to_string('components/notifications/emails.html', context)
 
@@ -115,6 +114,7 @@ class Register(View):
             except ValueError as e:
                 messages.error(request, f'{e}')
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        
         for field in register_form:
             for error in field.errors:
                 messages.error(self.request, f"<b>{field.label}:</b> {error}")

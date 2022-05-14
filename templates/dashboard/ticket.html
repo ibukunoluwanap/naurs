@@ -50,6 +50,9 @@
 </head>
 
 <body style="background-image: url({% static 'images/original.png'%});">
+    <!-- message -->
+    {% include 'components/notifications/message.html' %}
+    
     <!-- <span style="position: absolute;
     font-size: 30vw;
     font-weight: bold;
@@ -103,7 +106,9 @@
                                 </li>
                                 <li class="my-4">
                                     <b>Ticket Created On: </b>
-                                    {{ticket.order.created_on}}
+                                    <span class="bg-info text-cus-primary shadow p-1 mx-1 rounded">
+                                        {{ticket.order.created_on}}
+                                    </span>
                                 </li>
                             </ul>
                             <br>

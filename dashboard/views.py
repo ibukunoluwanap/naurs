@@ -1,6 +1,9 @@
 from copy import deepcopy
+from email.errors import HeaderParseError
+import socket
 import uuid
 from django.http import HttpResponseRedirect
+from django.core.mail import send_mail, BadHeaderError
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from about.forms import AboutForm
@@ -12,6 +15,7 @@ from home.models import CalendarModel, ListingModel
 from home.views import get_date, next_month, prev_month
 from instructor.forms import InstructorForm
 from instructor.models import InstructorModel
+from naurs.settings import EMAIL_HOST_USER
 from offer.forms import OfferForm
 from django.contrib import messages
 from offer.models import BookOfferModel, FreeTrialOfferModel, OfferModel
@@ -28,7 +32,9 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.utils import timezone
 from home.utils import Calendar
 from django.utils.safestring import mark_safe
-from datetime import datetime, timedelta, date
+from datetime import datetime
+from django.contrib.sites.shortcuts import get_current_site
+from django.template import loader
 
 # setting User model
 User = get_user_model()
@@ -1463,13 +1469,10 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 # get package ticket view
-class GetPackageTicket(LoginRequiredMixin, UserPassesTestMixin, View):
+class GetPackageTicket(LoginRequiredMixin, View):
     login_url = 'login_page'
     raise_exception = True
     template = "dashboard/ticket.html"
-
-    def test_func(self):
-        return (self.request.user.studentmodel)
 
     def get(self, request, *args, **kwargs):
         order_id = self.kwargs['order_id']
@@ -1500,6 +1503,7 @@ class GetPackageTicket(LoginRequiredMixin, UserPassesTestMixin, View):
         
         if ticket_type == "sessions":
             context = {}
+            email_cxt = {}
             context["ticket"] = ticket
             if order.sessions > 0:
                 order.sessions = order.sessions - 1
@@ -1508,32 +1512,141 @@ class GetPackageTicket(LoginRequiredMixin, UserPassesTestMixin, View):
                 ticket.save()
                 if order.sessions == 0:
                     order.delete()
-                messages.success(self.request, f"You have {order.sessions} session(s) remaining!")
-                return render(request, self.template, context)
+                
+                # sending ticket through email
+                current_site = get_current_site(request)
+                email_cxt['ticket'] = True
+                email_cxt['order_id'] = order.id
+                email_cxt['ticket_type'] = ticket_type
+                email_cxt['subject'] = subject = f'Naurs Ticket For Order {order.id}.'
+                to_email = order.user.email
+                email_cxt['domain'] = current_site.domain
+                email_cxt['message'] = f"""
+                                            Hi {order.user.get_full_name()}, \n
+                                            This is your entry ticket for naurs order {order.id}. \n
+                                            The Entry ticket link below:
+
+                                        """
+                actual_message = loader.render_to_string('components/notifications/emails.html', email_cxt)
+
+                try:
+                    send_mail(subject, actual_message, EMAIL_HOST_USER, [to_email], fail_silently = False, html_message=actual_message)
+                    messages.success(self.request, f"Check email inbox or spam for link to this ticket. <br> You have {order.sessions} session(s) remaining!")
+                    return render(request, self.template, context)
+                except socket.gaierror:
+                    messages.error(request, 'No internet connect')
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+                except HeaderParseError:
+                    messages.error(request, 'A user has an invalid domain')
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+                except BadHeaderError:
+                    messages.error(request, 'Bad header')
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+                except TimeoutError:
+                    messages.error(request, 'Time out')
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+                except ValueError as e:
+                    messages.error(request, f'{e}')
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
             messages.error(self.request, f"You have no sessions!")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        
         if ticket_type == "kids_sessions":
             context = {}
+            email_cxt = {}
             context["ticket"] = ticket
             if order.kids_sessions > 0:
                 order.kids_sessions = order.kids_sessions - 1
                 ticket.ticket_id = uuid.uuid1().hex
                 order.save()
                 ticket.save()
-                messages.success(self.request, f"You have {order.kids_sessions} session(s) remaining!")
-                return render(request, self.template, context)
+
+                # sending ticket through email
+                current_site = get_current_site(request)
+                email_cxt['ticket'] = True
+                email_cxt['order_id'] = order.id
+                email_cxt['ticket_type'] = ticket_type
+                email_cxt['subject'] = subject = f'Naurs Ticket For Order {order.id}.'
+                to_email = order.user.email
+                email_cxt['domain'] = current_site.domain
+                email_cxt['message'] = f"""
+                                            Hi {order.user.get_full_name()}, \n
+                                            This is your entry ticket for naurs order {order.id}. \n
+                                            The Entry ticket link below:
+
+                                        """
+                actual_message = loader.render_to_string('components/notifications/emails.html', email_cxt)
+
+                try:
+                    send_mail(subject, actual_message, EMAIL_HOST_USER, [to_email], fail_silently = False, html_message=actual_message)
+                    messages.success(self.request, f"Check email inbox or spam for link to this ticket. <br> You have {order.kids_sessions} kids session(s) remaining!")
+                    return render(request, self.template, context)
+                except socket.gaierror:
+                    messages.error(request, 'No internet connect')
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+                except HeaderParseError:
+                    messages.error(request, 'A user has an invalid domain')
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+                except BadHeaderError:
+                    messages.error(request, 'Bad header')
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+                except TimeoutError:
+                    messages.error(request, 'Time out')
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+                except ValueError as e:
+                    messages.error(request, f'{e}')
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
             messages.error(self.request, f"You have no free kids sessions!")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        
         if ticket_type == "senior_citizen_sessions":
             context = {}
+            email_cxt = {}
             context["ticket"] = ticket
             if order.senior_citizen_sessions > 0:
                 order.senior_citizen_sessions = order.senior_citizen_sessions - 1
                 ticket.ticket_id = uuid.uuid1().hex
                 order.save()
                 ticket.save()
-                messages.success(self.request, f"You have {order.senior_citizen_sessions} session(s) remaining!")
-                return render(request, self.template, context)
+
+                # sending ticket through email
+                current_site = get_current_site(request)
+                email_cxt['ticket'] = True
+                email_cxt['order_id'] = order.id
+                email_cxt['ticket_type'] = ticket_type
+                email_cxt['subject'] = subject = f'Naurs Ticket For Order {order.id}.'
+                to_email = order.user.email
+                email_cxt['domain'] = current_site.domain
+                email_cxt['message'] = f"""
+                                            Hi {order.user.get_full_name()}, \n
+                                            This is your entry ticket for naurs order {order.id}. \n
+                                            The Entry ticket link below:
+
+                                        """
+                actual_message = loader.render_to_string('components/notifications/emails.html', email_cxt)
+
+                try:
+                    send_mail(subject, actual_message, EMAIL_HOST_USER, [to_email], fail_silently = False, html_message=actual_message)
+                    messages.success(self.request, f"Check email inbox or spam for link to this ticket. <br> You have {order.senior_citizen_sessions} senior citizen session(s) remaining!")
+                    return render(request, self.template, context)
+                except socket.gaierror:
+                    messages.error(request, 'No internet connect')
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+                except HeaderParseError:
+                    messages.error(request, 'A user has an invalid domain')
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+                except BadHeaderError:
+                    messages.error(request, 'Bad header')
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+                except TimeoutError:
+                    messages.error(request, 'Time out')
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+                except ValueError as e:
+                    messages.error(request, f'{e}')
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
             messages.error(self.request, f"You have no free senior citizen sessions!")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 

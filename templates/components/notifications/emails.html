@@ -101,6 +101,7 @@ a[x-apple-data-detectors] {
                       <br/>
                       {{message}}
                       {% if token %}<br/><a href="https://{{ domain }}{% url 'verify_email' uidb64=uid token=token %}">VERIFICATION LINK</a>{% endif %}
+                      {% if ticket %}<br/><a href="https://{{ domain }}/dashboard/student_dashboard/get_ticket/{{ order_id }}/{{ ticket_type }}/">TICKET LINK</a>{% endif %}
                       </p></td> 
                      </tr> 
                    </table></td> 
