@@ -83,4 +83,5 @@ urlpatterns = [
     path('student_dashboard/package/', views.StudentPackage.as_view(), name='student_dashboard_package_page'),
     path('student_dashboard/get_package/<int:package_id>/<package_type>/', views.GetStudentPackage.as_view(), name='student_get_package'),
     path('student_dashboard/get_ticket/<int:order_id>/<ticket_type>/', views.GetPackageTicket.as_view(), name='student_get_ticket'),
+    path('student_dashboard/calendar/', views.StudentCalendar.as_view(), name='student_calendar_page'),
 ]

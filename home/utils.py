@@ -26,18 +26,32 @@ class Calendar(HTMLCalendar):
 						<b>Instructor:</b> {_class.instructor.user.get_full_name()}
 					</li>
 				'''
-		elif self.login_user is not None and self.login_user.instructormodel:
-			for _class in classes_per_day:
-				if self.login_user == _class.instructor.user:
-					d += f'''
-						<li>
-							<b>Class:</b> {_class.program.title}
-							<br>
-							<b>Time:</b> {_class.start_at.strftime("%I:%M %p")} - {_class.end_at.strftime("%I:%M %p")}
-							<br>
-							<b>Instructor:</b> {_class.instructor.user.get_full_name()}
-						</li>
-					'''
+		elif self.login_user is not None:
+			try:
+				if self.login_user.instructormodel:
+					for _class in classes_per_day:
+						if self.login_user == _class.instructor.user:
+							d += f'''
+								<li>
+									<b>Class:</b> {_class.program.title}
+									<br>
+									<b>Time:</b> {_class.start_at.strftime("%I:%M %p")} - {_class.end_at.strftime("%I:%M %p")}
+									<br>
+									<b>Instructor:</b> {_class.instructor.user.get_full_name()}
+								</li>
+							'''
+			except:
+				for _class in classes_per_day:
+					if self.login_user.studentmodel:
+						d += f'''
+							<li>
+								<b>Class:</b> {_class.program.title}
+								<br>
+								<b>Time:</b> {_class.start_at.strftime("%I:%M %p")} - {_class.end_at.strftime("%I:%M %p")}
+								<br>
+								<b>Instructor:</b> {_class.instructor.user.get_full_name()}
+							</li>
+						'''
 		else:
 			for _class in classes_per_day:
 				d += f'''

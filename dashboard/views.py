@@ -1537,4 +1537,22 @@ class GetPackageTicket(LoginRequiredMixin, UserPassesTestMixin, View):
             messages.error(self.request, f"You have no free senior citizen sessions!")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-        
+# student calendar view
+class StudentCalendar(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = PackageModel
+    login_url = 'login_page'
+    template_name = "dashboard/full_student_dashboard/calendar.html"
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.studentmodel)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        d = get_date(self.request.GET.get('month', None))
+        cal = Calendar(d.year, d.month, self.request.user)
+        html_cal = cal.formatmonth(withyear=True)
+        context['calendar'] = mark_safe(html_cal)
+        context['prev_month'] = prev_month(d)
+        context['next_month'] = next_month(d)
+        return context        

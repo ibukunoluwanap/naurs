@@ -31,6 +31,16 @@
           Orders
         </a>
       </li>
+
+      <li class="nav-item">
+        <a
+          class="nav-link {% if not request.user.is_admin %}py-4{% else %}py-3{% endif %} {% if '/student_dashboard/calendar/' in request.path %} active {% endif %}"
+          href="{% url 'student_calendar_page' %}"
+        >
+          <span data-feather="calendar"></span>
+          Calendar
+        </a>
+      </li>
     </ul>
 
     <h6
