@@ -83,6 +83,14 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': 'naursdb',
+    #     'USER': 'naursdbadmin',
+    #     'PASSWORD': 'Naurs2022Admin',
+    #     'HOST': 'Naurs-2672.postgres.pythonanywhere-services.com',
+    #     'PORT': 12672,
+    # }
 }
 
 AUTH_PASSWORD_VALIDATORS = [
