@@ -74,7 +74,7 @@
   <!-- title -->
   <div class="row">
     <div class="col-12">
-      <h4>All Admins</h4>
+      <h4>Admins</h4>
     </div>
   </div>
 
@@ -86,6 +86,7 @@
           <thead class="table-cus-dark">
             <tr>
               <th scope="col" class="p-3"></th>
+              <th scope="col" class="p-3">ID</th>
               <th scope="col" class="p-3">Name</th>
               <th scope="col" class="p-3">Email</th>
               <th scope="col" class="p-3">Joined On</th>
@@ -110,7 +111,8 @@
                       <i class="bi bi-person-circle align-middle"></i>
                     </div>
                 {% endif %}
-            </th>
+              </th>
+              <td class="p-2">{{admin.id}}</td>
               <td class="p-2">
                 <a
                   href="{% url 'dashboard_admin_detail_page' pk=admin.id %}"

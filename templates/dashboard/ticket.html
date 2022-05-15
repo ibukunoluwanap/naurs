@@ -90,7 +90,9 @@
                                 </li>
                                 <li class="my-4">
                                     <b>Account: </b>
-                                    {{ticket.order.user}}
+                                    <span class="bg-danger text-cus-secondary shadow p-1 mx-1 rounded">
+                                        {{ticket.order.user}}
+                                    </span>
                                 </li>
                                 <li class="my-4">
                                     <b>Sessions: </b>
@@ -119,7 +121,8 @@
                                 {{ticket.ticket_id}}
                             </span>
                             <span class="bg-danger text-cus-secondary shadow p-1 mx-1 rounded">
-                                {{ticket.id}}{{ticket.order.id}}
+                                <!-- {{ticket.id}}{{ticket.order.id}} -->
+                                {{request.user.id}}
                             </span>
                         </p>
                     </div>

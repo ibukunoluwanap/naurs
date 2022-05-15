@@ -9,7 +9,7 @@
   <!-- title -->
   <div class="row">
     <div class="col-12">
-      <h4>All Registered User</h4>
+      <h4>All Registered Users</h4>
     </div>
   </div>
 
@@ -21,6 +21,7 @@
           <thead class="table-cus-dark">
             <tr>
               <th scope="col" class="p-3"></th>
+              <th scope="col" class="p-3">ID</th>
               <th scope="col" class="p-3">Full Name</th>
               <th scope="col" class="p-3">Email</th>
               <th scope="col" class="p-3">Role</th>
@@ -47,6 +48,13 @@
                     </div>
                 {% endif %}
             </th>
+            <td class="p-2">
+              <a
+                href="#"
+                class="text-decoration-none text-cus-primary"
+                >{{user.id}}</a
+              >
+            </td>
               <td class="p-2">
                 <a
                   href="#"

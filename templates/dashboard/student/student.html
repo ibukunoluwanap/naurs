@@ -84,6 +84,7 @@
           <thead class="table-cus-dark">
             <tr>
                 <th scope="col" class="p-3"></th>
+                <th scope="col" class="p-3">ID</th>
                 <th scope="col" class="p-3">Name</th>
                 <th scope="col" class="p-3">Email</th>
                 <th scope="col" class="p-3">Joined On</th>
@@ -109,13 +110,9 @@
                           <i class="bi bi-person-circle align-middle"></i>
                         </div>
                     {% endif %}
-                </th>
+                  </th>
+                  <td class="p-2">{{student.user.id}}</td>
                   <td class="p-2">
-                    <!-- <a
-                      href="{% url 'dashboard_student_detail_page' pk=student.id %}"
-                      class="text-decoration-none text-cus-primary"
-                      >{{student.user.get_full_name|safe|truncatechars:50}}</a
-                    > -->
                     {{student.user.get_full_name|safe|truncatechars:50}}
                   </td>
                   <td class="p-2">{{student.user.email}}</td>
