@@ -19,6 +19,14 @@
     <meta name="theme-color" content="#011b2b">
     <link rel="manifest" href="manifest.json" />
 
+    <!-- Google Tag Manager -->
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-MBDRP4Q');</script>
+    <!-- End Google Tag Manager -->
+
     <!-- favicons -->
     <link href="{% static 'images/favicon.png' %}" rel="icon">
     <link href="{% static 'images/favicon.png' %}" rel="apple-touch-icon">
@@ -41,6 +49,11 @@
 </head>
 
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MBDRP4Q"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
     <!-- navbar -->
     {% include 'components/navigations/site/navbar.html' %}
 
