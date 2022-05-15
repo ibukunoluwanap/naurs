@@ -32,15 +32,15 @@
                         <a 
                         href="#" 
                         class="bg-cus-secondary text-cus-primary shadow-lg py-1 px-2 rounded text-decoration-none"
-                        data-bs-toggle="modal" data-bs-target="#addStudioUser"
+                        data-bs-toggle="modal" data-bs-target="#addStudioUser{{studio.id}}"
                         >
                             Added Person
                         </a>
-                        <div class="modal fade" id="addStudioUser" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addStudioUserLabel" aria-hidden="true">
+                        <div class="modal fade" id="addStudioUser{{studio.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addStudioUser{{studio.id}}Label" aria-hidden="true">
                             <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title text-cus-primary" id="addStudioUserLabel">Studio User</h5>
+                                    <h5 class="modal-title text-cus-primary" id="addStudioUser{{studio.id}}Label">Studio User</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
