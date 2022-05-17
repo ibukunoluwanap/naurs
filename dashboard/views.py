@@ -960,7 +960,7 @@ class UsersVisibility(LoginRequiredMixin, UserPassesTestMixin, View):
     raise_exception = True
 
     def test_func(self):
-        return (self.request.user.is_admin)
+        return (self.request.user.is_authenticated)
 
     def post(self, request, *args, **kwargs):
         user_id = self.kwargs['user_id']
@@ -968,10 +968,15 @@ class UsersVisibility(LoginRequiredMixin, UserPassesTestMixin, View):
         user = User.objects.get(id=user_id)
         if visibility == 'deactivate':
             if user.is_active:
+                if request.user.is_admin:
+                    user.is_active = False
+                    user.save()
+                    messages.success(self.request, "Successfully deactivated user!")
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
                 user.is_active = False
                 user.save()
                 messages.success(self.request, "Successfully deactivated user!")
-                return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/dashboard/'))
+                return redirect("login_page")
             user.is_active = True
             user.save()
             messages.success(self.request, "Successfully reactivated user!")

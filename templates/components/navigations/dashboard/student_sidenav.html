@@ -54,7 +54,7 @@
     <ul class="nav flex-column mb-2">
       <li class="nav-item">
         <a
-          class="nav-link {% if not request.user.is_admin %}py-4{% else %}py-3{% endif %} {% if '/dashboard/account/' in request.path %} active {% endif %}"
+          class="nav-link {% if not request.user.is_admin %}py-4{% else %}py-3{% endif %} {% if '/student_dashboard/account/' in request.path %} active {% endif %}"
           href="{% url 'student_dashboard_account_page' %}"
         >
           <span data-feather="user"></span>

@@ -3,7 +3,7 @@
 {% load humanize %}
 {% load widget_tweaks %}
 {% block title %}
-    <title>Naurs - {{ student.first_name }} Edit</title>
+<title>Naurs - {{ student.first_name }} Edit</title>
 {% endblock title %}
 {% block dashboard %}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
@@ -20,35 +20,36 @@
   <div class="row justify-content-center">
     <div class="col-sm-4 text-center">
       {% if student.user.avatar %}
-        <img src="{{student.user.avatar.url}}" alt="{{student.user.email}}" class="avatar-lg shadow mb-3">
+      <img src="{{student.user.avatar.url}}" alt="{{student.user.email}}" class="avatar-lg shadow mb-3">
       {% else %}
-        <i class="bi bi-person-circle align-middle" class="avatar-lg shadow mb-3" style="font-size: 250px;"></i>
+      <i class="bi bi-person-circle align-middle" class="avatar-lg shadow mb-3" style="font-size: 250px;"></i>
       {% endif %}
       <div class="col-sm-12">
         <h4 class="my-3">{{student.user.email}}</h4>
       </div>
     </div>
-    <form action="{% url 'dashboard_student_update_page' pk=student.id %}" method="post" class="col card shadow border-0 py-3" enctype="multipart/form-data">
+    <form action="{% url 'dashboard_student_update_page' pk=student.id %}" method="post"
+      class="col card shadow border-0 py-3" enctype="multipart/form-data">
       {% csrf_token %}
       <div class="row">
         <div class="col-sm-12">
           {% for field in student_form_with_instance|slice:":1" %}
-            {% if forloop.counter == 1 %}
-              <div class="card p-3 shadow mb-4 form-check form-switch overflow-height" style="height: 185px;">
-                  {{ field }}
-                  <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
-              </div>
-            {% endif %}
+          {% if forloop.counter == 1 %}
+          <div class="card p-3 shadow mb-4 form-check form-switch overflow-height" style="height: 185px;">
+            {{ field }}
+            <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
+          </div>
+          {% endif %}
           {% endfor %}
         </div>
         <div class="col-sm-12">
           {% for field in student_form_with_instance|slice:":2" %}
-            {% if forloop.counter == 2 %}
-              <div class="card p-3 shadow mb-4 form-check form-switch overflow-height" style="height: 185px;">
-                  {{ field }}
-                  <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
-              </div>
-            {% endif %}
+          {% if forloop.counter == 2 %}
+          <div class="card p-3 shadow mb-4 form-check form-switch overflow-height" style="height: 185px;">
+            {{ field }}
+            <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
+          </div>
+          {% endif %}
           {% endfor %}
         </div>
       </div>
@@ -61,10 +62,10 @@
     <div class="col-sm-12">
       <h4>Deletion</h4>
       {% if student.is_admin %}
-        <div class="alert alert-info text-center" role="alert">
-          <i class="bi bi-info-circle-fill"></i>
-          This user has student role and therefore can not be deleted
-        </div>
+      <div class="alert alert-info text-center" role="alert">
+        <i class="bi bi-info-circle-fill"></i>
+        This user has student role and therefore can not be deleted
+      </div>
       {% endif %}
     </div>
     <div class="col-sm-6 mb-3">
@@ -72,63 +73,68 @@
         It's advisable to deactivate student account instead of deleting.
       </div>
       <div class="d-flex flex-row justify-content-center">
-        <form action="{% url 'dashboard_student_visibility_page' student_id=student.id visibility='deactivate' %}" method="post">
+        <form action="{% url 'dashboard_student_visibility_page' student_id=student.id visibility='deactivate' %}"
+          method="post">
           {% csrf_token %}
           {% if student.user.is_active %}
-            <button class="btn btn-lg bg-warning border border-warning text-cus-secondary" type="submit">
-              <span data-feather="x-circle"></span>
-              Deactivate
-            </button>
+          <button class="btn btn-lg bg-warning border border-warning text-cus-secondary" type="submit">
+            <span data-feather="x-circle"></span>
+            Deactivate
+          </button>
           {% else %}
-            <button class="btn btn-lg bg-info border border-info text-cus-secondary" type="submit">
-              <span data-feather="check-circle"></span>
-              Reactivate
-            </button>
+          <button class="btn btn-lg bg-info border border-info text-cus-secondary" type="submit">
+            <span data-feather="check-circle"></span>
+            Reactivate
+          </button>
           {% endif %}
         </form>
       </div>
     </div>
     <div class="col-sm-6 mb-3">
-        <div class="alert alert-danger" role="alert">
-            This will <b>forever</b> remove this account from the Naurs. This cannot be undone. 
-        </div>
+      <div class="alert alert-danger" role="alert">
+        This will <b>forever</b> remove this account from the Naurs. This cannot be undone.
+      </div>
       <div class="d-flex flex-row justify-content-center">
         {% if student.user.is_admin %}
-          <a class="btn btn-lg bg-danger border border-danger text-cus-secondary disabled">
-            <span data-feather="trash"></span>
-            Delete
-          </a>
+        <a class="btn btn-lg bg-danger border border-danger text-cus-secondary disabled">
+          <span data-feather="trash"></span>
+          Delete
+        </a>
         {% else %}
-          <button type="button" class="btn btn-lg bg-danger border border-danger text-cus-secondary" data-bs-toggle="modal" data-bs-target="#deleteStudentModel">
-            <span data-feather="trash"></span>
-            Delete
-          </button>
-          <div class="modal fade" id="deleteStudentModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteStudentModelLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title text-danger" id="deleteStudentModelLabel">Delete Student!</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <div class="row justify-content-center">
-                    <div class="col-12 text-center">
-                      <div class="alert alert-danger" role="alert">
-                        This will <b>forever</b> remove the student from the database. Click <b>"Continue"</b> to delete.
-                      </div>
-                      <form action="{% url 'dashboard_student_visibility_page' student_id=student.id visibility='delete' %}" method="post">
-                        {% csrf_token %}
-                        <button class="btn btn-lg bg-danger border border-danger text-cus-secondary" type="submit">
-                          <span data-feather="trash"></span>
-                          Continue
-                        </button>
-                      </form>
+        <button type="button" class="btn btn-lg bg-danger border border-danger text-cus-secondary"
+          data-bs-toggle="modal" data-bs-target="#deleteStudentModel">
+          <span data-feather="trash"></span>
+          Delete
+        </button>
+        <div class="modal fade" id="deleteStudentModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+          aria-labelledby="deleteStudentModelLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title text-danger" id="deleteStudentModelLabel">Delete Student!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="row justify-content-center">
+                  <div class="col-12 text-center">
+                    <div class="alert alert-danger" role="alert">
+                      This will <b>forever</b> remove the student from the database. Click <b>"Continue"</b> to delete.
                     </div>
+                    <form
+                      action="{% url 'dashboard_student_visibility_page' student_id=student.id visibility='delete' %}"
+                      method="post">
+                      {% csrf_token %}
+                      <button class="btn btn-lg bg-danger border border-danger text-cus-secondary" type="submit">
+                        <span data-feather="trash"></span>
+                        Continue
+                      </button>
+                    </form>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
         {% endif %}
       </div>
     </div>
