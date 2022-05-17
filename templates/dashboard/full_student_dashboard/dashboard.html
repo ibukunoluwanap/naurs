@@ -139,7 +139,7 @@
                             {% csrf_token %}
                             {% if package.bonus_price > 0 %}
                             <button class="w-100 btn-lg bg-cus-orange" type="submit">Get
-                                {{package.bonus_price|floatformat:2|intcomma}} AED OFF initial price!</button>
+                                {{package.bonus_price|floatformat:2|intcomma}} AED added bonus!</button>
                             {% else %}
                             <button class="w-100 btn-lg bg-cus-orange" type="submit">Get Package Now!</button>
                             {% endif %}

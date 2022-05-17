@@ -138,9 +138,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # defining email host
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'naursfitnessandart@gmail.com'
-EMAIL_HOST_PASSWORD = 'frgddpydlmvvruvw' # private app password to use for gmail emailing
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL='hello@naurs.me'
 EMAIL_PORT = 587
-DEFAULT_FROM_EMAIL='(Naurs) Naurs Support <no-reply@naurs.me>' 
+EMAIL_USE_TLS = True
