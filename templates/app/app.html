@@ -7,25 +7,40 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <!-- seo -->
     {% block title %}<title>Naurs - Music • Art • Fitness</title>{% endblock title %}
-	<meta property="og:title" content="Naurs - Music • Art • Fitness" />
-    <meta name="description" content="Naurs focus on delivery the best quality and unique fitness and art classes within your 1km radius.">
-    <meta property="og:description" content="Naurs focus on delivery the best quality and unique fitness and art classes within your 1km radius." />
+    <meta property="og:title" content="Naurs - Music • Art • Fitness" />
+    <meta name="description"
+        content="Naurs focus on delivery the best quality and unique fitness and art classes within your 1km radius.">
+    <meta property="og:description"
+        content="Naurs focus on delivery the best quality and unique fitness and art classes within your 1km radius." />
     <meta name="keywords" content="naurs, fitness, gym, art, near, uae, dubai, yoga, classes, safety, music">
     <meta itemprop="image" property="og:image" content="{% static 'images/favicon.png' %}" />
-	<meta property="og:image:width" content="1277" />
-	<meta property="og:image:height" content="473" />
-	<meta property="og:type" content="website" />
-	<meta property="og:url" content="{{ request.get_host }}" />
+    <meta property="og:image:width" content="1277" />
+    <meta property="og:image:height" content="473" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ request.get_host }}" />
     <meta name="theme-color" content="#011b2b">
     <link rel="manifest" href="manifest.json" />
 
     <!-- Google Tag Manager -->
-        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-MBDRP4Q');</script>
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-MBDRP4Q');</script>
     <!-- End Google Tag Manager -->
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2M2WL54T4X"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-2M2WL54T4X');
+    </script>
 
     <!-- favicons -->
     <link href="{% static 'images/favicon.png' %}" rel="icon">
@@ -42,7 +57,9 @@
     <!-- google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;1,100;1,200;1,300;1,400&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Italiana&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;1,100;1,200;1,300;1,400&display=swap"
+        rel="stylesheet">
     <!-- main css file -->
     <link href="{% static 'css/site/style.css' %}" rel="stylesheet">
     <script src="https://js.stripe.com/v3/"></script>
@@ -50,8 +67,8 @@
 
 <body>
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MBDRP4Q"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MBDRP4Q" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
     <!-- navbar -->
@@ -63,14 +80,15 @@
 
     <!-- parent app -->
     {% block app %}
-        
+
     {% endblock app %}
 
     <!-- footer -->
     {% include 'components/navigations/site/footer.html' %}
-        
+
     <!-- arrow back up -->
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
 
     <!-- Vendor JS Files -->
     <script src="{% static 'vendor/aos/aos.js' %}"></script>
@@ -79,8 +97,10 @@
     <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
     <!-- owl -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"/>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <!-- Template Main JS File -->
     <script src="{% static 'js/tinymce-config.js' %}"></script>

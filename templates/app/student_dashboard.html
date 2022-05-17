@@ -1,92 +1,91 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <!-- seo -->
-    {% block title %}<title>Naurs - Student Dashboard</title>{% endblock title %}
-    <meta property="og:title" content="Naurs - Student Dashboard" />
-    <meta name="description" content="Naurs focus on delivery the best quality and unique fitness and art classes within your 1km radius." />
-    <meta property="og:description" content="Naurs focus on delivery the best quality and unique fitness and art classes within your 1km radius." />
-    <meta name="keywords" content="naurs, fitness, gym, art, near, uae, dubai, yoga, classes, safety, music" />
-    <meta itemprop="image" property="og:image" content="{% static 'images/favicon.png' %}" />
-    <meta property="og:image:width" content="1277" />
-    <meta property="og:image:height" content="473" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="{{ request.get_host }}" />
-    <meta name="theme-color" content="#ffffff" />
-    <link rel="manifest" href="manifest.json" />
 
-    <!-- Google Tag Manager -->
-      <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-MBDRP4Q');</script>
-    <!-- End Google Tag Manager -->
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <!-- seo -->
+  {% block title %}<title>Naurs - Student Dashboard</title>{% endblock title %}
+  <meta property="og:title" content="Naurs - Student Dashboard" />
+  <meta name="description"
+    content="Naurs focus on delivery the best quality and unique fitness and art classes within your 1km radius." />
+  <meta property="og:description"
+    content="Naurs focus on delivery the best quality and unique fitness and art classes within your 1km radius." />
+  <meta name="keywords" content="naurs, fitness, gym, art, near, uae, dubai, yoga, classes, safety, music" />
+  <meta itemprop="image" property="og:image" content="{% static 'images/favicon.png' %}" />
+  <meta property="og:image:width" content="1277" />
+  <meta property="og:image:height" content="473" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="{{ request.get_host }}" />
+  <meta name="theme-color" content="#ffffff" />
+  <link rel="manifest" href="manifest.json" />
 
-    <!-- favicons -->
-    <link href="{% static 'images/favicon.png' %}" rel="icon" />
-    <link href="{% static 'images/favicon.png' %}" rel="apple-touch-icon" />
-    <!-- vendor css file -->
-    <link href="{% static 'vendor/animate.css/animate.min.css' %}" rel="stylesheet" />
-    <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet" />
-    <link href="{% static 'vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet" />
-    <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet" />
-    <link href="{% static 'vendor/remixicon/remixicon.css' %}" rel="stylesheet" />
-    <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet" />
-    <!-- google fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;1,100;1,200;1,300;1,400&display=swap" rel="stylesheet" />
-    <!-- main css file -->
-    <link href="{% static 'css/dashboard/style.css' %}" rel="stylesheet" />
-    <script src="https://js.stripe.com/v3/"></script>
+  <!-- Google Tag Manager -->
+  <script>(function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-MBDRP4Q');</script>
+  <!-- End Google Tag Manager -->
 
-    <!-- extra head tags -->
-    {% block head %}{% endblock head %}
-  </head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2M2WL54T4X"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
 
-  <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MBDRP4Q"
-      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
+    gtag('config', 'G-2M2WL54T4X');
+  </script>
 
-    <!-- header -->
-    <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap shadow bg-cus-primary">
+  <!-- favicons -->
+  <link href="{% static 'images/favicon.png' %}" rel="icon" />
+  <link href="{% static 'images/favicon.png' %}" rel="apple-touch-icon" />
+  <!-- vendor css file -->
+  <link href="{% static 'vendor/animate.css/animate.min.css' %}" rel="stylesheet" />
+  <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet" />
+  <link href="{% static 'vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet" />
+  <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet" />
+  <link href="{% static 'vendor/remixicon/remixicon.css' %}" rel="stylesheet" />
+  <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet" />
+  <!-- google fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Italiana&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;1,100;1,200;1,300;1,400&display=swap"
+    rel="stylesheet" />
+  <!-- main css file -->
+  <link href="{% static 'css/dashboard/style.css' %}" rel="stylesheet" />
+  <script src="https://js.stripe.com/v3/"></script>
+
+  <!-- extra head tags -->
+  {% block head %}{% endblock head %}
+</head>
+
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MBDRP4Q" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <!-- header -->
+  <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap shadow bg-cus-primary">
     <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 text-cus-pink">Student Dashboard</a>
-    <button
-      class="navbar-toggler position-absolute d-md-none collapsed"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#sidebarMenu"
-      aria-controls="sidebarMenu"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
+    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse"
+      data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="d-flex dropdown-align-toggle dropstart avatar-container">
-      <a
-        class="avatar shadow text-center"
-        href="#"
-        role="button"
-        id="accountDropdown"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-      >
+      <a class="avatar shadow text-center" href="#" role="button" id="accountDropdown" data-bs-toggle="dropdown"
+        aria-expanded="false">
         {% if request.user.avatar %}
-        <img
-          src="{{request.user.avatar.url}}"
-          width="100%"
-          height="100%"
-          alt="avatar"
-          class="object-fit"
-   />
+        <img src="{{request.user.avatar.url}}" width="100%" height="100%" alt="avatar" class="object-fit" />
         {% else %}
         <i class="bi bi-person-circle align-middle"></i>
         {% endif %}
@@ -107,42 +106,44 @@
       </ul>
     </div>
   </header>
-  
-    <!-- message -->
-    {% include 'components/notifications/message.html' %}
 
-    <div class="container-fluid">
-      <div class="row">
-        <!-- sidenav -->
-        {% include 'components/navigations/dashboard/student_sidenav.html' %}
+  <!-- message -->
+  {% include 'components/notifications/message.html' %}
 
-        <!-- parent dashboard -->
-        {% block dashboard %} {% endblock dashboard %}
+  <div class="container-fluid">
+    <div class="row">
+      <!-- sidenav -->
+      {% include 'components/navigations/dashboard/student_sidenav.html' %}
 
-        <!-- footer -->
-        {% include 'components/navigations/dashboard/footer.html' %}
-      </div>
+      <!-- parent dashboard -->
+      {% block dashboard %} {% endblock dashboard %}
+
+      <!-- footer -->
+      {% include 'components/navigations/dashboard/footer.html' %}
     </div>
+  </div>
 
-    <!-- Vendor JS Files -->
-    <script src="{% static 'vendor/aos/aos.js' %}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
-    <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
-    <!-- owl -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+  <!-- Vendor JS Files -->
+  <script src="{% static 'vendor/aos/aos.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <!-- owl -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
 
-    <!-- Template Main JS File -->
-    <script src="{% static 'js/tinymce-config.js' %}"></script>
-    <script src="{% static 'js/dashboard/main.js' %}"></script>
+  <!-- Template Main JS File -->
+  <script src="{% static 'js/tinymce-config.js' %}"></script>
+  <script src="{% static 'js/dashboard/main.js' %}"></script>
 
-    <!-- extra scripts -->
-    {% block script %}{% endblock script %}
-  </body>
+  <!-- extra scripts -->
+  {% block script %}{% endblock script %}
+</body>
+
 </html>
