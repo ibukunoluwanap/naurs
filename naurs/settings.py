@@ -10,9 +10,9 @@ STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY')
 STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG')
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [config('ALLOWED_HOSTS')]
 
 
 # Application definition
@@ -85,11 +85,11 @@ DATABASES = {
     }
     # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'NAME': 'naursdb',
-    #     'USER': 'naursdbadmin',
-    #     'PASSWORD': 'Naurs2022Admin',
-    #     'HOST': 'Naurs-2672.postgres.pythonanywhere-services.com',
-    #     'PORT': 12672,
+    #     'NAME': 'config('DB_NAME')',
+    #     'USER': 'config('DB_USER')',
+    #     'PASSWORD': 'config('DB_PASSWORD')',
+    #     'HOST': 'config('DB_HOST')',
+    #     'PORT': config('DB_PORT'),
     # }
 }
 
@@ -142,5 +142,5 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL='hello@naurs.me'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_PORT = config('EMAIL_USE_TLS')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS')
