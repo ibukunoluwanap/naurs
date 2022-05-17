@@ -41,24 +41,21 @@
                     <p class="card-text" style="font-size: 12px;">
                         <b>Bought At:</b> {{order.amount|floatformat:2|intcomma}} AED
                         <br>
-                        <b>Bonus Type:</b>
                         {% if order.kids_sessions > 0 %}
+                        <b>Bonus Type:</b> Free <b>{{order.kids_sessions}}</b> kids sessions
                         <br>
-                        Free <b>{{order.kids_sessions}}</b> kids sessions
                         {% endif %}
-
                         {% if order.senior_citizen_sessions > 0 %}
+                        <b>Bonus Type:</b> Free <b>{{order.senior_citizen_sessions}}</b> senior citizen sessions
                         <br>
-                        Free <b>{{order.senior_citizen_sessions}}</b> senior citizen sessions
                         {% endif %}
-
-                        {% if order.kids_sessions <= 0 and order.senior_citizen_sessions <=0 %} <br>
-                            Free <b>+{{package.bonus_price|floatformat:2|intcomma}}</b> AED added to wallet
-                            {% endif %}
+                        {% if order.kids_sessions <= 0 and order.senior_citizen_sessions <= 0 and order.senior_citizen_sessions > 0 %} <br>
+                            <b>Bonus Type:</b> Free <b>+{{package.bonus_price|floatformat:2|intcomma}}</b> AED added to wallet
                             <br>
-                            <b>Numbers of class(es):</b> {{package.program.count}}
-                            <br>
-                            <b>Total Package Sessions:</b> {{order.sessions}}
+                        {% endif %}
+                        <b>Numbers of class(es):</b> {{package.program.count}}
+                        <br>
+                        <b>Total Package Sessions:</b> {{order.sessions}}
                     </p>
                     <button class="btn w-100 btn-dark bg-cus-pink" data-bs-toggle="modal"
                         data-bs-target="#entryTicket{{package.id}}">Get Entry Ticket</button>
