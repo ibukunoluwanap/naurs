@@ -77,14 +77,14 @@
                         <b>Price:</b> {{package.initial_price|floatformat:2|intcomma}} AED
                         <br>
                         {% if package.bonus_price > 0 %}
-                        <b>Bonus:</b> +{{package.bonus_price|floatformat:2|intcomma}} AED (Free) <b>OR</b>
+                        <b>Bonus:</b> +{{package.bonus_price|floatformat:2|intcomma}} AED (Free)
                         <br>
                         {% endif %}
                         {% if package.kids_sessions > 0 %}
-                        <b>Kids:</b> {{package.kids_sessions}} sessions (Free) <b>OR</b>
+                        <b>Kids:</b> {{package.kids_sessions}} sessions (Free)
                         <br>
                         {% endif %}
-                        {% if package.kids_sessions > 0 %}
+                        {% if package.senior_citizen_sessions > 0 %}
                         <b>Senior citizen:</b> {{package.senior_citizen_sessions}} sessions (Free)
                         <br>
                         {% endif %}
