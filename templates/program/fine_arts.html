@@ -1,49 +1,49 @@
 {% extends 'app/app.html' %}
 {% load static %}
-{% block title %}
-    <title>Naurs - Fine Arts Classes</title>
-{% endblock title %}
+
+{% block seo_title %}
+<title>Naurs - Fine Arts Classes</title>
+<meta property="og:title" content="Naurs - Fine Arts Classes" />
+{% endblock seo_title %}
+
 {% block app %}
-    <main id="main">
-        <!-- ======= breadcrumbs ======= -->
-        <section id="breadcrumbs" class="breadcrumbs">
-            <div class="container">
-                <div class="d-flex justify-content-between align-items-center text-white">
-                    <h2>Fine Arts Classes</h2>
-                    <ol>
-                        <li>
-                            <a href="{% url 'home_page' %}">Home</a>
-                        </li>
-                        <li>Classes</li>
-                        <li>Fine Arts</li>
-                    </ol>
-                </div>
+<main id="main">
+    <!-- ======= breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center text-white">
+                <h2>Fine Arts Classes</h2>
+                <ol>
+                    <li>
+                        <a href="{% url 'home_page' %}">Home</a>
+                    </li>
+                    <li>Classes</li>
+                    <li>Fine Arts</li>
+                </ol>
             </div>
-        </section>
-        <section class="section">
-            <div class="container" data-aos="fade-up">
-                <!-- fine art -->
-                <div id="fine_arts" class="row content">
-                    {% for program in programs %}
-                        {% if program.category == "Fine Arts" %}
-                            <div class="col-md-4 mb-3 mt-5 animate__animated animate__fadeInUp"
-                                    data-aos="fade-right">
-                                <div class="card shadow program-card">
-                                    <img src="{{ program.image.url }}"
-                                            class="card-img-top shadow"
-                                            alt="program">
-                                    <div class="card-body">
-                                        <a href="{% url 'program_detail_page' pk=program.id %}">
-                                            <h4>{{ program.title|truncatechars:30 }}</h4>
-                                            <div class="card-content">{{ program.content|truncatechars_html:200|safe }}</div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
+        </div>
+    </section>
+    <section class="section">
+        <div class="container" data-aos="fade-up">
+            <!-- fine art -->
+            <div id="fine_arts" class="row content">
+                {% for program in programs %}
+                {% if program.category == "Fine Arts" %}
+                <div class="col-md-4 mb-3 mt-5 animate__animated animate__fadeInUp" data-aos="fade-right">
+                    <div class="card shadow program-card">
+                        <img src="{{ program.image.url }}" class="card-img-top shadow" alt="program">
+                        <div class="card-body">
+                            <a href="{% url 'program_detail_page' pk=program.id %}">
+                                <h4>{{ program.title|truncatechars:30 }}</h4>
+                                <div class="card-content">{{ program.content|truncatechars_html:200|safe }}</div>
+                            </a>
+                        </div>
+                    </div>
                 </div>
+                {% endif %}
+                {% endfor %}
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
+</main>
 {% endblock app %}

@@ -2,9 +2,12 @@
 {% load static %}
 {% load humanize %}
 {% load widget_tweaks %}
-{% block title %}
-    <title>Naurs - {{ admin.first_name }} Edit</title>
-{% endblock title %}
+
+{% block seo_title %}
+<title>Naurs - {{ admin.first_name }} Edit</title>
+<meta property="og:title" content="Naurs - {{ admin.first_name }} Edit" />
+{% endblock seo_title %}
+
 {% block dashboard %}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
   <!-- title and back-->
@@ -20,57 +23,58 @@
   <div class="row justify-content-center">
     <div class="col-sm-4 text-center">
       {% if admin.avatar %}
-        <img src="{{admin.avatar.url}}" alt="{{admin.first_name}}" class="avatar-lg shadow mb-3">
+      <img src="{{admin.avatar.url}}" alt="{{admin.first_name}}" class="avatar-lg shadow mb-3">
       {% else %}
-        <i class="bi bi-person-circle align-middle" class="avatar-lg shadow mb-3" style="font-size: 250px;"></i>
+      <i class="bi bi-person-circle align-middle" class="avatar-lg shadow mb-3" style="font-size: 250px;"></i>
       {% endif %}
       <div class="col-sm-12">
         <h4 class="my-3">{{admin.email}}</h4>
       </div>
     </div>
-    <form action="{% url 'dashboard_admin_update_page' pk=admin.id %}" method="post" class="col card shadow border-0 py-3" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="row">
-          <div class="col-sm-12">
-            {% for field in admin_form_with_instance|slice:":1" %}
-              {% if forloop.counter == 1 %}
-                <div class="card p-3 shadow mb-4">
-                  {{ field|add_class:"cus-file-input" }}
-                  {% for error in field.errors %}
-                      <p class="text-danger">{{ error }}</p>
-                  {% endfor %}
-                </div>
-              {% endif %}
+    <form action="{% url 'dashboard_admin_update_page' pk=admin.id %}" method="post"
+      class="col card shadow border-0 py-3" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="row">
+        <div class="col-sm-12">
+          {% for field in admin_form_with_instance|slice:":1" %}
+          {% if forloop.counter == 1 %}
+          <div class="card p-3 shadow mb-4">
+            {{ field|add_class:"cus-file-input" }}
+            {% for error in field.errors %}
+            <p class="text-danger">{{ error }}</p>
             {% endfor %}
           </div>
-          <div class="col-sm-6">
-            {% for field in admin_form_with_instance|slice:":4" %}
-              {% if forloop.counter > 1 %}
-                <div class="form-floating shadow mb-4">
-                  {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
-                  <label for="{{ field.auto_id }}">{{ field.label }}</label>
-                  {% for error in field.errors %}
-                      <p class="text-danger">{{ error }}</p>
-                  {% endfor %}
-                </div>
-              {% endif %}
-            {% endfor %}
-          </div>
-          <div class="col-sm-6">
-            {% for field in admin_form_with_instance|slice:"4:" %}
-                <div class="card p-3 shadow mb-4">
-                    <div class="form-check form-switch">
-                        {{ field|add_class:"form-check-input"|attr:"placeholder:field.label" }}
-                        <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
-                        {% for error in field.errors %}
-                            <p class="text-danger">{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                </div>
-            {% endfor %}
-          </div>
+          {% endif %}
+          {% endfor %}
         </div>
-        <button class="btn-lg" type="submit">Update</button>
+        <div class="col-sm-6">
+          {% for field in admin_form_with_instance|slice:":4" %}
+          {% if forloop.counter > 1 %}
+          <div class="form-floating shadow mb-4">
+            {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
+            <label for="{{ field.auto_id }}">{{ field.label }}</label>
+            {% for error in field.errors %}
+            <p class="text-danger">{{ error }}</p>
+            {% endfor %}
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+        <div class="col-sm-6">
+          {% for field in admin_form_with_instance|slice:"4:" %}
+          <div class="card p-3 shadow mb-4">
+            <div class="form-check form-switch">
+              {{ field|add_class:"form-check-input"|attr:"placeholder:field.label" }}
+              <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
+              {% for error in field.errors %}
+              <p class="text-danger">{{ error }}</p>
+              {% endfor %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <button class="btn-lg" type="submit">Update</button>
     </form>
   </div>
 
@@ -79,10 +83,10 @@
     <div class="col-sm-12">
       <h4>Deletion</h4>
       {% if admin.is_admin %}
-        <div class="alert alert-info text-center" role="alert">
-          <i class="bi bi-info-circle-fill"></i>
-          This user has admin role and therefore can not be deleted
-        </div>
+      <div class="alert alert-info text-center" role="alert">
+        <i class="bi bi-info-circle-fill"></i>
+        This user has admin role and therefore can not be deleted
+      </div>
       {% endif %}
     </div>
     <div class="col-sm-6 mb-3">
@@ -90,32 +94,33 @@
         It's advisable to deactivate admin account instead of deleting.
       </div>
       <div class="d-flex flex-row justify-content-center">
-        <form action="{% url 'dashboard_admin_visibility_page' admin_id=admin.id visibility='deactivate' %}" method="post">
+        <form action="{% url 'dashboard_admin_visibility_page' admin_id=admin.id visibility='deactivate' %}"
+          method="post">
           {% csrf_token %}
           {% if admin.is_active %}
-            <button class="btn btn-lg bg-warning border border-warning text-cus-secondary" type="submit">
-              <span data-feather="x-circle"></span>
-              Deactivate
-            </button>
+          <button class="btn btn-lg bg-warning border border-warning text-cus-secondary" type="submit">
+            <span data-feather="x-circle"></span>
+            Deactivate
+          </button>
           {% else %}
-            <button class="btn btn-lg bg-info border border-info text-cus-secondary" type="submit">
-              <span data-feather="check-circle"></span>
-              Reactivate
-            </button>
+          <button class="btn btn-lg bg-info border border-info text-cus-secondary" type="submit">
+            <span data-feather="check-circle"></span>
+            Reactivate
+          </button>
           {% endif %}
         </form>
       </div>
     </div>
     <div class="col-sm-6 mb-3">
-        <div class="alert alert-danger" role="alert">
-            This will <b>forever</b> remove this account from the Naurs. This cannot be undone. 
-        </div>
+      <div class="alert alert-danger" role="alert">
+        This will <b>forever</b> remove this account from the Naurs. This cannot be undone.
+      </div>
       <div class="d-flex flex-row justify-content-center">
         {% if admin.is_admin %}
-          <a class="btn btn-lg bg-danger border border-danger text-cus-secondary disabled">
-            <span data-feather="trash"></span>
-            Delete
-          </a>
+        <a class="btn btn-lg bg-danger border border-danger text-cus-secondary disabled">
+          <span data-feather="trash"></span>
+          Delete
+        </a>
         {% endif %}
       </div>
     </div>

@@ -2,20 +2,23 @@
 {% load static %}
 {% load humanize %}
 {% load widget_tweaks %}
-{% block title %}
-    <title>Naurs - About Edit</title>
-{% endblock title %}
+
+{% block seo_title %}
+<title>Naurs - About Edit</title>
+<meta property="og:title" content="Naurs - About Edit" />
+{% endblock seo_title %}
+
 {% block dashboard %}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
     <!-- title and back-->
     <div class="row">
         <div class="col-sm-12">
-        <a href="{% url 'dashboard_about_page' %}" class="btn btn-s">
-            <span data-feather="corner-up-left"></span> Back
-        </a>
+            <a href="{% url 'dashboard_about_page' %}" class="btn btn-s">
+                <span data-feather="corner-up-left"></span> Back
+            </a>
         </div>
         <div class="col-sm-12">
-        <h4 class="my-3">About number {{about.id}}</h4>
+            <h4 class="my-3">About number {{about.id}}</h4>
         </div>
     </div>
 
@@ -40,52 +43,53 @@
     </div>
 
     <div class="row">
-        <form action="{% url 'dashboard_about_update_page' pk=about.id %}" method="post" class="col-sm-12 card shadow border-0 py-3">
+        <form action="{% url 'dashboard_about_update_page' pk=about.id %}" method="post"
+            class="col-sm-12 card shadow border-0 py-3">
             {% csrf_token %}
             <div class="row justify-content-center">
                 <div class="col-sm-6">
                     <!-- about mission form -->
                     <h5>Mission</h5>
                     {% for field in about_form_with_instance|slice:":1" %}
-                        {% if forloop.counter == 1 %}
-                            <div class="form-floating shadow mb-4">
-                                {{ about_form.media }}
-                                {{ field }}
-                                {% for error in field.errors %}
-                                    <p class="text-danger">{{ error }}</p>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
+                    {% if forloop.counter == 1 %}
+                    <div class="form-floating shadow mb-4">
+                        {{ about_form.media }}
+                        {{ field }}
+                        {% for error in field.errors %}
+                        <p class="text-danger">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
                     {% endfor %}
                 </div>
                 <div class="col-sm-6">
                     <!-- about vision form -->
                     <h5>Vision</h5>
                     {% for field in about_form_with_instance|slice:":2" %}
-                        {% if forloop.counter == 2 %}
-                            <div class="form-floating shadow mb-4">
-                                {{ about_form.media }}
-                                {{ field }}
-                                {% for error in field.errors %}
-                                    <p class="text-danger">{{ error }}</p>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
+                    {% if forloop.counter == 2 %}
+                    <div class="form-floating shadow mb-4">
+                        {{ about_form.media }}
+                        {{ field }}
+                        {% for error in field.errors %}
+                        <p class="text-danger">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
                     {% endfor %}
                 </div>
                 <div class="col-sm-6">
-                <!-- about vision form -->
-                <h5>Value</h5>
+                    <!-- about vision form -->
+                    <h5>Value</h5>
                     {% for field in about_form_with_instance|slice:":3" %}
-                        {% if forloop.counter == 3 %}
-                            <div class="form-floating shadow mb-4">
-                                {{ about_form.media }}
-                                {{ field }}
-                                {% for error in field.errors %}
-                                    <p class="text-danger">{{ error }}</p>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
+                    {% if forloop.counter == 3 %}
+                    <div class="form-floating shadow mb-4">
+                        {{ about_form.media }}
+                        {{ field }}
+                        {% for error in field.errors %}
+                        <p class="text-danger">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
                     {% endfor %}
                 </div>
             </div>
@@ -103,26 +107,32 @@
                 This will <b>remove</b> the about total from naurs's database and cannot be restored.
             </div>
             <div class="d-flex flex-row justify-content-center">
-                <button type="button" class="btn btn-lg bg-danger border border-danger text-cus-secondary" data-bs-toggle="modal" data-bs-target="#deleteAboutModel">
+                <button type="button" class="btn btn-lg bg-danger border border-danger text-cus-secondary"
+                    data-bs-toggle="modal" data-bs-target="#deleteAboutModel">
                     <span data-feather="trash"></span>
                     Delete
                 </button>
-                <div class="modal fade" id="deleteAboutModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteAboutModelLabel" aria-hidden="true">
+                <div class="modal fade" id="deleteAboutModel" data-bs-backdrop="static" data-bs-keyboard="false"
+                    tabindex="-1" aria-labelledby="deleteAboutModelLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title text-danger" id="deleteAboutModelLabel">Delete About!</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <div class="row justify-content-center">
                                     <div class="col-12 text-center">
                                         <div class="alert alert-danger" role="alert">
-                                            This will <b>forever</b> remove the about from the database. Click <b>"Continue"</b> to delete.
+                                            This will <b>forever</b> remove the about from the database. Click
+                                            <b>"Continue"</b> to delete.
                                         </div>
-                                        <form action="{% url 'dashboard_about_delete_page' pk=about.id %}" method="post">
+                                        <form action="{% url 'dashboard_about_delete_page' pk=about.id %}"
+                                            method="post">
                                             {% csrf_token %}
-                                            <button class="btn btn-lg bg-danger border border-danger text-cus-secondary" type="submit">
+                                            <button class="btn btn-lg bg-danger border border-danger text-cus-secondary"
+                                                type="submit">
                                                 <span data-feather="trash"></span>
                                                 Continue
                                             </button>

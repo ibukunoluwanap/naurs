@@ -2,9 +2,12 @@
 {% load static %}
 {% load humanize %}
 {% load widget_tweaks %}
-{% block title %}
-    <title>Naurs - {{ offer.title }} Edit</title>
-{% endblock title %}
+
+{% block seo_title %}
+<title>Naurs - {{ offer.title }} Edit</title>
+<meta property="og:title" content="Naurs - {{ offer.title }} Edit" />
+{% endblock seo_title %}
+
 {% block dashboard %}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
   <!-- title and back-->
@@ -25,50 +28,51 @@
       <img src="{{offer.image.url}}" alt="{{offer.title}}" class="object-fit rounded" width="100%" height="300px">
       {{offer.content|safe|truncatechars:500}}
     </div>
-    <form action="{% url 'dashboard_offer_update_page' pk=offer.id %}" method="post" class="col card shadow border-0 py-3" enctype="multipart/form-data">
+    <form action="{% url 'dashboard_offer_update_page' pk=offer.id %}" method="post"
+      class="col card shadow border-0 py-3" enctype="multipart/form-data">
       {% csrf_token %}
       <div class="row">
         <div class="col-sm-6">
           {% for field in offer_form_with_instance|slice:":3" %}
-            {% if forloop.counter == 3 %}
-            <div class="card p-3 shadow mb-4">
-                <div class="form-check form-switch">
-                {{ field|add_class:"form-check-input"|attr:"placeholder:field.label" }}
-                <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
-                {% for error in field.errors %}
-                    <p class="text-danger">{{ error }}</p>
-                {% endfor %}
-                </div>
+          {% if forloop.counter == 3 %}
+          <div class="card p-3 shadow mb-4">
+            <div class="form-check form-switch">
+              {{ field|add_class:"form-check-input"|attr:"placeholder:field.label" }}
+              <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
+              {% for error in field.errors %}
+              <p class="text-danger">{{ error }}</p>
+              {% endfor %}
             </div>
-            {% elif forloop.counter == 1 %}
-              <div class="card p-3 shadow mb-4">
-                {{ field|add_class:"cus-file-input" }}
-                {% for error in field.errors %}
-                    <p class="text-danger">{{ error }}</p>
-                {% endfor %}
-              </div>
-            {% else %}
-              <div class="form-floating shadow mb-4">
-                {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
-                <label for="{{ field.auto_id }}">{{ field.label }}</label>
-                {% for error in field.errors %}
-                    <p class="text-danger">{{ error }}</p>
-                {% endfor %}
-              </div>
-            {% endif %}
+          </div>
+          {% elif forloop.counter == 1 %}
+          <div class="card p-3 shadow mb-4">
+            {{ field|add_class:"cus-file-input" }}
+            {% for error in field.errors %}
+            <p class="text-danger">{{ error }}</p>
+            {% endfor %}
+          </div>
+          {% else %}
+          <div class="form-floating shadow mb-4">
+            {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
+            <label for="{{ field.auto_id }}">{{ field.label }}</label>
+            {% for error in field.errors %}
+            <p class="text-danger">{{ error }}</p>
+            {% endfor %}
+          </div>
+          {% endif %}
           {% endfor %}
         </div>
         <div class="col-sm-6">
           {% for field in offer_form_with_instance|slice:":4" %}
-            {% if forloop.counter == 4 %}
-              <div class="form-floating shadow mb-4">
-                {{ offer_form.media }}
-                {{ field }}
-                {% for error in field.errors %}
-                    <p class="text-danger">{{ error }}</p>
-                {% endfor %}
-              </div>
-            {% endif %}
+          {% if forloop.counter == 4 %}
+          <div class="form-floating shadow mb-4">
+            {{ offer_form.media }}
+            {{ field }}
+            {% for error in field.errors %}
+            <p class="text-danger">{{ error }}</p>
+            {% endfor %}
+          </div>
+          {% endif %}
           {% endfor %}
         </div>
       </div>
@@ -95,63 +99,68 @@
             </tr>
           </thead>
           <tbody>
-            {% if offer.bookoffermodel_set.all %}              
-              {% for offer in offer.bookoffermodel_set.all %}
-                <tr>
-                  <th scope="row" class="p-2">{{offer.id}}</th>
-                  <td class="p-2">
-                    <a href="#" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="text-decoration-none text-cus-primary">
-                      {{offer.name|safe|truncatechars:50}}
-                    </a>
-                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h4 class="modal-title" id="staticBackdropLabel">
-                            {{offer.name|truncatechars:20|safe}} 
-                              <span class="text-muted fw-lighter" style="font-size: 14px;">is interested in the {{offer.offer.title|truncatechars:60}}</span>
-                            </h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body">
-                            {{offer.offer.content|safe}}
-                          </div>
-                        </div>
+            {% if offer.bookoffermodel_set.all %}
+            {% for offer in offer.bookoffermodel_set.all %}
+            <tr>
+              <th scope="row" class="p-2">{{offer.id}}</th>
+              <td class="p-2">
+                <a href="#" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                  class="text-decoration-none text-cus-primary">
+                  {{offer.name|safe|truncatechars:50}}
+                </a>
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title" id="staticBackdropLabel">
+                          {{offer.name|truncatechars:20|safe}}
+                          <span class="text-muted fw-lighter" style="font-size: 14px;">is interested in the
+                            {{offer.offer.title|truncatechars:60}}</span>
+                        </h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
-                    </div>      
-                  </td>
-                  <td class="p-2">
-                    <a href='mailto:{{offer.email}}?subject=Offer Interest Reply&body=Replying based on your interest in the "{{offer.offer.title|safe|truncatechars:20}}" offer.' class="btn btn-sm text-cus-secondary bg-cus-pink d-flex justify-content-center text-center">
-                      <i class="bi bi-envelope align-middle" style="margin-right: .5rem;"></i> Email
-                    </a>
-                  </td>
-                  <td class="p-2">
-                    <a href="tel:{{offer.phone_number}}" class="btn btn-sm text-cus-secondary bg-cus-orange d-flex justify-content-center text-center">
-                      <i class="bi bi-telephone align-middle" style="margin-right: .5rem;"></i> Call
-                    </a>
-                  </td>
-                  <td class="p-2">{{offer.created_on|naturaltime}}</td>
-                  <td class="p-2">
-                    <form action="{% url 'dashboard_book_offer_page' pk=offer.id %}" method="post">
-                      {% csrf_token %}
-                      <button class="w-100 btn btn-sm btn-danger d-flex justify-content-center text-center" type="submit">
-                        Delete
-                      </button>
-                    </form>
-                  </td>
-                </tr>
-              {% endfor %}
+                      <div class="modal-body">
+                        {{offer.offer.content|safe}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td class="p-2">
+                <a href='mailto:{{offer.email}}?subject=Offer Interest Reply&body=Replying based on your interest in the "{{offer.offer.title|safe|truncatechars:20}}" offer.'
+                  class="btn btn-sm text-cus-secondary bg-cus-pink d-flex justify-content-center text-center">
+                  <i class="bi bi-envelope align-middle" style="margin-right: .5rem;"></i> Email
+                </a>
+              </td>
+              <td class="p-2">
+                <a href="tel:{{offer.phone_number}}"
+                  class="btn btn-sm text-cus-secondary bg-cus-orange d-flex justify-content-center text-center">
+                  <i class="bi bi-telephone align-middle" style="margin-right: .5rem;"></i> Call
+                </a>
+              </td>
+              <td class="p-2">{{offer.created_on|naturaltime}}</td>
+              <td class="p-2">
+                <form action="{% url 'dashboard_book_offer_page' pk=offer.id %}" method="post">
+                  {% csrf_token %}
+                  <button class="w-100 btn btn-sm btn-danger d-flex justify-content-center text-center" type="submit">
+                    Delete
+                  </button>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
             {% else %}
-              <tr>
-                  <td class="p-2">
-                    <i class="display-1 bi bi-trash align-middle"></i>
-                  </td>
-                  <td class="p-2">
-                    <p>
-                        No enquiries currently available!
-                    </p>
-                  </td>
-              </tr>
+            <tr>
+              <td class="p-2">
+                <i class="display-1 bi bi-trash align-middle"></i>
+              </td>
+              <td class="p-2">
+                <p>
+                  No enquiries currently available!
+                </p>
+              </td>
+            </tr>
             {% endif %}
           </tbody>
         </table>
@@ -170,19 +179,20 @@
         the website or application.
       </div>
       <div class="d-flex flex-row justify-content-center">
-        <form action="{% url 'dashboard_offer_visibility_page' offer_id=offer.id visibility='deactivate' %}" method="post">
+        <form action="{% url 'dashboard_offer_visibility_page' offer_id=offer.id visibility='deactivate' %}"
+          method="post">
           {% csrf_token %}
-            {% if offer.is_active %}
-              <button class="btn btn-lg bg-warning border border-warning text-cus-secondary" type="submit">
-                <span data-feather="x-circle"></span>
-                Deactivate
-              </button>
-            {% else %}
-              <button class="btn btn-lg bg-info border border-info text-cus-secondary" type="submit">
-                <span data-feather="check-circle"></span>
-                Reactivate
-              </button>
-            {% endif %}
+          {% if offer.is_active %}
+          <button class="btn btn-lg bg-warning border border-warning text-cus-secondary" type="submit">
+            <span data-feather="x-circle"></span>
+            Deactivate
+          </button>
+          {% else %}
+          <button class="btn btn-lg bg-info border border-info text-cus-secondary" type="submit">
+            <span data-feather="check-circle"></span>
+            Reactivate
+          </button>
+          {% endif %}
         </form>
       </div>
     </div>
@@ -192,11 +202,13 @@
         the website or application.
       </div>
       <div class="d-flex flex-row justify-content-center">
-        <button type="button" class="btn btn-lg bg-danger border border-danger text-cus-secondary" data-bs-toggle="modal" data-bs-target="#deleteOfferModel">
+        <button type="button" class="btn btn-lg bg-danger border border-danger text-cus-secondary"
+          data-bs-toggle="modal" data-bs-target="#deleteOfferModel">
           <span data-feather="trash"></span>
           Delete
         </button>
-        <div class="modal fade" id="deleteOfferModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteOfferModelLabel" aria-hidden="true">
+        <div class="modal fade" id="deleteOfferModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+          aria-labelledby="deleteOfferModelLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -209,7 +221,8 @@
                     <div class="alert alert-danger" role="alert">
                       This will <b>forever</b> remove the offer from the database. Click <b>"Continue"</b> to delete.
                     </div>
-                    <form action="{% url 'dashboard_offer_visibility_page' offer_id=offer.id visibility='delete' %}" method="post">
+                    <form action="{% url 'dashboard_offer_visibility_page' offer_id=offer.id visibility='delete' %}"
+                      method="post">
                       {% csrf_token %}
                       <button class="btn btn-lg bg-danger border border-danger text-cus-secondary" type="submit">
                         <span data-feather="trash"></span>

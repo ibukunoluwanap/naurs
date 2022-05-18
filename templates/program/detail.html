@@ -2,173 +2,183 @@
 {% load static %}
 {% load widget_tweaks %}
 {% load humanize %}
-{% block title %}
-    <title>Naurs - {{ program.title }}</title>
-{% endblock title %}
+
+{% block seo_title %}
+<title>Naurs - {{ program.title }}</title>
+<meta property="og:title" content="Naurs - {{ program.title }}" />
+{% endblock seo_title %}
+
+{% block seo_image %}
+{% if program.image.url %}
+<meta itemprop="image" property="og:image" content="{{ program.image.url }}" />
+{% else %}
+<meta itemprop="image" property="og:image" content="{% static 'images/favicon.png' %}" />
+{% endif %}
+<meta property="og:image:width" content="1277" />
+<meta property="og:image:height" content="473" />
+{% endblock seo_image %}
+
 {% block app %}
-    <main id="main">
-        <!-- ======= breadcrumbs ======= -->
-        <section id="breadcrumbs" class="breadcrumbs">
-            <div class="container">
-                <div class="d-flex justify-content-between align-items-center text-white">
-                    <h2>Class</h2>
-                    <ol>
-                        <li>
-                            <a href="{% url 'home_page' %}">Home</a>
-                        </li>
-                        <li>Classes</li>
-                        <li>{{ program.title|truncatechars:10 }}</li>
-                    </ol>
-                </div>
+<main id="main">
+    <!-- ======= breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center text-white">
+                <h2>Class</h2>
+                <ol>
+                    <li>
+                        <a href="{% url 'home_page' %}">Home</a>
+                    </li>
+                    <li>Classes</li>
+                    <li>{{ program.title|truncatechars:10 }}</li>
+                </ol>
             </div>
-        </section>
-        <!-- ======= head image section ======= -->
-        <div class="container-fluid px-0">
-            <div class="row g-0">
-                <div class="col-12 text-white text-center">
-                    <div class="head-img"
-                         style="background-image: url('{{ program.image.url }}');">
-                        <div class="dark-layer"></div>
-                        <h3 class="fw-bold position-absolute top-50 start-50 translate-middle">{{ program.title }}</h3>
-                    </div>
+        </div>
+    </section>
+    <!-- ======= head image section ======= -->
+    <div class="container-fluid px-0">
+        <div class="row g-0">
+            <div class="col-12 text-white text-center">
+                <div class="head-img" style="background-image: url('{{ program.image.url }}');">
+                    <div class="dark-layer"></div>
+                    <h3 class="fw-bold position-absolute top-50 start-50 translate-middle">{{ program.title }}</h3>
                 </div>
             </div>
         </div>
-        <!-- ======= program section ======= -->
-        <section class="section">
-            <div class="container" data-aos="fade-up">
-                <div class="row content">
-                    <div class="col-md-8 mb-3 animate__animated animate__fadeInLeft"
-                         data-aos="fade-right">
-                        <h1 class="h2 fw-bold text-cus-primary">{{ program.title }}</h1>
-                        {{ program.content|safe }}
-                        <h4 class="mt-4 fw-bold text-cus-primary">Benefits</h4>
-                        <ul>
-                            {% for benefit in program.programbenefitmodel_set.all %}
-                                <li>
-                                    <i class="bi bi-arrow-return-right align-middle text-cus-primary"></i> {{ benefit.benefit }}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                        <h4 class="mt-4 fw-bold text-cus-primary">Total Space Available</h4>
-                        {{ program.total_space }}
-                        <h4 class="mt-4 fw-bold text-cus-primary">Calendar</h4>
-                        <ul>
-                            <a href="{% url 'calendar' %}" target="_blank">View full calendar</a>
-                            {% for calendar in program.calendarmodel_set.all %}
-                                <li>
-                                    <ul style="padding: 0.5rem 1rem;
+    </div>
+    <!-- ======= program section ======= -->
+    <section class="section">
+        <div class="container" data-aos="fade-up">
+            <div class="row content">
+                <div class="col-md-8 mb-3 animate__animated animate__fadeInLeft" data-aos="fade-right">
+                    <h1 class="h2 fw-bold text-cus-primary">{{ program.title }}</h1>
+                    {{ program.content|safe }}
+                    <h4 class="mt-4 fw-bold text-cus-primary">Benefits</h4>
+                    <ul>
+                        {% for benefit in program.programbenefitmodel_set.all %}
+                        <li>
+                            <i class="bi bi-arrow-return-right align-middle text-cus-primary"></i> {{ benefit.benefit }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <h4 class="mt-4 fw-bold text-cus-primary">Total Space Available</h4>
+                    {{ program.total_space }}
+                    <h4 class="mt-4 fw-bold text-cus-primary">Calendar</h4>
+                    <ul>
+                        <a href="{% url 'calendar' %}" target="_blank">View full calendar</a>
+                        {% for calendar in program.calendarmodel_set.all %}
+                        <li>
+                            <ul style="padding: 0.5rem 1rem;
                                     background: #011b2b80;
                                     color: #fff;
                                     border-radius: 0.2rem;
                                     line-height: 1.3;">
-                                        <li>
-                                            <i class="bi bi-calendar-fill align-middle text-cus-primary"></i>
-                                            <small>
-                                                {{ calendar.start_at }} <b>-</b> {{ calendar.end_at }}
-                                            </small>
-                                        </li>
-                                        <li>
-                                            <i class="bi bi-mortarboard-fill align-middle text-cus-primary"></i>
-                                            <small>
-                                                {{ calendar.instructor.user.get_full_name }}
-                                            </small>
-                                        </li>
-                                    </ul>
+                                <li>
+                                    <i class="bi bi-calendar-fill align-middle text-cus-primary"></i>
+                                    <small>
+                                        {{ calendar.start_at }} <b>-</b> {{ calendar.end_at }}
+                                    </small>
                                 </li>
-                            {% endfor %}
-                        </ul>
-                        <h4 class="mt-4 fw-bold text-cus-primary">Price</h4>
-                        {{ program.price }} AED
-                        <hr>
-                        
-                        {% if request.user.is_authenticated and request.user.studentmodel %}
-                            <a href="{% url 'student_dashboard_page' %}" class="w-100 text-center btn-lg" type="submit">Pick A Spot</a>
-                        {% elif request.user.is_authenticated%}
-                            <span class="text-danger">Only registered students can join!</span>
-                        {% else %}
-                            <a href="{% url 'login_page' %}" class="w-100 text-center btn-lg" type="submit">Pick A Spot</a>
-                        {% endif %}
-                    </div>
-                    <div class="col-md-4 my-3 pt-3 pb-3 rounded section-bg animate__animated animate__fadeInRight"
-                         data-aos="fade-right">
-                        <div class="row justify-content-center">
-                            <div class="col-12 mb-5">
-                                <h4 class="h4 fw-bold text-cus-primary">
-                                    <i class="bi bi-info-square align-middle"></i>
-                                    Enquire Now!
-                                </h4>
-                                <form action="{% url 'program_enquiry_page' program_id=program.id %}" class="text-center" method="post">
-                                    {% csrf_token %}
-                                    {% for field in program_enquiry_form %}
-                                        <div class="form-floating shadow mb-4">
-                                            {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
-                                            <label for="{{ field.auto_id }}">{{ field.label }}</label>
-                                            {% for error in field.errors %}
-                                                <p class="text-danger">
-                                                    {{ error }}
-                                                </p>
-                                            {% endfor %}
-                                        </div>
-                                    {% endfor %}
-                                    <button class="w-75 btn-lg" type="submit">Submit</button>
-                                </form>
-                            </div>
-                            <div class="col-12">
-                                <h4 class="h4 fw-bold text-cus-primary">
-                                    <i class="bi bi-person-lines-fill align-middle"></i>
-                                    Contact Us
-                                </h4>
-                                <a href="tel:+97143331091">
-                                    <div class="contact-card p-3 bg-cus-primary text-cus-secondary">
-                                        <i class="bi bi-telephone align-middle"></i>
-                                        <br>
-                                        Call Us
-                                        <br>
-                                        For More Info.
-                                    </div>
-                                </a>
-                                <br>
-                                <a href="mailto:hello@naurs.me">
-                                    <div class="contact-card p-3 bg-cus-secondary text-cus-primary">
-                                        <i class="bi bi-envelope align-middle"></i>
-                                        <br>
-                                        Email Us At
-                                        <br>
-                                        hello@naurs.me
-                                        <br>
-                                        For More Info.
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                                <li>
+                                    <i class="bi bi-mortarboard-fill align-middle text-cus-primary"></i>
+                                    <small>
+                                        {{ calendar.instructor.user.get_full_name }}
+                                    </small>
+                                </li>
+                            </ul>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <h4 class="mt-4 fw-bold text-cus-primary">Price</h4>
+                    {{ program.price }} AED
+                    <hr>
+
+                    {% if request.user.is_authenticated and request.user.studentmodel %}
+                    <a href="{% url 'student_dashboard_page' %}" class="w-100 text-center btn-lg" type="submit">Pick A
+                        Spot</a>
+                    {% elif request.user.is_authenticated%}
+                    <span class="text-danger">Only registered students can join!</span>
+                    {% else %}
+                    <a href="{% url 'login_page' %}" class="w-100 text-center btn-lg" type="submit">Pick A Spot</a>
+                    {% endif %}
                 </div>
-            </div>
-        </section>
-        <!-- ======= other programs & classes section ======= -->
-        <section class="section">
-            <div class="container" data-aos="fade-up">
-                <div class="row content">
-                    <h4 class="fw-bold text-cus-primary">Other Classes</h4>
-                    {% for program in last_3_programs %}
-                        <div class="col-md-4 mb-3 mt-5 animate__animated animate__fadeInUp"
-                             data-aos="fade-right">
-                            <div class="card shadow program-card">
-                                <img src="{{ program.image.url }}"
-                                     class="card-img-top shadow"
-                                     alt="program">
-                                <div class="card-body">
-                                    <a href="{% url 'program_detail_page' pk=program.id %}">
-                                        <h4>{{ program.title|truncatechars:30 }}</h4>
-                                        <div class="card-content">{{ program.content|truncatechars_html:200|safe }}</div>
-                                    </a>
+                <div class="col-md-4 my-3 pt-3 pb-3 rounded section-bg animate__animated animate__fadeInRight"
+                    data-aos="fade-right">
+                    <div class="row justify-content-center">
+                        <div class="col-12 mb-5">
+                            <h4 class="h4 fw-bold text-cus-primary">
+                                <i class="bi bi-info-square align-middle"></i>
+                                Enquire Now!
+                            </h4>
+                            <form action="{% url 'program_enquiry_page' program_id=program.id %}" class="text-center"
+                                method="post">
+                                {% csrf_token %}
+                                {% for field in program_enquiry_form %}
+                                <div class="form-floating shadow mb-4">
+                                    {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
+                                    <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                                    {% for error in field.errors %}
+                                    <p class="text-danger">
+                                        {{ error }}
+                                    </p>
+                                    {% endfor %}
                                 </div>
-                            </div>
+                                {% endfor %}
+                                <button class="w-75 btn-lg" type="submit">Submit</button>
+                            </form>
                         </div>
-                    {% endfor %}
+                        <div class="col-12">
+                            <h4 class="h4 fw-bold text-cus-primary">
+                                <i class="bi bi-person-lines-fill align-middle"></i>
+                                Contact Us
+                            </h4>
+                            <a href="tel:+97143331091">
+                                <div class="contact-card p-3 bg-cus-primary text-cus-secondary">
+                                    <i class="bi bi-telephone align-middle"></i>
+                                    <br>
+                                    Call Us
+                                    <br>
+                                    For More Info.
+                                </div>
+                            </a>
+                            <br>
+                            <a href="mailto:hello@naurs.me">
+                                <div class="contact-card p-3 bg-cus-secondary text-cus-primary">
+                                    <i class="bi bi-envelope align-middle"></i>
+                                    <br>
+                                    Email Us At
+                                    <br>
+                                    hello@naurs.me
+                                    <br>
+                                    For More Info.
+                                </div>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </main>
+    </section>
+    <!-- ======= other programs & classes section ======= -->
+    <section class="section">
+        <div class="container" data-aos="fade-up">
+            <div class="row content">
+                <h4 class="fw-bold text-cus-primary">Other Classes</h4>
+                {% for program in last_3_programs %}
+                <div class="col-md-4 mb-3 mt-5 animate__animated animate__fadeInUp" data-aos="fade-right">
+                    <div class="card shadow program-card">
+                        <img src="{{ program.image.url }}" class="card-img-top shadow" alt="program">
+                        <div class="card-body">
+                            <a href="{% url 'program_detail_page' pk=program.id %}">
+                                <h4>{{ program.title|truncatechars:30 }}</h4>
+                                <div class="card-content">{{ program.content|truncatechars_html:200|safe }}</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        </div>
+</main>
 {% endblock app %}

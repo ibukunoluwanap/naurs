@@ -2,9 +2,12 @@
 {% load static %}
 {% load humanize %}
 {% load widget_tweaks %}
-{% block title %}
-    <title>Naurs - {{ instructor.user.first_name }} Edit</title>
-{% endblock title %}
+
+{% block seo_title %}
+<title>Naurs - {{ instructor.user.first_name }} Edit</title>
+<meta property="og:title" content="Naurs - {{ instructor.user.first_name }} Edit" />
+{% endblock seo_title %}
+
 {% block dashboard %}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
   <!-- title and back-->
@@ -23,38 +26,39 @@
   <div class="row justify-content-center">
     <div class="col-sm-4 text-center">
       {% if instructor.user.avatar %}
-        <img src="{{instructor.user.avatar.url}}" alt="{{instructor.title}}" class="avatar-lg shadow mb-3">
+      <img src="{{instructor.user.avatar.url}}" alt="{{instructor.title}}" class="avatar-lg shadow mb-3">
       {% else %}
-        <i class="bi bi-person-circle align-middle" class="avatar-lg shadow mb-3" style="font-size: 250px;"></i>
+      <i class="bi bi-person-circle align-middle" class="avatar-lg shadow mb-3" style="font-size: 250px;"></i>
       {% endif %}
       {{instructor.about|safe|truncatechars:500}}
     </div>
-    <form action="{% url 'dashboard_instructor_update_page' pk=instructor.id %}" method="post" class="col card shadow border-0 py-3">
+    <form action="{% url 'dashboard_instructor_update_page' pk=instructor.id %}" method="post"
+      class="col card shadow border-0 py-3">
       {% csrf_token %}
       <div class="row">
         <div class="col-sm-12">
           <!-- instructor form -->
           {% for field in instructor_form_with_instance|slice:":1" %}
-              <div class="form-floating shadow mb-4">
-                {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
-                <label for="{{ field.auto_id }}">{{ field.label }}</label>
-                {% for error in field.errors %}
-                    <p class="text-danger">{{ error }}</p>
-                {% endfor %}
-              </div>
+          <div class="form-floating shadow mb-4">
+            {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
+            <label for="{{ field.auto_id }}">{{ field.label }}</label>
+            {% for error in field.errors %}
+            <p class="text-danger">{{ error }}</p>
+            {% endfor %}
+          </div>
           {% endfor %}
         </div>
         <div class="col-sm-12">
           {% for field in instructor_form_with_instance|slice:":2" %}
-            {% if forloop.counter == 2 %}
-              <div class="form-floating shadow mb-4">
-                {{ instructor_form.media }}
-                {{ field }}
-                {% for error in field.errors %}
-                    <p class="text-danger">{{ error }}</p>
-                {% endfor %}
-              </div>
-            {% endif %}
+          {% if forloop.counter == 2 %}
+          <div class="form-floating shadow mb-4">
+            {{ instructor_form.media }}
+            {{ field }}
+            {% for error in field.errors %}
+            <p class="text-danger">{{ error }}</p>
+            {% endfor %}
+          </div>
+          {% endif %}
           {% endfor %}
         </div>
       </div>
@@ -70,18 +74,15 @@
     <div class="col-sm-12">
       <ul class="row list-unstyled">
         {% for program in programs %}
-          {% for program_instructor in program.instructors.all %}
-            {% if program_instructor.user == instructor.user %}
-              <li class="my-2 col-sm-3">
-                <i class="bi bi-arrow-return-right align-middle text-cus-primary"></i>
-                <a
-                  href="{% url 'dashboard_program_detail_page' pk=program.id %}"
-                  class="text-decoration-none text-cus-primary"
-                  >{{ program.title }}</a
-                >
-              </li>
-            {% endif %}
-          {% endfor %}
+        {% for program_instructor in program.instructors.all %}
+        {% if program_instructor.user == instructor.user %}
+        <li class="my-2 col-sm-3">
+          <i class="bi bi-arrow-return-right align-middle text-cus-primary"></i>
+          <a href="{% url 'dashboard_program_detail_page' pk=program.id %}"
+            class="text-decoration-none text-cus-primary">{{ program.title }}</a>
+        </li>
+        {% endif %}
+        {% endfor %}
         {% endfor %}
       </ul>
     </div>
@@ -95,16 +96,13 @@
     <div class="col-sm-12">
       <ul class="row list-unstyled">
         {% for program in programs %}
-          {% for program_student in program.students.all %}
-            <li class="my-2 col-sm-3">
-              <i class="bi bi-arrow-return-right align-middle text-cus-primary"></i>
-              <a
-                href="{% url 'dashboard_student_detail_page' pk=program_student.id %}"
-                class="text-decoration-none text-cus-primary"
-                >{{ program_student.user.get_full_name }}</a
-              >
-            </li>
-          {% endfor %}
+        {% for program_student in program.students.all %}
+        <li class="my-2 col-sm-3">
+          <i class="bi bi-arrow-return-right align-middle text-cus-primary"></i>
+          <a href="{% url 'dashboard_student_detail_page' pk=program_student.id %}"
+            class="text-decoration-none text-cus-primary">{{ program_student.user.get_full_name }}</a>
+        </li>
+        {% endfor %}
         {% endfor %}
       </ul>
     </div>
@@ -115,10 +113,10 @@
     <div class="col-sm-12">
       <h4>Deletion</h4>
       {% if instructor.user.is_admin %}
-        <div class="alert alert-info text-center" role="alert">
-          <i class="bi bi-info-circle-fill"></i>
-          This instructor has admin role and therefore can not be altered
-        </div>
+      <div class="alert alert-info text-center" role="alert">
+        <i class="bi bi-info-circle-fill"></i>
+        This instructor has admin role and therefore can not be altered
+      </div>
       {% endif %}
     </div>
     <div class="col-sm-6 mb-3">
@@ -127,18 +125,20 @@
         will keep the all classes, tasks and roles performed by the instructor perviously.
       </div>
       <div class="d-flex flex-row justify-content-center">
-        <form action="{% url 'dashboard_instructor_visibility_page' instructor_id=instructor.id visibility='deactivate' %}" method="post">
+        <form
+          action="{% url 'dashboard_instructor_visibility_page' instructor_id=instructor.id visibility='deactivate' %}"
+          method="post">
           {% csrf_token %}
           {% if instructor.user.is_active %}
-            <button class="btn btn-lg bg-warning border border-warning text-cus-secondary" type="submit">
-              <span data-feather="x-circle"></span>
-              Deactivate
-            </button>
+          <button class="btn btn-lg bg-warning border border-warning text-cus-secondary" type="submit">
+            <span data-feather="x-circle"></span>
+            Deactivate
+          </button>
           {% else %}
-            <button class="btn btn-lg bg-info border border-info text-cus-secondary" type="submit">
-              <span data-feather="check-circle"></span>
-              Reactivate
-            </button>
+          <button class="btn btn-lg bg-info border border-info text-cus-secondary" type="submit">
+            <span data-feather="check-circle"></span>
+            Reactivate
+          </button>
           {% endif %}
         </form>
       </div>
@@ -150,41 +150,46 @@
       </div>
       <div class="d-flex flex-row justify-content-center">
         {% if instructor.user.is_admin %}
-          <a class="btn btn-lg bg-danger border border-danger text-cus-secondary disabled">
-            <span data-feather="trash"></span>
-            Delete
-          </a>
+        <a class="btn btn-lg bg-danger border border-danger text-cus-secondary disabled">
+          <span data-feather="trash"></span>
+          Delete
+        </a>
         {% else %}
-          <button type="button" class="btn btn-lg bg-danger border border-danger text-cus-secondary" data-bs-toggle="modal" data-bs-target="#deleteInstructorModel">
-            <span data-feather="trash"></span>
-            Delete
-          </button>
-          <div class="modal fade" id="deleteInstructorModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteInstructorModelLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title text-danger" id="deleteInstructorModelLabel">Delete Instructor!</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <div class="row justify-content-center">
-                    <div class="col-12 text-center">
-                      <div class="alert alert-danger" role="alert">
-                        This will <b>forever</b> remove the instructor from the database. Click <b>"Continue"</b> to delete.
-                      </div>
-                      <form action="{% url 'dashboard_instructor_visibility_page' instructor_id=instructor.id visibility='delete' %}" method="post">
-                        {% csrf_token %}
-                        <button class="btn btn-lg bg-danger border border-danger text-cus-secondary" type="submit">
-                          <span data-feather="trash"></span>
-                          Continue
-                        </button>
-                      </form>
+        <button type="button" class="btn btn-lg bg-danger border border-danger text-cus-secondary"
+          data-bs-toggle="modal" data-bs-target="#deleteInstructorModel">
+          <span data-feather="trash"></span>
+          Delete
+        </button>
+        <div class="modal fade" id="deleteInstructorModel" data-bs-backdrop="static" data-bs-keyboard="false"
+          tabindex="-1" aria-labelledby="deleteInstructorModelLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title text-danger" id="deleteInstructorModelLabel">Delete Instructor!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="row justify-content-center">
+                  <div class="col-12 text-center">
+                    <div class="alert alert-danger" role="alert">
+                      This will <b>forever</b> remove the instructor from the database. Click <b>"Continue"</b> to
+                      delete.
                     </div>
+                    <form
+                      action="{% url 'dashboard_instructor_visibility_page' instructor_id=instructor.id visibility='delete' %}"
+                      method="post">
+                      {% csrf_token %}
+                      <button class="btn btn-lg bg-danger border border-danger text-cus-secondary" type="submit">
+                        <span data-feather="trash"></span>
+                        Continue
+                      </button>
+                    </form>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
         {% endif %}
       </div>
     </div>

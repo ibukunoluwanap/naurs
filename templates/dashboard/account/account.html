@@ -2,9 +2,12 @@
 {% load static %}
 {% load humanize %}
 {% load widget_tweaks %}
-{% block title %}
+
+{% block seo_title %}
 <title>Naurs - My Account</title>
-{% endblock title %}
+<meta property="og:title" content="Naurs - My Account" />
+{% endblock seo_title %}
+
 {% block dashboard %}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
   <!-- title and back-->
@@ -151,8 +154,8 @@
           <span data-feather="trash"></span>
           Deactivate
         </button>
-        <div class="modal fade" id="deactivateAccountModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-          aria-labelledby="deactivateAccountModelLabel" aria-hidden="true">
+        <div class="modal fade" id="deactivateAccountModel" data-bs-backdrop="static" data-bs-keyboard="false"
+          tabindex="-1" aria-labelledby="deactivateAccountModelLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -165,7 +168,8 @@
                     <div class="alert alert-warning" role="alert">
                       This will <b>deactivate</b> your account from naurs. Click <b>"Continue"</b> to deactivate.
                     </div>
-                    <form action="{% url 'dashboard_users_visibility_page' user_id=user.id visibility='deactivate' %}" method="post">
+                    <form action="{% url 'dashboard_users_visibility_page' user_id=user.id visibility='deactivate' %}"
+                      method="post">
                       {% csrf_token %}
                       <button class="btn btn-lg bg-warning border border-warning text-cus-secondary" type="submit">
                         <span data-feather="trash"></span>

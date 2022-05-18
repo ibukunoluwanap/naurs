@@ -1,8 +1,12 @@
-{% extends 'dashboard/dashboard.html' %} 
-{% load static %} 
+{% extends 'dashboard/dashboard.html' %}
+{% load static %}
 {% load humanize %}
-{% load widget_tweaks %} 
-{% block title %}<title>Naurs - Dashboard Instructors</title>{% endblock title %} 
+{% load widget_tweaks %}
+
+{% block seo_title %}
+<title>Naurs - Dashboard Instructors</title>
+<meta property="og:title" content="Naurs - Dashboard Instructor" />
+{% endblock seo_title %}
 
 {% block dashboard %}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
@@ -12,7 +16,8 @@
         <span data-feather="plus"></span>
         Add Instructor
       </a>
-      <div class="modal fade" id="addInstructor" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addInstructorLabel" aria-hidden="true">
+      <div class="modal fade" id="addInstructor" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="addInstructorLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
           <div class="modal-content">
             <div class="modal-header">
@@ -26,36 +31,36 @@
                   <div class="col-sm-6">
                     <!-- register form -->
                     {% for field in register_form %}
-                        <div class="form-floating shadow mb-4">
-                            {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
-                            <label for="{{ field.auto_id }}">{{ field.label }}</label>
-                            {% for error in field.errors %}
-                                <p class="text-danger">{{ error }}</p>
-                            {% endfor %}
-                        </div>
+                    <div class="form-floating shadow mb-4">
+                      {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
+                      <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                      {% for error in field.errors %}
+                      <p class="text-danger">{{ error }}</p>
+                      {% endfor %}
+                    </div>
                     {% endfor %}
                     <!-- instructor form -->
                     {% for field in instructor_form_list|slice:":1" %}
-                        <div class="form-floating shadow mb-4">
-                          {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
-                          <label for="{{ field.auto_id }}">{{ field.label }}</label>
-                          {% for error in field.errors %}
-                              <p class="text-danger">{{ error }}</p>
-                          {% endfor %}
-                        </div>
+                    <div class="form-floating shadow mb-4">
+                      {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
+                      <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                      {% for error in field.errors %}
+                      <p class="text-danger">{{ error }}</p>
+                      {% endfor %}
+                    </div>
                     {% endfor %}
                   </div>
                   <div class="col-sm-6">
                     {% for field in instructor_form_list|slice:":2" %}
-                      {% if forloop.counter == 2 %}
-                        <div class="form-floating shadow mb-4">
-                          {{ instructor_form.media }}
-                          {{ field }}
-                          {% for error in field.errors %}
-                              <p class="text-danger">{{ error }}</p>
-                          {% endfor %}
-                        </div>
-                      {% endif %}
+                    {% if forloop.counter == 2 %}
+                    <div class="form-floating shadow mb-4">
+                      {{ instructor_form.media }}
+                      {{ field }}
+                      {% for error in field.errors %}
+                      <p class="text-danger">{{ error }}</p>
+                      {% endfor %}
+                    </div>
+                    {% endif %}
                     {% endfor %}
                   </div>
                 </div>
@@ -97,73 +102,77 @@
             <tr>
               <th scope="row" class="p-2">
                 {% if instructor.user.avatar %}
-                    <img
-                        class="avatar"
-                        src="{{instructor.user.avatar.url}}"
-                        width="100%"
-                        height="100%"
-                        alt="avatar"
-                    />
+                <img class="avatar" src="{{instructor.user.avatar.url}}" width="100%" height="100%" alt="avatar" />
                 {% else %}
-                    <div class="avatar">
-                      <i class="bi bi-person-circle align-middle"></i>
-                    </div>
+                <div class="avatar">
+                  <i class="bi bi-person-circle align-middle"></i>
+                </div>
                 {% endif %}
               </th>
               <td class="p-2">{{instructor.user.id}}</td>
               <td class="p-2">
-                <a
-                  href="{% url 'dashboard_instructor_detail_page' pk=instructor.id %}"
-                  class="text-decoration-none text-cus-primary"
-                  >{{instructor.user.get_full_name|safe|truncatechars:50}}</a
-                >
+                <a href="{% url 'dashboard_instructor_detail_page' pk=instructor.id %}"
+                  class="text-decoration-none text-cus-primary">{{instructor.user.get_full_name|safe|truncatechars:50}}</a>
               </td>
               <td class="p-2">
-                  {% for program in instructor.program.all %}
-                      <a
-                        href="{% url 'dashboard_program_detail_page' pk=program.id %}"
-                        class="text-decoration-none text-cus-primary"
-                        >
-                        {{program.title|truncatechars:20}},
-                    </a>
-                  {% endfor %}
+                {% for program in instructor.program.all %}
+                <a href="{% url 'dashboard_program_detail_page' pk=program.id %}"
+                  class="text-decoration-none text-cus-primary">
+                  {{program.title|truncatechars:20}},
+                </a>
+                {% endfor %}
               </td>
               <td class="p-2">{{instructor.role}}</td>
               <td class="p-2">{{instructor.created_on|naturaltime}}</td>
               <td class="p-2">
-                <form action="{% url 'dashboard_instructor_visibility_page' instructor_id=instructor.id visibility='deactivate' %}" method="post">
+                <form
+                  action="{% url 'dashboard_instructor_visibility_page' instructor_id=instructor.id visibility='deactivate' %}"
+                  method="post">
                   {% csrf_token %}
                   {% if instructor.user.is_active %}
-                    <button class="w-100 btn btn-sm btn-secondary d-flex justify-self-center justify-content-center text-center" type="submit">
-                      Deactivate
-                    </button>
+                  <button
+                    class="w-100 btn btn-sm btn-secondary d-flex justify-self-center justify-content-center text-center"
+                    type="submit">
+                    Deactivate
+                  </button>
                   {% else %}
-                    <button class="w-100 btn btn-sm btn-success d-flex justify-self-center justify-content-center text-center" type="submit">
-                      Reactivate
-                    </button>
+                  <button
+                    class="w-100 btn btn-sm btn-success d-flex justify-self-center justify-content-center text-center"
+                    type="submit">
+                    Reactivate
+                  </button>
                   {% endif %}
                 </form>
               </td>
               <td class="p-2">
-                <button type="button" class="w-100 btn btn-sm btn-danger d-flex justify-self-center justify-content-center text-center" data-bs-toggle="modal" data-bs-target="#deleteInstructorModel{{instructor.id}}">
+                <button type="button"
+                  class="w-100 btn btn-sm btn-danger d-flex justify-self-center justify-content-center text-center"
+                  data-bs-toggle="modal" data-bs-target="#deleteInstructorModel{{instructor.id}}">
                   Delete
                 </button>
-                <div class="modal fade" id="deleteInstructorModel{{instructor.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteInstructorModel{{instructor.id}}Label" aria-hidden="true">
+                <div class="modal fade" id="deleteInstructorModel{{instructor.id}}" data-bs-backdrop="static"
+                  data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteInstructorModel{{instructor.id}}Label"
+                  aria-hidden="true">
                   <div class="modal-dialog">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title text-danger" id="deleteInstructorModel{{instructor.id}}Label">Delete Instructor!</h5>
+                        <h5 class="modal-title text-danger" id="deleteInstructorModel{{instructor.id}}Label">Delete
+                          Instructor!</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="modal-body">
                         <div class="row justify-content-center">
                           <div class="col-12 text-center">
                             <div class="alert alert-danger" role="alert">
-                              This will <b>forever</b> remove the instructor from the database. Click <b>"Continue"</b> to delete.
+                              This will <b>forever</b> remove the instructor from the database. Click <b>"Continue"</b>
+                              to delete.
                             </div>
-                            <form action="{% url 'dashboard_instructor_visibility_page' instructor_id=instructor.id visibility='delete' %}" method="post">
+                            <form
+                              action="{% url 'dashboard_instructor_visibility_page' instructor_id=instructor.id visibility='delete' %}"
+                              method="post">
                               {% csrf_token %}
-                              <button class="btn btn-lg bg-danger border border-danger text-cus-secondary" type="submit">
+                              <button class="btn btn-lg bg-danger border border-danger text-cus-secondary"
+                                type="submit">
                                 <span data-feather="trash"></span>
                                 Continue
                               </button>

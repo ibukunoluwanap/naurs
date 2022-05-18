@@ -1,59 +1,62 @@
 {% extends 'app/app.html' %}
 {% load static %}
-{% block title %}
-    <title>Naurs - Instructors</title>
-{% endblock title %}
+
+{% block seo_title %}
+<title>Naurs - Instructors</title>
+<meta property="og:title" content="Naurs - Instructors" />
+
+{% endblock seo_title %}
+
 {% block app %}
-    <main id="main">
-        <!-- ======= breadcrumbs ======= -->
-        <section id="breadcrumbs" class="breadcrumbs">
-            <div class="container">
-                <div class="d-flex justify-content-between align-items-center text-white">
-                    <h2>Instructors</h2>
-                    <ol>
-                        <li>
-                            <a href="{% url 'home_page' %}">Home</a>
-                        </li>
-                        <li>Instructors</li>
-                    </ol>
-                </div>
+<main id="main">
+    <!-- ======= breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center text-white">
+                <h2>Instructors</h2>
+                <ol>
+                    <li>
+                        <a href="{% url 'home_page' %}">Home</a>
+                    </li>
+                    <li>Instructors</li>
+                </ol>
             </div>
-        </section>
-        <!-- ======= instructors section ======= -->
-        <section id="team" class="team">
-            <div class="container instructor-container" data-aos="fade-up">
-                <div class="row">
-                    {% if instructors %}
-                        {% for instructor in instructors %}
-                            <div class="col-12">
-                                <a href="{% url 'instructor_detail_page' pk=instructor.id %}">
-                                    <div class="member">
-                                        {% if instructor.user.avatar %}
-                                            <img class="member-img img-fluid" src="{{ instructor.user.avatar.url }}"
-                                            alt="instructor">
-                                        {% else %}
-                                            <i class="bi bi-person-circle align-middle member-img img-fluid" style="font-size: 234px;"></i>
-                                        {% endif %}
-                                        <div class="member-info">
-                                            <h4>{{ instructor.user.get_full_name|truncatechars:20 }}</h4>
-                                            <span>{{ instructor.role|truncatechars:20 }}</span>
-                                            {{ instructor.about|safe|truncatechars_html:500 }}
-                                        </div>
-                                    </div>
-                                </a>
+        </div>
+    </section>
+    <!-- ======= instructors section ======= -->
+    <section id="team" class="team">
+        <div class="container instructor-container" data-aos="fade-up">
+            <div class="row">
+                {% if instructors %}
+                {% for instructor in instructors %}
+                <div class="col-12">
+                    <a href="{% url 'instructor_detail_page' pk=instructor.id %}">
+                        <div class="member">
+                            {% if instructor.user.avatar %}
+                            <img class="member-img img-fluid" src="{{ instructor.user.avatar.url }}" alt="instructor">
+                            {% else %}
+                            <i class="bi bi-person-circle align-middle member-img img-fluid"
+                                style="font-size: 234px;"></i>
+                            {% endif %}
+                            <div class="member-info">
+                                <h4>{{ instructor.user.get_full_name|truncatechars:20 }}</h4>
+                                <span>{{ instructor.role|truncatechars:20 }}</span>
+                                {{ instructor.about|safe|truncatechars_html:500 }}
                             </div>
-                        {% endfor %}
-                    {% else %}
-                        <div class="col-12 text-center animate__animated animate__fadeInDown"
-                             data-aos="fade-down">
-                            <i class="display-1 bi bi-trash align-middle"></i>
-                            <p>
-                                No instructor currently available!
-                            </p>
                         </div>
-                    {% endif %}
+                    </a>
                 </div>
+                {% endfor %}
+                {% else %}
+                <div class="col-12 text-center animate__animated animate__fadeInDown" data-aos="fade-down">
+                    <i class="display-1 bi bi-trash align-middle"></i>
+                    <p>
+                        No instructor currently available!
+                    </p>
+                </div>
+                {% endif %}
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
+</main>
 {% endblock app %}

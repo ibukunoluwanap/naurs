@@ -1,54 +1,55 @@
 {% extends 'app/app.html' %}
 {% load static %}
-{% block title %}
-    <title>Naurs - Offers</title>
-{% endblock title %}
+
+{% block seo_title %}
+<title>Naurs - Offers</title>
+<meta property="og:title" content="Naurs - Offers" />
+{% endblock seo_title %}
+
 {% block app %}
-    <main id="main">
-        <!-- ======= breadcrumbs ======= -->
-        <section id="breadcrumbs" class="breadcrumbs">
-            <div class="container">
-                <div class="d-flex justify-content-between align-items-center text-white">
-                    <h2>Offers</h2>
-                    <ol>
-                        <li>
-                            <a href="{% url 'home_page' %}">Home</a>
-                        </li>
-                        <li>Offers</li>
-                    </ol>
-                </div>
+<main id="main">
+    <!-- ======= breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center text-white">
+                <h2>Offers</h2>
+                <ol>
+                    <li>
+                        <a href="{% url 'home_page' %}">Home</a>
+                    </li>
+                    <li>Offers</li>
+                </ol>
             </div>
-        </section>
-        <!-- ======= offers section ======= -->
-        <section class="section">
-            <div class="container" data-aos="fade-up">
-                <div class="row content">
-                    {% if offers %}
-                        {% for offer in offers %}
-                            <div class="col-md-4 mb-3 animate__animated animate__fadeInUp"
-                                 data-aos="fade-right">
-                                <div class="card shadow offer-card">
-                                    <img src="{{ offer.image.url }}" class="card-img-top" alt="offer">
-                                    <div class="card-body">
-                                        <a href="{% url 'offer_detail_page' pk=offer.id %}">
-                                            <h4>{{ offer.title|truncatechars:30 }}</h4>
-                                            <div class="card-content">{{ offer.content|truncatechars_html:200|safe }}</div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        <div class="col-12 text-center animate__animated animate__fadeInDown"
-                             data-aos="fade-down">
-                            <i class="display-1 bi bi-trash align-middle"></i>
-                            <p>
-                                No offer currently available!
-                            </p>
+        </div>
+    </section>
+    <!-- ======= offers section ======= -->
+    <section class="section">
+        <div class="container" data-aos="fade-up">
+            <div class="row content">
+                {% if offers %}
+                {% for offer in offers %}
+                <div class="col-md-4 mb-3 animate__animated animate__fadeInUp" data-aos="fade-right">
+                    <div class="card shadow offer-card">
+                        <img src="{{ offer.image.url }}" class="card-img-top" alt="offer">
+                        <div class="card-body">
+                            <a href="{% url 'offer_detail_page' pk=offer.id %}">
+                                <h4>{{ offer.title|truncatechars:30 }}</h4>
+                                <div class="card-content">{{ offer.content|truncatechars_html:200|safe }}</div>
+                            </a>
                         </div>
-                    {% endif %}
+                    </div>
                 </div>
+                {% endfor %}
+                {% else %}
+                <div class="col-12 text-center animate__animated animate__fadeInDown" data-aos="fade-down">
+                    <i class="display-1 bi bi-trash align-middle"></i>
+                    <p>
+                        No offer currently available!
+                    </p>
+                </div>
+                {% endif %}
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
+</main>
 {% endblock app %}

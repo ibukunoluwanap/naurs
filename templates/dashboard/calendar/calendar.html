@@ -1,8 +1,12 @@
 {% extends 'dashboard/dashboard.html' %} 
 {% load static %} 
 {% load humanize %}
-{% load widget_tweaks %} 
-{% block title %}<title>Naurs - Dashboard Calendar</title>{% endblock title %} 
+{% load widget_tweaks %}
+
+{% block seo_title %}
+<title>Naurs - Dashboard Calendar</title>
+<meta property="og:title" content="Naurs - Dashboard Calendar" />
+{% endblock seo_title %} 
 
 {% block head %}
   <style>

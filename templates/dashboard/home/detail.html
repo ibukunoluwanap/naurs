@@ -2,11 +2,14 @@
 {% load static %}
 {% load humanize %}
 {% load widget_tweaks %}
-{% block title %}
-    <title>Naurs - {{ listing.listing }} Edit</title>
-{% endblock title %}
+
+{% block seo_title %}
+<title>Naurs - {{ listing.listing }} Edit</title>
+<meta property="og:title" content="Naurs - {{ listing.listing }} Edit" />
+{% endblock seo_title %}
+
 {% block head %}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 {% endblock head %}
 
 {% block dashboard %}
@@ -14,12 +17,12 @@
     <!-- title and back-->
     <div class="row">
         <div class="col-sm-12">
-        <a href="{% url 'dashboard_home_page' %}" class="btn btn-s">
-            <span data-feather="corner-up-left"></span> Back
-        </a>
+            <a href="{% url 'dashboard_home_page' %}" class="btn btn-s">
+                <span data-feather="corner-up-left"></span> Back
+            </a>
         </div>
         <div class="col-sm-12">
-        <h4 class="my-3">{{listing.listing}}</h4>
+            <h4 class="my-3">{{listing.listing}}</h4>
         </div>
     </div>
 
@@ -27,38 +30,43 @@
     <div class="row justify-content-center">
         <div class="col-sm-6 text-center">
             {% if listing.category == "Music" %}
-                <i class="fa-solid fa-music avatar-lg shadow mb-3 bg-cus-pink text-cus-primary p-1" style="width: 300px; height: 300px;"></i>
+            <i class="fa-solid fa-music avatar-lg shadow mb-3 bg-cus-pink text-cus-primary p-1"
+                style="width: 300px; height: 300px;"></i>
             {% elif listing.category == "Gymnastic" %}
-                <i class="fa-solid fa-dumbbell avatar-lg shadow mb-3 bg-cus-pink text-cus-primary p-1" style="width: 300px; height: 300px;"></i>
+            <i class="fa-solid fa-dumbbell avatar-lg shadow mb-3 bg-cus-pink text-cus-primary p-1"
+                style="width: 300px; height: 300px;"></i>
             {% elif listing.category == "Yoga" %}
-                <i class="fa-solid fa-fire-flame-curved avatar-lg shadow mb-3 bg-cus-pink text-cus-primary p-1" style="width: 300px; height: 300px;"></i>
+            <i class="fa-solid fa-fire-flame-curved avatar-lg shadow mb-3 bg-cus-pink text-cus-primary p-1"
+                style="width: 300px; height: 300px;"></i>
             {% elif listing.category == "Art" %}
-                <i class="fa-solid fa-palette avatar-lg shadow mb-3 bg-cus-pink text-cus-primary p-1" style="width: 300px; height: 300px;"></i>
+            <i class="fa-solid fa-palette avatar-lg shadow mb-3 bg-cus-pink text-cus-primary p-1"
+                style="width: 300px; height: 300px;"></i>
             {% endif %}
         </div>
-        <form action="{% url 'dashboard_home_update_page' pk=listing.id %}" method="post" class="col-sm-6 card shadow border-0 py-3">
+        <form action="{% url 'dashboard_home_update_page' pk=listing.id %}" method="post"
+            class="col-sm-6 card shadow border-0 py-3">
             {% csrf_token %}
             <!-- listing form -->
             {% for field in listing_form_with_instance %}
-                {% if forloop.counter == 3 %}
-                    <div class="card p-3 shadow mb-4">
-                        <div class="form-check form-switch">
-                        {{ field|add_class:"form-check-input"|attr:"placeholder:field.label" }}
-                        <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
-                        {% for error in field.errors %}
-                            <p class="text-danger">{{ error }}</p>
-                        {% endfor %}
-                        </div>
-                    </div>
-                {% else %}
-                    <div class="form-floating shadow mb-4">
-                        {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
-                        <label for="{{ field.auto_id }}">{{ field.label }}</label>
-                        {% for error in field.errors %}
-                            <p class="text-danger">{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+            {% if forloop.counter == 3 %}
+            <div class="card p-3 shadow mb-4">
+                <div class="form-check form-switch">
+                    {{ field|add_class:"form-check-input"|attr:"placeholder:field.label" }}
+                    <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
+                    {% for error in field.errors %}
+                    <p class="text-danger">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+            {% else %}
+            <div class="form-floating shadow mb-4">
+                {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
+                <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                {% for error in field.errors %}
+                <p class="text-danger">{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
             {% endfor %}
             <button class="btn-lg" type="submit">Update</button>
         </form>
@@ -74,26 +82,32 @@
                 This will <b>remove</b> the listing total from naurs's database and cannot be restored.
             </div>
             <div class="d-flex flex-row justify-content-center">
-                <button type="button" class="btn btn-lg bg-danger border border-danger text-cus-secondary" data-bs-toggle="modal" data-bs-target="#deleteListingModel">
+                <button type="button" class="btn btn-lg bg-danger border border-danger text-cus-secondary"
+                    data-bs-toggle="modal" data-bs-target="#deleteListingModel">
                     <span data-feather="trash"></span>
                     Delete
                 </button>
-                <div class="modal fade" id="deleteListingModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteListingModelLabel" aria-hidden="true">
+                <div class="modal fade" id="deleteListingModel" data-bs-backdrop="static" data-bs-keyboard="false"
+                    tabindex="-1" aria-labelledby="deleteListingModelLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title text-danger" id="deleteListingModelLabel">Delete Listing!</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <div class="row justify-content-center">
                                     <div class="col-12 text-center">
                                         <div class="alert alert-danger" role="alert">
-                                            This will <b>forever</b> remove the listing from the database. Click <b>"Continue"</b> to delete.
+                                            This will <b>forever</b> remove the listing from the database. Click
+                                            <b>"Continue"</b> to delete.
                                         </div>
-                                        <form action="{% url 'dashboard_home_delete_page' pk=listing.id %}" method="post">
+                                        <form action="{% url 'dashboard_home_delete_page' pk=listing.id %}"
+                                            method="post">
                                             {% csrf_token %}
-                                            <button class="btn btn-lg bg-danger border border-danger text-cus-secondary" type="submit">
+                                            <button class="btn btn-lg bg-danger border border-danger text-cus-secondary"
+                                                type="submit">
                                                 <span data-feather="trash"></span>
                                                 Continue
                                             </button>
@@ -111,5 +125,5 @@
 {% endblock dashboard %}
 
 {% block script %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
 {% endblock script %}

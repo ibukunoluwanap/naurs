@@ -1,112 +1,128 @@
 {% extends 'app/app.html' %}
 {% load static %}
 {% load widget_tweaks %}
-{% block title %}
-    <title>Naurs - {{ instructor.user.get_full_name }}</title>
-{% endblock title %}
+
+{% block seo_title %}
+<title>Naurs - {{ instructor.user.get_full_name }}</title>
+<meta property="og:title" content="Naurs - {{ instructor.user.get_full_name }}" />
+{% endblock seo_title %}
+
+{% block seo_image %}
+{% if instructor.user.avatar %}
+<meta itemprop="image" property="og:image" content="{{ instructor.user.avatar }}" />
+{% else %}
+<meta itemprop="image" property="og:image" content="{% static 'images/favicon.png' %}" />
+{% endif %}
+<meta property="og:image:width" content="1277" />
+<meta property="og:image:height" content="473" />
+{% endblock seo_image %}
+
 {% block app %}
-    <main id="main">
-        <!-- ======= breadcrumbs ======= -->
-        <section id="breadcrumbs" class="breadcrumbs">
-            <div class="container">
-                <div class="d-flex justify-content-between align-items-center text-white">
-                    <h2>Instructor</h2>
-                    <ol>
-                        <li>
-                            <a href="{% url 'home_page' %}">Home</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'instructor_page' %}">Instructor</a>
-                        </li>
-                        <li>{{ instructor.user.get_full_name|truncatechars:10 }}</li>
-                    </ol>
+<main id="main">
+    <!-- ======= breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center text-white">
+                <h2>Instructor</h2>
+                <ol>
+                    <li>
+                        <a href="{% url 'home_page' %}">Home</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'instructor_page' %}">Instructor</a>
+                    </li>
+                    <li>{{ instructor.user.get_full_name|truncatechars:10 }}</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======= head image section ======= -->
+    <div class="container-fluid px-0">
+        <div class="row g-0">
+            <div class="col-12 text-white text-center">
+                <div class="head-img"
+                    style="background-image: url('{% if instructor.user.avatar %}{{ instructor.user.avatar.url }}{% else %}{% endif %}');">
+                    <div class="dark-layer"></div>
+                    <h3 class="fw-bold position-absolute top-50 start-50 translate-middle">{{
+                        instructor.user.get_full_name }}</h3>
                 </div>
             </div>
-        </section>
-        <!-- ======= head image section ======= -->
-        <div class="container-fluid px-0">
-            <div class="row g-0">
-                <div class="col-12 text-white text-center">
-                    <div class="head-img"
-                         style="background-image: url('{% if instructor.user.avatar %}{{ instructor.user.avatar.url }}{% else %}{% endif %}');">
-                        <div class="dark-layer"></div>
-                        <h3 class="fw-bold position-absolute top-50 start-50 translate-middle">{{ instructor.user.get_full_name }}</h3>
+        </div>
+    </div>
+
+    <!-- ======= instructor section ======= -->
+    <section class="section">
+        <div class="container" data-aos="fade-up">
+            <div class="row content justify-content-center">
+                <div class="col-md-8 mb-3 animate__animated animate__fadeInLeft" data-aos="fade-right">
+                    <h1 class="h2 fw-bold text-cus-primary">{{ instructor.user.get_full_name }}</h1>
+                    {{ instructor.about|safe }}
+                </div>
+                <div class="col-md-4 my-3 pt-3 pb-3 rounded section-bg animate__animated animate__fadeInRight"
+                    data-aos="fade-right">
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="h4 fw-bold text-cus-primary">
+                                <i class="bi bi-person-lines-fill align-middle"></i>
+                                Contact Us
+                            </h4>
+                            <a href="tel:+97143331091">
+                                <div class="contact-card p-3 bg-cus-primary text-cus-secondary">
+                                    <i class="bi bi-telephone align-middle"></i>
+                                    <br>
+                                    Call Us
+                                    <br>
+                                    For More Info.
+                                </div>
+                            </a>
+                            <br>
+                            <a href="mailto:hello@naurs.me">
+                                <div class="contact-card p-3 bg-cus-secondary text-cus-primary">
+                                    <i class="bi bi-envelope align-middle"></i>
+                                    <br>
+                                    Email Us At
+                                    <br>
+                                    hello@naurs.me
+                                    <br>
+                                    For More Info.
+                                </div>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- ======= instructor section ======= -->
-        <section class="section">
-            <div class="container" data-aos="fade-up">
-                <div class="row content justify-content-center">
-                    <div class="col-md-8 mb-3 animate__animated animate__fadeInLeft"
-                         data-aos="fade-right">
-                        <h1 class="h2 fw-bold text-cus-primary">{{ instructor.user.get_full_name }}</h1>
-                        {{ instructor.about|safe }}
-                    </div>
-                    <div class="col-md-4 my-3 pt-3 pb-3 rounded section-bg animate__animated animate__fadeInRight"
-                         data-aos="fade-right">
-                        <div class="row">
-                            <div class="col-12">
-                                <h4 class="h4 fw-bold text-cus-primary">
-                                    <i class="bi bi-person-lines-fill align-middle"></i>
-                                    Contact Us
-                                </h4>
-                                <a href="tel:+97143331091">
-                                    <div class="contact-card p-3 bg-cus-primary text-cus-secondary">
-                                        <i class="bi bi-telephone align-middle"></i>
-                                        <br>
-                                        Call Us
-                                        <br>
-                                        For More Info.
-                                    </div>
-                                </a>
-                                <br>
-                                <a href="mailto:hello@naurs.me">
-                                    <div class="contact-card p-3 bg-cus-secondary text-cus-primary">
-                                        <i class="bi bi-envelope align-middle"></i>
-                                        <br>
-                                        Email Us At
-                                        <br>
-                                        hello@naurs.me
-                                        <br>
-                                        For More Info.
-                                    </div>
-                                </a>
+    </section>
+
+    <!-- ======= other instructors section ======= -->
+    <section id="team" class="team">
+        <div class="container" data-aos="fade-up">
+            <div class="row">
+                <h4 class="fw-bold text-cus-primary">Other Instructors</h4>
+                {% for instructor in last_4_instructors %}
+                <div class="col-lg-3 col-md-6 align-items-stretch">
+                    <a href="{% url 'instructor_detail_page' pk=instructor.id %}">
+                        <div class="member">
+                            {% if instructor.user.avatar %}
+                            <img class="member-img img-fluid" src="{{ instructor.user.avatar.url }}" alt="instructor">
+                            {% else %}
+                            <i class="bi bi-person-circle align-middle member-img img-fluid"
+                                style="font-size: 234px;"></i>
+                            {% endif %}
+                            <div class="member-info">
+                                <h4>{{ instructor.user.get_full_name }}</h4>
+                                <span>{{ instructor.role }}</span>
                             </div>
                         </div>
-                    </div>
+                    </a>
+                </div>
+                {% endfor %}
+                <div class="col-12 text-center mt-5">
+                    <a class="btn-lg" href="{% url 'instructor_page' %}">Meet More</a>
                 </div>
             </div>
-        </section>
-        <!-- ======= other instructors section ======= -->
-        <section id="team" class="team">
-            <div class="container" data-aos="fade-up">
-                <div class="row">
-                    <h4 class="fw-bold text-cus-primary">Other Instructors</h4>
-                    {% for instructor in last_4_instructors %}
-                        <div class="col-lg-3 col-md-6 align-items-stretch">
-                            <a href="{% url 'instructor_detail_page' pk=instructor.id %}">
-                                <div class="member">
-                                    {% if instructor.user.avatar %}
-                                        <img class="member-img img-fluid" src="{{ instructor.user.avatar.url }}"
-                                        alt="instructor">
-                                    {% else %}
-                                        <i class="bi bi-person-circle align-middle member-img img-fluid" style="font-size: 234px;"></i>
-                                    {% endif %}
-                                    <div class="member-info">
-                                        <h4>{{ instructor.user.get_full_name }}</h4>
-                                        <span>{{ instructor.role }}</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    {% endfor %}
-                    <div class="col-12 text-center mt-5">
-                        <a class="btn-lg" href="{% url 'instructor_page' %}">Meet More</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
+        </div>
+    </section>
+</main>
 {% endblock app %}

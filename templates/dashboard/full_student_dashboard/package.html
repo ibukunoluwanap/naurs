@@ -2,9 +2,12 @@
 {% load static %}
 {% load humanize %}
 {% load widget_tweaks %}
-{% block title %}
+
+{% block seo_title %}
 <title>Naurs - Student Packages</title>
-{% endblock title %}
+<meta property="og:title" content="Naurs - Student Packages" />
+{% endblock seo_title %}
+
 {%block dashboard %}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
     <!-- my packages -->
@@ -49,13 +52,15 @@
                         <b>Bonus Type:</b> Free <b>{{order.senior_citizen_sessions}}</b> senior citizen sessions
                         <br>
                         {% endif %}
-                        {% if order.kids_sessions <= 0 and order.senior_citizen_sessions <= 0 and order.senior_citizen_sessions > 0 %} <br>
-                            <b>Bonus Type:</b> Free <b>+{{package.bonus_price|floatformat:2|intcomma}}</b> AED added to wallet
+                        {% if order.kids_sessions <= 0 and order.senior_citizen_sessions <=0 and
+                            order.senior_citizen_sessions> 0 %} <br>
+                            <b>Bonus Type:</b> Free <b>+{{package.bonus_price|floatformat:2|intcomma}}</b> AED added to
+                            wallet
                             <br>
-                        {% endif %}
-                        <b>Numbers of class(es):</b> {{package.program.count}}
-                        <br>
-                        <b>Total Package Sessions:</b> {{order.sessions}}
+                            {% endif %}
+                            <b>Numbers of class(es):</b> {{package.program.count}}
+                            <br>
+                            <b>Total Package Sessions:</b> {{order.sessions}}
                     </p>
                     <button class="btn w-100 btn-dark bg-cus-pink" data-bs-toggle="modal"
                         data-bs-target="#entryTicket{{package.id}}">Get Entry Ticket</button>

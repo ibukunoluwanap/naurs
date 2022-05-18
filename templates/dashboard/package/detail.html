@@ -2,9 +2,12 @@
 {% load static %}
 {% load humanize %}
 {% load widget_tweaks %}
-{% block title %}
-    <title>Naurs - {{ package.name }} Edit</title>
-{% endblock title %}
+
+{% block seo_title %}
+<title>Naurs - {{ package.name }} Edit</title>
+<meta property="og:title" content="Naurs - {{ package.name }} Edit" />
+{% endblock seo_title %}
+
 {% block dashboard %}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3 mb-5">
   <!-- title and back-->
@@ -23,65 +26,65 @@
   <div class="row justify-content-center">
     <div class="col-sm-4 text-center">
       {% if package.image %}
-        <img src="{{package.image.url}}" alt="{{package.title}}" class="avatar-lg shadow mb-3">
+      <img src="{{package.image.url}}" alt="{{package.title}}" class="avatar-lg shadow mb-3">
       {% else %}
-        <i class="bi bi-person-circle align-middle" class="avatar-lg shadow mb-3" style="font-size: 250px;"></i>
+      <i class="bi bi-person-circle align-middle" class="avatar-lg shadow mb-3" style="font-size: 250px;"></i>
       {% endif %}
     </div>
-    <form action="{% url 'dashboard_package_update_page' pk=package.id %}" method="post" class="col card shadow border-0 py-3" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="row">
-          <div class="col-sm-6">
-            {% for field in package_form_with_instance|slice:":5" %}
-              {% if forloop.counter == 1 %}
-                <div class="card p-3 shadow mb-4">
-                  {{ field|add_class:"cus-file-input" }}
-                  {% for error in field.errors %}
-                      <p class="text-danger">{{ error }}</p>
-                  {% endfor %}
-                </div>
-              {% else %}
-                <div class="form-floating shadow mb-4">
-                  {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
-                  <label for="{{ field.auto_id }}">{{ field.label }}</label>
-                  {% for error in field.errors %}
-                      <p class="text-danger">{{ error }}</p>
-                  {% endfor %}
-                </div>
-              {% endif %}
+    <form action="{% url 'dashboard_package_update_page' pk=package.id %}" method="post"
+      class="col card shadow border-0 py-3" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="row">
+        <div class="col-sm-6">
+          {% for field in package_form_with_instance|slice:":5" %}
+          {% if forloop.counter == 1 %}
+          <div class="card p-3 shadow mb-4">
+            {{ field|add_class:"cus-file-input" }}
+            {% for error in field.errors %}
+            <p class="text-danger">{{ error }}</p>
             {% endfor %}
           </div>
-          <div class="col-sm-6">
-            {% for field in package_form_with_instance|slice:":9" %}
-                {% if forloop.counter == 8 %}
-                    <div class="card p-3 shadow mb-4">
-                        <div class="form-check form-switch">
-                            {{ field|add_class:"form-check-input"|attr:"placeholder:field.label" }}
-                                <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
-                            {% for error in field.errors %}
-                                <p class="text-danger">{{ error }}</p>
-                            {% endfor %}
-                        </div>
-                    </div>
-                {% elif forloop.counter == 9 %}
-                    <div class="card p-3 shadow mb-4 form-check form-switch overflow-height">
-                        {{ field }}
-                        <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
-                    </div>
-                {% elif forloop.counter > 5 and forloop.counter < 8 %}
-                    <div class="form-floating shadow mb-4">
-                        {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
-                            <label for="{{ field.auto_id }}">{{ field.label }}</label>
-                        {% for error in field.errors %}
-                            <p class="text-danger">{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+          {% else %}
+          <div class="form-floating shadow mb-4">
+            {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
+            <label for="{{ field.auto_id }}">{{ field.label }}</label>
+            {% for error in field.errors %}
+            <p class="text-danger">{{ error }}</p>
             {% endfor %}
           </div>
+          {% endif %}
+          {% endfor %}
         </div>
-        <button class="btn-lg" type="submit">Update</button>
-      </form>
+        <div class="col-sm-6">
+          {% for field in package_form_with_instance|slice:":9" %}
+          {% if forloop.counter == 8 %}
+          <div class="card p-3 shadow mb-4">
+            <div class="form-check form-switch">
+              {{ field|add_class:"form-check-input"|attr:"placeholder:field.label" }}
+              <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
+              {% for error in field.errors %}
+              <p class="text-danger">{{ error }}</p>
+              {% endfor %}
+            </div>
+          </div>
+          {% elif forloop.counter == 9 %}
+          <div class="card p-3 shadow mb-4 form-check form-switch overflow-height">
+            {{ field }}
+            <label for="{{ field.auto_id }}" class="form-check-label">{{ field.label }}</label>
+          </div>
+          {% elif forloop.counter > 5 and forloop.counter < 8 %} <div class="form-floating shadow mb-4">
+            {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
+            <label for="{{ field.auto_id }}">{{ field.label }}</label>
+            {% for error in field.errors %}
+            <p class="text-danger">{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+  </div>
+  <button class="btn-lg" type="submit">Update</button>
+  </form>
   </div>
 
   <div class="row mt-5">
@@ -89,18 +92,15 @@
       <h4>Classes</h4>
     </div>
     <div class="col-sm-12">
-        <ul class="row list-unstyled">
-            {% for program in package.program.all %}
-                <li class="my-2 col-sm-3">
-                    <i class="bi bi-arrow-return-right align-middle text-cus-primary"></i>
-                    <a
-                    href="{% url 'dashboard_program_detail_page' pk=program.id %}"
-                    class="text-decoration-none text-cus-primary"
-                    >{{ program.title }}</a
-                    >
-                </li>
-            {% endfor %}
-        </ul>
+      <ul class="row list-unstyled">
+        {% for program in package.program.all %}
+        <li class="my-2 col-sm-3">
+          <i class="bi bi-arrow-return-right align-middle text-cus-primary"></i>
+          <a href="{% url 'dashboard_program_detail_page' pk=program.id %}"
+            class="text-decoration-none text-cus-primary">{{ program.title }}</a>
+        </li>
+        {% endfor %}
+      </ul>
     </div>
   </div>
 
@@ -115,19 +115,20 @@
         the website or application.
       </div>
       <div class="d-flex flex-row justify-content-center">
-        <form action="{% url 'dashboard_package_visibility_page' package_id=package.id visibility='deactivate' %}" method="post">
+        <form action="{% url 'dashboard_package_visibility_page' package_id=package.id visibility='deactivate' %}"
+          method="post">
           {% csrf_token %}
-            {% if package.is_active %}
-              <button class="btn btn-lg bg-warning border border-warning text-cus-secondary" type="submit">
-                <span data-feather="x-circle"></span>
-                Deactivate
-              </button>
-            {% else %}
-              <button class="btn btn-lg bg-info border border-info text-cus-secondary" type="submit">
-                <span data-feather="check-circle"></span>
-                Reactivate
-              </button>
-            {% endif %}
+          {% if package.is_active %}
+          <button class="btn btn-lg bg-warning border border-warning text-cus-secondary" type="submit">
+            <span data-feather="x-circle"></span>
+            Deactivate
+          </button>
+          {% else %}
+          <button class="btn btn-lg bg-info border border-info text-cus-secondary" type="submit">
+            <span data-feather="check-circle"></span>
+            Reactivate
+          </button>
+          {% endif %}
         </form>
       </div>
     </div>
@@ -137,11 +138,13 @@
         the website or application.
       </div>
       <div class="d-flex flex-row justify-content-center">
-        <button type="button" class="btn btn-lg bg-danger border border-danger text-cus-secondary" data-bs-toggle="modal" data-bs-target="#deletePackageModel">
+        <button type="button" class="btn btn-lg bg-danger border border-danger text-cus-secondary"
+          data-bs-toggle="modal" data-bs-target="#deletePackageModel">
           <span data-feather="trash"></span>
           Delete
         </button>
-        <div class="modal fade" id="deletePackageModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deletePackageModelLabel" aria-hidden="true">
+        <div class="modal fade" id="deletePackageModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+          aria-labelledby="deletePackageModelLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -154,7 +157,9 @@
                     <div class="alert alert-danger" role="alert">
                       This will <b>forever</b> remove the package from the database. Click <b>"Continue"</b> to delete.
                     </div>
-                    <form action="{% url 'dashboard_package_visibility_page' package_id=package.id visibility='delete' %}" method="post">
+                    <form
+                      action="{% url 'dashboard_package_visibility_page' package_id=package.id visibility='delete' %}"
+                      method="post">
                       {% csrf_token %}
                       <button class="btn btn-lg bg-danger border border-danger text-cus-secondary" type="submit">
                         <span data-feather="trash"></span>

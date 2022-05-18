@@ -1,126 +1,140 @@
 {% extends 'app/app.html' %}
 {% load static %}
 {% load widget_tweaks %}
-{% block title %}
-    <title>Naurs - {{ offer.title }}</title>
-{% endblock title %}
+
+{% block seo_title %}
+<title>Naurs - {{ offer.title }}</title>
+<meta property="og:title" content="Naurs - {{ offer.title }}" />
+{% endblock seo_title %}
+
+{% block seo_image %}
+{% if offer.image.url %}
+<meta itemprop="image" property="og:image" content="{{ offer.image.url }}" />
+{% else %}
+<meta itemprop="image" property="og:image" content="{% static 'images/favicon.png' %}" />
+{% endif %}
+<meta property="og:image:width" content="1277" />
+<meta property="og:image:height" content="473" />
+{% endblock seo_image %}
+
 {% block app %}
-    <main id="main">
-        <!-- ======= breadcrumbs ======= -->
-        <section id="breadcrumbs" class="breadcrumbs">
-            <div class="container">
-                <div class="d-flex justify-content-between align-items-center text-white">
-                    <h2>Offers</h2>
-                    <ol>
-                        <li>
-                            <a href="{% url 'home_page' %}">Home</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'offer_page' %}">Offers</a>
-                        </li>
-                        <li>{{ offer.title|truncatechars:10 }}</li>
-                    </ol>
-                </div>
+<main id="main">
+    <!-- ======= breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center text-white">
+                <h2>Offers</h2>
+                <ol>
+                    <li>
+                        <a href="{% url 'home_page' %}">Home</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'offer_page' %}">Offers</a>
+                    </li>
+                    <li>{{ offer.title|truncatechars:10 }}</li>
+                </ol>
             </div>
-        </section>
-        <!-- ======= head image section ======= -->
-        <div class="container-fluid px-0">
-            <div class="row g-0">
-                <div class="col-12 text-white text-center">
-                    <div class="head-img"
-                         style="background-image: url('{{ offer.image.url }}');">
-                        <div class="dark-layer"></div>
-                        <h3 class="fw-bold position-absolute top-50 start-50 translate-middle">{{ offer.title }}</h3>
-                    </div>
+        </div>
+    </section>
+
+    <!-- ======= head image section ======= -->
+    <div class="container-fluid px-0">
+        <div class="row g-0">
+            <div class="col-12 text-white text-center">
+                <div class="head-img" style="background-image: url('{{ offer.image.url }}');">
+                    <div class="dark-layer"></div>
+                    <h3 class="fw-bold position-absolute top-50 start-50 translate-middle">{{ offer.title }}</h3>
                 </div>
             </div>
         </div>
-        <!-- ======= offer section ======= -->
-        <section class="section">
-            <div class="container" data-aos="fade-up">
-                <div class="row content">
-                    <div class="col-md-8 mb-3 animate__animated animate__fadeInLeft"
-                         data-aos="fade-right">
-                        <h1 class="h2 fw-bold text-cus-primary">{{ offer.title }}</h1>
-                        {{ offer.content|safe }}
-                    </div>
-                    <div class="col-md-4 my-3 pt-3 pb-3 rounded section-bg animate__animated animate__fadeInRight"
-                         data-aos="fade-right">
-                        <div class="row justify-content-center">
-                            <div class="col-12 mb-5">
-                                <h4 class="h4 fw-bold text-cus-primary">
-                                    <i class="bi bi-book align-middle"></i>
-                                    Book Offer Now!
-                                </h4>
-                                <form action="{% url 'book_offer_page' offer_id=offer.id %}" class="text-center" method="post">
-                                    {% csrf_token %}
-                                    {% for field in book_offer_form %}
-                                        <div class="form-floating shadow mb-4">
-                                            {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
-                                            <label for="{{ field.auto_id }}">{{ field.label }}</label>
-                                            {% for error in field.errors %}
-                                                <p class="text-danger">
-                                                    {{ error }}
-                                                </p>
-                                            {% endfor %}
-                                        </div>
+    </div>
+
+    <!-- ======= offer section ======= -->
+    <section class="section">
+        <div class="container" data-aos="fade-up">
+            <div class="row content">
+                <div class="col-md-8 mb-3 animate__animated animate__fadeInLeft" data-aos="fade-right">
+                    <h1 class="h2 fw-bold text-cus-primary">{{ offer.title }}</h1>
+                    {{ offer.content|safe }}
+                </div>
+                <div class="col-md-4 my-3 pt-3 pb-3 rounded section-bg animate__animated animate__fadeInRight"
+                    data-aos="fade-right">
+                    <div class="row justify-content-center">
+                        <div class="col-12 mb-5">
+                            <h4 class="h4 fw-bold text-cus-primary">
+                                <i class="bi bi-book align-middle"></i>
+                                Book Offer Now!
+                            </h4>
+                            <form action="{% url 'book_offer_page' offer_id=offer.id %}" class="text-center"
+                                method="post">
+                                {% csrf_token %}
+                                {% for field in book_offer_form %}
+                                <div class="form-floating shadow mb-4">
+                                    {{ field|add_class:"form-control"|attr:"placeholder:field.label" }}
+                                    <label for="{{ field.auto_id }}">{{ field.label }}</label>
+                                    {% for error in field.errors %}
+                                    <p class="text-danger">
+                                        {{ error }}
+                                    </p>
                                     {% endfor %}
-                                    <button class="w-75 btn-lg" type="submit">Book Now</button>
-                                </form>
-                            </div>
-                            <div class="col-12">
-                                <h4 class="h4 fw-bold text-cus-primary">
-                                    <i class="bi bi-person-lines-fill align-middle"></i>
-                                    Contact Us
-                                </h4>
-                                <a href="tel:+97143331091">
-                                    <div class="contact-card p-3 bg-cus-primary text-cus-secondary">
-                                        <i class="bi bi-telephone align-middle"></i>
-                                        <br>
-                                        Call Us
-                                        <br>
-                                        To Book Offer.
-                                    </div>
-                                </a>
-                                <br>
-                                <a href="mailto:hello@naurs.me">
-                                    <div class="contact-card p-3 bg-cus-secondary text-cus-primary">
-                                        <i class="bi bi-envelope align-middle"></i>
-                                        <br>
-                                        Email Us At
-                                        <br>
-                                        hello@naurs.me
-                                        <br>
-                                        To Book Offer.
-                                    </div>
-                                </a>
-                            </div>
+                                </div>
+                                {% endfor %}
+                                <button class="w-75 btn-lg" type="submit">Book Now</button>
+                            </form>
+                        </div>
+                        <div class="col-12">
+                            <h4 class="h4 fw-bold text-cus-primary">
+                                <i class="bi bi-person-lines-fill align-middle"></i>
+                                Contact Us
+                            </h4>
+                            <a href="tel:+97143331091">
+                                <div class="contact-card p-3 bg-cus-primary text-cus-secondary">
+                                    <i class="bi bi-telephone align-middle"></i>
+                                    <br>
+                                    Call Us
+                                    <br>
+                                    To Book Offer.
+                                </div>
+                            </a>
+                            <br>
+                            <a href="mailto:hello@naurs.me">
+                                <div class="contact-card p-3 bg-cus-secondary text-cus-primary">
+                                    <i class="bi bi-envelope align-middle"></i>
+                                    <br>
+                                    Email Us At
+                                    <br>
+                                    hello@naurs.me
+                                    <br>
+                                    To Book Offer.
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-        <!-- ======= other offers section ======= -->
-        <div class="container-fluid px-0 mb-5" data-aos="fade-up">
-            <div class="row g-0 content">
-                <div class="col-12 animate__animated animate__fadeInDown"
-                     data-aos="fade-right">
-                    <h4 class="fw-bold text-cus-primary">Other Offers</h4>
-                    <div class="naurs-carousel owl-carousel">
-                        {% for offer in last_10_offers %}
-                            <div class="card shadow-sm offer-card">
-                                <img src="{{ offer.image.url }}" class="card-img-top" alt="offer">
-                                <div class="card-body">
-                                    <a href="{% url 'offer_detail_page' pk=offer.id %}">
-                                        <h4>{{ offer.title|truncatechars:20 }}</h4>
-                                        <div class="card-content">{{ offer.content|truncatechars_html:100|safe }}</div>
-                                    </a>
-                                </div>
-                            </div>
-                        {% endfor %}
+        </div>
+    </section>
+
+    <!-- ======= other offers section ======= -->
+    <div class="container-fluid px-0 mb-5" data-aos="fade-up">
+        <div class="row g-0 content">
+            <div class="col-12 animate__animated animate__fadeInDown" data-aos="fade-right">
+                <h4 class="fw-bold text-cus-primary">Other Offers</h4>
+                <div class="naurs-carousel owl-carousel">
+                    {% for offer in last_10_offers %}
+                    <div class="card shadow-sm offer-card">
+                        <img src="{{ offer.image.url }}" class="card-img-top" alt="offer">
+                        <div class="card-body">
+                            <a href="{% url 'offer_detail_page' pk=offer.id %}">
+                                <h4>{{ offer.title|truncatechars:20 }}</h4>
+                                <div class="card-content">{{ offer.content|truncatechars_html:100|safe }}</div>
+                            </a>
+                        </div>
                     </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
-    </main>
+    </div>
+</main>
 {% endblock app %}
