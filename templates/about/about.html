@@ -1,7 +1,7 @@
 {% extends 'app/app.html' %}
 {% load static %}
 {% block title %}
-    <title>Naurs - About</title>
+<title>Naurs - About</title>
 {% endblock title %}
 {% block app %}
 <main id="main">
@@ -19,53 +19,54 @@
             </div>
         </div>
     </section>
+
     <!-- ======= about section ======= -->
     <section id="about-us" class="about-us">
         <div class="container" data-aos="fade-up">
             <div class="row content justify-content-center">
                 <div class="col-lg-8">
                     {% if last_about %}
-                        {% for about in last_about %}
-                            <div class="row">
-                                <div class="col-12" data-aos="fade-right">
-                                    <h2 class="text-center">Mission</h2>
-                                    {{ about.mission|safe }}
-                                </div>
-                                <div class="col-12" data-aos="fade-left">
-                                    <h2 class="text-center">Vision</h2>
-                                    {{ about.vision|safe }}
-                                </div>
-                                <div class="col-12" data-aos="fade-up">
-                                    <h2 class="text-center">Values</h2>
-                                    {{ about.value|safe }}
-                                </div>
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        <div class="row">
-                            <div class="col-12" data-aos="fade-right">
-                                <h2 class="text-center">Mission</h2>
-                                <p>
-                                    Naurs will be providing Unique classes which is not offered anywhere in the closest
-                                    radius around 1 km.
-                                </p>
-                            </div>
-                            <div class="col-12" data-aos="fade-left">
-                                <h2 class="text-center">Vision</h2>
-                                <p>
-                                    Our Instructors are State and National level champions who are certified and
-                                    qualified to train and we will provide a standard low priced fees that suits everyone
-                                    lifestyle.
-                                </p>
-                            </div>
-                            <div class="col-12" data-aos="fade-up">
-                                <h2 class="text-center">Values</h2>
-                                <p>
-                                    Like any other Business person we are also here to make some profit but also we want
-                                    to stand Unique in Dubai by providing free classes to senior citizens.
-                                </p>
-                            </div>
+                    {% for about in last_about %}
+                    <div class="row">
+                        <div class="col-12" data-aos="fade-right">
+                            <h2 class="text-center">Mission</h2>
+                            {{ about.mission|safe }}
                         </div>
+                        <div class="col-12" data-aos="fade-left">
+                            <h2 class="text-center">Vision</h2>
+                            {{ about.vision|safe }}
+                        </div>
+                        <div class="col-12" data-aos="fade-up">
+                            <h2 class="text-center">Values</h2>
+                            {{ about.value|safe }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <div class="row">
+                        <div class="col-12" data-aos="fade-right">
+                            <h2 class="text-center">Mission</h2>
+                            <p>
+                                Naurs will be providing Unique classes which is not offered anywhere in the closest
+                                radius around 1 km.
+                            </p>
+                        </div>
+                        <div class="col-12" data-aos="fade-left">
+                            <h2 class="text-center">Vision</h2>
+                            <p>
+                                Our Instructors are State and National level champions who are certified and
+                                qualified to train and we will provide a standard low priced fees that suits everyone
+                                lifestyle.
+                            </p>
+                        </div>
+                        <div class="col-12" data-aos="fade-up">
+                            <h2 class="text-center">Values</h2>
+                            <p>
+                                Like any other Business person we are also here to make some profit but also we want
+                                to stand Unique in Dubai by providing free classes to senior citizens.
+                            </p>
+                        </div>
+                    </div>
                     {% endif %}
                 </div>
             </div>
@@ -77,33 +78,32 @@
         <div class="container instructor-container" data-aos="fade-up">
             <div class="row">
                 {% if instructors %}
-                    {% for instructor in instructors %}
-                        <div class="col-12">
-                            <a href="{% url 'instructor_detail_page' pk=instructor.id %}">
-                                <div class="member">
-                                    {% if instructor.user.avatar %}
-                                        <img class="member-img img-fluid" src="{{ instructor.user.avatar.url }}"
-                                        alt="instructor">
-                                    {% else %}
-                                        <i class="bi bi-person-circle align-middle member-img img-fluid" style="font-size: 234px;"></i>
-                                    {% endif %}
-                                    <div class="member-info">
-                                        <h4>{{ instructor.user.get_full_name|truncatechars:20 }}</h4>
-                                        <span>{{ instructor.role|truncatechars:20 }}</span>
-                                        {{ instructor.about|safe|truncatechars_html:500 }}
-                                    </div>
-                                </div>
-                            </a>
+                {% for instructor in instructors %}
+                <div class="col-12">
+                    <a href="{% url 'instructor_detail_page' pk=instructor.id %}">
+                        <div class="member">
+                            {% if instructor.user.avatar %}
+                            <img class="member-img img-fluid" src="{{ instructor.user.avatar.url }}" alt="instructor">
+                            {% else %}
+                            <i class="bi bi-person-circle align-middle member-img img-fluid"
+                                style="font-size: 234px;"></i>
+                            {% endif %}
+                            <div class="member-info">
+                                <h4>{{ instructor.user.get_full_name|truncatechars:20 }}</h4>
+                                <span>{{ instructor.role|truncatechars:20 }}</span>
+                                {{ instructor.about|safe|truncatechars_html:500 }}
+                            </div>
                         </div>
-                    {% endfor %}
+                    </a>
+                </div>
+                {% endfor %}
                 {% else %}
-                    <div class="col-12 text-center animate__animated animate__fadeInDown"
-                            data-aos="fade-down">
-                        <i class="display-1 bi bi-trash align-middle"></i>
-                        <p>
-                            No instructor currently available!
-                        </p>
-                    </div>
+                <div class="col-12 text-center animate__animated animate__fadeInDown" data-aos="fade-down">
+                    <i class="display-1 bi bi-trash align-middle"></i>
+                    <p>
+                        No instructor currently available!
+                    </p>
+                </div>
                 {% endif %}
             </div>
         </div>

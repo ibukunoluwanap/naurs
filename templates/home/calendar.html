@@ -1,186 +1,154 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <!-- seo -->
-    <title>Naurs - Calendar</title>
-    <meta property="og:title" content="Naurs - Calendar" />
-    <meta
-      name="description"
-      content="Naurs focus on delivery the best quality and unique fitness and art classes within your 1km radius."
-    />
-    <meta
-      property="og:description"
-      content="Naurs focus on delivery the best quality and unique fitness and art classes within your 1km radius."
-    />
-    <meta
-      name="keywords"
-      content="fitness, gym, art, near, uae, dubai, yoga, classes, safety, music"
-    />
-    <meta
-      itemprop="image"
-      property="og:image"
-      content="{% static 'images/favicon.png' %}"
-    />
-    <meta property="og:image:width" content="1277" />
-    <meta property="og:image:height" content="473" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="{{ request.get_host }}" />
-    <meta name="theme-color" content="#011b2b" />
-    <!-- favicons -->
-    <link href="{% static 'images/favicon.png' %}" rel="icon" />
-    <link href="{% static 'images/favicon.png' %}" rel="apple-touch-icon" />
-    <!-- google fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Italiana&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;1,100;1,200;1,300;1,400&display=swap"
-      rel="stylesheet"
-    />
 
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.0.10/css/all.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"
-    />
-    <style>
-      body,
-      html {
-        padding: 0;
-        margin: 0;
-      }
-      .calendar {
-        width: 95%;
-        margin: 5rem auto;
-        font-size: 12px;
-      }
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <!-- seo -->
+  <title>Naurs - Calendar</title>
+  <meta property="og:title" content="Naurs - Calendar" />
+  <meta name="description"
+    content="Naurs focus on delivery the best quality and unique fitness and art classes within your 1km radius." />
+  <meta property="og:description"
+    content="Naurs focus on delivery the best quality and unique fitness and art classes within your 1km radius." />
+  <meta name="keywords" content="fitness, gym, art, near, uae, dubai, yoga, classes, safety, music" />
+  <meta itemprop="image" property="og:image" content="{% static 'images/favicon.png' %}" />
+  <meta property="og:image:width" content="1277" />
+  <meta property="og:image:height" content="473" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="{{ request.get_host }}" />
+  <meta name="theme-color" content="#011b2b" />
+  <!-- favicons -->
+  <link href="{% static 'images/favicon.png' %}" rel="icon" />
+  <link href="{% static 'images/favicon.png' %}" rel="apple-touch-icon" />
+  <!-- google fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Italiana&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;1,100;1,200;1,300;1,400&display=swap"
+    rel="stylesheet" />
 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" />
+  <style>
+    body,
+    html {
+      padding: 0;
+      margin: 0;
+    }
+
+    .calendar {
+      width: 95%;
+      margin: 5rem auto;
+      font-size: 12px;
+    }
+
+    .calendar td {
+      width: 200px;
+      height: 200px;
+      padding: 5px;
+    }
+
+    .month {
+      font-size: 25px;
+    }
+
+    .date {
+      font-size: 16px;
+    }
+
+    ul {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      width: 100%;
+      height: 90%;
+      overflow: scroll;
+    }
+
+    ul::-webkit-scrollbar {
+      display: none;
+    }
+
+    ul {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    li {
+      padding: 0.3rem;
+      background: #011b2b80;
+      color: #fff;
+      border-radius: 0.2rem;
+      line-height: 1.3;
+      margin: 0.3rem auto;
+    }
+
+    a {
+      color: #17a2b8;
+    }
+
+    .left {
+      float: left;
+    }
+
+    .right {
+      float: right;
+    }
+
+    .clearfix {
+      padding: 0.6rem;
+      position: fixed;
+      z-index: 9999;
+      width: 100%;
+      top: 0;
+      height: 3.5rem;
+      background: #011b2b;
+    }
+
+    @media (max-width: 767.98px) {
       .calendar td {
-        width: 200px;
-        height: 200px;
-        padding: 5px;
-      }
-
-      .month {
-        font-size: 25px;
-      }
-
-      .date {
-        font-size: 16px;
+        width: 100px;
+        height: 100px;
       }
 
       ul {
-        padding: 0;
-        margin: 0;
-        list-style: none;
-        width: 100%;
-        height: 90%;
-        overflow: scroll;
+        width: 100px;
+        height: 100px;
       }
+    }
+  </style>
+</head>
 
-      ul::-webkit-scrollbar {
-        display: none;
-      }
+<body>
+  <div class="clearfix">
+    {% if not request.user.is_authenticated %}
+    <a class="btn btn-outline-warning mx-1 d-none d-md-block left" href="{% url 'login_page' %}">
+      Login
+    </a>
+    {% elif request.user.is_authenticated and request.user.is_admin%}
+    <a class="btn btn-outline-warning mx-1 d-none d-md-block left" href="{% url 'dashboard_page' %}">
+      Dashboard
+    </a>
+    {% endif %}
+    <a class="btn btn-outline-info mx-1 d-none d-md-block left" href="{% url 'home_page' %}">
+      Website
+    </a>
+    <a class="btn btn-light mx-1 left" href="{% url 'calendar' %}?{{ prev_month }}">
+      <i class="bi bi-arrow-90deg-left"></i> Previous
+    </a>
+    <a class="btn btn-light mx-1 right" href="{% url 'calendar' %}?{{ next_month }}">
+      <i class="bi bi-arrow-90deg-right"></i> Next
+    </a>
+  </div>
 
-      ul {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-      }
+  <div class="table-responsive">{{ calendar }}</div>
 
-      li {
-        padding: 0.3rem;
-        background: #011b2b80;
-        color: #fff;
-        border-radius: 0.2rem;
-        line-height: 1.3;
-        margin: 0.3rem auto;
-      }
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
 
-      a {
-        color: #17a2b8;
-      }
-
-      .left {
-        float: left;
-      }
-
-      .right {
-        float: right;
-      }
-
-      .clearfix {
-        padding: 0.6rem;
-        position: fixed;
-        z-index: 9999;
-        width: 100%;
-        top: 0;
-        height: 3.5rem;
-        background: #011b2b;
-      }
-
-      @media (max-width: 767.98px) {
-        .calendar td {
-          width: 100px;
-          height: 100px;
-        }
-
-        ul {
-          width: 100px;
-          height: 100px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="clearfix">
-      {% if not request.user.is_authenticated %}
-      <a
-        class="btn btn-outline-warning mx-1 d-none d-md-block left"
-        href="{% url 'login_page' %}"
-      >
-        Login
-      </a>
-      {% elif request.user.is_authenticated and request.user.is_admin%}
-      <a
-        class="btn btn-outline-warning mx-1 d-none d-md-block left"
-        href="{% url 'dashboard_page' %}"
-      >
-        Dashboard
-      </a>
-      {% endif %}
-      <a
-        class="btn btn-outline-info mx-1 d-none d-md-block left"
-        href="{% url 'home_page' %}"
-      >
-        Website
-      </a>
-      <a
-        class="btn btn-light mx-1 left"
-        href="{% url 'calendar' %}?{{ prev_month }}"
-      >
-        <i class="bi bi-arrow-90deg-left"></i> Previous
-      </a>
-      <a
-        class="btn btn-light mx-1 right"
-        href="{% url 'calendar' %}?{{ next_month }}"
-      >
-        <i class="bi bi-arrow-90deg-right"></i> Next
-      </a>
-    </div>
-
-    <div class="table-responsive">{{ calendar }}</div>
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-  </body>
 </html>

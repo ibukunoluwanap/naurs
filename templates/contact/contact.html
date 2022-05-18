@@ -1,66 +1,68 @@
 {% extends 'app/app.html' %}
 {% load static %}
 {% block title %}<title>Naurs - Contact</title>{% endblock title %}
-    
-{% block app %}
-    <main id="main"> 
-        <!-- ======= breadcrumbs ======= -->             
-        <section id="breadcrumbs" class="breadcrumbs"> 
-            <div class="container"> 
-                <div class="d-flex justify-content-between align-items-center text-white"> 
-                    <h2>Contact</h2> 
-                    <ol> 
-                        <li>
-                            <a href="{% url 'home_page' %}">Home</a>
-                        </li>                             
-                        <li class="text-white">Contact</li>                             
-                    </ol>                         
-                </div>                     
-            </div>                 
-        </section>
 
-        <!-- ======= map section ======= -->             
-        <div class="map-section">
-            <iframe style="border:0; width: 100%; height: 400px;" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1805.2014272705308!2d55.26447745813273!3d25.189633395974944!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f6916e1b46015%3A0x416d7b7da974f747!2sBay%20Avenue%20Mall!5e0!3m2!1sen!2sng!4v1649579754709!5m2!1sen!2sng" frameborder="0" allowfullscreen="" loading="lazy"></iframe>
-        </div>         
-        
-        <!-- ======= contact section ======= -->             
-        <section id="contact" class="contact"> 
-            <div class="container-fluid"> 
-                <div class="row justify-content-center" data-aos="fade-up"> 
-                    <div class="col-lg-10"> 
-                        <div class="info-wrap"> 
-                            <div class="row justify-content-between"> 
-                                <div class="col-lg-3 info"> 
-                                    <i class="bi bi-geo-alt"></i> 
-                                    <h4>Location</h4> 
-                                    <p>
-                                        F42-F43, F44 Bay Avenue, Business Bay
-                                        <br>
-                                        Dubai - United Arab Emirates
-                                        <br>
-                                        PO BOX: 24536
-                                    </p> 
-                                </div>
-                                <div class="col-lg-3 info"> 
-                                    <i class="bi bi-telephone"></i> 
-                                    <h4>Call</h4> 
-                                    <p>
-                                        <a href="tel:+97143331091">+97143331091</a>
-                                    </p>
-                                </div>                                    
-                                <div class="col-lg-3 info mt-4 mt-lg-0"> 
-                                    <i class="bi bi-envelope"></i> 
-                                    <h4>Email</h4> 
-                                    <p>
-                                        <a href="mailto:hello@naurs.me">hello@naurs.me</a>
-                                    </p>
-                                </div>                                                                         
-                            </div>                                 
-                        </div>                             
-                    </div>                         
-                </div>                                       
-            </div>                 
-        </section>
-    </main>
+{% block app %}
+<main id="main">
+    <!-- ======= breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center text-white">
+                <h2>Contact</h2>
+                <ol>
+                    <li>
+                        <a href="{% url 'home_page' %}">Home</a>
+                    </li>
+                    <li class="text-white">Contact</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======= map section ======= -->
+    <div class="map-section">
+        <iframe style="border:0; width: 100%; height: 400px;"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1805.2014272705308!2d55.26447745813273!3d25.189633395974944!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f6916e1b46015%3A0x416d7b7da974f747!2sBay%20Avenue%20Mall!5e0!3m2!1sen!2sng!4v1649579754709!5m2!1sen!2sng"
+            frameborder="0" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+
+    <!-- ======= contact section ======= -->
+    <section id="contact" class="contact">
+        <div class="container-fluid">
+            <div class="row justify-content-center" data-aos="fade-up">
+                <div class="col-lg-10">
+                    <div class="info-wrap">
+                        <div class="row justify-content-between">
+                            <div class="col-lg-3 info">
+                                <i class="bi bi-geo-alt"></i>
+                                <h4>Location</h4>
+                                <p>
+                                    F42-F43, F44 Bay Avenue, Business Bay
+                                    <br>
+                                    Dubai - United Arab Emirates
+                                    <br>
+                                    PO BOX: 24536
+                                </p>
+                            </div>
+                            <div class="col-lg-3 info">
+                                <i class="bi bi-telephone"></i>
+                                <h4>Call</h4>
+                                <p>
+                                    <a href="tel:+97143331091">+97143331091</a>
+                                </p>
+                            </div>
+                            <div class="col-lg-3 info mt-4 mt-lg-0">
+                                <i class="bi bi-envelope"></i>
+                                <h4>Email</h4>
+                                <p>
+                                    <a href="mailto:hello@naurs.me">hello@naurs.me</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
 {% endblock app %}

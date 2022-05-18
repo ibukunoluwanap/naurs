@@ -1,5 +1,6 @@
 import calendar
-from django.views.generic import ListView
+from django.shortcuts import render
+from django.views.generic import ListView, View
 from home.models import CalendarModel, ListingModel
 from home.utils import Calendar
 from django.utils.safestring import mark_safe
@@ -44,3 +45,11 @@ def next_month(d):
     next_month = last + timedelta(days=1)
     month = 'month=' + str(next_month.year) + '-' + str(next_month.month)
     return month
+
+
+class PrivacyPolicyView(View):
+    template_name = "home/privacy_policy.html"
+
+    def get(self, *arg, **kwargs):
+        return render(self.request, self.template_name)
+
