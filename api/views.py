@@ -178,11 +178,4 @@ class PasswordResetConfirm(View):
         context = {}
         context['token'] = self.kwargs['token']
         return render(request, self.template_name, context)
-    
-class PasswordResetDone(View):
-    template_name = "account/api/forgot_password_confirm.html"
 
-    def get(self, request, *args, **kwargs):
-        response = requests.get(F'{DOMAIN}/password_reset/confirm/')
-        data = response.json()
-        print(data['detail'])
