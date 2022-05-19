@@ -10,7 +10,7 @@ STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY')
 STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG')
+DEBUG = True
 
 ALLOWED_HOSTS = [config('ALLOWED_HOSTS')]
 
@@ -28,6 +28,9 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'tinymce',
     'stripe',
+    'rest_framework', # rest framework
+    'django_rest_passwordreset', # rest framework password reset
+    "knox", # knox
     'account.apps.AccountConfig', # to handle authentication and user logics
     'home.apps.HomeConfig', # to handle home page contents and functionality
     'program.apps.ProgramConfig', # to handle program page contents and functionality
@@ -38,13 +41,28 @@ INSTALLED_APPS = [
     'instructor.apps.InstructorConfig', # to handle instructor page contents and functionality
     'student.apps.StudentConfig', # to handle student page contents and functionality
     'finance.apps.FinanceConfig', # to handle finance page contents and functionality
+    'api.apps.ApiConfig', # to handle finance page contents and functionality
+
 ]
 
-# custom authentication user model
-AUTH_USER_MODEL = 'account.User'
+# rest framework
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        # 'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        'knox.auth.TokenAuthentication',
+    ]
+}
 
 #authentication backends
 AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend',]
+
+# custom authentication user model
+AUTH_USER_MODEL = 'account.User'
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -107,7 +125,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -141,5 +158,8 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL='hello@naurs.me'
-EMAIL_PORT = config('EMAIL_USE_TLS')
-EMAIL_USE_TLS = config('EMAIL_USE_TLS')
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+
+# domain
+DOMAIN = "http://127.0.0.1:8000"

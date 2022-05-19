@@ -51,7 +51,6 @@ class BillingAddressCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
         if billing_address_from.is_valid():
             new_billing_address = billing_address_from.save(commit=False)
-            print("B:",request.user)
             new_billing_address.user = request.user
             new_billing_address.save()
             messages.success(self.request, f"Successfully added billing address! <b>You can now purchase packages and classes</b>")

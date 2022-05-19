@@ -1,4 +1,3 @@
-
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.sites.shortcuts import get_current_site
@@ -81,11 +80,12 @@ class Register(View):
                 messages.success(request, 'Email already exist!')
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-            # saving user to database
+            #  disable new user
             user = register_form.save(commit=False)
             user.is_active = False # disable user
             user.save()
 
+            # send verification email
             current_site = get_current_site(request)
             context['subject'] = subject = 'Naurs Email Activation.'
             to_email = email
@@ -144,7 +144,7 @@ class Login(View):
             user = authenticate(email=email, password=password)
 
             # login the user
-            if user is not None and user.is_active:
+            if user is not None:
                 if user.is_admin:
                     login(request, user)
                     FreeTrialOfferModel.objects.filter(created_on__lte=datetime.now(timezone.utc)-timezone.timedelta(days=7)).update(is_active=False)
