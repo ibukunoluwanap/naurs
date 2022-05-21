@@ -54,7 +54,12 @@ class RegisterAPI(generics.GenericAPIView):
 
         try:
             send_mail(subject, actual_message, EMAIL_HOST_USER, [to_email], fail_silently = False, html_message=actual_message)
-            return Response({"success": "Check email inbox or spam to confirm email!"})
+            response = {
+                'status': 'success',
+                'code': status.HTTP_200_OK,
+                'message': "Check email inbox or spam to confirm email!"
+            }
+            return Response(response)
             # return Response({
             #     "user": UserSerializer(user, context=self.get_serializer_context()).data,
             #     "token": AuthToken.objects.create(user)[1]
