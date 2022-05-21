@@ -77,7 +77,7 @@ class Register(View):
 
             # validating email address in database
             if User.objects.filter(email=email).exists():
-                messages.success(request, 'Email already exist!')
+                messages.success(request, 'User with this email address already exists!')
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
             #  disable new user

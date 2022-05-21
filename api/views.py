@@ -1,5 +1,6 @@
 from django.shortcuts import render
-import requests
+from django.dispatch import receiver
+from django_rest_passwordreset.signals import reset_password_token_created
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 from knox.models import AuthToken
@@ -37,9 +38,16 @@ class RegisterAPI(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         context = {}
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
 
-        # disable new user
+        if not serializer.is_valid():
+            for error in serializer.errors:
+                response = {
+                    'status': 'error',
+                    'code': status.HTTP_400_BAD_REQUEST,
+                    'message': f"{serializer.errors[error][0]}"
+                }
+                return Response(response)
+
         user = serializer.save(is_active=False)
 
         # send verification email
@@ -107,7 +115,16 @@ class LoginAPI(generics.GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         serializer = CustomAuthTokenSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        
+        if not serializer.is_valid():
+            for error in serializer.errors:
+                response = {
+                    'status': 'error',
+                    'code': status.HTTP_400_BAD_REQUEST,
+                    'message': f"{serializer.errors[error][0]}"
+                }
+                return Response(response)
+
         user = serializer.validated_data['user']
         login(request, user)
 
@@ -135,35 +152,36 @@ class ChangePasswordView(generics.UpdateAPIView):
         self.object = self.get_object()
         serializer = self.get_serializer(data=request.data)
 
-        if serializer.is_valid():
-            # Check old password
-            if not self.object.check_password(serializer.data.get("old_password")):
-                error_response = {
+        if not serializer.is_valid():
+            for error in serializer.errors:
+                response = {
                     'status': 'error',
                     'code': status.HTTP_400_BAD_REQUEST,
-                    'message': 'Old password is wrong!'
+                    'message': f"{serializer.errors[error][0]}"
                 }
+                return Response(response)
 
-                return Response(error_response)
-
-            # set_password also hashes the password that the user will get
-            self.object.set_password(serializer.data.get("new_password"))
-            self.object.save()
-
-            response = {
-                'status': 'success',
-                'code': status.HTTP_200_OK,
-                'message': 'Password updated successfully!'
+        # Check old password
+        if not self.object.check_password(serializer.data.get("old_password")):
+            error_response = {
+                'status': 'error',
+                'code': status.HTTP_400_BAD_REQUEST,
+                'message': 'Old password is wrong!'
             }
 
-            return Response(response)
+            return Response(error_response)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        # set_password also hashes the password that the user will get
+        self.object.set_password(serializer.data.get("new_password"))
+        self.object.save()
 
-from django.dispatch import receiver
-from django.urls import reverse
-from django_rest_passwordreset.signals import reset_password_token_created
+        response = {
+            'status': 'success',
+            'code': status.HTTP_200_OK,
+            'message': 'Password updated successfully!'
+        }
 
+        return Response(response)
 
 @receiver(reset_password_token_created)
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
