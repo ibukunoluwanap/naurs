@@ -121,7 +121,11 @@ class LoginAPI(generics.GenericAPIView):
                 response = {
                     'status': 'error',
                     'code': status.HTTP_400_BAD_REQUEST,
-                    'message': f"{serializer.errors[error][0]}"
+                    'message': {
+                        "user": {},
+                        "token": f"{serializer.errors[error][0]}"
+                    }
+                    # 'message': {"message": f"{serializer.errors[error][0]}"}
                 }
                 return Response(response)
 
