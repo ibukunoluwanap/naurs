@@ -30,7 +30,8 @@ INSTALLED_APPS = [
     'stripe',
     'rest_framework', # rest framework
     'django_rest_passwordreset', # rest framework password reset
-    "knox", # knox
+    'knox', # knox
+    'corsheaders',
     'account.apps.AccountConfig', # to handle authentication and user logics
     'home.apps.HomeConfig', # to handle home page contents and functionality
     'program.apps.ProgramConfig', # to handle program page contents and functionality
@@ -64,6 +65,9 @@ ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 
+# cors allow
+CORS_ALLOW_ALL_ORIGINS = True
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -72,6 +76,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'naurs.urls'
