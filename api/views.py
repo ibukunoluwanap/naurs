@@ -19,6 +19,9 @@ from django.contrib.auth import login
 from django.contrib.auth import get_user_model
 from rest_framework import status
 from django.views.generic import View
+from program.models import PackageModel, ProgramModel
+
+from program.serializers import PackageSerializer, ProgramSerializer
 
 User = get_user_model()
 
@@ -68,10 +71,6 @@ class RegisterAPI(generics.GenericAPIView):
                 'message': "Check email inbox or spam to confirm email!"
             }
             return Response(response)
-            # return Response({
-            #     "user": UserSerializer(user, context=self.get_serializer_context()).data,
-            #     "token": AuthToken.objects.create(user)[1]
-            # })
         except socket.gaierror:
             response = {
                 'status': 'error',
@@ -206,4 +205,15 @@ class PasswordResetConfirm(View):
         context = {}
         context['token'] = self.kwargs['token']
         return render(request, self.template_name, context)
+
+
+class ProgramAPI(generics.ListAPIView):
+    serializer_class = ProgramSerializer
+    permission_classes = (permissions.AllowAny,)
+    queryset = ProgramModel.objects.filter(is_active=True).order_by("-id")
+
+class PackageAPI(generics.ListAPIView):
+    serializer_class = PackageSerializer
+    permission_classes = (permissions.AllowAny,)
+    queryset = PackageModel.objects.filter(is_active=True).order_by("-id")
 

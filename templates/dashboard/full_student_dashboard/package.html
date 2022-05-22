@@ -52,8 +52,7 @@
                         <b>Bonus Type:</b> Free <b>{{order.senior_citizen_sessions}}</b> senior citizen sessions
                         <br>
                         {% endif %}
-                        {% if order.kids_sessions <= 0 and order.senior_citizen_sessions <=0 and
-                            order.senior_citizen_sessions> 0 %} <br>
+                        {% if order.kids_sessions <= 0 and order.senior_citizen_sessions <= 0 and order.senior_citizen_sessions > 0 %} <br>
                             <b>Bonus Type:</b> Free <b>+{{package.bonus_price|floatformat:2|intcomma}}</b> AED added to
                             wallet
                             <br>
