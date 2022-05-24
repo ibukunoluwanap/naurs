@@ -13,6 +13,8 @@ from email.errors import HeaderParseError
 from django.template import loader
 from django.core.mail import send_mail, BadHeaderError
 from api.custom import CustomAuthTokenSerializer
+from home.models import CalendarModel
+from home.serializers import CalendarSerializer
 from naurs.settings import EMAIL_HOST_USER, DOMAIN
 import socket
 from django.contrib.auth import login
@@ -217,3 +219,7 @@ class PackageAPI(generics.ListAPIView):
     permission_classes = (permissions.AllowAny,)
     queryset = PackageModel.objects.filter(is_active=True).order_by("-id")
 
+class CalendarAPI(generics.ListAPIView):
+    serializer_class = CalendarSerializer
+    permission_classes = (permissions.AllowAny,)
+    queryset = CalendarModel.objects.order_by("-id")

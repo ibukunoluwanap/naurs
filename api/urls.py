@@ -17,4 +17,7 @@ urlpatterns = [
 
     # package
     path('package/', views.PackageAPI.as_view(), name='package_api'),
+
+    # calendar
+    path('calendar/', views.CalendarAPI.as_view(), name='calendar_api'),
 ]
