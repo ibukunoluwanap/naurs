@@ -1,3 +1,4 @@
+from venv import create
 from django.shortcuts import render
 from django.dispatch import receiver
 from django_rest_passwordreset.signals import reset_password_token_created
@@ -22,8 +23,8 @@ from django.contrib.auth import get_user_model
 from rest_framework import status
 from django.views.generic import View
 from program.models import PackageModel, ProgramModel
-
 from program.serializers import PackageSerializer, ProgramSerializer
+from django.utils import timezone
 
 User = get_user_model()
 
@@ -222,4 +223,4 @@ class PackageAPI(generics.ListAPIView):
 class CalendarAPI(generics.ListAPIView):
     serializer_class = CalendarSerializer
     permission_classes = (permissions.AllowAny,)
-    queryset = CalendarModel.objects.order_by("-id")
+    queryset = CalendarModel.objects.filter(created_on__month=timezone.now().month).order_by("-id")
