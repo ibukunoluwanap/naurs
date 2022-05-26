@@ -1571,13 +1571,12 @@ class GetPackageTicket(LoginRequiredMixin, View):
                 email_cxt['ticket'] = True
                 email_cxt['order_id'] = order.id
                 email_cxt['ticket_type'] = ticket_type
-                email_cxt['subject'] = subject = f'Naurs Ticket For Order {order.id}.'
+                email_cxt['subject'] = subject = 'Naurs Entry Ticket.'
                 to_email = order.user.email
                 email_cxt['domain'] = current_site.domain
                 email_cxt['message'] = f"""
                                             Hi {order.user.get_full_name()}, \n
-                                            This is your entry ticket for naurs order {order.id}. \n
-                                            The Entry ticket link below:
+                                            The Entry ticket link below: \n
 
                                         """
                 actual_message = loader.render_to_string('components/notifications/emails.html', email_cxt)
@@ -1620,13 +1619,12 @@ class GetPackageTicket(LoginRequiredMixin, View):
                 email_cxt['ticket'] = True
                 email_cxt['order_id'] = order.id
                 email_cxt['ticket_type'] = ticket_type
-                email_cxt['subject'] = subject = f'Naurs Ticket For Order {order.id}.'
+                email_cxt['subject'] = subject = 'Naurs Entry Ticket.'
                 to_email = order.user.email
                 email_cxt['domain'] = current_site.domain
                 email_cxt['message'] = f"""
                                             Hi {order.user.get_full_name()}, \n
-                                            This is your entry ticket for naurs order {order.id}. \n
-                                            The Entry ticket link below:
+                                            The Entry ticket link below: \n
 
                                         """
                 actual_message = loader.render_to_string('components/notifications/emails.html', email_cxt)
@@ -1669,13 +1667,12 @@ class GetPackageTicket(LoginRequiredMixin, View):
                 email_cxt['ticket'] = True
                 email_cxt['order_id'] = order.id
                 email_cxt['ticket_type'] = ticket_type
-                email_cxt['subject'] = subject = f'Naurs Ticket For Order {order.id}.'
+                email_cxt['subject'] = subject = 'Naurs Entry Ticket.'
                 to_email = order.user.email
                 email_cxt['domain'] = current_site.domain
                 email_cxt['message'] = f"""
                                             Hi {order.user.get_full_name()}, \n
-                                            This is your entry ticket for naurs order {order.id}. \n
-                                            The Entry ticket link below:
+                                            The Entry ticket link below: \n
 
                                         """
                 actual_message = loader.render_to_string('components/notifications/emails.html', email_cxt)
