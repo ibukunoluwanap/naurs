@@ -14,6 +14,8 @@ from email.errors import HeaderParseError
 from django.template import loader
 from django.core.mail import send_mail, BadHeaderError
 from api.custom import CustomAuthTokenSerializer
+from finance.models import OrderModel
+from finance.serializers import OrderSerializer
 from home.models import CalendarModel
 from home.serializers import CalendarSerializer
 from naurs.settings import EMAIL_HOST_USER, DOMAIN
@@ -224,3 +226,10 @@ class CalendarAPI(generics.ListAPIView):
     serializer_class = CalendarSerializer
     permission_classes = (permissions.AllowAny,)
     queryset = CalendarModel.objects.filter(created_on__month=timezone.now().month).order_by("-id")
+
+class OrderAPI(generics.ListAPIView):
+    serializer_class = OrderSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        return OrderModel.objects.filter(user=self.request.user).order_by("-id")

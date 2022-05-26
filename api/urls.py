@@ -20,4 +20,7 @@ urlpatterns = [
 
     # calendar
     path('calendar/', views.CalendarAPI.as_view(), name='calendar_api'),
+
+    # order
+    path('order/', views.OrderAPI.as_view(), name='order_api'),
 ]
