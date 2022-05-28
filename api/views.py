@@ -27,6 +27,8 @@ from django.views.generic import View
 from program.models import PackageModel, ProgramModel
 from program.serializers import PackageSerializer, ProgramSerializer
 from django.utils import timezone
+from student.models import StudentModel
+from student.serializers import StudentSerializer
 
 User = get_user_model()
 
@@ -148,7 +150,7 @@ class LoginAPI(generics.GenericAPIView):
         return Response(response)
 
 # change password API
-class ChangePasswordView(generics.UpdateAPIView):
+class ChangePasswordAPI(generics.UpdateAPIView):
     serializer_class = ChangePasswordSerializer
     permission_classes = (permissions.IsAuthenticated,)
     model = User
@@ -203,14 +205,13 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
     actual_message = loader.render_to_string('account/api/forgot_password_email.html', context)
     send_mail(subject, actual_message, EMAIL_HOST_USER, [to_email], fail_silently = False, html_message=actual_message)
 
-class PasswordResetConfirm(View):
+class PasswordResetConfirmAPI(View):
     template_name = "account/api/forgot_password_confirm.html"
 
     def get(self, request, *args, **kwargs):
         context = {}
         context['token'] = self.kwargs['token']
         return render(request, self.template_name, context)
-
 
 class ProgramAPI(generics.ListAPIView):
     serializer_class = ProgramSerializer
@@ -233,3 +234,33 @@ class OrderAPI(generics.ListAPIView):
 
     def get_queryset(self):
         return OrderModel.objects.filter(user=self.request.user).order_by("-id")
+
+class StudentAPI(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = StudentSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+    model = StudentModel
+
+    def get_object(self):
+        return StudentModel.objects.get(user=self.request.user)
+
+    def update(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        serializer = self.get_serializer(self.object, data=request.data, partial=True)
+
+        if not serializer.is_valid():
+            for error in serializer.errors:
+                response = {
+                    'status': 'error',
+                    'code': status.HTTP_400_BAD_REQUEST,
+                    'message': f"{serializer.errors[error]}"
+                }
+                return Response(response)
+
+        self.object.save()
+        response = {
+            'status': 'success',
+            'code': status.HTTP_200_OK,
+            'message': "Successfully updated personal info!"
+        }
+
+        return Response(response)

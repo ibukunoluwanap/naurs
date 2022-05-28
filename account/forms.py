@@ -111,7 +111,7 @@ class UpdateAdminForm(forms.ModelForm):
 class UpdatePasswordForm(forms.ModelForm):
     old_password = forms.CharField(label="Old Password", strip=False, widget=forms.PasswordInput, help_text=password_validation.password_validators_help_text_html(),)
     new_password1 = forms.CharField(label="New Password", strip=False, widget=forms.PasswordInput, help_text=password_validation.password_validators_help_text_html(),)
-    new_password2 = forms.CharField(label="Comfirm New Password", strip=False, widget=forms.PasswordInput, help_text=password_validation.password_validators_help_text_html(),)
+    new_password2 = forms.CharField(label="Confirm New Password", strip=False, widget=forms.PasswordInput, help_text=password_validation.password_validators_help_text_html(),)
 
     class Meta:
         model = User
