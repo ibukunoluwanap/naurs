@@ -33,12 +33,16 @@ from student.serializers import StudentSerializer
 User = get_user_model()
 
 # user API
-class UserAPI(generics.RetrieveAPIView):
+class UserAPI(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
     def get_object(self):
         return self.request.user
+
+    def get_serializer(self, *args, **kwargs):
+        kwargs['partial'] = True
+        return super(UserAPI, self).get_serializer(*args, **kwargs)
 
 # register API
 class RegisterAPI(generics.GenericAPIView):
