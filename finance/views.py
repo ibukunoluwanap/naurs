@@ -3,7 +3,7 @@ from django.http import HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from finance.forms import BillingAddressForm
-from finance.models import BillingAddressModel, OrderModel, WalletModel
+from finance.models import BillingAddressModel, OrderModel, TransactionHistoryModel, WalletModel
 from django.contrib import messages
 from offer.models import FreeTrialOfferModel
 from django.views.generic import View, ListView, CreateView, DetailView, UpdateView, DeleteView, TemplateView
@@ -114,6 +114,7 @@ class TopUpWalletPaymentSuccess(TemplateView):
         new_wallet_balance = wallet.balance + int(session.amount_total / 100)
         wallet.balance = new_wallet_balance
         wallet.save()
+        TransactionHistoryModel.objects.create(wallet=wallet, amount=(session.amount_total / 100))
         messages.success(request, 'Payment successful! Your account has been topped up.')
         return redirect('student_dashboard_page')
 

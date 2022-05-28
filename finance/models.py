@@ -40,7 +40,7 @@ class OrderModel(models.Model):
     user = models.ForeignKey(User, verbose_name="user", on_delete=models.CASCADE)
     package = models.ManyToManyField(PackageModel, verbose_name="package")
     program = models.ManyToManyField(ProgramModel, verbose_name="class")
-    amount = models.IntegerField(verbose_name='Amount')
+    amount = models.FloatField(verbose_name='Amount')
     status = models.BooleanField(default=False, verbose_name='Payment Status')
     sessions = models.PositiveIntegerField(default=0)
     kids_sessions = models.PositiveIntegerField(default=0)
@@ -67,3 +67,16 @@ class TicketModel(models.Model):
 
     def __str__(self):
         return f"Ticket for {self.order.user.get_full_name}"
+
+# Transaction History model
+class TransactionHistoryModel(models.Model):
+    wallet = models.ForeignKey(WalletModel, verbose_name="user", on_delete=models.CASCADE)
+    amount = models.FloatField(verbose_name='Amount')
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Transaction History'
+        verbose_name_plural = 'Transaction Histories'
+
+    def __str__(self):
+        return f"Transaction history for {self.wallet.user}"

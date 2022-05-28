@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.dispatch import receiver
 from django_rest_passwordreset.signals import reset_password_token_created
+from requests import request
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 from knox.models import AuthToken
@@ -13,8 +14,8 @@ from email.errors import HeaderParseError
 from django.template import loader
 from django.core.mail import send_mail, BadHeaderError
 from api.custom import CustomAuthTokenSerializer
-from finance.models import BillingAddressModel, OrderModel, WalletModel
-from finance.serializers import BillingAddressSerializer, OrderSerializer, WalletSerializer
+from finance.models import BillingAddressModel, OrderModel, TransactionHistoryModel, WalletModel
+from finance.serializers import BillingAddressSerializer, OrderSerializer, TransactionHistorySerializer, WalletSerializer
 from home.models import CalendarModel
 from home.serializers import CalendarSerializer
 from naurs.settings import EMAIL_HOST_USER, DOMAIN
@@ -255,6 +256,13 @@ class OrderAPI(generics.ListAPIView):
 
     def get_queryset(self):
         return OrderModel.objects.filter(user=self.request.user).order_by("-id")
+
+class TransactionHistoryAPI(generics.ListAPIView):
+    serializer_class = TransactionHistorySerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        return TransactionHistoryModel.objects.filter(wallet__user=self.request.user).order_by("-id")
 
 class StudentUpdateAPI(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = StudentSerializer

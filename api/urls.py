@@ -30,6 +30,9 @@ urlpatterns = [
     # order API
     path('order/', views.OrderAPI.as_view(), name='order_api'),
 
+    # transaction_history API
+    path('transaction_history/', views.TransactionHistoryAPI.as_view(), name='transaction_history_api'),
+
     # student update API
     path('student_update/', views.StudentUpdateAPI.as_view(), name='student_update_api'),
 ]
