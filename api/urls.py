@@ -21,9 +21,15 @@ urlpatterns = [
     # calendar API
     path('calendar/', views.CalendarAPI.as_view(), name='calendar_api'),
 
+    # wallet update API
+    path('wallet_update/', views.WalletUpdateAPI.as_view(), name='wallet_update_api'),
+
+    # billing_address update API
+    path('billing_address_update/', views.BillingAddressUpdateAPI.as_view(), name='billing_address_update_api'),
+
     # order API
     path('order/', views.OrderAPI.as_view(), name='order_api'),
 
     # student update API
-    path('student_update/', views.StudentAPI.as_view(), name='student_api'),
+    path('student_update/', views.StudentUpdateAPI.as_view(), name='student_update_api'),
 ]

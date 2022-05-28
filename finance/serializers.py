@@ -1,7 +1,23 @@
 from rest_framework import serializers
 from account.serializers import UserSerializer
-from finance.models import OrderModel
+from finance.models import BillingAddressModel, OrderModel, WalletModel
 from program.serializers import PackageSerializer, ProgramSerializer
+
+# Wallet Serializer
+class WalletSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    class Meta:
+        model = WalletModel
+        fields = "__all__"
+        depth = 4
+
+# BillingAddress Serializer
+class BillingAddressSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    class Meta:
+        model = BillingAddressModel
+        fields = "__all__"
+        depth = 4
 
 # Order Serializer
 class OrderSerializer(serializers.ModelSerializer):

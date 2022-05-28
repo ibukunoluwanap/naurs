@@ -1,4 +1,3 @@
-from venv import create
 from django.shortcuts import render
 from django.dispatch import receiver
 from django_rest_passwordreset.signals import reset_password_token_created
@@ -14,8 +13,8 @@ from email.errors import HeaderParseError
 from django.template import loader
 from django.core.mail import send_mail, BadHeaderError
 from api.custom import CustomAuthTokenSerializer
-from finance.models import OrderModel
-from finance.serializers import OrderSerializer
+from finance.models import BillingAddressModel, OrderModel, WalletModel
+from finance.serializers import BillingAddressSerializer, OrderSerializer, WalletSerializer
 from home.models import CalendarModel
 from home.serializers import CalendarSerializer
 from naurs.settings import EMAIL_HOST_USER, DOMAIN
@@ -228,6 +227,28 @@ class CalendarAPI(generics.ListAPIView):
     permission_classes = (permissions.AllowAny,)
     queryset = CalendarModel.objects.filter(created_on__month=timezone.now().month).order_by("-id")
 
+class WalletUpdateAPI(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = WalletSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+    model = WalletModel
+
+    def get_object(self):
+        try:
+            return WalletModel.objects.get(user=self.request.user)
+        except WalletModel.DoesNotExist:
+            return;
+
+class BillingAddressUpdateAPI(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = BillingAddressSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+    model = BillingAddressModel
+
+    def get_object(self):
+        try:
+            return BillingAddressModel.objects.get(user=self.request.user)
+        except BillingAddressModel.DoesNotExist:
+            return;
+
 class OrderAPI(generics.ListAPIView):
     serializer_class = OrderSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -235,7 +256,7 @@ class OrderAPI(generics.ListAPIView):
     def get_queryset(self):
         return OrderModel.objects.filter(user=self.request.user).order_by("-id")
 
-class StudentAPI(generics.RetrieveUpdateDestroyAPIView):
+class StudentUpdateAPI(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = StudentSerializer
     permission_classes = (permissions.IsAuthenticated,)
     model = StudentModel
