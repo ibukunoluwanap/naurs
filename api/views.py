@@ -239,6 +239,10 @@ class WalletUpdateAPI(generics.RetrieveUpdateDestroyAPIView):
         except WalletModel.DoesNotExist:
             return;
 
+    def get_serializer(self, *args, **kwargs):
+        kwargs['partial'] = True
+        return super(WalletUpdateAPI, self).get_serializer(*args, **kwargs)
+
 class BillingAddressUpdateAPI(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = BillingAddressSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -249,6 +253,10 @@ class BillingAddressUpdateAPI(generics.RetrieveUpdateDestroyAPIView):
             return BillingAddressModel.objects.get(user=self.request.user)
         except BillingAddressModel.DoesNotExist:
             return;
+
+    def get_serializer(self, *args, **kwargs):
+        kwargs['partial'] = True
+        return super(BillingAddressUpdateAPI, self).get_serializer(*args, **kwargs)
 
 class OrderAPI(generics.ListAPIView):
     serializer_class = OrderSerializer
@@ -272,24 +280,6 @@ class StudentUpdateAPI(generics.RetrieveUpdateDestroyAPIView):
     def get_object(self):
         return StudentModel.objects.get(user=self.request.user)
 
-    def update(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        serializer = self.get_serializer(self.object, data=request.data, partial=True)
-
-        if not serializer.is_valid():
-            for error in serializer.errors:
-                response = {
-                    'status': 'error',
-                    'code': status.HTTP_400_BAD_REQUEST,
-                    'message': f"{serializer.errors[error]}"
-                }
-                return Response(response)
-
-        self.object.save()
-        response = {
-            'status': 'success',
-            'code': status.HTTP_200_OK,
-            'message': "Successfully updated personal info!"
-        }
-
-        return Response(response)
+    def get_serializer(self, *args, **kwargs):
+        kwargs['partial'] = True
+        return super(StudentUpdateAPI, self).get_serializer(*args, **kwargs)
