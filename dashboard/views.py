@@ -665,7 +665,9 @@ class InstructorCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         context["register_form"] = register_form = RegisterForm(request.POST)
 
         if instructor_form.is_valid() and register_form.is_valid():
-            user=register_form.save()
+            user=register_form.save(commit=False)
+            user.staff = True;
+            user.save()
             new_instructor = instructor_form.save(commit=False)
             new_instructor.user = user
             WalletModel.objects.create(user=new_instructor.user)
