@@ -74,8 +74,8 @@ class PackageModel(models.Model):
     created_on = models.DateTimeField("created on", auto_now_add=True)
 
     class Meta:
-        verbose_name = 'Class'
-        verbose_name_plural = 'Classes'
+        verbose_name = 'Package'
+        verbose_name_plural = 'Packages'
 
     def __str__(self):
         return f"{self.name}"

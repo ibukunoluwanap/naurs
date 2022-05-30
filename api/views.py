@@ -287,3 +287,71 @@ class StudentUpdateAPI(generics.RetrieveUpdateDestroyAPIView):
     def get_serializer(self, *args, **kwargs):
         kwargs['partial'] = True
         return super(StudentUpdateAPI, self).get_serializer(*args, **kwargs)
+
+class GetPackageAPI(generics.GenericAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        package_type = self.kwargs['package_type']
+        package = PackageModel.objects.get(id=self.kwargs['package_id'])
+        wallet = WalletModel.objects.get(user=request.user)
+
+        if package_type == "bonus":
+            for program in package.program.all():
+                pass
+
+            if wallet.balance < package.initial_price:
+                response = {
+                    'status': 'error',
+                    'code': status.HTTP_400_BAD_REQUEST,
+                    'message': 'Insufficient wallet balance! Please "TOP UP" your wallet'
+                }
+                return Response(response)
+            
+            # update price
+            new_wallet_balance = wallet.balance - package.initial_price
+            wallet_balance = new_wallet_balance + package.bonus_price
+
+            # updating wallet
+            wallet.balance = wallet_balance
+            wallet.save()
+
+            # create order
+            if request.user.ordermodel_set.filter(package=package).exists():
+                # update price
+                new_wallet_balance = wallet.balance + package.initial_price
+                wallet_balance = new_wallet_balance - package.bonus_price
+
+                # updating wallet
+                wallet.balance = wallet_balance
+                wallet.save()
+
+                response = {
+                    'status': 'warning',
+                    'code': status.HTTP_400_BAD_REQUEST,
+                    'message': 'This package is currently active on your account'
+                }
+                return Response(response)
+
+            order = OrderModel.objects.create(
+                user = request.user,
+                amount = package.initial_price,
+                status = True,
+                sessions = package.sessions,
+            )
+
+            order.package.add(package)
+            order.program.add(*package.program.all())
+
+            student = StudentModel.objects.get(user=request.user)
+            program.students.add(student)
+
+            program.save()
+
+            response = {
+                    'status': 'success',
+                    'code': status.HTTP_200_OK,
+                    'message': f'Successfully purchased {package.name}! Please refresh screen'
+                }
+            return Response(response)
+
