@@ -38,4 +38,10 @@ urlpatterns = [
 
     # student update API
     path('student_update/', views.StudentUpdateAPI.as_view(), name='student_update_api'),
+
+    # instructor API
+    path('instructor/', views.InstructorAPI.as_view(), name='instructor_api'),
+
+    # instructor update API
+    path('instructor_update/', views.InstructorUpdateAPI.as_view(), name='instructor_update_api'),
 ]

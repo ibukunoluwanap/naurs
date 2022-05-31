@@ -18,6 +18,8 @@ from finance.models import BillingAddressModel, OrderModel, TransactionHistoryMo
 from finance.serializers import BillingAddressSerializer, OrderSerializer, TransactionHistorySerializer, WalletSerializer
 from home.models import CalendarModel
 from home.serializers import CalendarSerializer
+from instructor.models import InstructorModel
+from instructor.serializers import InstructorSerializer
 from naurs.settings import EMAIL_HOST_USER, DOMAIN
 import socket
 from django.contrib.auth import login
@@ -287,6 +289,26 @@ class StudentUpdateAPI(generics.RetrieveUpdateDestroyAPIView):
     def get_serializer(self, *args, **kwargs):
         kwargs['partial'] = True
         return super(StudentUpdateAPI, self).get_serializer(*args, **kwargs)
+
+class InstructorAPI(generics.ListAPIView):
+    serializer_class = InstructorSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+    model = InstructorModel
+
+    def get_queryset(self):
+        return InstructorModel.objects.order_by("-id")
+
+class InstructorUpdateAPI(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = InstructorSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+    model = InstructorModel
+
+    def get_object(self):
+        return InstructorModel.objects.get(user=self.request.user)
+
+    def get_serializer(self, *args, **kwargs):
+        kwargs['partial'] = True
+        return super(InstructorUpdateAPI, self).get_serializer(*args, **kwargs)
 
 class GetPackageAPI(generics.GenericAPIView):
     permission_classes = (permissions.IsAuthenticated,)
