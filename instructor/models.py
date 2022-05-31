@@ -2,6 +2,8 @@ from django.db import models
 from tinymce.models import HTMLField
 from django.contrib.auth import get_user_model
 
+from student.models import StudentModel
+
 # setting User model
 User = get_user_model()
 
@@ -10,8 +12,6 @@ class InstructorModel(models.Model):
     user = models.OneToOneField(User, verbose_name="user", on_delete=models.CASCADE)
     role = models.CharField("role", max_length=100, blank=False, null=False)
     about = HTMLField()
-    # salary = models.FloatField(default=0.00)
-    # comission = models.FloatField(default=0.00)
     created_on = models.DateTimeField("created on", auto_now_add=True)
 
     class Meta:
@@ -20,3 +20,18 @@ class InstructorModel(models.Model):
 
     def __str__(self):
         return f"{self.user}"
+
+# instructor notification modal
+class InstructorNotificationModel(models.Model):
+    instructor = models.ForeignKey(InstructorModel, verbose_name="instructor", on_delete=models.CASCADE)
+    student = models.ForeignKey(StudentModel, verbose_name="student", on_delete=models.CASCADE)
+    instructor_msg = HTMLField(blank=True, null=True)
+    schedule_on = models.DateTimeField("schedule on", blank=True, null=True)
+    created_on = models.DateTimeField("created on", auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Instructor Notification'
+        verbose_name_plural = 'Instructor Notifications'
+
+    def __str__(self):
+        return f"Message by {self.student}"

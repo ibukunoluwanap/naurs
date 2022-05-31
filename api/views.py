@@ -18,8 +18,8 @@ from finance.models import BillingAddressModel, OrderModel, TransactionHistoryMo
 from finance.serializers import BillingAddressSerializer, OrderSerializer, TransactionHistorySerializer, WalletSerializer
 from home.models import CalendarModel
 from home.serializers import CalendarSerializer
-from instructor.models import InstructorModel
-from instructor.serializers import InstructorSerializer
+from instructor.models import InstructorModel, InstructorNotificationModel
+from instructor.serializers import InstructorNotificationSerializer, InstructorSerializer
 from naurs.settings import EMAIL_HOST_USER, DOMAIN
 import socket
 from django.contrib.auth import login
@@ -309,6 +309,11 @@ class InstructorUpdateAPI(generics.RetrieveUpdateDestroyAPIView):
     def get_serializer(self, *args, **kwargs):
         kwargs['partial'] = True
         return super(InstructorUpdateAPI, self).get_serializer(*args, **kwargs)
+
+class InstructorNotificationAPI(generics.CreateAPIView):
+    serializer_class = InstructorNotificationSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+    model = InstructorNotificationModel
 
 class GetPackageAPI(generics.GenericAPIView):
     permission_classes = (permissions.IsAuthenticated,)
