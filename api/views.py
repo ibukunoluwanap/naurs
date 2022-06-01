@@ -310,10 +310,17 @@ class InstructorUpdateAPI(generics.RetrieveUpdateDestroyAPIView):
         kwargs['partial'] = True
         return super(InstructorUpdateAPI, self).get_serializer(*args, **kwargs)
 
-class InstructorNotificationAPI(generics.CreateAPIView):
+class InstructorNotificationCreateAPI(generics.CreateAPIView):
     serializer_class = InstructorNotificationSerializer
     permission_classes = (permissions.IsAuthenticated,)
     model = InstructorNotificationModel
+
+class InstructorNotificationAPI(generics.ListAPIView):
+    serializer_class = InstructorNotificationSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        return InstructorNotificationModel.objects.filter(student__user=self.request.user).order_by("-id")
 
 class GetPackageAPI(generics.GenericAPIView):
     permission_classes = (permissions.IsAuthenticated,)
