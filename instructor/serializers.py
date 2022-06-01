@@ -13,10 +13,12 @@ class InstructorSerializer(serializers.ModelSerializer):
 
 # Instructor Notification Serializer
 class InstructorNotificationSerializer(serializers.ModelSerializer):
-    # instructor = InstructorSerializer()
-    # student = StudentSerializer()
     class Meta:
         model = InstructorNotificationModel
         fields = "__all__"
-        depth = 4
 
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['instructor'] = InstructorSerializer(instance.instructor).data
+        response['student'] = StudentSerializer(instance.student).data
+        return response
