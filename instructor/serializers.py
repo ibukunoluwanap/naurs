@@ -13,8 +13,8 @@ class InstructorSerializer(serializers.ModelSerializer):
 
 # Instructor Notification Serializer
 class InstructorNotificationSerializer(serializers.ModelSerializer):
-    instructor = InstructorSerializer()
-    student = StudentSerializer()
+    # instructor = InstructorSerializer()
+    # student = StudentSerializer()
     class Meta:
         model = InstructorNotificationModel
         fields = "__all__"
