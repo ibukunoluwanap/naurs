@@ -13,8 +13,8 @@ from finance.models import OrderModel, TicketModel, WalletModel
 from home.forms import CalendarForm, ListingForm, StudioUserForm
 from home.models import CalendarModel, ListingModel, StudioModel, StudioUserModel
 from home.views import get_date, next_month, prev_month
-from instructor.forms import InstructorForm
-from instructor.models import InstructorModel
+from instructor.forms import InstructorForm, InstructorNotificationForm
+from instructor.models import InstructorModel, InstructorNotificationModel
 from naurs.settings import EMAIL_HOST_USER
 from offer.forms import OfferForm
 from django.contrib import messages
@@ -1721,3 +1721,63 @@ class StudentCalendar(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context['prev_month'] = prev_month(d)
         context['next_month'] = next_month(d)
         return context        
+
+# get instructor notification view
+class InstructorNotification(LoginRequiredMixin, UserPassesTestMixin, View):
+    model = InstructorNotificationModel
+    login_url = 'login_page'
+    raise_exception = True
+    template_name = "dashboard/instructor/notification.html"
+
+    def test_func(self):
+        return (self.request.user.instructormodel)
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        instructor = InstructorModel.objects.get(user=self.request.user)
+        context['instructor_notifications'] = InstructorNotificationModel.objects.filter(instructor=instructor).order_by("-id")
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        context = {}
+        context["instructor_notification_form"] = notification_form = InstructorNotificationForm(request.POST)
+
+        if notification_form.is_valid():
+            notification_form = notification_form.save(commit=False)
+            instructor = InstructorModel.objects.get(user=self.request.user)
+            notification_form.instructor = instructor
+            notification_form.save()
+            messages.success(self.request, "Successfully sent message!")
+            return redirect("dashboard_instructor_notification_page")
+        for field in notification_form:
+            for error in field.errors:
+                messages.error(self.request, f"<b>{field.label}:</b> {error}")
+        return redirect("dashboard_instructor_notification_page")
+
+# get instructor notification update view
+class InstructorNotificationUpdate(LoginRequiredMixin, UserPassesTestMixin, View):
+    model = InstructorNotificationModel
+    login_url = 'login_page'
+    raise_exception = True
+    template_name = "dashboard/instructor/notification.html"
+
+    def test_func(self):
+        return (self.request.user.instructormodel)
+
+    def get(self, request, *args, **kwargs):
+        notification = InstructorNotificationModel.objects.get(id=self.kwargs['id'])
+        if self.kwargs['type'] == "read" and self.kwargs['user'] == "instructor":
+            notification.instructor_read = True
+            notification.save()
+        elif self.kwargs['type'] == "unread" and self.kwargs['user'] == "instructor":
+            notification.instructor_read = False
+            notification.save()
+            print(notification.instructor_read)
+        elif self.kwargs['type'] == "read" and self.kwargs['user'] == "student":
+            notification.student_read = True
+            notification.save()
+        elif self.kwargs['type'] == "unread" and self.kwargs['user'] == "student":
+            notification.student_read = False
+            notification.save()
+        messages.success(self.request, "Notification updated!")
+        return redirect("dashboard_instructor_notification_page")

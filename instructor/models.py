@@ -1,6 +1,8 @@
 from django.db import models
+from django.forms import BooleanField
 from tinymce.models import HTMLField
 from django.contrib.auth import get_user_model
+from django.db.models.signals import post_save
 
 from student.models import StudentModel
 
@@ -25,7 +27,9 @@ class InstructorModel(models.Model):
 class InstructorNotificationModel(models.Model):
     instructor = models.ForeignKey(InstructorModel, verbose_name="instructor", on_delete=models.CASCADE)
     student = models.ForeignKey(StudentModel, verbose_name="student", on_delete=models.CASCADE)
-    instructor_msg = HTMLField(blank=True, null=True)
+    instructor_read = models.BooleanField(default=False)
+    student_read = models.BooleanField(default=False)
+    instructor_msg = HTMLField("message", blank=True, null=True)
     schedule_on = models.DateTimeField("schedule on", blank=True, null=True)
     created_on = models.DateTimeField("created on", auto_now_add=True)
 
