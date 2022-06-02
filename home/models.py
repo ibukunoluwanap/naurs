@@ -1,6 +1,8 @@
 from django.db import models
 from instructor.models import InstructorModel
 from program.models import ProgramModel
+from student.models import StudentModel
+from tinymce.models import HTMLField
 
 LISTING_CATEGORY = (
     ("Music", "Music"),
@@ -65,3 +67,17 @@ class StudioUserModel(models.Model):
 
     def __str__(self):
         return f"{self.full_name} at {self.studio}"
+
+# notification modal
+class NotificationModel(models.Model):
+    student = models.ForeignKey(StudentModel, verbose_name="student", on_delete=models.CASCADE)
+    student_read = models.BooleanField(default=False)
+    message = HTMLField("message")
+    created_on = models.DateTimeField("created on", auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Notification'
+        verbose_name_plural = 'Notifications'
+
+    def __str__(self):
+        return f"Message to {self.student}"

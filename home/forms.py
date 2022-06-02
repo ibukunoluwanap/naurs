@@ -1,7 +1,8 @@
 from django import forms
-from home.models import ListingModel, CalendarModel, StudioUserModel
+from home.models import ListingModel, CalendarModel, NotificationModel, StudioUserModel
 from instructor.models import InstructorModel
 from program.models import ProgramModel
+from tinymce.widgets import TinyMCE
 
 # custom datetime input
 class DateTimeLocalInput(forms.DateTimeInput):
@@ -43,3 +44,10 @@ class StudioUserForm(forms.ModelForm):
     class Meta:
         model = StudioUserModel
         exclude = ['studio', 'created_on']
+
+#  notification form
+class NotificationForm(forms.ModelForm):
+    message = forms.CharField(required=True, widget=TinyMCE(attrs={'cols': 10, 'rows': 27}))
+    class Meta:
+        model = NotificationModel
+        exclude = ['student_read', 'created_on']

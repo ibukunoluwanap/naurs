@@ -10,8 +10,8 @@ from about.forms import AboutForm
 from about.models import AboutModel
 from account.forms import RegisterForm, UpdateAdminForm, UpdateUserForm
 from finance.models import OrderModel, TicketModel, WalletModel
-from home.forms import CalendarForm, ListingForm, StudioUserForm
-from home.models import CalendarModel, ListingModel, StudioModel, StudioUserModel
+from home.forms import CalendarForm, ListingForm, NotificationForm, StudioUserForm
+from home.models import CalendarModel, ListingModel, NotificationModel, StudioModel, StudioUserModel
 from home.views import get_date, next_month, prev_month
 from instructor.forms import InstructorForm, InstructorNotificationForm
 from instructor.models import InstructorModel, InstructorNotificationModel
@@ -1781,3 +1781,30 @@ class InstructorNotificationUpdate(LoginRequiredMixin, UserPassesTestMixin, View
             notification.save()
         messages.success(self.request, "Notification updated!")
         return redirect("dashboard_instructor_notification_page")
+
+# get notification view
+class Notification(LoginRequiredMixin, UserPassesTestMixin, View):
+    model = NotificationModel
+    login_url = 'login_page'
+    raise_exception = True
+    template_name = "dashboard/admin/notification.html"
+
+    def test_func(self):
+        return (self.request.user.is_admin)
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
+
+    def post(self, request, *args, **kwargs):
+        context = {}
+        context["notification_form"] = notification_form = NotificationForm(request.POST)
+
+        if notification_form.is_valid():
+            notification_form.save()
+            messages.success(self.request, "Successfully sent message!")
+            return redirect("dashboard_notification_page")
+        for field in notification_form:
+            for error in field.errors:
+                messages.error(self.request, f"<b>{field.label}:</b> {error}")
+        return redirect("dashboard_notification_page")
+

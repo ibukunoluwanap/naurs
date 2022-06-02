@@ -35,6 +35,16 @@
       </li>
       {% endif %}
 
+      {% if request.user.is_admin %}
+      <li class="nav-item position-relative">
+        <a class="nav-link {% if not request.user.is_admin %}py-4{% else %}py-3{% endif %} {% if '/dashboard/notification/' in request.path %} active {% endif %}"
+          href="{% url 'dashboard_notification_page' %}">
+          <span data-feather="bell"></span>
+          Notifications
+        </a>
+      </li>
+      {% endif %}
+
       {% if request.user.instructormodel %}
       <li class="nav-item position-relative">
         <a class="nav-link {% if not request.user.is_admin %}py-4{% else %}py-3{% endif %} {% if '/dashboard/instructor_notification/' in request.path %} active {% endif %}"

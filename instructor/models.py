@@ -1,9 +1,6 @@
 from django.db import models
-from django.forms import BooleanField
 from tinymce.models import HTMLField
 from django.contrib.auth import get_user_model
-from django.db.models.signals import post_save
-
 from student.models import StudentModel
 
 # setting User model
@@ -38,4 +35,4 @@ class InstructorNotificationModel(models.Model):
         verbose_name_plural = 'Instructor Notifications'
 
     def __str__(self):
-        return f"Message by {self.student}"
+        return f"{self.instructor} and {self.student} conversation"

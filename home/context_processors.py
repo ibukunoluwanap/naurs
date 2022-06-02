@@ -3,8 +3,8 @@ from about.forms import AboutForm
 from account.forms import RegisterForm, LoginForm, UpdateAdminForm, UpdatePasswordForm, UpdateUserForm, User
 from finance.forms import BillingAddressForm
 from finance.models import BillingAddressModel, OrderModel
-from home.forms import CalendarForm, ListingForm, StudioUserForm
-from home.models import ListingModel, StudioModel, StudioUserModel
+from home.forms import CalendarForm, ListingForm, NotificationForm, StudioUserForm
+from home.models import ListingModel, NotificationModel, StudioModel, StudioUserModel
 from instructor.forms import InstructorForm, InstructorNotificationForm
 from instructor.models import InstructorModel, InstructorNotificationModel
 from about.models import AboutModel
@@ -135,10 +135,16 @@ def global_context(request):
     # order
     context['orders'] = OrderModel.objects.order_by("-id")
 
+    # notification
+    context['notifications'] = NotificationModel.objects.order_by("-id")
+
     # instructor notification
     context['instructor_notifications'] = InstructorNotificationModel.objects.order_by("-id")
     
     # instructor notification form
     context['instructor_notification_form'] = InstructorNotificationForm()
+
+    # notification form
+    context['notification_form'] = NotificationForm()
 
     return context
