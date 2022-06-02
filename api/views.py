@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.dispatch import receiver
 from django_rest_passwordreset.signals import reset_password_token_created
-from requests import request
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 from knox.models import AuthToken
@@ -16,8 +15,8 @@ from django.core.mail import send_mail, BadHeaderError
 from api.custom import CustomAuthTokenSerializer
 from finance.models import BillingAddressModel, OrderModel, TransactionHistoryModel, WalletModel
 from finance.serializers import BillingAddressSerializer, OrderSerializer, TransactionHistorySerializer, WalletSerializer
-from home.models import CalendarModel
-from home.serializers import CalendarSerializer
+from home.models import CalendarModel, NotificationModel
+from home.serializers import CalendarSerializer, NotificationSerializer
 from instructor.models import InstructorModel, InstructorNotificationModel
 from instructor.serializers import InstructorNotificationSerializer, InstructorSerializer
 from naurs.settings import EMAIL_HOST_USER, DOMAIN
@@ -321,6 +320,13 @@ class InstructorNotificationAPI(generics.ListAPIView):
 
     def get_queryset(self):
         return InstructorNotificationModel.objects.filter(student__user=self.request.user).order_by("-id")
+
+class NotificationAPI(generics.ListAPIView):
+    serializer_class = NotificationSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        return NotificationModel.objects.order_by("-id")
 
 class GetPackageAPI(generics.GenericAPIView):
     permission_classes = (permissions.IsAuthenticated,)

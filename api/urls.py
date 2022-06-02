@@ -50,4 +50,7 @@ urlpatterns = [
 
     # instructor notification API
     path('instructor_notification/', views.InstructorNotificationAPI.as_view(), name='instructor_notification_api'),
+
+    # notification API
+    path('notification/', views.NotificationAPI.as_view(), name='notification_api'),
 ]
