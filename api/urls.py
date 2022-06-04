@@ -25,7 +25,7 @@ urlpatterns = [
     path('wallet_update/', views.WalletUpdateAPI.as_view(), name='wallet_update_api'),
 
     # student update API
-    path('get_package/<package_id>/<package_type>/', views.GetPackageAPI.as_view(), name='get_package_api'),
+    path('get_package/<package_id>/', views.GetPackageAPI.as_view(), name='get_package_api'),
 
     # billing_address update API
     path('billing_address_update/', views.BillingAddressUpdateAPI.as_view(), name='billing_address_update_api'),
@@ -53,4 +53,10 @@ urlpatterns = [
 
     # notification API
     path('notification/', views.NotificationAPI.as_view(), name='notification_api'),
+
+    # ticket API
+    path('ticket/', views.TicketAPI.as_view(), name='ticket_api'),
+
+    # ticket create API
+    path('ticket_create/<order_id>/<ticket_type>/', views.TicketCreateAPI.as_view(), name='ticket_create_api'),
 ]

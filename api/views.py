@@ -1,6 +1,7 @@
-from django.shortcuts import render
+import uuid
+from django.shortcuts import redirect, render
 from django.dispatch import receiver
-from django_rest_passwordreset.signals import reset_password_token_created
+from django_rest_passwordreset.signals import reset_password_token_created, post_password_reset
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 from knox.models import AuthToken
@@ -13,8 +14,8 @@ from email.errors import HeaderParseError
 from django.template import loader
 from django.core.mail import send_mail, BadHeaderError
 from api.custom import CustomAuthTokenSerializer
-from finance.models import BillingAddressModel, OrderModel, TransactionHistoryModel, WalletModel
-from finance.serializers import BillingAddressSerializer, OrderSerializer, TransactionHistorySerializer, WalletSerializer
+from finance.models import BillingAddressModel, OrderModel, TicketModel, TransactionHistoryModel, WalletModel
+from finance.serializers import BillingAddressSerializer, OrderSerializer, TicketSerializer, TransactionHistorySerializer, WalletSerializer
 from home.models import CalendarModel, NotificationModel
 from home.serializers import CalendarSerializer, NotificationSerializer
 from instructor.models import InstructorModel, InstructorNotificationModel
@@ -136,7 +137,6 @@ class LoginAPI(generics.GenericAPIView):
                         "user": {},
                         "token": f"{serializer.errors[error][0]}"
                     }
-                    # 'message': {"message": f"{serializer.errors[error][0]}"}
                 }
                 return Response(response)
 
@@ -209,6 +209,10 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
     # email_plaintext_message = "{}?token={}".format(reverse('password_reset:reset-password-request'), reset_password_token.key)
     actual_message = loader.render_to_string('account/api/forgot_password_email.html', context)
     send_mail(subject, actual_message, EMAIL_HOST_USER, [to_email], fail_silently = False, html_message=actual_message)
+
+@receiver(post_password_reset)
+def password_reset_done(sender, user, *args, **kwargs):
+    return redirect("login_page")
 
 class PasswordResetConfirmAPI(View):
     template_name = "account/api/forgot_password_confirm.html"
@@ -332,66 +336,163 @@ class GetPackageAPI(generics.GenericAPIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def post(self, request, *args, **kwargs):
-        package_type = self.kwargs['package_type']
         package = PackageModel.objects.get(id=self.kwargs['package_id'])
         wallet = WalletModel.objects.get(user=request.user)
 
-        if package_type == "bonus":
-            for program in package.program.all():
-                pass
-
-            if wallet.balance < package.initial_price:
+        for program in package.program.all():
+            if program.total_space <= 0:
                 response = {
                     'status': 'error',
-                    'code': status.HTTP_400_BAD_REQUEST,
-                    'message': 'Insufficient wallet balance! Please "TOP UP" your wallet'
+                    'code': status.HTTP_403_FORBIDDEN,
+                    'message': 'All space taken for some classes within this package!'
                 }
                 return Response(response)
-            
+            program.total_space = program.total_space - 1
+            program.save()
+
+        if wallet.balance < package.initial_price:
+            response = {
+                'status': 'error',
+                'code': status.HTTP_400_BAD_REQUEST,
+                'message': 'Insufficient wallet balance! Please "TOP UP" your wallet'
+            }
+            return Response(response)
+        
+        # update price
+        new_wallet_balance = wallet.balance - package.initial_price
+        wallet_balance = new_wallet_balance + package.bonus_price
+
+        # updating wallet
+        wallet.balance = wallet_balance
+        wallet.save()
+
+        # create order
+        if request.user.ordermodel_set.filter(package=package).exists():
             # update price
-            new_wallet_balance = wallet.balance - package.initial_price
-            wallet_balance = new_wallet_balance + package.bonus_price
+            new_wallet_balance = wallet.balance + package.initial_price
+            wallet_balance = new_wallet_balance - package.bonus_price
 
             # updating wallet
             wallet.balance = wallet_balance
             wallet.save()
 
-            # create order
-            if request.user.ordermodel_set.filter(package=package).exists():
-                # update price
-                new_wallet_balance = wallet.balance + package.initial_price
-                wallet_balance = new_wallet_balance - package.bonus_price
-
-                # updating wallet
-                wallet.balance = wallet_balance
-                wallet.save()
-
-                response = {
-                    'status': 'warning',
-                    'code': status.HTTP_400_BAD_REQUEST,
-                    'message': 'This package is currently active on your account'
-                }
-                return Response(response)
-
-            order = OrderModel.objects.create(
-                user = request.user,
-                amount = package.initial_price,
-                status = True,
-                sessions = package.sessions,
-            )
-
-            order.package.add(package)
-            order.program.add(*package.program.all())
-
-            student = StudentModel.objects.get(user=request.user)
-            program.students.add(student)
-
-            program.save()
-
             response = {
-                    'status': 'success',
-                    'code': status.HTTP_200_OK,
-                    'message': f'Successfully purchased {package.name}! Please refresh screen'
-                }
+                'status': 'warning',
+                'code': status.HTTP_400_BAD_REQUEST,
+                'message': 'This package is currently active on your account'
+            }
             return Response(response)
 
+        order = OrderModel.objects.create(
+            user = request.user,
+            amount = package.initial_price,
+            status = True,
+            sessions = package.sessions,
+            kids_sessions = package.kids_sessions,
+            senior_citizen_sessions = package.senior_citizen_sessions,
+        )
+
+        order.package.add(package)
+        order.program.add(*package.program.all())
+
+        student = StudentModel.objects.get(user=request.user)
+        program.students.add(student)
+
+        program.save()
+
+        response = {
+                'status': 'success',
+                'code': status.HTTP_200_OK,
+                'message': f'Successfully purchased {package.name}! Please refresh screen'
+            }
+        return Response(response)
+
+class TicketAPI(generics.ListAPIView):
+    serializer_class = TicketSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        return TicketModel.objects.filter(order__user=self.request.user).order_by("-id")
+
+class TicketCreateAPI(generics.GenericAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        order_id = self.kwargs['order_id']
+        ticket_type = self.kwargs['ticket_type']
+
+        try:
+            order = OrderModel.objects.get(id=order_id)
+        except:
+            response = {
+                    'status': 'error',
+                    'code': status.HTTP_404_NOT_FOUND,
+                    'message': "This order does not longer exist!"
+                }
+            return Response(response)
+        
+        ticket = TicketModel.objects.create(order=order)
+        
+        if ticket_type == "sessions":
+            if order.sessions > 0:
+                order.sessions = order.sessions - 1
+                ticket.ticket_id = uuid.uuid1().hex
+                order.save()
+                ticket.save()
+                if order.sessions == 0:
+                    order.delete()
+                response = {
+                    'status': 'success',
+                    'code': status.HTTP_200_OK,
+                    'message': "Successfully generated ENTRY TICKET!"
+                }
+                return Response(response)
+            response = {
+                    'status': 'error',
+                    'code': status.HTTP_400_BAD_REQUEST,
+                    'message': "You have no sessions!"
+                }
+            return Response(response)
+        
+        if ticket_type == "kids_sessions":
+            if order.kids_sessions > 0:
+                order.kids_sessions = order.kids_sessions - 1
+                ticket.ticket_id = uuid.uuid1().hex
+                order.save()
+                ticket.save()
+                if order.sessions == 0:
+                    order.delete()
+                
+                response = {
+                    'status': 'success',
+                    'code': status.HTTP_200_OK,
+                    'message': "Successfully generated ENTRY TICKET!"
+                }
+                return Response(response)
+            response = {
+                    'status': 'error',
+                    'code': status.HTTP_400_BAD_REQUEST,
+                    'message': "You have no free Kids sessions!"
+                }
+            return Response(response)
+        
+        if ticket_type == "senior_citizen_sessions":
+            if order.senior_citizen_sessions > 0:
+                order.senior_citizen_sessions = order.senior_citizen_sessions - 1
+                ticket.ticket_id = uuid.uuid1().hex
+                order.save()
+                ticket.save()
+                if order.sessions == 0:
+                    order.delete()
+                response = {
+                    'status': 'success',
+                    'code': status.HTTP_200_OK,
+                    'message': "Successfully generated ENTRY TICKET!"
+                }
+                return Response(response)
+            response = {
+                    'status': 'error',
+                    'code': status.HTTP_400_BAD_REQUEST,
+                    'message': "You have no free senior citizen sessions!"
+                }
+            return Response(response)

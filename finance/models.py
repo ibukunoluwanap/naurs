@@ -66,7 +66,7 @@ class TicketModel(models.Model):
         verbose_name_plural = 'Tickets'
 
     def __str__(self):
-        return f"Ticket for {self.order.user.get_full_name}"
+        return f"Ticket for {self.order.user}"
 
 # Transaction History model
 class TransactionHistoryModel(models.Model):

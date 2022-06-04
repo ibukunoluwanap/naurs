@@ -1523,8 +1523,8 @@ class GetStudentPackage(LoginRequiredMixin, UserPassesTestMixin, View):
             messages.success(self.request, "Successfully purchased package with senior citizen free session!")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-# get package ticket view
-class GetPackageTicket(LoginRequiredMixin, View):
+# get ticket view
+class GetTicket(View):
     login_url = 'login_page'
     raise_exception = True
     template = "dashboard/ticket.html"

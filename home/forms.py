@@ -3,7 +3,12 @@ from home.models import ListingModel, CalendarModel, NotificationModel, StudioUs
 from instructor.models import InstructorModel
 from program.models import ProgramModel
 from tinymce.widgets import TinyMCE
+from django.utils import timezone
 
+def validate_date(date):
+    if date < timezone.now():
+        raise forms.ValidationError("Date cannot be in the past")
+        
 # custom datetime input
 class DateTimeLocalInput(forms.DateTimeInput):
     input_type = "datetime-local"
@@ -15,6 +20,7 @@ class DateTimeLocalField(forms.DateTimeField):
         "%Y-%m-%dT%H:%M:%S.%f", 
         "%Y-%m-%dT%H:%M"
     ]
+    initial=timezone.now()
     widget = DateTimeLocalInput(format="%Y-%m-%dT%H:%M")
 
 # listing form
@@ -25,8 +31,8 @@ class ListingForm(forms.ModelForm):
 
 # program calendar form
 class CalendarForm(forms.ModelForm):
-    start_at = DateTimeLocalField()
-    end_at = DateTimeLocalField()
+    start_at = DateTimeLocalField(validators=[validate_date])
+    end_at = DateTimeLocalField(validators=[validate_date])
 
     def __init__(self, *args, **kwargs):
         super(CalendarForm, self).__init__(*args, **kwargs)
