@@ -63,7 +63,7 @@ class Register(View):
     def get(self, request):
         # checking if user is logged in
         if request.user.is_authenticated:
-            messages.info(request, 'You are logged in already! Please download the mobile app on your device to access our programs')
+            messages.info(request, 'You are logged in! Please download the mobile app on your device to access our classes & packages')
             return redirect('home_page')
         return render(request, self.template_name)
 
@@ -127,7 +127,7 @@ class Login(View):
     def get(self, request):
         # checking if user is logged in
         if request.user.is_authenticated:
-            messages.info(request, 'You are logged in already! Please download the mobile app on your device to access our programs')
+            messages.info(request, 'You are logged in! Please download the mobile app on your device to access our classes & packages')
             return redirect('login_page')
         return render(request, self.template_name)
 
@@ -159,10 +159,12 @@ class Login(View):
                 except:
                     try:
                         if user.studentmodel:
-                            login(request, user)
-                            FreeTrialOfferModel.objects.filter(created_on__lte=datetime.now(timezone.utc)-timezone.timedelta(days=7)).update(is_active=False)
-                            messages.success(request, "Successfully registered select package to start with!")
-                            return redirect('student_dashboard_page')
+                            messages.info(request, 'You are logged in! Please download the mobile app on your device to access our classes & packages')
+                            return redirect('login_page')
+                            # login(request, user)
+                            # FreeTrialOfferModel.objects.filter(created_on__lte=datetime.now(timezone.utc)-timezone.timedelta(days=7)).update(is_active=False)
+                            # messages.success(request, "Successfully registered select package to start with!")
+                            # return redirect('student_dashboard_page')
                     except:
                         pass
             messages.error(request, "Check user's credentials OR Verify your email!")
