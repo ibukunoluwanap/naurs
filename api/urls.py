@@ -24,7 +24,8 @@ urlpatterns = [
     # wallet update API
     path('wallet_update/', views.WalletUpdateAPI.as_view(), name='wallet_update_api'),
 
-    # student update API
+    path('get_program/<program_id>/', views.GetProgramAPI.as_view(), name='get_program_api'),
+
     path('get_package/<package_id>/', views.GetPackageAPI.as_view(), name='get_package_api'),
 
     # billing_address update API

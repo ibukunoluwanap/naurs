@@ -407,6 +407,69 @@ class GetPackageAPI(generics.GenericAPIView):
             }
         return Response(response)
 
+class GetProgramAPI(generics.GenericAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    template = "dashboard/ticket.html"
+
+    def post(self, request, *args, **kwargs):
+        program = ProgramModel.objects.get(id=self.kwargs['program_id'])
+        wallet = WalletModel.objects.get(user=request.user)
+
+        if program.total_space <= 0:
+            response = {
+                'status': 'error',
+                'code': status.HTTP_403_FORBIDDEN,
+                'message': 'All space taken!'
+            }
+            return Response(response)
+            
+        program.total_space = program.total_space - 1
+        program.save()
+
+        if wallet.balance < program.price:
+            response = {
+                'status': 'error',
+                'code': status.HTTP_400_BAD_REQUEST,
+                'message': 'Insufficient wallet balance! Please "TOP UP" your wallet'
+            }
+            return Response(response)
+        
+        # update price
+        wallet_balance = wallet.balance - program.price
+
+        # updating wallet
+        wallet.balance = wallet_balance
+        wallet.save()
+
+        order = OrderModel.objects.create(
+            user = request.user,
+            amount = program.price,
+            status = True,
+            sessions = 1,
+        )
+
+        order.program.add(program)
+
+        student = StudentModel.objects.get(user=request.user)
+        program.students.add(student)
+
+        program.save()
+        order.save()
+
+        if order.sessions > 0:
+            response = {
+                'status': 'success',
+                'code': status.HTTP_200_OK,
+                'message': f"{order.id}"
+            }
+            return Response(response)
+        response = {
+                'status': 'error',
+                'code': status.HTTP_400_BAD_REQUEST,
+                'message': "Something went wrong!"
+            }
+        return Response(response)
+
 class TicketAPI(generics.ListAPIView):
     serializer_class = TicketSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -439,14 +502,15 @@ class TicketCreateAPI(generics.GenericAPIView):
                 ticket.ticket_id = uuid.uuid1().hex
                 order.save()
                 ticket.save()
-                if order.sessions == 0:
-                    order.delete()
+
                 response = {
                     'status': 'success',
                     'code': status.HTTP_200_OK,
                     'message': "Successfully generated ENTRY TICKET!"
                 }
                 return Response(response)
+            if order.sessions == 0:
+                order.delete()
             response = {
                     'status': 'error',
                     'code': status.HTTP_400_BAD_REQUEST,
@@ -460,8 +524,6 @@ class TicketCreateAPI(generics.GenericAPIView):
                 ticket.ticket_id = uuid.uuid1().hex
                 order.save()
                 ticket.save()
-                if order.sessions == 0:
-                    order.delete()
                 
                 response = {
                     'status': 'success',
@@ -482,8 +544,7 @@ class TicketCreateAPI(generics.GenericAPIView):
                 ticket.ticket_id = uuid.uuid1().hex
                 order.save()
                 ticket.save()
-                if order.sessions == 0:
-                    order.delete()
+
                 response = {
                     'status': 'success',
                     'code': status.HTTP_200_OK,
