@@ -1782,6 +1782,20 @@ class InstructorNotificationUpdate(LoginRequiredMixin, UserPassesTestMixin, View
         messages.success(self.request, "Notification updated!")
         return redirect("dashboard_instructor_notification_page")
 
+class Tickets(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = TicketModel
+    login_url = 'login_page'
+    template_name = "dashboard/admin/tickets.html"
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
+
+    def get(self, request):
+        context = {}
+        context["tickets"] = TicketModel.objects.order_by("-id")
+        return render(request, self.template_name, context)
+
 # get notification view
 class Notification(LoginRequiredMixin, UserPassesTestMixin, View):
     model = NotificationModel
