@@ -58,6 +58,8 @@ urlpatterns = [
     # ticket API
     path('ticket/', views.TicketAPI.as_view(), name='ticket_api'),
 
+    path('ticket/<int:pk>/revert/', views.TicketRevertAPI.as_view(), name='ticket_revert_api'),
+
     # ticket create API
     path('ticket_create/<order_id>/<ticket_type>/', views.TicketCreateAPI.as_view(), name='ticket_create_api'),
 ]

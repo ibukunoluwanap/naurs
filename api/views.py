@@ -477,6 +477,39 @@ class TicketAPI(generics.ListAPIView):
     def get_queryset(self):
         return TicketModel.objects.filter(order__user=self.request.user).order_by("-id")
 
+class TicketRevertAPI(generics.GenericAPIView):
+    serializer_class = TicketSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+    model = TicketModel
+
+    def get_object(self):
+        return TicketModel.objects.get(id=self.kwargs['pk'])
+
+    def post(self, request, *args, **kwargs):
+        ticket = TicketModel.objects.get(id=self.kwargs['pk'])
+        wallet = WalletModel.objects.get(user=ticket.order.user)
+        new_balance = wallet.balance + ticket.order.amount
+        wallet.balance = new_balance
+        wallet.save()
+
+        if ticket.order.sessions > 0:
+            new_session = ticket.order.sessions + 1
+            ticket.order.sessions = new_session
+            ticket.order.save()
+
+        for program in ticket.order.program.all():
+            new_total_space = program.total_space + 1
+            program.total_space = new_total_space
+            program.save()
+
+        ticket.delete()
+        response = {
+            'status': 'success',
+            'code': status.HTTP_200_OK,
+            'message': "Successfully reverted ticket!"
+        }
+        return Response(response)
+
 class TicketCreateAPI(generics.GenericAPIView):
     permission_classes = (permissions.IsAuthenticated,)
 
@@ -499,7 +532,7 @@ class TicketCreateAPI(generics.GenericAPIView):
         if ticket_type == "sessions":
             if order.sessions > 0:
                 order.sessions = order.sessions - 1
-                ticket.ticket_id = uuid.uuid1().hex
+                ticket.ticket_id = uuid.uuid1().hex[:10]
                 order.save()
                 ticket.save()
 
@@ -521,7 +554,7 @@ class TicketCreateAPI(generics.GenericAPIView):
         if ticket_type == "kids_sessions":
             if order.kids_sessions > 0:
                 order.kids_sessions = order.kids_sessions - 1
-                ticket.ticket_id = uuid.uuid1().hex
+                ticket.ticket_id = uuid.uuid1().hex[:10]
                 order.save()
                 ticket.save()
                 
@@ -541,7 +574,7 @@ class TicketCreateAPI(generics.GenericAPIView):
         if ticket_type == "senior_citizen_sessions":
             if order.senior_citizen_sessions > 0:
                 order.senior_citizen_sessions = order.senior_citizen_sessions - 1
-                ticket.ticket_id = uuid.uuid1().hex
+                ticket.ticket_id = uuid.uuid1().hex[:10]
                 order.save()
                 ticket.save()
 

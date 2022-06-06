@@ -1064,7 +1064,7 @@ class AboutDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return (self.request.user.is_admin)
 
     def get_success_url(self):
-        messages.success(self.request, f"Successfully deleted about!")
+        messages.success(self.request, "Successfully deleted about!")
         return reverse_lazy('dashboard_about_page')
 
 # dashboard home view
@@ -1562,7 +1562,7 @@ class GetTicket(View):
             context["ticket"] = ticket
             if order.sessions > 0:
                 order.sessions = order.sessions - 1
-                ticket.ticket_id = uuid.uuid1().hex
+                ticket.ticket_id = uuid.uuid1().hex[:10]
                 order.save()
                 ticket.save()
                 if order.sessions == 0:
@@ -1612,7 +1612,7 @@ class GetTicket(View):
             context["ticket"] = ticket
             if order.kids_sessions > 0:
                 order.kids_sessions = order.kids_sessions - 1
-                ticket.ticket_id = uuid.uuid1().hex
+                ticket.ticket_id = uuid.uuid1().hex[:10]
                 order.save()
                 ticket.save()
 
@@ -1660,7 +1660,7 @@ class GetTicket(View):
             context["ticket"] = ticket
             if order.senior_citizen_sessions > 0:
                 order.senior_citizen_sessions = order.senior_citizen_sessions - 1
-                ticket.ticket_id = uuid.uuid1().hex
+                ticket.ticket_id = uuid.uuid1().hex[:10]
                 order.save()
                 ticket.save()
 
@@ -1772,7 +1772,6 @@ class InstructorNotificationUpdate(LoginRequiredMixin, UserPassesTestMixin, View
         elif self.kwargs['type'] == "unread" and self.kwargs['user'] == "instructor":
             notification.instructor_read = False
             notification.save()
-            print(notification.instructor_read)
         elif self.kwargs['type'] == "read" and self.kwargs['user'] == "student":
             notification.student_read = True
             notification.save()
@@ -1795,6 +1794,49 @@ class Tickets(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context = {}
         context["tickets"] = TicketModel.objects.order_by("-id")
         return render(request, self.template_name, context)
+
+class TicketRevert(LoginRequiredMixin, UserPassesTestMixin, View):
+    model = TicketModel
+    login_url = 'login_page'
+    template_name = "dashboard/admin/tickets.html"
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
+
+    def post(self, request, *args, **kwargs):
+        ticket = TicketModel.objects.get(id=self.kwargs['pk'])
+        wallet = WalletModel.objects.get(user=ticket.order.user)
+        new_balance = wallet.balance + ticket.order.amount
+        wallet.balance = new_balance
+        wallet.save()
+
+        if ticket.order.sessions > 0:
+            new_session = ticket.order.sessions + 1
+            ticket.order.sessions = new_session
+            ticket.order.save()
+
+        for program in ticket.order.program.all():
+            new_total_space = program.total_space + 1
+            program.total_space = new_total_space
+            program.save()
+
+        ticket.delete()
+        messages.success(self.request, "Successfully reverted ticket!")
+        return redirect('dashboard_tickets_page')
+
+class TicketDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = TicketModel
+    login_url = 'login_page'
+    template_name = "dashboard/admin/tickets.html"
+    raise_exception = True
+
+    def test_func(self):
+        return (self.request.user.is_admin)
+
+    def get_success_url(self):
+        messages.success(self.request, "Successfully deleted ticket!")
+        return reverse_lazy('dashboard_tickets_page')
 
 # get notification view
 class Notification(LoginRequiredMixin, UserPassesTestMixin, View):
