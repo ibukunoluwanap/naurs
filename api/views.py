@@ -1,4 +1,5 @@
 import uuid
+from django.conf import settings
 from django.shortcuts import redirect, render
 from django.dispatch import receiver
 from django_rest_passwordreset.signals import reset_password_token_created, post_password_reset
@@ -21,8 +22,9 @@ from home.serializers import CalendarSerializer, NotificationSerializer
 from instructor.models import InstructorModel, InstructorNotificationModel
 from instructor.serializers import InstructorNotificationSerializer, InstructorSerializer
 from naurs.settings import EMAIL_HOST_USER, DOMAIN
+from django_rest_passwordreset.serializers import PasswordTokenSerializer
 import socket
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth import get_user_model
 from rest_framework import status
 from django.views.generic import View
@@ -31,6 +33,12 @@ from program.serializers import PackageSerializer, ProgramSerializer
 from django.utils import timezone
 from student.models import StudentModel
 from student.serializers import StudentSerializer
+from django_rest_passwordreset.models import ResetPasswordToken
+from django_rest_passwordreset.signals import reset_password_token_created, pre_password_reset, post_password_reset
+from django.contrib.auth.password_validation import validate_password, get_password_validators
+from django.core.exceptions import ValidationError
+from django.contrib import messages
+from django.http.response import HttpResponseRedirect
 
 User = get_user_model()
 
@@ -210,9 +218,49 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
     actual_message = loader.render_to_string('account/api/forgot_password_email.html', context)
     send_mail(subject, actual_message, EMAIL_HOST_USER, [to_email], fail_silently = False, html_message=actual_message)
 
-@receiver(post_password_reset)
-def password_reset_done(sender, user, *args, **kwargs):
-    return redirect("login_page")
+class ResetPasswordConfirmDone(View):
+    throttle_classes = ()
+    permission_classes = ()
+    serializer_class = PasswordTokenSerializer
+
+    def post(self, request, *args, **kwargs):
+        # serializer = self.serializer_class(data=request.data)
+        # serializer.is_valid(raise_exception=True)
+        password = request.POST['password']
+        token = request.POST['token']
+
+        reset_password_token = ResetPasswordToken.objects.filter(key=token).first()
+
+        try:
+            reset_password_token.user.eligible_for_reset()
+        except:
+            messages.error(request, "Password token has expired!")
+            return redirect("login_page")
+
+        if reset_password_token.user.eligible_for_reset():
+            pre_password_reset.send(sender=self.__class__, user=reset_password_token.user)
+            try:
+                validate_password(
+                    password,
+                    user=reset_password_token.user,
+                    password_validators=get_password_validators(settings.AUTH_PASSWORD_VALIDATORS)
+                )
+            except ValidationError as e:
+                for error in e.messages:
+                    messages.error(request, f"{error}")
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+            reset_password_token.user.set_password(password)
+            reset_password_token.user.save()
+            post_password_reset.send(sender=self.__class__, user=reset_password_token.user)
+
+        ResetPasswordToken.objects.filter(user=reset_password_token.user).delete()
+
+        if request.user.is_authenticated:
+            logout(request)
+
+        messages.success(request, "Successfully set new password!")
+        return redirect("login_page")
 
 class PasswordResetConfirmAPI(View):
     template_name = "account/api/forgot_password_confirm.html"
