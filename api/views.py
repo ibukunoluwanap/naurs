@@ -486,7 +486,17 @@ class TicketRevertAPI(generics.GenericAPIView):
         return TicketModel.objects.get(id=self.kwargs['pk'])
 
     def post(self, request, *args, **kwargs):
-        ticket = TicketModel.objects.get(id=self.kwargs['pk'])
+        eight_hours_ago = timezone.now()-timezone.timedelta(hours=8)
+        try:
+            ticket = TicketModel.objects.filter(created_on__gte=eight_hours_ago).get(id=self.kwargs['pk'])
+        except:
+            response = {
+                'status': 'error',
+                'code': status.HTTP_404_NOT_FOUND,
+                'message': "Can't revert ticket! Ticket is older than 8 hours."
+            }
+            return Response(response)
+
         wallet = WalletModel.objects.get(user=ticket.order.user)
         new_balance = wallet.balance + ticket.order.amount
         wallet.balance = new_balance

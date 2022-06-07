@@ -38,7 +38,7 @@ class BillingAddressModel(models.Model):
 # order model
 class OrderModel(models.Model):
     user = models.ForeignKey(User, verbose_name="user", on_delete=models.CASCADE)
-    package = models.ManyToManyField(PackageModel, verbose_name="package", blank=True, null=True)
+    package = models.ManyToManyField(PackageModel, verbose_name="package")
     program = models.ManyToManyField(ProgramModel, verbose_name="class")
     amount = models.FloatField(verbose_name='Amount')
     status = models.BooleanField(default=False, verbose_name='Payment Status')
